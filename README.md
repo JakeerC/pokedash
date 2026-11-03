@@ -1,6 +1,6 @@
 # PokéDash ⚡
 
-A high-performance Pokémon hunting, catching, and collecting game playable on **both Terminal and Web**, powered by a **Rust backend engine** with seamless state synchronization and full PokeAPI integration.
+A Pokémon hunting, catching, and collecting web game powered by a high-performance **Rust backend engine** and modern retro **Game Boy / Synthwave Web UI** with official PokeAPI integration.
 
 Inspired by [PokéCatch](https://pokecatch.ritikkumar.dev/) and powered by [PokeAPI](https://pokeapi.co/docs/v2).
 
@@ -8,82 +8,51 @@ Inspired by [PokéCatch](https://pokecatch.ritikkumar.dev/) and powered by [Poke
 
 ## 🌟 Key Features
 
-- **Play Anywhere**:
-  - **Terminal Mode**: Blazing-fast CLI in Rust (`pokedash`) and Python (`python3 pokedash_cli.py`) with rich ANSI colors, stat bars, and interactive menu navigation (`pokedash play`).
-  - **Web Mode**: Retro Synthwave / Game Boy web application served directly by Rust at `http://localhost:8080`, featuring animated Showdown Pokémon sprites, official artwork, audio cries from PokeAPI, and real-time catch odds calculation.
-  - **Shared State**: Play in your terminal, then open the browser — your catches, Poké Balls, level, and currency are instantly synchronized via `~/.pokedash`.
-- **All 1025 Pokémon**:
-  - Generations 1 through 9 (from Bulbasaur to Pecharunt).
-  - 7 rarity tiers (Common to Mythical) with authentic encounter weightings.
-  - Authentic stats (HP, Atk, Def, SpA, SpD, Spe, BST), types, and abilities.
-- **11 Specialized Poké Balls**:
-  - Each ball features situational bonuses (e.g. Net Ball for Water/Bug, Fast Ball for high Speed, Dusk Ball at night, Nest Ball for low BST, Repeat Ball for owned species).
-  - Calculated catch chance preview in both terminal and web UI.
-- **Dynamic Poké Mart & Economy**:
-  - Earn Poké Dollars by selling duplicates (`sell-dupes`), selling by rarity (`sellall`), or single sales.
-  - Level-based discounts at the Mart (up to 15% discount at higher levels).
-- **Audio & Visual Immersion**:
-  - High-res official artwork and animated showdown GIFs.
-  - Authentic sound cries for all Pokémon streamed via PokeAPI cries CDN.
+- **Dedicated Web Application**:
+  - Interactive Wild Encounter arena with animated Showdown Pokémon sprites and high-res official artwork.
+  - Official Pokémon audio cries streamed directly from PokeAPI.
+  - Poké Ball selector with real-time calculated catch chance previews for every ball.
+  - Throwing and catching animations with shake sequence and escape/capture outcomes.
+  - Complete Pokédex with Generation tabs (Gen I–IX), Dual-type filtering, Rarity filtering, search, and detailed modal views.
+  - Poké Mart Store with 11 specialized Poké Balls, Level-based discounts, and 1-click duplicate sales.
+  - Trainer Passport with XP progress bar, leveling, currency, and achievement statistics.
+- **High-Performance Rust Backend**:
+  - Built with Axum, Tokio, and Serde.
+  - All 1025 Pokémon embedded and loaded into memory on startup.
+  - Atomic JSON persistence in `~/.pokedash/` ensuring zero save-file corruption.
+  - High-speed REST API endpoints for all gameplay operations.
+- **Authentic Game Mechanics**:
+  - 7 rarity tiers (Common to Mythical) with authentic spawn weights.
+  - Situational multipliers for all 11 Poké Balls (Water/Bug bonuses, Speed check, Nighttime check, BST check, Repeat bonus, Master ball guarantee).
+  - Progressive Trainer Level bonuses to base catch rates and store discounts.
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Build the Rust Engine & CLI
-
-From the `pokedash` directory:
+### 1. Build
 
 ```bash
 cargo build --release
 ```
 
-The optimized binary will be at `./target/release/pokedash`.
+The optimized binary is located at `./target/release/pokedash`.
 
-### 2. Launch the Web Application
-
-Start the embedded Axum HTTP server & Web UI:
+### 2. Launch the Web Game
 
 ```bash
-./target/release/pokedash serve --port 8080 --open
+./target/release/pokedash --port 8080 --open
 ```
 
 Open your browser to: **`http://localhost:8080`**
 
----
-
-## 💻 Terminal Commands
-
-### Rust CLI Commands
-
-| Command | Alias | Description |
-|---|---|---|
-| `pokedash hunt` | | Search the tall grass for a wild Pokémon (+5 XP) |
-| `pokedash catch <ball>` | | Throw a Poké Ball (`pb`, `gb`, `ub`, `net`, `dive`, `fast`, `dusk`, `nest`, `repeat`, `quick`, `mb`) |
-| `pokedash dex` | `pokedex` | View your caught Pokémon with pagination |
-| `pokedash dex <name>` | | Inspect full stats and details for a specific Pokémon |
-| `pokedash dex --gen 1 --type water` | | Filter Pokédex by Generation and Type |
-| `pokedash dex --sort rarity` | | Sort Pokédex by rarity or BST |
-| `pokedash inv` | `inventory` | Check your Poké Balls inventory and balance |
-| `pokedash stats` | `s` | View Trainer Level, XP progress, and catch records |
-| `pokedash store` | | Browse the Poké Mart catalog |
-| `pokedash store buy <ball> [qty]`| | Buy Poké Balls with level discount applied |
-| `pokedash store sell <name>` | | Sell a specific Pokémon |
-| `pokedash store sellall <rarity>`| | Sell all Pokémon of a rarity tier |
-| `pokedash store sell-dupes` | | Keep 1 of every species and sell all extra copies |
-| `pokedash play` | | Launch interactive terminal arrow-key menu game loop |
-| `pokedash serve` | | Run the web & REST API server |
-
-### Python Companion CLI
-
-If you prefer Python in your terminal:
-
-```bash
-python3 pokedash_cli.py hunt
-python3 pokedash_cli.py catch pb
-python3 pokedash_cli.py dex
-python3 pokedash_cli.py stats
-python3 pokedash_cli.py store
+### Command-line Options:
+```
+Options:
+  -p, --port <PORT>  Port to listen on [default: 8080]
+      --host <HOST>  Host interface to bind to [default: 0.0.0.0]
+      --open         Automatically open in default browser
+  -h, --help         Print help
 ```
 
 ---
@@ -106,7 +75,7 @@ python3 pokedash_cli.py store
 
 $$\text{Catch Chance} = \min\Big(\text{Base Rate} \times \text{Ball Multiplier} \times (1 + \text{Level Bonus}), 1.0\Big)$$
 
-- **Level Bonus**: $1\%$ bonus per level, capped at $25\%$ at Level 25.
+- **Level Bonus**: $+1\%$ bonus per level, capped at $+25\%$ at Level 25.
 - **Ball Multipliers**:
   - `pb` (Poké Ball): $1.0\times$
   - `gb` (Great Ball): $1.5\times$
@@ -124,14 +93,14 @@ $$\text{Catch Chance} = \min\Big(\text{Base Rate} \times \text{Ball Multiplier} 
 
 $$\text{XP Required for Level } L = \lfloor 100 \times L^{1.5} \rfloor$$
 
-- **Hunt Attempt**: $+5\text{ XP}$
+- **Hunt**: $+5\text{ XP}$
 - **Catch**: Common $+10$, Uncommon $+20$, Rare $+50$, UltraRare $+100$, Epic $+200$, Legendary $+500$, Mythical $+1000\text{ XP}$.
-- **New Species Bonus**: Catch XP is **doubled** for registering a new species in your Pokédex!
+- **New Species Bonus**: Catch XP is **doubled** for catching an unowned species!
 - **Store Discount**: $0.5\%$ discount per level up to $15\%$ maximum discount.
 
 ---
 
-## 🛠️ Architecture
+## 🛠️ Project Structure
 
 ```
 pokedash/
@@ -139,7 +108,7 @@ pokedash/
 ├── data/
 │   └── pokemon_data.json # All 1025 Pokemon stats, types, rarities
 ├── static/
-│   ├── index.html        # Modern Game Boy/Synthwave Web Dashboard
+│   ├── index.html        # Retro Game Boy/Synthwave Web Game & Dashboard
 │   └── sprites/          # Bundled sprites (1.png - 1025.png)
 ├── src/
 │   ├── main.rs           # Entry point
@@ -148,7 +117,6 @@ pokedash/
 │   ├── storage.rs        # Atomic JSON persistence (~/.pokedash/)
 │   ├── service.rs        # Core gameplay service
 │   ├── server.rs         # Axum HTTP API & static web router
-│   ├── cli.rs            # Clap CLI commands & interactive mode
-│   └── tui.rs            # ANSI colored tables & dashboards
-└── pokedash_cli.py       # Companion Python CLI with Rich
+│   └── cli.rs            # Web server arguments & launcher
+└── README.md             # Project documentation
 ```

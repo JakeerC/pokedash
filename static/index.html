@@ -1271,13 +1271,13 @@
     </div>
   </div>
 
-  <!-- CLI COMMAND LOG DRAWER -->
+  <!-- ADVENTURE LOG DRAWER -->
   <div class="cli-log-drawer">
     <div style="display: flex; align-items: center; gap: 0.5rem;">
-      <span style="color: #10b981;">❯</span>
-      <span id="cli-log-text" class="cli-log-msg">pokedash ready — try 'pokedash hunt' in your terminal!</span>
+      <span style="color: #10b981;">📜</span>
+      <span id="cli-log-text" class="cli-log-msg">Welcome to PokéDash! Click 'Hunt Wild Pokémon' to start exploring!</span>
     </div>
-    <div style="color: var(--text-muted); font-size: 0.75rem;">Terminal Sync: Active</div>
+    <div style="color: var(--text-muted); font-size: 0.75rem;">Trainer Hub: Online</div>
   </div>
 
   <!-- TOAST CONTAINER -->
@@ -1354,9 +1354,9 @@
       setTimeout(() => toast.remove(), 4000);
     }
 
-    function logCli(cmd, res) {
+    function logActivity(action, result) {
       const el = document.getElementById('cli-log-text');
-      el.textContent = `$ pokedash ${cmd} ➔ ${res}`;
+      el.textContent = `[${new Date().toLocaleTimeString()}] ${action} ➔ ${result}`;
     }
 
     // --- PLAYER & STATUS ---
@@ -1503,7 +1503,7 @@
       try {
         const encounterData = await api('/hunt', 'POST');
         renderEncounter(encounterData);
-        logCli('hunt', `Wild ${encounterData.encounter.pokemon.name} appeared!`);
+        logActivity('hunt', `Wild ${encounterData.encounter.pokemon.name} appeared!`);
         showToast(`A wild ${encounterData.encounter.pokemon.name} appeared!`, 'info');
         startCooldown(15);
       } catch (e) {
@@ -1554,13 +1554,13 @@
           animBall.remove();
           if (res.success) {
             showToast(res.message, 'success');
-            logCli(`catch ${selectedBall}`, `Success! Caught ${res.pokemon.name} (+${res.xp_gained} XP)`);
+            logActivity(`catch ${selectedBall}`, `Success! Caught ${res.pokemon.name} (+${res.xp_gained} XP)`);
             if (res.leveled_up) {
               showToast(`🎉 LEVEL UP! Trainer is now Level ${res.new_level}!`, 'success');
             }
           } else {
             showToast(res.message, 'error');
-            logCli(`catch ${selectedBall}`, `Failed! ${res.pokemon.name} broke free!`);
+            logActivity(`catch ${selectedBall}`, `Failed! ${res.pokemon.name} broke free!`);
           }
           fetchWildState();
         }, 1200);
@@ -1576,7 +1576,7 @@
       try {
         const res = await api('/flee', 'POST');
         showToast(res.message, 'info');
-        logCli('flee', res.message);
+        logActivity('flee', res.message);
         fetchWildState();
       } catch (e) {}
     });
@@ -1758,7 +1758,7 @@
       try {
         const res = await api('/store/buy', 'POST', { item: id, amount: qty });
         showToast(res.message, 'success');
-        logCli(`store buy ${id} ${qty}`, res.message);
+        logActivity(`store buy ${id} ${qty}`, res.message);
         loadStore();
         refreshPlayer();
       } catch (e) {}
@@ -1768,7 +1768,7 @@
       try {
         const res = await api('/store/sell-dupes', 'POST');
         showToast(res.message, 'success');
-        logCli('store sell-dupes', res.message);
+        logActivity('store sell-dupes', res.message);
         loadStore();
         refreshPlayer();
       } catch (e) {}

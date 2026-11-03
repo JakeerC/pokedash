@@ -1,19 +1,6 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-pub fn format_number(n: u64) -> String {
-    let s = n.to_string();
-    let mut result = String::new();
-    let chars: Vec<char> = s.chars().rev().collect();
-    for (i, ch) in chars.iter().enumerate() {
-        if i > 0 && i % 3 == 0 {
-            result.push(',');
-        }
-        result.push(*ch);
-    }
-    result.chars().rev().collect()
-}
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PokemonStats {
     #[serde(rename = "HP")]

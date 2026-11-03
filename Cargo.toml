@@ -3,7 +3,7 @@ name = "pokedash"
 version = "0.1.0"
 edition = "2021"
 authors = ["Antigravity"]
-description = "A Pokémon hunting and collecting game for Terminal and Web"
+description = "A Pokémon hunting and collecting web game powered by Rust"
 
 [dependencies]
 axum = { version = "0.7", features = ["macros"] }
@@ -17,7 +17,5 @@ chrono = { version = "0.4", features = ["serde"] }
 clap = { version = "4.5", features = ["derive"] }
 colored = "2.1"
 reqwest = { version = "0.12", features = ["json"] }
-inquire = "0.7"
-comfy-table = "7.1"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
