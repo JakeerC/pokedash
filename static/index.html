@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PokéDash — Hunt, Catch & Collect Pokémon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #131b2e;
+      --card-border: #1f2d4a;
+      --accent-red: #ef4444;
+      --accent-gold: #f59e0b;
+      --accent-blue: #3b82f6;
+      --accent-green: #10b981;
+      --accent-purple: #8b5cf6;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --font-pixel: 'Press Start 2P', monospace;
+      --font-ui: 'Space Grotesk', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-ui);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Navigation */
+    header {
+      background: rgba(19, 27, 46, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 0.75rem 1.5rem;
+    }
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .logo-ball {
+      width: 32px;
+      height: 32px;
+      background: radial-gradient(circle at 50% 40%, #ff3b30 0%, #d32f2f 45%, #1e1e1e 46%, #1e1e1e 54%, #ffffff 55%, #f0f0f0 100%);
+      border-radius: 50%;
+      border: 2px solid #111;
+      position: relative;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+      animation: gentle-spin 8s linear infinite;
+    }
+    @keyframes gentle-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .brand-title {
+      font-family: var(--font-pixel);
+      font-size: 1rem;
+      background: linear-gradient(135deg, #f87171, #fbbf24, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .nav-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .nav-btn.active {
+      color: #fff;
+      background: var(--card-border);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .trainer-pill {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #0d1322;
+      border: 1px solid var(--card-border);
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+    .pill-item {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .pill-val {
+      font-weight: 700;
+      font-family: var(--font-mono);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    /* Tab Panes */
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+      animation: fadeIn 0.25s ease-out;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* HUNT / ENCOUNTER VIEW */
+    .encounter-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 960px) {
+      .encounter-layout { grid-template-columns: 1fr; }
+    }
+
+    .encounter-arena {
+      background: radial-gradient(circle at 50% 30%, #1a2540 0%, #0d1424 70%);
+      border: 2px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+    }
+    .arena-grid {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 30px 30px;
+      pointer-events: none;
+    }
+
+    .wild-badge {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      font-family: var(--font-pixel);
+      font-size: 0.65rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      letter-spacing: 0.5px;
+    }
+
+    .sprite-stage {
+      width: 240px;
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 1rem 0;
+    }
+    .sprite-shadow {
+      position: absolute;
+      bottom: 10px;
+      width: 140px;
+      height: 24px;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 70%);
+      border-radius: 50%;
+    }
+    .pokemon-sprite-img {
+      max-width: 200px;
+      max-height: 200px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      z-index: 2;
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .pokemon-sprite-img:hover {
+      transform: scale(1.08);
+    }
+
+    /* Ball Throwing & Catching Animation */
+    .catching-ball-anim {
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle at 50% 40%, #ff3b30 0%, #d32f2f 45%, #1e1e1e 46%, #1e1e1e 54%, #ffffff 55%, #f0f0f0 100%);
+      border-radius: 50%;
+      border: 2px solid #111;
+      position: absolute;
+      z-index: 10;
+      animation: ball-shake 0.8s ease-in-out infinite;
+    }
+    @keyframes ball-shake {
+      0% { transform: rotate(0deg); }
+      20% { transform: rotate(-25deg); }
+      40% { transform: rotate(25deg); }
+      60% { transform: rotate(-15deg); }
+      80% { transform: rotate(15deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    .wild-name-header {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.3rem;
+    }
+    .wild-id {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      font-family: var(--font-mono);
+    }
+    .wild-tags {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .type-badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    }
+    .rarity-pill {
+      font-family: var(--font-pixel);
+      font-size: 0.65rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .btn-cry {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .btn-cry:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #60a5fa;
+    }
+
+    /* Stat Bars */
+    .stat-list {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.85rem;
+    }
+    .stat-name {
+      width: 70px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .stat-val {
+      width: 35px;
+      text-align: right;
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+    .stat-track {
+      flex: 1;
+      height: 8px;
+      background: #0a0f1d;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .stat-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      transition: width 0.5s ease;
+    }
+
+    /* Catch & Hunt Action Panel */
+    .catch-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .panel-title {
+      font-family: var(--font-pixel);
+      font-size: 0.85rem;
+      color: #93c5fd;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hunt-cta-box {
+      background: #0d1424;
+      border: 1px dashed var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .hunt-btn {
+      background: linear-gradient(135deg, #ef4444, #f97316);
+      border: none;
+      color: white;
+      font-family: var(--font-pixel);
+      font-size: 0.85rem;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+      transition: all 0.2s;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+    .hunt-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
+    }
+    .hunt-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      filter: grayscale(0.6);
+    }
+
+    .cooldown-text {
+      font-size: 0.85rem;
+      color: #f59e0b;
+      font-family: var(--font-mono);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Ball Selector Grid */
+    .ball-select-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.75rem;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 0.3rem;
+    }
+    .ball-card {
+      background: #0d1424;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.35rem;
+      position: relative;
+    }
+    .ball-card:hover:not(.locked):not(.empty) {
+      border-color: #3b82f6;
+      background: #141f38;
+      transform: translateY(-2px);
+    }
+    .ball-card.selected {
+      border-color: #60a5fa;
+      background: #172554;
+      box-shadow: 0 0 12px rgba(96, 165, 250, 0.3);
+    }
+    .ball-card.locked {
+      opacity: 0.4;
+      cursor: not-allowed;
+      filter: grayscale(0.8);
+    }
+    .ball-card.empty {
+      opacity: 0.6;
+    }
+    .ball-img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      image-rendering: pixelated;
+    }
+    .ball-name {
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .ball-stock {
+      font-size: 0.7rem;
+      color: var(--accent-gold);
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+    .ball-chance-tag {
+      font-size: 0.65rem;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    .catch-action-bar {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    .throw-btn {
+      flex: 2;
+      background: linear-gradient(135deg, #10b981, #059669);
+      border: none;
+      color: white;
+      font-family: var(--font-pixel);
+      font-size: 0.8rem;
+      padding: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+      transition: all 0.2s;
+    }
+    .throw-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+    }
+    .throw-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .flee-btn {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .flee-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+    }
+
+    /* POKÉDEX VIEW */
+    .pokedex-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1rem;
+      align-items: center;
+    }
+    .search-input {
+      flex: 1;
+      min-width: 220px;
+      background: #0d1424;
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .search-input:focus {
+      border-color: #3b82f6;
+    }
+    .filter-select {
+      background: #0d1424;
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 0.6rem 0.8rem;
+      border-radius: 8px;
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .pokedex-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+    .dex-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .dex-card:hover {
+      border-color: #3b82f6;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    }
+    .dex-card.unowned {
+      opacity: 0.35;
+      filter: grayscale(1);
+    }
+    .dex-count-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.15rem 0.4rem;
+      border-radius: 10px;
+    }
+    .dex-num {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+    }
+    .dex-img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      margin: 0.3rem 0;
+    }
+    .dex-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    .dex-types {
+      display: flex;
+      gap: 0.3rem;
+      justify-content: center;
+      margin-top: 0.2rem;
+    }
+
+    /* POKÉ MART VIEW */
+    .mart-header {
+      background: linear-gradient(135deg, #1e3a8a, #065f46);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .mart-title {
+      font-family: var(--font-pixel);
+      font-size: 1.2rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .mart-balance {
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      color: #fbbf24;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .mart-subnav {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .mart-subnav-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .mart-subnav-btn.active {
+      background: #2563eb;
+      color: #fff;
+      border-color: #3b82f6;
+    }
+
+    .mart-items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .mart-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .mart-card-top {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .mart-ball-img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      image-rendering: pixelated;
+    }
+    .mart-card-info h4 {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .mart-price {
+      font-size: 1rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: #fbbf24;
+    }
+    .mart-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+    .mart-buy-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+    .qty-input {
+      width: 60px;
+      background: #0d1424;
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      text-align: center;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+    .btn-buy {
+      flex: 1;
+      background: #2563eb;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 0.6rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-buy:hover:not(:disabled) {
+      background: #1d4ed8;
+    }
+    .btn-buy:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Sell Panel */
+    .sell-action-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .btn-sell-dupes {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border: none;
+      color: white;
+      font-family: var(--font-pixel);
+      font-size: 0.75rem;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+    .btn-sell-dupes:hover {
+      transform: translateY(-2px);
+    }
+
+    /* TRAINER PROFILE VIEW */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 840px) {
+      .profile-grid { grid-template-columns: 1fr; }
+    }
+    .trainer-card {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 2px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .trainer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .trainer-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #60a5fa;
+    }
+    .trainer-level-tag {
+      font-family: var(--font-pixel);
+      font-size: 0.8rem;
+      background: #f59e0b;
+      color: #111;
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+    }
+    .xp-bar-box {
+      margin-bottom: 1.5rem;
+    }
+    .xp-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+      font-family: var(--font-mono);
+    }
+    .xp-track {
+      height: 12px;
+      background: #0b1120;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+    }
+    .xp-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      transition: width 0.4s ease;
+    }
+
+    .stat-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .metric-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+    .metric-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .metric-value {
+      font-size: 1.3rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      max-width: 520px;
+      width: 90%;
+      padding: 2rem;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Live Terminal Console Log at Bottom */
+    .cli-log-drawer {
+      background: #090d16;
+      border-top: 1px solid var(--card-border);
+      padding: 0.75rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: #94a3b8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cli-log-msg {
+      color: #38bdf8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 80%;
+    }
+
+    /* Notification Toast */
+    .toast-box {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      pointer-events: none;
+    }
+    .toast {
+      background: #1e293b;
+      border: 1px solid #3b82f6;
+      color: #fff;
+      padding: 0.8rem 1.2rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      animation: toastIn 0.3s ease-out;
+      pointer-events: auto;
+    }
+    @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="logo-group">
+        <div class="logo-ball"></div>
+        <div class="brand-title">POKÉDASH</div>
+      </div>
+
+      <nav class="nav-tabs">
+        <button class="nav-btn active" data-tab="hunt">⚔️ Hunt</button>
+        <button class="nav-btn" data-tab="pokedex">📖 Pokédex</button>
+        <button class="nav-btn" data-tab="store">🏪 Poké Mart</button>
+        <button class="nav-btn" data-tab="profile">📊 Trainer</button>
+      </nav>
+
+      <div class="trainer-pill">
+        <div class="pill-item">
+          <span style="color: #60a5fa;">Lv.</span>
+          <span class="pill-val" id="pill-level">1</span>
+        </div>
+        <div class="pill-item">
+          <span style="color: #fbbf24;">₽</span>
+          <span class="pill-val" id="pill-currency">0</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN VIEW CONTAINER -->
+  <main>
+
+    <!-- 1. HUNT TAB -->
+    <section id="tab-hunt" class="tab-pane active">
+      <div class="encounter-layout">
+        
+        <!-- Left: Wild Encounter Arena -->
+        <div class="encounter-arena">
+          <div class="arena-grid"></div>
+
+          <div id="arena-content" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div class="wild-badge" id="wild-badge-text">⚡ WILD ENCOUNTER ACTIVE</div>
+
+            <div class="sprite-stage">
+              <div class="sprite-shadow"></div>
+              <img id="wild-sprite" class="pokemon-sprite-img" src="" alt="Wild Pokemon" />
+            </div>
+
+            <div class="wild-name-header">
+              <span id="wild-name">Pikachu</span>
+              <span class="wild-id" id="wild-id">#025</span>
+            </div>
+
+            <div class="wild-tags">
+              <div id="wild-types" style="display: flex; gap: 0.35rem;"></div>
+              <span id="wild-rarity" class="rarity-pill">Common</span>
+              <button id="wild-cry-btn" class="btn-cry">🔊 Cry</button>
+            </div>
+
+            <div class="stat-list">
+              <div class="stat-row">
+                <span class="stat-name">HP</span>
+                <div class="stat-track"><div id="bar-hp" class="stat-fill" style="width: 50%;"></div></div>
+                <span class="stat-val" id="val-hp">50</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-name">Attack</span>
+                <div class="stat-track"><div id="bar-atk" class="stat-fill" style="width: 50%;"></div></div>
+                <span class="stat-val" id="val-atk">50</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-name">Defense</span>
+                <div class="stat-track"><div id="bar-def" class="stat-fill" style="width: 50%;"></div></div>
+                <span class="stat-val" id="val-def">50</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-name">Sp. Atk</span>
+                <div class="stat-track"><div id="bar-spa" class="stat-fill" style="width: 50%;"></div></div>
+                <span class="stat-val" id="val-spa">50</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-name">Sp. Def</span>
+                <div class="stat-track"><div id="bar-spd" class="stat-fill" style="width: 50%;"></div></div>
+                <span class="stat-val" id="val-spd">50</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-name">Speed</span>
+                <div class="stat-track"><div id="bar-spe" class="stat-fill" style="width: 50%;"></div></div>
+                <span class="stat-val" id="val-spe">50</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="no-encounter-state" style="display: none; padding: 4rem 1rem; text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🌿</div>
+            <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">Tall Grass is Quiet</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 320px; margin: 0 auto;">
+              Click <strong>"Hunt Wild Pokémon"</strong> to search the grass for encounters!
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Catch & Hunt Actions -->
+        <div class="catch-panel">
+          <div class="panel-title">⚔️ ENCOUNTER ACTION</div>
+
+          <div class="hunt-cta-box">
+            <button id="btn-hunt" class="hunt-btn">
+              <span>🌾 HUNT WILD POKÉMON (+5 XP)</span>
+            </button>
+            <div id="cooldown-timer" class="cooldown-text" style="display: none;">
+              ⏳ Cooldown: <span id="cooldown-sec">15</span>s
+            </div>
+          </div>
+
+          <div style="font-weight: 600; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
+            Select Poké Ball to Throw:
+          </div>
+
+          <div class="ball-select-grid" id="ball-selector-list">
+            <!-- Dynamically populated ball cards -->
+          </div>
+
+          <div class="catch-action-bar">
+            <button id="btn-throw" class="throw-btn" disabled>⚾ THROW BALL</button>
+            <button id="btn-flee" class="flee-btn">Flee</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. POKÉDEX TAB -->
+    <section id="tab-pokedex" class="tab-pane">
+      <div class="pokedex-controls">
+        <input type="text" id="dex-search" class="search-input" placeholder="Search by name or number (e.g. Gengar, 94)..." />
+        
+        <select id="dex-filter-gen" class="filter-select">
+          <option value="">All Generations (I - IX)</option>
+          <option value="1">Gen I (Kanto #1-151)</option>
+          <option value="2">Gen II (Johto #152-251)</option>
+          <option value="3">Gen III (Hoenn #252-386)</option>
+          <option value="4">Gen IV (Sinnoh #387-493)</option>
+          <option value="5">Gen V (Unova #494-649)</option>
+          <option value="6">Gen VI (Kalos #650-721)</option>
+          <option value="7">Gen VII (Alola #722-809)</option>
+          <option value="8">Gen VIII (Galar #810-905)</option>
+          <option value="9">Gen IX (Paldea #906-1025)</option>
+        </select>
+
+        <select id="dex-filter-type" class="filter-select">
+          <option value="">All Types</option>
+          <option value="Normal">Normal</option>
+          <option value="Fire">Fire</option>
+          <option value="Water">Water</option>
+          <option value="Grass">Grass</option>
+          <option value="Electric">Electric</option>
+          <option value="Ice">Ice</option>
+          <option value="Fighting">Fighting</option>
+          <option value="Poison">Poison</option>
+          <option value="Ground">Ground</option>
+          <option value="Flying">Flying</option>
+          <option value="Psychic">Psychic</option>
+          <option value="Bug">Bug</option>
+          <option value="Rock">Rock</option>
+          <option value="Ghost">Ghost</option>
+          <option value="Dragon">Dragon</option>
+          <option value="Dark">Dark</option>
+          <option value="Steel">Steel</option>
+          <option value="Fairy">Fairy</option>
+        </select>
+
+        <select id="dex-filter-rarity" class="filter-select">
+          <option value="">All Rarities</option>
+          <option value="Common">Common</option>
+          <option value="Uncommon">Uncommon</option>
+          <option value="Rare">Rare</option>
+          <option value="UltraRare">UltraRare</option>
+          <option value="Epic">Epic</option>
+          <option value="Legendary">Legendary</option>
+          <option value="Mythical">Mythical</option>
+        </select>
+
+        <select id="dex-filter-ownership" class="filter-select">
+          <option value="all">Catalog (All 1025)</option>
+          <option value="owned" selected>Owned Only</option>
+        </select>
+
+        <select id="dex-sort" class="filter-select">
+          <option value="id">Sort by Dex # (Asc)</option>
+          <option value="id_desc">Sort by Dex # (Desc)</option>
+          <option value="rarity">Sort by Rarity</option>
+          <option value="bst">Sort by BST (Base Stats)</option>
+          <option value="recent">Sort by Recently Caught</option>
+        </select>
+      </div>
+
+      <div id="dex-grid" class="pokedex-grid">
+        <!-- Rendered Pokémon Cards -->
+      </div>
+    </section>
+
+    <!-- 3. POKÉ MART STORE TAB -->
+    <section id="tab-store" class="tab-pane">
+      <div class="mart-header">
+        <div>
+          <div class="mart-title">🏪 POKÉ MART EMPORIUM</div>
+          <p style="color: #cbd5e1; font-size: 0.85rem; margin-top: 0.4rem;">
+            Stock up on specialized Poké Balls. Higher Trainer Levels unlock discounts & rare gear!
+          </p>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase;">Your Balance</div>
+          <div class="mart-balance" id="mart-balance-display">₽ 0</div>
+          <div style="font-size: 0.75rem; color: #34d399; font-weight: 600;" id="mart-discount-tag">Level Discount: 0%</div>
+        </div>
+      </div>
+
+      <div class="sell-action-box">
+        <div>
+          <h4 style="font-size: 1rem; margin-bottom: 0.2rem;">Quick Sell Duplicates</h4>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">
+            Keep 1 of every caught species and automatically cash in all extra copies!
+          </p>
+        </div>
+        <button id="btn-sell-dupes" class="btn-sell-dupes">💰 SELL ALL DUPES</button>
+      </div>
+
+      <div class="mart-items-grid" id="mart-items-grid">
+        <!-- Rendered store items -->
+      </div>
+    </section>
+
+    <!-- 4. TRAINER PROFILE TAB -->
+    <section id="tab-profile" class="tab-pane">
+      <div class="profile-grid">
+        
+        <!-- Left: Trainer Card -->
+        <div class="trainer-card">
+          <div class="trainer-header">
+            <div>
+              <div style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">TRAINER PASSPORT</div>
+              <div class="trainer-name" id="prof-username">Trainer</div>
+            </div>
+            <div class="trainer-level-tag" id="prof-level">Lv. 1</div>
+          </div>
+
+          <div class="xp-bar-box">
+            <div class="xp-labels">
+              <span>Experience (XP)</span>
+              <span id="prof-xp-text">0 / 100 XP</span>
+            </div>
+            <div class="xp-track">
+              <div id="prof-xp-fill" class="xp-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <div class="stat-metrics-grid">
+            <div class="metric-card">
+              <div class="metric-label">Poké Dollars</div>
+              <div class="metric-value" style="color: #fbbf24;" id="prof-currency">₽ 0</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Pokédex Progress</div>
+              <div class="metric-value" style="color: #34d399;" id="prof-dex-progress">0 / 1025</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Total Hunts</div>
+              <div class="metric-value" style="color: #60a5fa;" id="prof-hunts">0</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Catch Rate</div>
+              <div class="metric-value" style="color: #f472b6;" id="prof-catch-rate">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Milestones & Achievements -->
+        <div class="trainer-card" style="background: var(--card-bg);">
+          <div style="font-family: var(--font-pixel); font-size: 0.85rem; color: #fbbf24; margin-bottom: 1.25rem;">
+            🏆 ACHIEVEMENTS & STATS
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div class="metric-card" style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 700;">Successful Catches</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Total Pokémon added to Dex</div>
+              </div>
+              <div class="metric-value" style="color: #10b981;" id="prof-success">0</div>
+            </div>
+
+            <div class="metric-card" style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 700;">Escaped / Failed</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Encounters that broke free</div>
+              </div>
+              <div class="metric-value" style="color: #ef4444;" id="prof-failed">0</div>
+            </div>
+
+            <div class="metric-card" style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 700;">Unique Species</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Distinct Pokémon caught</div>
+              </div>
+              <div class="metric-value" style="color: #a855f7;" id="prof-unique">0</div>
+            </div>
+
+            <div style="margin-top: 1rem; border-top: 1px solid var(--card-border); padding-top: 1rem;">
+              <button id="btn-reset-save" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; cursor: pointer;">
+                ⚠️ Reset Progress
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- POKEMON DETAILS MODAL -->
+  <div id="modal-backdrop" class="modal-backdrop">
+    <div class="modal-content">
+      <button id="modal-close-btn" class="modal-close">&times;</button>
+      <div id="modal-body">
+        <!-- Rendered Details -->
+      </div>
+    </div>
+  </div>
+
+  <!-- CLI COMMAND LOG DRAWER -->
+  <div class="cli-log-drawer">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <span style="color: #10b981;">❯</span>
+      <span id="cli-log-text" class="cli-log-msg">pokedash ready — try 'pokedash hunt' in your terminal!</span>
+    </div>
+    <div style="color: var(--text-muted); font-size: 0.75rem;">Terminal Sync: Active</div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-box" class="toast-box"></div>
+
+  <!-- AUDIO ELEMENT FOR CRIES -->
+  <audio id="cry-audio" preload="none"></audio>
+
+  <script>
+    // --- STATE MANAGEMENT ---
+    let currentUser = null;
+    let currentWild = null;
+    let selectedBall = "poke_ball";
+    let cooldownTimer = null;
+    let cooldownRemaining = 0;
+
+    const TYPE_COLORS = {
+      Normal: "#A8A77A", Fire: "#EE8130", Water: "#6390F0", Electric: "#F7D02C",
+      Grass: "#7AC74C", Ice: "#96D9D6", Fighting: "#C22E28", Poison: "#A33EA1",
+      Ground: "#E2BF65", Flying: "#A98FF3", Psychic: "#F95587", Bug: "#A6B91A",
+      Rock: "#B6A136", Ghost: "#735797", Dragon: "#6F35FC", Dark: "#705746",
+      Steel: "#B7B7CE", Fairy: "#D685AD"
+    };
+
+    const RARITY_COLORS = {
+      Common: { bg: "rgba(148, 163, 184, 0.2)", border: "#94a3b8", text: "#e2e8f0" },
+      Uncommon: { bg: "rgba(34, 197, 94, 0.2)", border: "#22c55e", text: "#86efac" },
+      Rare: { bg: "rgba(59, 130, 246, 0.2)", border: "#3b82f6", text: "#93c5fd" },
+      UltraRare: { bg: "rgba(6, 182, 212, 0.2)", border: "#06b6d4", text: "#67e8f9" },
+      Epic: { bg: "rgba(168, 85, 247, 0.2)", border: "#a855f7", text: "#d8b4fe" },
+      Legendary: { bg: "rgba(234, 179, 8, 0.2)", border: "#eab308", text: "#fde047" },
+      Mythical: { bg: "rgba(236, 72, 153, 0.2)", border: "#ec4899", text: "#f472b6" }
+    };
+
+    // --- NAVIGATION ---
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const target = btn.dataset.tab;
+        document.getElementById(`tab-${target}`).classList.add('active');
+
+        if (target === 'pokedex') loadPokedex();
+        if (target === 'store') loadStore();
+        if (target === 'profile') loadProfile();
+        if (target === 'hunt') fetchWildState();
+      });
+    });
+
+    // --- API CLIENT ---
+    async function api(path, method = 'GET', body = null) {
+      const opts = { method, headers: { 'Content-Type': 'application/json' } };
+      if (body) opts.body = JSON.stringify(body);
+      try {
+        const res = await fetch(`/api${path}`, opts);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Request failed');
+        return data;
+      } catch (err) {
+        showToast(err.message, 'error');
+        throw err;
+      }
+    }
+
+    function showToast(msg, type = 'info') {
+      const box = document.getElementById('toast-box');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      if (type === 'error') toast.style.borderColor = '#ef4444';
+      if (type === 'success') toast.style.borderColor = '#10b981';
+      toast.textContent = msg;
+      box.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    function logCli(cmd, res) {
+      const el = document.getElementById('cli-log-text');
+      el.textContent = `$ pokedash ${cmd} ➔ ${res}`;
+    }
+
+    // --- PLAYER & STATUS ---
+    async function refreshPlayer() {
+      try {
+        const data = await api('/player');
+        currentUser = data;
+        document.getElementById('pill-level').textContent = data.level;
+        document.getElementById('pill-currency').textContent = data.player.currency.toLocaleString();
+        return data;
+      } catch (e) {}
+    }
+
+    // --- HUNT & CATCH LOGIC ---
+    async function fetchWildState() {
+      await refreshPlayer();
+      try {
+        const data = await api('/wild');
+        if (data.has_wild && data.encounter) {
+          renderEncounter(data);
+        } else {
+          document.getElementById('arena-content').style.display = 'none';
+          document.getElementById('no-encounter-state').style.display = 'block';
+          document.getElementById('btn-throw').disabled = true;
+          currentWild = null;
+        }
+        await renderBallSelector(data ? data.ball_odds : null);
+      } catch (e) {}
+    }
+
+    function renderEncounter(data) {
+      currentWild = data;
+      const p = data.encounter.pokemon;
+      document.getElementById('no-encounter-state').style.display = 'none';
+      document.getElementById('arena-content').style.display = 'flex';
+
+      document.getElementById('wild-name').textContent = p.name;
+      document.getElementById('wild-id').textContent = `#${String(p.id).padStart(3, '0')}`;
+      
+      const badgeText = document.getElementById('wild-badge-text');
+      if (data.already_caught) {
+        badgeText.textContent = '📖 ALREADY IN DEX';
+        badgeText.style.background = 'rgba(16, 185, 129, 0.2)';
+        badgeText.style.color = '#34d399';
+      } else {
+        badgeText.textContent = '✨ NEW SPECIES ENCOUNTER!';
+        badgeText.style.background = 'rgba(245, 158, 11, 0.2)';
+        badgeText.style.color = '#fbbf24';
+      }
+
+      // Sprites: priority animated showdown > official art > local sprite
+      const img = document.getElementById('wild-sprite');
+      img.src = data.showdown_url;
+      img.onerror = () => {
+        img.src = data.art_url;
+        img.onerror = () => {
+          img.src = `/sprites/${p.id}.png`;
+        };
+      };
+
+      // Cry sound
+      document.getElementById('wild-cry-btn').onclick = () => {
+        const audio = document.getElementById('cry-audio');
+        audio.src = data.cry_url;
+        audio.play().catch(() => {});
+      };
+
+      // Types
+      const typesBox = document.getElementById('wild-types');
+      typesBox.innerHTML = '';
+      p.types.forEach(t => {
+        const b = document.createElement('span');
+        b.className = 'type-badge';
+        b.style.backgroundColor = TYPE_COLORS[t] || '#64748b';
+        b.textContent = t;
+        typesBox.appendChild(b);
+      });
+
+      // Rarity
+      const rBox = document.getElementById('wild-rarity');
+      const rStyle = RARITY_COLORS[p.rarity] || RARITY_COLORS.Common;
+      rBox.textContent = p.rarity;
+      rBox.style.background = rStyle.bg;
+      rBox.style.borderColor = rStyle.border;
+      rBox.style.color = rStyle.text;
+
+      // Stats
+      const maxStat = 255;
+      const stats = p.stats;
+      setStatBar('hp', stats.HP, maxStat);
+      setStatBar('atk', stats.Atk, 190);
+      setStatBar('def', stats.Def, 230);
+      setStatBar('spa', stats.SpA, 194);
+      setStatBar('spd', stats.SpD, 230);
+      setStatBar('spe', stats.Spe, 200);
+
+      document.getElementById('btn-throw').disabled = false;
+    }
+
+    function setStatBar(key, val, max) {
+      document.getElementById(`val-${key}`).textContent = val;
+      const pct = Math.min(100, Math.round((val / max) * 100));
+      document.getElementById(`bar-${key}`).style.width = `${pct}%`;
+    }
+
+    async function renderBallSelector(ballOdds = null) {
+      const storeData = await api('/store');
+      const container = document.getElementById('ball-selector-list');
+      container.innerHTML = '';
+
+      storeData.items.forEach(item => {
+        const card = document.createElement('div');
+        const unlocked = storeData.level >= item.unlock_level;
+        const count = item.owned;
+        const odds = ballOdds && ballOdds[item.id] !== undefined ? ballOdds[item.id] : null;
+
+        card.className = `ball-card ${!unlocked ? 'locked' : ''} ${count === 0 ? 'empty' : ''} ${selectedBall === item.id ? 'selected' : ''}`;
+        
+        const ballImgUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.id.replace('_', '-')}.png`;
+
+        card.innerHTML = `
+          <img class="ball-img" src="${ballImgUrl}" onerror="this.src='/sprites/1.png'" alt="${item.name}" />
+          <div class="ball-name">${item.name}</div>
+          <div class="ball-stock">${count} in bag</div>
+          ${odds !== null && unlocked ? `<div class="ball-chance-tag">${odds}% catch</div>` : ''}
+          ${!unlocked ? `<div style="font-size: 0.6rem; color: #ef4444;">Req. Lv ${item.unlock_level}</div>` : ''}
+        `;
+
+        if (unlocked && count > 0) {
+          card.onclick = () => {
+            selectedBall = item.id;
+            document.querySelectorAll('.ball-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+          };
+        }
+        container.appendChild(card);
+      });
+    }
+
+    // Hunt button
+    document.getElementById('btn-hunt').addEventListener('click', async () => {
+      const btn = document.getElementById('btn-hunt');
+      btn.disabled = true;
+      try {
+        const encounterData = await api('/hunt', 'POST');
+        renderEncounter(encounterData);
+        logCli('hunt', `Wild ${encounterData.encounter.pokemon.name} appeared!`);
+        showToast(`A wild ${encounterData.encounter.pokemon.name} appeared!`, 'info');
+        startCooldown(15);
+      } catch (e) {
+        btn.disabled = false;
+      }
+    });
+
+    function startCooldown(sec) {
+      cooldownRemaining = sec;
+      const timerBox = document.getElementById('cooldown-timer');
+      const timerSec = document.getElementById('cooldown-sec');
+      const huntBtn = document.getElementById('btn-hunt');
+      timerBox.style.display = 'flex';
+      huntBtn.disabled = true;
+
+      clearInterval(cooldownTimer);
+      cooldownTimer = setInterval(() => {
+        cooldownRemaining--;
+        timerSec.textContent = cooldownRemaining;
+        if (cooldownRemaining <= 0) {
+          clearInterval(cooldownTimer);
+          timerBox.style.display = 'none';
+          huntBtn.disabled = false;
+        }
+      }, 1000);
+    }
+
+    // Throw Ball
+    document.getElementById('btn-throw').addEventListener('click', async () => {
+      if (!selectedBall) {
+        showToast('Please select a Poké Ball from your bag!', 'error');
+        return;
+      }
+
+      const throwBtn = document.getElementById('btn-throw');
+      throwBtn.disabled = true;
+
+      // Play shake animation
+      const spriteStage = document.querySelector('.sprite-stage');
+      const animBall = document.createElement('div');
+      animBall.className = 'catching-ball-anim';
+      spriteStage.appendChild(animBall);
+
+      try {
+        const res = await api('/catch', 'POST', { ball: selectedBall });
+        
+        setTimeout(() => {
+          animBall.remove();
+          if (res.success) {
+            showToast(res.message, 'success');
+            logCli(`catch ${selectedBall}`, `Success! Caught ${res.pokemon.name} (+${res.xp_gained} XP)`);
+            if (res.leveled_up) {
+              showToast(`🎉 LEVEL UP! Trainer is now Level ${res.new_level}!`, 'success');
+            }
+          } else {
+            showToast(res.message, 'error');
+            logCli(`catch ${selectedBall}`, `Failed! ${res.pokemon.name} broke free!`);
+          }
+          fetchWildState();
+        }, 1200);
+
+      } catch (e) {
+        animBall.remove();
+        throwBtn.disabled = false;
+      }
+    });
+
+    // Flee
+    document.getElementById('btn-flee').addEventListener('click', async () => {
+      try {
+        const res = await api('/flee', 'POST');
+        showToast(res.message, 'info');
+        logCli('flee', res.message);
+        fetchWildState();
+      } catch (e) {}
+    });
+
+    // --- POKÉDEX LOGIC ---
+    async function loadPokedex() {
+      const search = document.getElementById('dex-search').value;
+      const gen = document.getElementById('dex-filter-gen').value;
+      const type = document.getElementById('dex-filter-type').value;
+      const rarity = document.getElementById('dex-filter-rarity').value;
+      const ownership = document.getElementById('dex-filter-ownership').value;
+      const sort = document.getElementById('dex-sort').value;
+
+      let endpoint = ownership === 'all' ? '/catalog' : '/pokedex';
+      let params = new URLSearchParams();
+      if (search) params.append('search', search);
+      if (gen) params.append('gen', gen);
+      if (type) params.append('type', type);
+      if (rarity) params.append('rarity', rarity);
+      if (sort) params.append('sort', sort);
+      params.append('limit', '100');
+
+      const data = await api(`${endpoint}?${params.toString()}`);
+      const grid = document.getElementById('dex-grid');
+      grid.innerHTML = '';
+
+      const items = ownership === 'all' ? data.items : data.pokemon;
+      if (!items || items.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">No Pokémon match your current filters.</div>';
+        return;
+      }
+
+      items.forEach(item => {
+        const p = ownership === 'all' ? item.pokemon : item;
+        const owned = ownership === 'all' ? item.owned : true;
+        const count = ownership === 'all' ? item.count : 1;
+
+        const card = document.createElement('div');
+        card.className = `dex-card ${!owned ? 'unowned' : ''}`;
+        
+        card.innerHTML = `
+          ${owned && count > 1 ? `<div class="dex-count-badge">×${count}</div>` : ''}
+          <div class="dex-num">#${String(p.id).padStart(3, '0')}</div>
+          <img class="dex-img" src="/sprites/${p.id}.png" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.id}.png'" alt="${p.name}" />
+          <div class="dex-name">${p.name}</div>
+          <div class="dex-types">
+            ${p.types.map(t => `<span class="type-badge" style="background:${TYPE_COLORS[t] || '#555'}">${t}</span>`).join('')}
+          </div>
+          <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 0.2rem;">BST: ${p.stats.Total}</div>
+        `;
+
+        card.onclick = () => openPokemonModal(p.id);
+        grid.appendChild(card);
+      });
+    }
+
+    // Dex event listeners
+    ['dex-search', 'dex-filter-gen', 'dex-filter-type', 'dex-filter-rarity', 'dex-filter-ownership', 'dex-sort'].forEach(id => {
+      document.getElementById(id).addEventListener('change', loadPokedex);
+      if (id === 'dex-search') {
+        document.getElementById(id).addEventListener('input', debounce(loadPokedex, 300));
+      }
+    });
+
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => { clearTimeout(timeout); func(...args); };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    // Pokemon Detail Modal
+    async function openPokemonModal(id) {
+      try {
+        const data = await api(`/pokemon/${id}`);
+        const p = data.pokemon;
+        const modalBody = document.getElementById('modal-body');
+
+        modalBody.innerHTML = `
+          <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1.5rem;">
+            <img src="${data.showdown_url}" onerror="this.src='/sprites/${p.id}.png'" style="width: 100px; height: 100px; object-fit: contain; image-rendering: pixelated;" />
+            <div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">#${String(p.id).padStart(3, '0')} • Generation ${data.generation}</div>
+              <h2 style="font-size: 1.6rem; font-weight: 700;">${p.name}</h2>
+              <div style="display: flex; gap: 0.4rem; margin-top: 0.4rem;">
+                ${p.types.map(t => `<span class="type-badge" style="background:${TYPE_COLORS[t]}">${t}</span>`).join('')}
+                <span class="rarity-pill" style="background:${RARITY_COLORS[p.rarity].bg}; color:${RARITY_COLORS[p.rarity].text}; border:1px solid ${RARITY_COLORS[p.rarity].border}">${p.rarity}</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #0d1424; border-radius: 10px; padding: 1rem; margin-bottom: 1rem;">
+            <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 0.4rem;">Abilities</div>
+            <div style="font-size: 0.9rem; font-weight: 600; color: #93c5fd;">${p.abilities.join(', ')}</div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+            <span style="font-weight: 700;">Base Stat Total: ${p.stats.Total}</span>
+            <button id="modal-play-cry" class="btn-cry">🔊 Play Sound Cry</button>
+          </div>
+
+          <div class="stat-list" style="max-width: 100%;">
+            ${renderModalStatRow('HP', p.stats.HP, 255)}
+            ${renderModalStatRow('Attack', p.stats.Atk, 190)}
+            ${renderModalStatRow('Defense', p.stats.Def, 230)}
+            ${renderModalStatRow('Sp. Atk', p.stats.SpA, 194)}
+            ${renderModalStatRow('Sp. Def', p.stats.SpD, 230)}
+            ${renderModalStatRow('Speed', p.stats.Spe, 200)}
+          </div>
+
+          <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--card-border); font-size: 0.85rem; color: var(--text-muted);">
+            Owned in Pokédex: <strong style="color: #fbbf24;">${data.owned_count} copies</strong>
+          </div>
+        `;
+
+        document.getElementById('modal-play-cry').onclick = () => {
+          const a = document.getElementById('cry-audio');
+          a.src = data.cry_url;
+          a.play().catch(() => {});
+        };
+
+        document.getElementById('modal-backdrop').classList.add('open');
+      } catch (e) {}
+    }
+
+    function renderModalStatRow(label, val, max) {
+      const pct = Math.min(100, Math.round((val / max) * 100));
+      return `
+        <div class="stat-row">
+          <span class="stat-name">${label}</span>
+          <div class="stat-track"><div class="stat-fill" style="width: ${pct}%;"></div></div>
+          <span class="stat-val">${val}</span>
+        </div>
+      `;
+    }
+
+    document.getElementById('modal-close-btn').addEventListener('click', () => {
+      document.getElementById('modal-backdrop').classList.remove('open');
+    });
+
+    // --- POKÉ MART STORE ---
+    async function loadStore() {
+      const data = await api('/store');
+      document.getElementById('mart-balance-display').textContent = `₽ ${data.currency.toLocaleString()}`;
+      document.getElementById('mart-discount-tag').textContent = `Level Discount: ${data.discount_pct}%`;
+
+      const grid = document.getElementById('mart-items-grid');
+      grid.innerHTML = '';
+
+      data.items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'mart-card';
+        const unlocked = data.level >= item.unlock_level;
+
+        card.innerHTML = `
+          <div class="mart-card-top">
+            <img class="mart-ball-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.id.replace('_', '-')}.png" onerror="this.src='/sprites/1.png'" alt="${item.name}" />
+            <div class="mart-card-info">
+              <h4>${item.name}</h4>
+              <div class="mart-price">₽ ${item.discounted_price.toLocaleString()} ${item.discounted_price < item.price ? `<span style="font-size:0.75rem; color:#94a3b8; text-decoration:line-through;">₽${item.price}</span>` : ''}</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Owned: <strong style="color: #fbbf24;">${item.owned}</strong></div>
+            </div>
+          </div>
+          <p class="mart-desc">${item.description}</p>
+          ${!unlocked ? `<div style="color: #ef4444; font-size: 0.75rem; font-weight: 600;">🔒 Unlocks at Trainer Level ${item.unlock_level}</div>` : ''}
+          <div class="mart-buy-row">
+            <input type="number" id="qty-${item.id}" class="qty-input" value="1" min="1" max="99" ${!unlocked ? 'disabled' : ''} />
+            <button class="btn-buy" ${!unlocked ? 'disabled' : ''} onclick="buyBall('${item.id}')">BUY</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    async function buyBall(id) {
+      const qty = parseInt(document.getElementById(`qty-${id}`).value) || 1;
+      try {
+        const res = await api('/store/buy', 'POST', { item: id, amount: qty });
+        showToast(res.message, 'success');
+        logCli(`store buy ${id} ${qty}`, res.message);
+        loadStore();
+        refreshPlayer();
+      } catch (e) {}
+    }
+
+    document.getElementById('btn-sell-dupes').addEventListener('click', async () => {
+      try {
+        const res = await api('/store/sell-dupes', 'POST');
+        showToast(res.message, 'success');
+        logCli('store sell-dupes', res.message);
+        loadStore();
+        refreshPlayer();
+      } catch (e) {}
+    });
+
+    // --- TRAINER PROFILE ---
+    async function loadProfile() {
+      const data = await api('/player');
+      const p = data.player;
+      const s = p.stats;
+
+      document.getElementById('prof-username').textContent = p.username;
+      document.getElementById('prof-level').textContent = `Lv. ${data.level}`;
+      document.getElementById('prof-currency').textContent = `₽ ${p.currency.toLocaleString()}`;
+      document.getElementById('prof-dex-progress').textContent = `${data.unique_count} / 1025 (${((data.unique_count / 1025) * 100).toFixed(1)}%)`;
+      document.getElementById('prof-hunts').textContent = s.total_hunts;
+
+      const rate = s.total_hunts > 0 ? ((s.successful_catches / s.total_hunts) * 100).toFixed(1) : 0;
+      document.getElementById('prof-catch-rate').textContent = `${rate}%`;
+
+      document.getElementById('prof-success').textContent = s.successful_catches;
+      document.getElementById('prof-failed').textContent = s.failed_catches;
+      document.getElementById('prof-unique').textContent = data.unique_count;
+
+      // XP Progress Bar
+      const currentXp = p.xp;
+      const prevXp = data.prev_xp;
+      const nextXp = data.next_xp;
+      const inLevel = Math.max(0, currentXp - prevXp);
+      const needed = Math.max(1, nextXp - prevXp);
+      const pct = Math.min(100, Math.round((inLevel / needed) * 100));
+
+      document.getElementById('prof-xp-text').textContent = `${inLevel.toLocaleString()} / ${needed.toLocaleString()} XP (${pct}%)`;
+      document.getElementById('prof-xp-fill').style.width = `${pct}%`;
+    }
+
+    document.getElementById('btn-reset-save').addEventListener('click', async () => {
+      if (confirm('Are you sure you want to RESET your save data? All caught Pokémon and progress will be lost!')) {
+        await api('/player/reset', 'POST');
+        showToast('Game progress reset.', 'info');
+        loadProfile();
+        refreshPlayer();
+        fetchWildState();
+      }
+    });
+
+    // --- INITIALIZE ---
+    window.addEventListener('DOMContentLoaded', () => {
+      fetchWildState();
+    });
+  </script>
+</body>
+</html>
