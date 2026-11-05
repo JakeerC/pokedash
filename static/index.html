@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>POKÉDASH ADVANCE 2088 ⚡ Cyber Retro Pokémon Battle & Adventure</title>
+  <title>POKÉDASH ADVANCE ⚡ Retro Pokémon Battle & Adventure</title>
   
-  <!-- Local Authentic Player 2 Font -->
+  <!-- Inlined Authentic Player 2 Font -->
   <style>
     @font-face {
       font-family: 'Player2';
@@ -23,43 +23,28 @@
 
   <style>
     :root {
-      /* Retro-Futuristic Cyber Neon Palette */
-      --neon-cyan: #00f3ff;
-      --neon-pink: #ff007f;
-      --neon-yellow: #ffe600;
-      --neon-green: #00ff88;
-      --neon-purple: #9d4edd;
-      --neon-orange: #ff9100;
-      --neon-blue: #00b4d8;
-      
-      --bg-void: #060713;
-      --bg-panel: rgba(12, 16, 38, 0.88);
-      --bg-card: rgba(16, 22, 52, 0.82);
-      --bg-card-hover: rgba(25, 34, 76, 0.95);
-      
-      --border-cyan: rgba(0, 243, 255, 0.35);
-      --border-pink: rgba(255, 0, 127, 0.4);
-      --border-yellow: rgba(255, 230, 0, 0.4);
-      --border-green: rgba(0, 255, 136, 0.4);
-      
-      --glow-cyan: 0 0 15px rgba(0, 243, 255, 0.5);
-      --glow-pink: 0 0 15px rgba(255, 0, 127, 0.5);
-      --glow-yellow: 0 0 15px rgba(255, 230, 0, 0.5);
-      --glow-green: 0 0 15px rgba(0, 255, 136, 0.5);
-      
+      --gb-body: #4c3272; /* Indigo GBA shell */
+      --gb-body-dark: #321e54;
+      --gb-body-light: #6a479c;
+      --screen-bezel: #14121c;
+      --screen-lcd: #0d1612;
+      --screen-bg: #0c120c;
+      --screen-border: #233529;
       --pixel-font: 'Player2', 'Press Start 2P', monospace;
       --term-font: 'Player2', 'VT323', monospace;
       
-      --text-white: #ffffff;
+      --text-white: #f8fafc;
+      --text-yellow: #facc15;
+      --text-green: #4ade80;
+      --text-red: #f87171;
+      --text-blue: #60a5fa;
       --text-dim: #94a3b8;
-      --text-cyan: #00f3ff;
-      --text-yellow: #ffe600;
-      --text-pink: #ff007f;
-      --text-green: #00ff88;
       
-      --hp-green: #00ff88;
-      --hp-yellow: #ffe600;
-      --hp-red: #ff0055;
+      --hp-green: #22c55e;
+      --hp-yellow: #eab308;
+      --hp-red: #ef4444;
+      --accent-gold: #fbbf24;
+      --neon-cyan: #00f3ff;
     }
 
     * {
@@ -71,496 +56,413 @@
       text-transform: uppercase;
     }
 
-    .k-hint {
-      color: var(--neon-cyan);
-      font-size: 9px;
-      margin-right: 4px;
-      font-weight: bold;
-      background: rgba(0, 243, 255, 0.15);
-      padding: 1px 4px;
-      border-radius: 3px;
-      border: 1px solid rgba(0, 243, 255, 0.3);
-    }
-
-    /* FULL SCREEN VIEWPORT */
+    /* FULL VIEWPORT FILLING */
     html, body {
       width: 100vw;
       height: 100vh;
       overflow: hidden;
-      background-color: var(--bg-void);
+      background: #090a0f radial-gradient(circle at center, #171b29 0%, #08090d 100%);
       color: var(--text-white);
       font-family: var(--pixel-font);
-      font-size: 11px;
+      font-size: 10px;
       line-height: 1.5;
-      letter-spacing: 0.5px;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* Animated Cyber Synthwave Horizon & Grid Background */
-    .cyber-space-bg {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      pointer-events: none;
-      z-index: 0;
-      background: 
-        radial-gradient(circle at 50% 12%, rgba(121, 40, 202, 0.3) 0%, rgba(6, 7, 19, 0.98) 75%),
-        linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
-      background-size: 100% 100%, 48px 48px, 48px 48px;
-    }
-
-    /* Fullscreen Cockpit Battlestation Frame */
-    .handheld-console {
-      position: relative;
-      z-index: 1;
-      width: 100vw;
-      height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-      box-sizing: border-box;
-      background: transparent;
-      padding: 0;
-      margin: 0;
-      border: none;
-      box-shadow: none;
-      max-width: 100vw;
-      border-radius: 0;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
     }
 
-    /* ========================================= */
-    /* TOP CYBER TELEMETRY HEADER                */
-    /* ========================================= */
+    /* Handheld GBA Shell (Expands to Maximum Screen) */
+    .handheld-console {
+      background: linear-gradient(145deg, var(--gb-body-light), var(--gb-body), var(--gb-body-dark));
+      border-radius: 36px;
+      padding: 16px 24px 18px 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -4px 8px rgba(0, 0, 0, 0.6);
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      position: relative;
+      border: 3px solid #23163a;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+    }
+
+    /* Top Console Branding & Speaker */
     .console-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 18px;
-      background: linear-gradient(180deg, rgba(14, 18, 44, 0.98) 0%, rgba(9, 12, 28, 0.95) 100%);
-      border-bottom: 1px solid var(--border-cyan);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 243, 255, 0.15);
-      z-index: 30;
-      height: 48px;
+      padding: 0 10px 10px 10px;
       flex-shrink: 0;
+      height: 38px;
     }
-
     .power-light {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 9px;
-      color: var(--neon-cyan);
+      gap: 6px;
+      font-size: 8px;
+      color: #cbd5e1;
       letter-spacing: 1px;
     }
     .power-led {
       width: 10px;
       height: 10px;
-      background: var(--neon-green);
+      background: #22c55e;
       border-radius: 50%;
-      box-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
-      animation: neon-beacon 2s infinite ease-in-out;
+      box-shadow: 0 0 10px #22c55e, inset 0 1px 2px rgba(255,255,255,0.8);
+      animation: pulse-glow 3s infinite;
     }
-    @keyframes neon-beacon {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.85); }
-    }
+    @keyframes pulse-glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
     .console-branding {
       font-size: 13px;
       letter-spacing: 2px;
-      color: var(--neon-cyan);
-      text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px rgba(0, 243, 255, 0.6);
+      color: #d8b4fe;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8), 0 0 10px rgba(168,85,247,0.4);
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-weight: bold;
+      gap: 8px;
     }
     .console-branding span {
-      color: #060713;
-      background: linear-gradient(135deg, var(--neon-pink), #f72585);
-      padding: 2px 7px;
-      border-radius: 4px;
-      font-size: 9px;
-      letter-spacing: 1px;
-      box-shadow: 0 0 12px var(--neon-pink);
-      text-shadow: none;
+      color: #facc15;
+      font-style: italic;
     }
 
-    /* Top Switches & HUD Controls */
     .top-switches {
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .retro-pill-btn {
-      background: rgba(18, 24, 56, 0.85);
-      border: 1px solid var(--border-cyan);
-      color: var(--text-dim);
-      font-family: var(--pixel-font);
-      font-size: 9px;
-      padding: 6px 12px;
+
+    /* Live Keyboard Press HUD Indicator in Top Bar */
+    .hud-key-pill {
+      background: rgba(18, 24, 56, 0.9);
+      border: 1px solid rgba(0, 243, 255, 0.4);
+      color: #00f3ff;
+      font-size: 8px;
+      padding: 4px 10px;
       border-radius: 6px;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 8px rgba(0, 243, 255, 0.2);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      transition: all 0.15s ease;
+      opacity: 0.85;
     }
-    .retro-pill-btn:hover {
-      background: rgba(0, 243, 255, 0.2);
-      color: #fff;
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 12px var(--neon-cyan);
-      transform: translateY(-1px);
-    }
-    .retro-pill-btn.active {
-      background: linear-gradient(135deg, var(--neon-cyan), #00b4d8);
-      color: #060713;
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 14px var(--neon-cyan);
+    .hud-key-pill.active {
+      background: #00f3ff;
+      color: #050814;
+      border-color: #fff;
+      box-shadow: 0 0 14px #00f3ff;
+      transform: scale(1.05);
       font-weight: bold;
     }
 
-    /* ========================================= */
-    /* SCREEN BEZEL & RETRO HUD SCREEN           */
-    /* ========================================= */
+    .retro-pill-btn {
+      background: #1e1b2e;
+      border: 1px solid #4a4563;
+      color: #cbd5e1;
+      font-family: var(--pixel-font);
+      font-size: 8px;
+      padding: 6px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .retro-pill-btn:hover {
+      background: #2e2a44;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .retro-pill-btn.active {
+      background: #facc15;
+      color: #111;
+      border-color: #eab308;
+      box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+    }
+
+    /* Glass Bezel & Screen (Expands Vertically) */
     .screen-bezel {
+      background: #14121c;
+      border-radius: 20px;
+      padding: 10px 14px 12px 14px;
+      box-shadow: inset 0 4px 10px rgba(0,0,0,0.8), 0 2px 4px rgba(255,255,255,0.1);
+      position: relative;
+      border: 3px solid #0d0a14;
       flex: 1;
       display: flex;
       flex-direction: column;
-      width: 100%;
-      height: calc(100vh - 96px);
-      padding: 0;
-      background: transparent;
-      position: relative;
-      overflow: hidden;
-      border: none;
-      box-shadow: none;
-      border-radius: 0;
+      min-height: 0;
+      margin: 2px 0 8px 0;
     }
     .screen-logo-badge {
-      display: none; /* Hide old tiny badge to free up clean view */
+      text-align: center;
+      font-size: 8px;
+      color: #64748b;
+      letter-spacing: 3px;
+      margin-bottom: 6px;
+      flex-shrink: 0;
     }
 
-    /* Internal Retro Screen (Spans full available viewport) */
+    /* Internal Retro LCD Screen */
     .retro-screen {
+      background: var(--screen-lcd);
+      border-radius: 10px;
+      border: 2px solid var(--screen-border);
+      position: relative;
+      overflow: hidden;
       flex: 1;
       display: flex;
       flex-direction: column;
-      width: 100%;
-      height: 100%;
-      position: relative;
-      overflow: hidden;
-      background: rgba(8, 11, 26, 0.82);
-      backdrop-filter: blur(10px);
-      border: none;
-      box-shadow: none;
-      border-radius: 0;
+      min-height: 0;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.85);
     }
 
-    /* CRT Scanlines Overlay */
+    /* CRT Scanline Effect Overlay */
     .scanlines-overlay {
-      position: fixed;
+      position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
-      background-size: 100% 3px;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+      background-size: 100% 3px, 6px 100%;
       pointer-events: none;
-      z-index: 9999;
-      opacity: 0.65;
+      z-index: 99;
+      opacity: 0.7;
     }
     body.no-scanlines .scanlines-overlay { display: none; }
 
-    /* Top Status Bar (Telemetry Row) */
+    /* Screen Top Header Bar */
     .screen-header {
-      background: rgba(12, 16, 38, 0.95);
-      border-bottom: 1px solid rgba(0, 243, 255, 0.2);
-      padding: 8px 24px;
+      background: #142419;
+      border-bottom: 2px solid #2c4a35;
+      padding: 8px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 10px;
+      font-size: 9px;
       z-index: 10;
       flex-shrink: 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
     }
     .header-player-info {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 12px;
     }
     .header-tag {
-      color: var(--neon-cyan);
+      color: #86efac;
       display: flex;
       align-items: center;
-      gap: 6px;
-      text-shadow: 0 0 8px rgba(0, 243, 255, 0.4);
-    }
-    .header-tag span {
-      color: #fff;
+      gap: 4px;
     }
     .header-gold {
-      color: var(--neon-yellow);
+      color: #facc15;
       font-weight: bold;
-      text-shadow: 0 0 10px rgba(255, 230, 0, 0.6);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255, 230, 0, 0.1);
-      padding: 4px 10px;
-      border-radius: 4px;
-      border: 1px solid rgba(255, 230, 0, 0.3);
+      text-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
     }
 
-    /* Screen Navigation Bar (Overworld Locations Dock) */
+    /* Screen Navigation Bar (Overworld Locations) */
     .screen-nav {
-      background: rgba(9, 12, 28, 0.96);
-      border-bottom: 2px solid rgba(0, 243, 255, 0.3);
+      background: #101c14;
+      border-bottom: 2px solid #223b2a;
       display: flex;
-      padding: 0 18px;
-      gap: 6px;
       overflow-x: auto;
       z-index: 10;
       scrollbar-width: none;
       flex-shrink: 0;
     }
     .screen-nav::-webkit-scrollbar { display: none; }
-    
     .nav-tab {
-      background: rgba(15, 20, 48, 0.6);
-      border: 1px solid rgba(0, 243, 255, 0.18);
-      border-bottom: none;
-      border-radius: 6px 6px 0 0;
-      color: var(--text-dim);
+      background: transparent;
+      border: none;
+      border-right: 1px solid #1e3325;
+      color: #94a3b8;
       font-family: var(--pixel-font);
-      font-size: 10px;
-      padding: 10px 16px;
+      font-size: 8px;
+      padding: 8px 12px;
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.15s;
       display: flex;
       align-items: center;
-      gap: 8px;
-      letter-spacing: 0.5px;
+      gap: 5px;
     }
     .nav-tab:hover {
-      background: rgba(0, 243, 255, 0.12);
-      color: var(--neon-cyan);
-      border-color: rgba(0, 243, 255, 0.4);
-      text-shadow: 0 0 8px var(--neon-cyan);
+      background: #1c3023;
+      color: #f8fafc;
     }
     .nav-tab.active {
-      background: linear-gradient(180deg, rgba(0, 243, 255, 0.22) 0%, rgba(13, 18, 42, 0.95) 100%);
-      color: #ffffff;
-      border-color: var(--neon-cyan);
-      box-shadow: 0 -2px 14px rgba(0, 243, 255, 0.3), inset 0 2px 0 var(--neon-cyan);
-      text-shadow: 0 0 10px var(--neon-cyan);
-      font-weight: bold;
+      background: #274531;
+      color: #facc15;
+      box-shadow: inset 0 -3px 0 #facc15;
+    }
+    .nav-tab.key-pressed {
+      background: #facc15 !important;
+      color: #111 !important;
+      box-shadow: 0 0 10px #facc15 !important;
     }
 
-    /* Active Location Content Container (Fills Full Height) */
+    /* Active Location Content Container (Spans Full Remaining Height) */
     .screen-content {
       flex: 1;
-      padding: 18px 24px;
+      padding: 12px 16px;
       position: relative;
       overflow-y: auto;
-      max-height: none;
-      height: 100%;
+      min-height: 0;
     }
     .screen-content::-webkit-scrollbar {
       width: 6px;
     }
-    .screen-content::-webkit-scrollbar-track {
-      background: rgba(6, 8, 20, 0.6);
-    }
     .screen-content::-webkit-scrollbar-thumb {
-      background: rgba(0, 243, 255, 0.3);
+      background: #2c4a35;
       border-radius: 3px;
-    }
-    .screen-content::-webkit-scrollbar-thumb:hover {
-      background: var(--neon-cyan);
     }
 
     .location-pane {
       display: none;
-      animation: cyber-pane-fade 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      min-height: 100%;
+      animation: retro-fade 0.2s ease-out;
+      height: 100%;
     }
     .location-pane.active {
       display: block;
     }
-    @keyframes cyber-pane-fade {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes retro-fade { from { opacity: 0; transform: scale(0.99); } to { opacity: 1; transform: scale(1); } }
 
     /* ========================================= */
-    /* 1. BATTLE ARENA & HUNT CANVAS (WIDESCREEN)*/
+    /* 1. BATTLE SCREEN & ARENA LAYOUT           */
     /* ========================================= */
     .battle-arena-canvas {
-      background: 
-        radial-gradient(ellipse at 50% 80%, rgba(0, 243, 255, 0.12) 0%, rgba(10, 14, 32, 0.95) 70%),
-        linear-gradient(180deg, rgba(8, 10, 22, 0.95) 0%, rgba(15, 20, 48, 0.95) 100%);
-      border: 2px solid var(--border-cyan);
-      border-radius: 12px;
-      padding: 20px 28px;
+      background: #132219 radial-gradient(circle at 50% 30%, #1e3828 0%, #0d1a12 75%);
+      border: 2px solid #2e4d37;
+      border-radius: 8px;
+      padding: 14px 20px;
       position: relative;
-      min-height: calc(100vh - 275px);
+      height: calc(100% - 48px);
+      min-height: 380px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       overflow: hidden;
-      box-shadow: 0 0 30px rgba(0, 243, 255, 0.15), inset 0 0 40px rgba(0, 0, 0, 0.85);
-      width: 100%;
+      box-shadow: inset 0 0 25px rgba(0,0,0,0.7);
+      box-sizing: border-box;
     }
 
-    /* 3D Perspective Cyber Battle Grid Floor */
+    /* Battle Environment Elements */
     .battle-background-decor {
       position: absolute;
-      bottom: 0; left: -20%; right: -20%; height: 55%;
-      background: 
-        linear-gradient(to top, rgba(0, 243, 255, 0.18) 0%, transparent 100%),
-        linear-gradient(0deg, rgba(0, 243, 255, 0.25) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 243, 255, 0.25) 1px, transparent 1px);
-      background-size: 100% 100%, 45px 45px, 45px 45px;
-      transform: perspective(350px) rotateX(55deg);
-      transform-origin: bottom;
+      top: 0; left: 0; right: 0; height: 60%;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02) 1px, transparent 1px, transparent 10px);
       pointer-events: none;
-      opacity: 0.7;
     }
 
-    /* Battle Fields (Ample height & margins so wild pokemon is completely visible) */
+    /* Enemy Upper Field */
     .battle-upper-field {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       position: relative;
-      min-height: 230px;
-      padding: 14px 20px 0 20px;
+      min-height: 140px;
+      padding-top: 4px;
       z-index: 5;
     }
+    /* Player Lower Field */
     .battle-lower-field {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       position: relative;
-      min-height: 210px;
-      padding: 10px 20px 10px 20px;
+      min-height: 140px;
+      padding-bottom: 4px;
       z-index: 5;
     }
 
-    /* Futuristic Cyber Telemetry Status Box */
+    /* Pokémon Battle Status Box (GBA Style) */
     .pokemon-status-box {
-      background: rgba(10, 14, 34, 0.88);
-      border: 1px solid var(--neon-cyan);
+      background: #fbfbf3;
+      border: 3px solid #2f342f;
       border-radius: 8px;
-      padding: 12px 18px;
-      min-width: 260px;
-      box-shadow: 0 0 20px rgba(0, 243, 255, 0.25), inset 0 0 15px rgba(0, 243, 255, 0.08);
-      color: var(--text-white);
-      position: relative;
-      backdrop-filter: blur(6px);
+      padding: 8px 14px;
+      min-width: 230px;
+      box-shadow: 3px 3px 0 #111;
+      color: #111;
     }
     .status-name-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
-      font-size: 11px;
+      margin-bottom: 4px;
+      font-size: 10px;
       font-weight: bold;
-      letter-spacing: 0.5px;
     }
     .status-level {
-      color: var(--neon-yellow);
-      font-size: 10px;
-      background: rgba(255, 230, 0, 0.15);
-      padding: 2px 6px;
-      border-radius: 4px;
-      border: 1px solid rgba(255, 230, 0, 0.3);
+      color: #b45309;
+      font-size: 9px;
     }
 
-    /* HP Bar Container */
+    /* HP Bar */
     .hp-bar-container {
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(4, 6, 16, 0.8);
-      padding: 5px 8px;
+      gap: 6px;
+      background: #2b2b2b;
+      padding: 3px 6px;
       border-radius: 4px;
-      border: 1px solid rgba(0, 243, 255, 0.3);
+      border: 1px solid #111;
     }
     .hp-label {
-      font-size: 9px;
-      color: var(--neon-yellow);
+      font-size: 8px;
+      color: #fbbf24;
       font-weight: bold;
-      letter-spacing: 1px;
     }
     .hp-track {
       flex: 1;
-      height: 9px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 3px;
+      height: 7px;
+      background: #555;
+      border-radius: 2px;
       overflow: hidden;
-      position: relative;
     }
     .hp-fill {
       height: 100%;
       width: 100%;
-      background: linear-gradient(90deg, #00ff88, #00d26a);
-      box-shadow: 0 0 10px rgba(0, 255, 136, 0.7);
-      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease;
+      background: var(--hp-green);
+      transition: width 0.4s ease, background 0.4s ease;
     }
     .hp-text-nums {
-      font-size: 9px;
+      font-size: 8px;
       text-align: right;
-      color: var(--text-dim);
-      margin-top: 6px;
+      color: #111;
+      margin-top: 3px;
       font-family: var(--pixel-font);
-      letter-spacing: 0.5px;
     }
 
-    /* Holographic Battle Platform with proper vertical clearance for 150px sprites */
+    /* Platforms & Sprites with Proper Clearance */
     .battle-platform {
-      width: 240px;
-      height: 52px;
-      background: radial-gradient(ellipse at center, rgba(0, 243, 255, 0.45) 0%, rgba(255, 0, 127, 0.25) 50%, transparent 75%);
+      width: 180px;
+      height: 42px;
+      background: radial-gradient(ellipse at center, #355e43 0%, #1e3a28 65%, transparent 75%);
       border-radius: 50%;
-      border: 1px solid rgba(0, 243, 255, 0.5);
-      box-shadow: 0 0 25px rgba(0, 243, 255, 0.4), inset 0 0 15px rgba(0, 243, 255, 0.3);
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 135px;
-      margin-right: 20px;
-      animation: platform-pulse 4s ease-in-out infinite alternate;
+      margin-top: 100px;
     }
-    .battle-lower-field .battle-platform {
-      margin-top: 120px;
-      margin-left: 20px;
-      margin-right: 0;
-    }
-    @keyframes platform-pulse {
-      0% { box-shadow: 0 0 20px rgba(0, 243, 255, 0.3); }
-      100% { box-shadow: 0 0 35px rgba(0, 243, 255, 0.6), 0 0 15px rgba(255, 0, 127, 0.4); }
-    }
-
     .pokemon-battle-sprite {
-      width: 150px;
-      height: 150px;
+      width: 130px;
+      height: 130px;
       object-fit: contain;
       image-rendering: pixelated;
-      filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 8px rgba(0, 243, 255, 0.25));
+      filter: drop-shadow(0 6px 6px rgba(0,0,0,0.6));
       position: absolute;
-      bottom: 12px;
+      bottom: 8px;
       transition: transform 0.2s;
-      animation: sprite-hover 3s ease-in-out infinite alternate;
     }
-    @keyframes sprite-hover {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-8px); }
-    }
-
     .pokemon-battle-sprite.shake {
       animation: sprite-hit 0.35s ease-in-out;
     }
@@ -576,65 +478,62 @@
 
     @keyframes sprite-hit {
       0%, 100% { transform: translate(0, 0) scale(1); filter: brightness(1); }
-      25% { transform: translate(-10px, -6px) scale(1.08); filter: brightness(2) drop-shadow(0 0 15px red); }
-      75% { transform: translate(10px, 6px) scale(0.92); filter: brightness(0.6); }
+      25% { transform: translate(-8px, -4px) scale(1.05); filter: brightness(2) drop-shadow(0 0 10px red); }
+      75% { transform: translate(8px, 4px) scale(0.95); filter: brightness(0.6); }
     }
     @keyframes lunge-right {
       0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(40px, -20px); }
+      50% { transform: translate(30px, -15px); }
     }
     @keyframes lunge-left {
       0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(-40px, 20px); }
+      50% { transform: translate(-30px, 15px); }
     }
     @keyframes sprite-faint {
       0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(60px); opacity: 0; }
+      100% { transform: translateY(50px); opacity: 0; }
     }
 
     /* Poké Ball Throw Animation */
     .battle-pokeball-throw {
       position: absolute;
-      width: 32px;
-      height: 32px;
-      background: radial-gradient(circle at 50% 40%, #ff0055 0%, #d90429 45%, #111 46%, #111 54%, #ffffff 55%, #e2e8f0 100%);
+      width: 26px;
+      height: 26px;
+      background: radial-gradient(circle at 50% 40%, #ff3b30 0%, #d32f2f 45%, #1e1e1e 46%, #1e1e1e 54%, #ffffff 55%, #f0f0f0 100%);
       border-radius: 50%;
-      border: 2px solid #00f3ff;
-      box-shadow: 0 0 15px #00f3ff;
+      border: 2px solid #111;
       z-index: 50;
       display: none;
     }
 
-    /* Holographic Battle Control Center */
+    /* Retro Dialogue & Action Control Box (Classic GBA 4-Box) */
     .battle-control-box {
-      background: rgba(10, 13, 30, 0.95);
-      border: 2px solid var(--neon-cyan);
-      border-radius: 10px;
+      background: #fbfbf3;
+      border: 3px solid #2f342f;
+      border-radius: 6px;
       display: grid;
       grid-template-columns: 1.4fr 1fr;
-      min-height: 105px;
-      box-shadow: 0 0 25px rgba(0, 243, 255, 0.25);
-      margin-top: 14px;
-      overflow: hidden;
+      min-height: 94px;
+      box-shadow: 0 4px 0 #111;
+      margin-top: 8px;
       z-index: 10;
     }
     .dialogue-text-area {
-      padding: 14px 20px;
-      font-size: 11px;
-      line-height: 1.8;
-      color: #ffffff;
+      padding: 10px 14px;
+      font-size: 9px;
+      line-height: 1.6;
+      color: #111;
       display: flex;
       align-items: center;
-      border-right: 2px solid rgba(0, 243, 255, 0.3);
+      border-right: 3px solid #2f342f;
       position: relative;
-      background: rgba(0, 0, 0, 0.4);
     }
     .dialogue-arrow {
       position: absolute;
-      bottom: 8px;
-      right: 12px;
-      color: var(--neon-pink);
-      font-size: 12px;
+      bottom: 6px;
+      right: 8px;
+      color: #ef4444;
+      font-size: 10px;
       animation: blink-arrow 0.6s infinite alternate;
     }
     @keyframes blink-arrow { from { opacity: 0.2; } to { opacity: 1; } }
@@ -643,132 +542,104 @@
     .battle-actions-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      background: rgba(14, 18, 42, 0.9);
-      padding: 8px;
+      gap: 2px;
+      background: #2f342f;
+      padding: 2px;
     }
     .action-menu-btn {
-      background: rgba(18, 24, 56, 0.85);
-      border: 1px solid rgba(0, 243, 255, 0.3);
-      border-radius: 6px;
+      background: #fbfbf3;
+      border: none;
       font-family: var(--pixel-font);
-      font-size: 11px;
+      font-size: 9px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
-      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-      letter-spacing: 0.5px;
-    }
-    .action-menu-btn:hover {
-      background: var(--neon-cyan);
-      color: #050814;
-      box-shadow: 0 0 15px var(--neon-cyan);
-      transform: translateY(-2px);
-    }
-    #btn-menu-fight:hover {
-      background: var(--neon-pink);
-      border-color: var(--neon-pink);
-      box-shadow: 0 0 15px var(--neon-pink);
-      color: #fff;
-    }
-    #btn-menu-bag:hover {
-      background: var(--neon-yellow);
-      border-color: var(--neon-yellow);
-      box-shadow: 0 0 15px var(--neon-yellow);
+      gap: 4px;
+      transition: all 0.1s;
       color: #111;
     }
-    #btn-menu-pkmn:hover {
-      background: var(--neon-green);
-      border-color: var(--neon-green);
-      box-shadow: 0 0 15px var(--neon-green);
-      color: #111;
+    .action-menu-btn:hover, .action-menu-btn.key-pressed {
+      background: #facc15 !important;
+      color: #000 !important;
+      transform: scale(0.97);
+    }
+    .k-hint {
+      font-size: 8px;
+      color: #b45309;
+      font-weight: bold;
     }
 
     /* 4-Move Selection Grid */
     .moves-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      padding: 6px;
-      background: rgba(14, 18, 42, 0.95);
+      gap: 4px;
+      padding: 4px;
+      background: #2f342f;
       width: 100%;
     }
     .move-btn {
-      background: rgba(18, 24, 56, 0.85);
-      border: 1px solid rgba(0, 243, 255, 0.3);
-      border-radius: 6px;
+      background: #fbfbf3;
+      border: 1px solid #111;
       font-family: var(--pixel-font);
-      font-size: 10px;
-      padding: 8px 6px;
+      font-size: 8px;
+      padding: 6px 4px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
-      color: #fff;
-      transition: all 0.15s;
+      gap: 3px;
+      color: #111;
     }
-    .move-btn:hover {
-      background: rgba(0, 243, 255, 0.25);
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 12px rgba(0, 243, 255, 0.4);
-      transform: translateY(-2px);
+    .move-btn:hover, .move-btn.key-pressed {
+      background: #facc15 !important;
+      color: #000 !important;
+      transform: scale(0.97);
     }
     .move-type-badge {
-      font-size: 8px;
-      padding: 2px 6px;
+      font-size: 7px;
+      padding: 1px 4px;
       border-radius: 3px;
       color: #fff;
-      text-transform: uppercase;
-      font-weight: bold;
     }
 
     /* Out-of-battle Hunt trigger */
     #hunt-trigger-box {
-      margin-top: 14px;
+      margin-top: 10px;
       display: flex;
-      gap: 12px;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
     /* ========================================= */
-    /* 2. ARENA / GYM LEADERS PANE (FULLSCREEN)  */
+    /* 2. ARENA / GYM LEADERS PANE               */
     /* ========================================= */
     .arena-divisions-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
     }
     .arena-card {
-      background: rgba(13, 18, 42, 0.85);
-      border: 1px solid rgba(0, 243, 255, 0.3);
-      border-radius: 10px;
-      padding: 16px;
+      background: #142219;
+      border: 2px solid #2d4a36;
+      border-radius: 8px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      box-shadow: 0 0 18px rgba(0, 243, 255, 0.08);
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      gap: 8px;
       position: relative;
     }
-    .arena-card:hover {
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 25px rgba(0, 243, 255, 0.25);
-      transform: translateY(-2px);
-    }
     .arena-card.completed {
-      border-color: var(--neon-yellow);
-      background: rgba(22, 28, 60, 0.9);
-      box-shadow: 0 0 22px rgba(255, 230, 0, 0.2);
+      border-color: #facc15;
+      background: #1e3323;
     }
     .arena-badge-tag {
-      font-size: 10px;
-      color: var(--neon-yellow);
+      font-size: 8px;
+      color: #facc15;
       display: flex;
       align-items: center;
-      gap: 6px;
-      text-shadow: 0 0 8px rgba(255, 230, 0, 0.4);
+      gap: 4px;
     }
     .arena-title-row {
       display: flex;
@@ -776,222 +647,200 @@
       align-items: center;
     }
     .arena-leader-name {
-      font-size: 13px;
+      font-size: 11px;
       font-weight: bold;
-      color: var(--neon-cyan);
-      text-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
+      color: #86efac;
     }
     .arena-card-team {
       display: flex;
-      gap: 8px;
-      margin: 6px 0;
+      gap: 6px;
+      margin: 4px 0;
     }
     .arena-team-thumb {
-      width: 44px;
-      height: 44px;
-      background: rgba(6, 8, 20, 0.8);
-      border: 1px solid rgba(0, 243, 255, 0.3);
-      border-radius: 6px;
+      width: 40px;
+      height: 40px;
+      background: #0d1711;
+      border: 1px solid #2d4a36;
+      border-radius: 4px;
       object-fit: contain;
       image-rendering: pixelated;
-      transition: transform 0.15s;
-    }
-    .arena-team-thumb:hover {
-      transform: scale(1.1);
-      border-color: var(--neon-cyan);
     }
     .btn-arena-challenge {
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      border: 1px solid var(--neon-cyan);
+      background: #2563eb;
+      border: 2px solid #1d4ed8;
       color: #fff;
       font-family: var(--pixel-font);
-      font-size: 10px;
-      padding: 10px;
-      border-radius: 6px;
+      font-size: 8px;
+      padding: 9px;
+      border-radius: 4px;
       cursor: pointer;
       text-align: center;
-      box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
-      transition: all 0.15s;
-      letter-spacing: 0.5px;
+      box-shadow: 0 2px 0 #1e3a8a;
+      transition: all 0.1s;
     }
     .btn-arena-challenge:hover {
-      background: linear-gradient(135deg, var(--neon-cyan), #00b4d8);
-      color: #060713;
-      box-shadow: 0 0 20px var(--neon-cyan);
-      transform: translateY(-2px);
+      background: #3b82f6;
+      transform: translateY(-1px);
+    }
+    .btn-arena-challenge.key-pressed {
+      background: #facc15 !important;
+      color: #111 !important;
+      border-color: #ca8a04 !important;
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 0 10px #facc15;
     }
 
     /* ========================================= */
-    /* 3. POKÉMON CENTER & PARTY (WIDESCREEN)    */
+    /* 3. POKÉMON CENTER & PARTY PANE            */
     /* ========================================= */
     .poke-center-box {
-      background: rgba(13, 18, 44, 0.85);
-      border: 1px solid var(--neon-pink);
-      border-radius: 10px;
-      padding: 22px;
+      background: #13241b;
+      border: 2px solid #2d4d38;
+      border-radius: 8px;
+      padding: 16px;
       text-align: center;
-      margin-bottom: 20px;
-      box-shadow: 0 0 25px rgba(255, 0, 127, 0.15);
+      margin-bottom: 14px;
     }
     .nurse-joy-avatar {
-      font-size: 48px;
+      font-size: 42px;
       margin-bottom: 8px;
-      filter: drop-shadow(0 0 12px var(--neon-pink));
     }
     .btn-heal-all {
-      background: linear-gradient(135deg, var(--neon-pink), #f72585);
-      border: 1px solid #ff007f;
+      background: #ef4444;
+      border: 2px solid #b91c1c;
       color: #fff;
       font-family: var(--pixel-font);
-      font-size: 11px;
-      padding: 12px 28px;
-      border-radius: 8px;
+      font-size: 9px;
+      padding: 10px 20px;
+      border-radius: 6px;
       cursor: pointer;
-      box-shadow: 0 0 20px rgba(255, 0, 127, 0.5);
-      margin-top: 14px;
-      transition: all 0.2s;
-      letter-spacing: 0.5px;
+      box-shadow: 0 3px 0 #7f1d1d;
+      margin-top: 10px;
+      transition: all 0.1s;
     }
     .btn-heal-all:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 30px var(--neon-pink);
+      background: #f87171;
+    }
+    .btn-heal-all.key-pressed {
+      background: #facc15 !important;
+      color: #111 !important;
+      border-color: #ca8a04 !important;
+      box-shadow: 0 0 12px #facc15 !important;
+      transform: scale(0.96);
     }
 
     .party-slots-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 10px;
     }
     .party-slot-card {
-      background: rgba(13, 18, 42, 0.85);
-      border: 1px solid rgba(0, 243, 255, 0.25);
-      border-radius: 8px;
-      padding: 14px;
+      background: #142219;
+      border: 2px solid #2d4a36;
+      border-radius: 6px;
+      padding: 10px;
       display: flex;
-      gap: 14px;
+      gap: 10px;
       align-items: center;
       position: relative;
-      transition: all 0.2s;
-    }
-    .party-slot-card:hover {
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
     }
     .party-slot-card.leader {
-      border-color: var(--neon-yellow);
-      background: rgba(22, 28, 62, 0.95);
-      box-shadow: 0 0 20px rgba(255, 230, 0, 0.2);
+      border-color: #facc15;
+      background: #1d3324;
     }
     .party-sprite {
-      width: 64px;
-      height: 64px;
+      width: 56px;
+      height: 56px;
       object-fit: contain;
       image-rendering: pixelated;
-      filter: drop-shadow(0 0 6px rgba(0, 243, 255, 0.3));
     }
 
     /* ========================================= */
-    /* 4. POKÉ MART (WIDESCREEN CATALOG)         */
+    /* 4. POKÉ MART PANE                         */
     /* ========================================= */
     .mart-balls-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 10px;
     }
     .mart-ball-item {
-      background: rgba(13, 18, 42, 0.85);
-      border: 1px solid rgba(0, 243, 255, 0.25);
-      border-radius: 8px;
-      padding: 14px;
+      background: #142219;
+      border: 2px solid #2d4a36;
+      border-radius: 6px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      transition: all 0.2s;
-    }
-    .mart-ball-item:hover {
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 20px rgba(0, 243, 255, 0.25);
-      transform: translateY(-2px);
+      gap: 6px;
     }
     .mart-ball-top {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
     }
     .mart-ball-img {
-      width: 44px;
-      height: 44px;
+      width: 38px;
+      height: 38px;
       object-fit: contain;
       image-rendering: pixelated;
-      filter: drop-shadow(0 0 8px rgba(255, 230, 0, 0.4));
     }
 
     /* ========================================= */
-    /* 5. POKÉDEX (FULLSCREEN MULTI-COLUMN)      */
+    /* 5. POKÉDEX PANE                           */
     /* ========================================= */
     .pokedex-retro-nav {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px;
-      background: rgba(13, 18, 44, 0.85);
-      padding: 12px;
-      border: 1px solid rgba(0, 243, 255, 0.3);
-      border-radius: 8px;
-      box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+      gap: 8px;
+      margin-bottom: 12px;
+      background: #142219;
+      padding: 8px;
+      border: 2px solid #2d4a36;
+      border-radius: 6px;
     }
     .pokedex-search-input {
-      background: rgba(6, 8, 20, 0.8);
-      border: 1px solid rgba(0, 243, 255, 0.3);
-      color: var(--neon-cyan);
+      background: #0b140f;
+      border: 1px solid #2d4a36;
+      color: #86efac;
       font-family: var(--pixel-font);
-      font-size: 10px;
-      padding: 8px 12px;
-      border-radius: 6px;
+      font-size: 8px;
+      padding: 6px 8px;
+      border-radius: 4px;
       outline: none;
       flex: 1;
-      min-width: 160px;
-    }
-    .pokedex-search-input:focus {
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 12px var(--neon-cyan);
+      min-width: 140px;
     }
     .pokedex-select {
-      background: rgba(6, 8, 20, 0.8);
-      border: 1px solid rgba(0, 243, 255, 0.3);
-      color: var(--neon-cyan);
+      background: #0b140f;
+      border: 1px solid #2d4a36;
+      color: #86efac;
       font-family: var(--pixel-font);
-      font-size: 10px;
-      padding: 8px 10px;
-      border-radius: 6px;
+      font-size: 8px;
+      padding: 6px;
+      border-radius: 4px;
       outline: none;
-    }
-    .pokedex-select:focus {
-      border-color: var(--neon-cyan);
     }
     .pokedex-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px;
     }
     .dex-slot-card {
-      background: rgba(13, 18, 40, 0.85);
-      border: 1px solid rgba(0, 243, 255, 0.25);
-      border-radius: 8px;
-      padding: 14px 8px;
+      background: #142219;
+      border: 2px solid #2d4a36;
+      border-radius: 6px;
+      padding: 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 6px;
+      gap: 4px;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.15s;
     }
     .dex-slot-card:hover {
-      border-color: var(--neon-pink);
-      background: rgba(22, 28, 64, 0.95);
-      box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
-      transform: translateY(-4px);
+      border-color: #facc15;
+      background: #1e3323;
+      transform: translateY(-2px);
     }
     .dex-slot-card.unowned {
       opacity: 0.35;
@@ -999,225 +848,246 @@
     }
 
     /* ========================================= */
-    /* 6. TRAINER CARD & PASSPORT                */
+    /* 6. TRAINER CARD PANE                      */
     /* ========================================= */
     .trainer-passport {
-      background: rgba(13, 18, 44, 0.9);
-      border: 2px solid var(--neon-yellow);
-      border-radius: 12px;
-      padding: 24px;
-      max-width: 760px;
+      background: #15241b;
+      border: 3px solid #facc15;
+      border-radius: 8px;
+      padding: 16px;
+      max-width: 640px;
       margin: 0 auto;
-      box-shadow: 0 0 35px rgba(255, 230, 0, 0.2);
     }
     .badges-case-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-      margin-top: 16px;
-      padding: 16px;
-      background: rgba(6, 8, 20, 0.85);
-      border: 1px solid rgba(0, 243, 255, 0.3);
-      border-radius: 8px;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 12px;
+      background: #0d1711;
+      border: 2px solid #2d4a36;
+      border-radius: 6px;
       text-align: center;
     }
     .badge-slot {
-      padding: 12px 6px;
-      border-radius: 6px;
-      background: rgba(16, 22, 50, 0.8);
-      font-size: 20px;
-      border: 1px solid transparent;
-      transition: all 0.2s;
+      padding: 8px 4px;
+      border-radius: 4px;
+      background: #142219;
+      font-size: 16px;
     }
     .badge-slot.unlocked {
-      background: rgba(30, 42, 86, 0.95);
-      border: 1px solid var(--neon-yellow);
-      box-shadow: 0 0 16px rgba(255, 230, 0, 0.3);
+      background: #25462f;
+      border: 1px solid #facc15;
+      box-shadow: 0 0 10px rgba(250, 204, 21, 0.4);
     }
 
     /* ========================================= */
-    /* SLEEK BOTTOM ARCADE HOTKEY BAR            */
+    /* CONSOLE HARDWARE CONTROLS (D-Pad, A/B)   */
     /* ========================================= */
     .console-controls {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(180deg, rgba(12, 16, 38, 0.98) 0%, rgba(6, 8, 18, 1) 100%);
-      border-top: 1px solid var(--border-cyan);
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
-      padding: 6px 24px;
-      height: 48px;
-      box-sizing: border-box;
-      z-index: 30;
+      padding: 6px 14px 2px 14px;
       flex-shrink: 0;
+      height: 104px;
     }
     
     /* D-PAD */
     .d-pad-container {
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      width: 108px;
+      height: 108px;
+      position: relative;
     }
     .d-pad-btn {
-      background: rgba(18, 24, 56, 0.85);
-      border: 1px solid var(--border-cyan);
-      width: 28px;
-      height: 28px;
-      border-radius: 4px;
+      position: absolute;
+      background: #1f1b2b;
+      border: 2px solid #14111d;
+      width: 36px;
+      height: 36px;
       cursor: pointer;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: var(--neon-cyan);
-      font-size: 11px;
-      transition: all 0.15s;
+      color: #94a3b8;
+      font-size: 10px;
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.25), 0 3px 6px rgba(0,0,0,0.6);
+      transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
     }
-    .d-pad-btn:active {
-      background: var(--neon-cyan);
-      color: #060713;
-      transform: scale(0.92);
+    .d-pad-btn .d-sub {
+      font-size: 6px;
+      color: #64748b;
+      margin-top: 1px;
     }
-    .d-pad-center { display: none; }
+    .d-pad-btn:active, .d-pad-btn.key-pressed {
+      background: #443c5d !important;
+      color: #facc15 !important;
+      transform: scale(0.92) !important;
+      box-shadow: 0 0 10px #facc15, inset 0 2px 4px rgba(0,0,0,0.8) !important;
+    }
+    .d-pad-up { top: 0; left: 36px; border-radius: 6px 6px 0 0; }
+    .d-pad-down { bottom: 0; left: 36px; border-radius: 0 0 6px 6px; }
+    .d-pad-left { top: 36px; left: 0; border-radius: 6px 0 0 6px; }
+    .d-pad-right { top: 36px; right: 0; border-radius: 0 6px 6px 0; }
+    .d-pad-center {
+      position: absolute;
+      top: 36px; left: 36px;
+      width: 36px; height: 36px;
+      background: #1f1b2b;
+      pointer-events: none;
+    }
 
-    /* Middle Select & Start / Hotkey Indicators */
+    /* Middle Select & Start */
     .console-middle-buttons {
       display: flex;
-      gap: 16px;
+      gap: 22px;
       align-items: center;
     }
     .pill-key {
       display: flex;
+      flex-direction: column;
       align-items: center;
       gap: 6px;
     }
     .pill-key-btn {
-      background: rgba(22, 28, 64, 0.85);
-      border: 1px solid var(--border-cyan);
-      border-radius: 4px;
-      padding: 4px 10px;
-      color: var(--text-dim);
-      font-family: var(--pixel-font);
-      font-size: 9px;
+      width: 52px;
+      height: 15px;
+      background: #2a253a;
+      border: 1px solid #14111d;
+      border-radius: 8px;
+      transform: rotate(-25deg);
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-      transition: all 0.15s;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.6);
+      transition: all 0.1s;
     }
-    .pill-key-btn:hover {
-      border-color: var(--neon-cyan);
-      color: #fff;
+    .pill-key-btn:active, .pill-key-btn.key-pressed {
+      background: #facc15 !important;
+      box-shadow: 0 0 10px #facc15 !important;
+      transform: rotate(-25deg) scale(0.92) !important;
     }
     .pill-key-label {
-      font-size: 9px;
-      color: var(--text-dim);
-      letter-spacing: 0.5px;
+      font-size: 7px;
+      color: #cbd5e1;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .pill-key-label .sub-key {
+      color: #facc15;
     }
 
     /* A & B Action Buttons */
     .ab-buttons-container {
       display: flex;
-      gap: 14px;
+      gap: 16px;
+      transform: rotate(-22deg);
       align-items: center;
     }
     .action-circle-btn-wrap {
       display: flex;
+      flex-direction: column;
       align-items: center;
       gap: 6px;
     }
     .action-circle-btn {
-      width: 30px;
-      height: 30px;
-      border-radius: 6px;
-      background: linear-gradient(135deg, var(--neon-pink), #a855f7);
-      border: 1px solid var(--neon-pink);
-      box-shadow: 0 0 10px rgba(255, 0, 127, 0.4);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #a855f7, #6b21a8);
+      border: 2px solid #3b0764;
+      box-shadow: 0 5px 8px rgba(0,0,0,0.7), inset 0 2px 4px rgba(255,255,255,0.4);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: var(--pixel-font);
-      font-size: 11px;
+      font-size: 12px;
       color: #fff;
-      transition: all 0.15s;
+      text-shadow: 0 1px 2px #000;
+      transition: transform 0.1s, box-shadow 0.1s;
     }
-    .action-circle-btn:active {
-      transform: scale(0.92);
-      box-shadow: 0 0 16px var(--neon-pink);
+    .action-circle-btn:active, .action-circle-btn.key-pressed {
+      transform: scale(0.92) !important;
+      background: #c084fc !important;
+      box-shadow: 0 0 15px #c084fc, inset 0 2px 4px rgba(0,0,0,0.8) !important;
     }
     .action-circle-btn.btn-a {
-      background: linear-gradient(135deg, var(--neon-cyan), #00b4d8);
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
-      color: #060713;
-      font-weight: bold;
+      background: linear-gradient(145deg, #ef4444, #991b1b);
+      border-color: #450a0a;
+    }
+    .action-circle-btn.btn-a:active, .action-circle-btn.btn-a.key-pressed {
+      background: #f87171 !important;
+      box-shadow: 0 0 15px #f87171, inset 0 2px 4px rgba(0,0,0,0.8) !important;
     }
 
-    /* Modal Details Window */
+    /* Modal Details */
     .retro-modal-backdrop {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(4, 6, 16, 0.88);
-      backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.85);
       z-index: 1000;
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      padding: 10px;
     }
     .retro-modal-backdrop.open { display: flex; }
     .retro-modal-window {
-      background: rgba(13, 18, 44, 0.98);
-      border: 2px solid var(--neon-cyan);
-      border-radius: 12px;
-      padding: 24px;
-      max-width: 520px;
+      background: #14241b;
+      border: 4px solid #facc15;
+      border-radius: 8px;
+      padding: 16px;
+      max-width: 480px;
       width: 100%;
-      box-shadow: 0 0 40px rgba(0, 243, 255, 0.35);
+      box-shadow: 0 0 30px rgba(0,0,0,0.9);
       position: relative;
     }
 
     /* Type Badges */
     .type-badge {
-      font-size: 8px;
-      padding: 3px 8px;
-      border-radius: 4px;
+      font-size: 7px;
+      padding: 2px 6px;
+      border-radius: 3px;
       color: #fff;
       display: inline-block;
       text-transform: uppercase;
       font-weight: bold;
-      letter-spacing: 0.5px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.5);
     }
   </style>
 </head>
 <body>
 
-  <!-- Animated Cyber Space Grid -->
-  <div class="cyber-space-bg"></div>
-
-  <!-- Fullscreen Arcade Cockpit Console -->
+  <!-- Handheld Console Frame (Utilizes Maximum Screen Area) -->
   <div class="handheld-console">
 
-    <!-- Top Telemetry Header -->
+    <!-- Top Console Header -->
     <div class="console-top">
       <div class="power-light">
         <div class="power-led"></div>
-        <span>SYS.READY</span>
+        <span>POWER</span>
       </div>
 
       <div class="console-branding">
-        POKÉDASH <span>ADVANCE 2088</span>
+        POKÉDASH <span>ADVANCE</span>
       </div>
 
       <div class="top-switches">
+        <div class="hud-key-pill" id="hud-key-pill">
+          <span>KEY:</span> <span id="hud-key-val">READY</span>
+        </div>
         <button id="toggle-sound" class="retro-pill-btn active">🔊 SFX ON</button>
         <button id="toggle-scanlines" class="retro-pill-btn active">📺 CRT</button>
-        <button id="toggle-screen-mode" class="retro-pill-btn">⛶ EXPAND</button>
+        <button id="toggle-screen-mode" class="retro-pill-btn">⏹ FULL</button>
       </div>
     </div>
 
     <!-- Screen Bezel -->
     <div class="screen-bezel">
-      <!-- Internal Retro Screen -->
+      <div class="screen-logo-badge">DOT MATRIX WITH STEREO SOUND</div>
+
+      <!-- Internal Retro LCD Screen -->
       <div class="retro-screen" id="retro-screen">
         <div class="scanlines-overlay"></div>
 
@@ -1225,24 +1095,24 @@
         <div class="screen-header">
           <div class="header-player-info">
             <span class="header-tag">👤 <span id="header-trainer-name">TRAINER</span></span>
-            <span class="header-tag">LV.<span id="header-trainer-level">1</span></span>
+            <span class="header-tag">LV. <span id="header-trainer-level">1</span></span>
           </div>
           <div class="header-gold">
             P$ <span id="header-gold-val">0</span>
           </div>
         </div>
 
-        <!-- Location Navigation Tabs -->
+        <!-- Location Navigation Tabs with Keyboard Hints -->
         <div class="screen-nav">
           <button class="nav-tab active" data-tab="hunt">🌾 TALL GRASS</button>
           <button class="nav-tab" data-tab="arena">🏟️ ARENA FIGHTS</button>
           <button class="nav-tab" data-tab="center">🏥 POKÉ CENTER</button>
           <button class="nav-tab" data-tab="mart">🏪 POKÉ MART</button>
-          <button class="nav-tab" data-tab="dex">📖 POKÉDEX</button>
+          <button class="nav-tab" data-tab="dex">📕 POKÉDEX</button>
           <button class="nav-tab" data-tab="trainer">💳 TRAINER CARD</button>
         </div>
 
-        <!-- Screen Content Container (Spans 100% Height) -->
+        <!-- Screen Content Container (Spans 100% of available space) -->
         <div class="screen-content">
 
           <!-- 1. TALL GRASS & WILD BATTLE PANE -->
@@ -1254,7 +1124,7 @@
               <!-- Ball Throw Sprite -->
               <div id="ball-throw-anim" class="battle-pokeball-throw"></div>
 
-              <!-- Upper Field (Wild Pokémon) -->
+              <!-- Upper Field (Wild Pokémon with platform & status box) -->
               <div class="battle-upper-field">
                 <div class="pokemon-status-box">
                   <div class="status-name-row">
@@ -1275,7 +1145,7 @@
                 </div>
               </div>
 
-              <!-- Lower Field (Player Pokémon) -->
+              <!-- Lower Field (Player Pokémon with platform & status box) -->
               <div class="battle-lower-field">
                 <div class="battle-platform">
                   <img id="player-sprite" class="pokemon-battle-sprite" src="" alt="Player Pokemon" />
@@ -1296,14 +1166,14 @@
                 </div>
               </div>
 
-              <!-- Control & Action Dialogue Box -->
+              <!-- Control & Action Dialogue Box (Classic GBA 4-quadrant Menu) -->
               <div class="battle-control-box">
                 <div class="dialogue-text-area" id="dialogue-text">
-                  A wild encounter is ready! Choose FIGHT to attack or BAG to catch!
+                  The tall grass rustles quietly. Press [SEARCH TALL GRASS] to hunt wild Pokémon!
                   <span class="dialogue-arrow">▼</span>
                 </div>
 
-                <!-- Main Action Menu (Fight, Bag, Pkmn, Run) with keyboard hints -->
+                <!-- Main Action Menu (Fight, Bag, Pkmn, Run) with key indicators -->
                 <div class="battle-actions-grid" id="main-actions-grid">
                   <button class="action-menu-btn" id="btn-menu-fight"><span class="k-hint">[1]</span> ⚔️ FIGHT</button>
                   <button class="action-menu-btn" id="btn-menu-bag"><span class="k-hint">[2]</span> 🎒 BAG</button>
@@ -1324,13 +1194,13 @@
 
             </div>
 
-            <!-- Out-of-battle Hunt trigger -->
+            <!-- Out-of-battle Hunt trigger with indicators -->
             <div id="hunt-trigger-box">
-              <button id="btn-hunt-grass" class="btn-arena-challenge" style="flex: 2; padding: 14px; font-size: 11px; background: linear-gradient(135deg, #15803d, #16a34a); border-color: var(--neon-green); box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);">
-                <span class="k-hint">[SPACE]</span> 🌾 SEARCH TALL GRASS (+5 XP)
+              <button id="btn-hunt-grass" class="btn-arena-challenge" style="flex: 2; padding: 12px; font-size: 9px; background: #15803d; border-color: #166534;">
+                <span class="k-hint" style="color:#facc15;">[SPACE]</span> 🌾 SEARCH TALL GRASS FOR WILD POKÉMON (+5 XP)
               </button>
-              <button id="btn-play-cry" class="btn-arena-challenge" style="flex: 1; padding: 14px; font-size: 11px; background: rgba(18, 24, 56, 0.85); border-color: var(--neon-cyan);">
-                <span class="k-hint">[C]</span> 🔊 CRY
+              <button id="btn-play-cry" class="btn-arena-challenge" style="flex: 1; padding: 12px; font-size: 8px; background: #334155; border-color: #1e293b;">
+                <span class="k-hint" style="color:#facc15;">[C]</span> 🔊 CRY
               </button>
             </div>
 
@@ -1338,9 +1208,9 @@
 
           <!-- 2. ARENA & GYM LEAGUE PANE -->
           <div id="pane-arena" class="location-pane">
-            <div style="font-size: 12px; color: var(--neon-yellow); margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
-              <span>🏆 CYBER ARENA & GYM LEADER BATTLES</span>
-              <span id="arena-badges-count" style="color: var(--neon-green);">Badges: 0 / 10</span>
+            <div style="font-size: 10px; color: #facc15; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <span>🏆 CHAMPION ARENA & GYM BATTLES</span>
+              <span id="arena-badges-count" style="color: #86efac;">Badges: 0 / 10</span>
             </div>
             
             <div class="arena-divisions-grid" id="arena-divisions-grid">
@@ -1352,15 +1222,15 @@
           <div id="pane-center" class="location-pane">
             <div class="poke-center-box">
               <div class="nurse-joy-avatar">👩‍⚕️</div>
-              <div style="font-size: 13px; color: var(--neon-pink); margin-bottom: 6px; font-weight: bold;">CYBER POKÉMON CENTER</div>
-              <p style="font-size: 9px; color: #cbd5e1; line-height: 1.8; max-width: 580px; margin: 0 auto;">
-                Welcome to the Medical Pod Bay! Nurse Joy can restore your entire team to peak battle readiness instantly!
+              <div style="font-size: 11px; color: #f472b6; margin-bottom: 4px; font-weight: bold;">POKÉMON CENTER</div>
+              <p style="font-size: 8px; color: #cbd5e1; line-height: 1.6; max-width: 520px; margin: 0 auto;">
+                Welcome to the Pokémon Center! Nurse Joy can restore your battle party to full health anytime!
               </p>
-              <button id="btn-nurse-heal" class="btn-heal-all">💖 RESTORE TEAM HP</button>
+              <button id="btn-nurse-heal" class="btn-heal-all"><span class="k-hint" style="color:#facc15;">[H]</span> 💖 RESTORE TEAM HP</button>
             </div>
 
-            <div style="font-size: 11px; color: var(--neon-yellow); margin-bottom: 12px;">
-              ACTIVE BATTLE SQUAD (MAX 6)
+            <div style="font-size: 10px; color: #facc15; margin-bottom: 8px;">
+              YOUR BATTLE PARTY (MAX 6)
             </div>
 
             <div class="party-slots-grid" id="party-slots-grid">
@@ -1370,13 +1240,13 @@
 
           <!-- 4. POKÉ MART PANE -->
           <div id="pane-mart" class="location-pane">
-            <div style="background: rgba(13, 18, 44, 0.85); border: 1px solid var(--neon-cyan); border-radius: 8px; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);">
+            <div style="background: #142219; border: 2px solid #2d4a36; border-radius: 6px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
               <div>
-                <div style="font-size: 12px; color: var(--neon-cyan); margin-bottom: 4px; font-weight: bold;">🏪 CYBER POKÉ MART SHOPKEEPER</div>
-                <div style="font-size: 9px; color: #cbd5e1;">Stock up on specialized capture modules to catch legendary specimens!</div>
+                <div style="font-size: 10px; color: #60a5fa; margin-bottom: 4px; font-weight: bold;">🏪 POKÉ MART SHOPKEEPER</div>
+                <div style="font-size: 8px; color: #cbd5e1;">Stock up on specialized Poké Balls to catch rare species!</div>
               </div>
-              <button id="btn-mart-selldupes" class="btn-arena-challenge" style="background: linear-gradient(135deg, #15803d, #16a34a); border-color: var(--neon-green);">
-                💰 SELL DUPES FOR CASH
+              <button id="btn-mart-selldupes" class="btn-arena-challenge" style="background: #15803d; border-color: #166534;">
+                💰 SELL DUPES
               </button>
             </div>
 
@@ -1388,7 +1258,7 @@
           <!-- 5. POKÉDEX PANE -->
           <div id="pane-dex" class="location-pane">
             <div class="pokedex-retro-nav">
-              <input type="text" id="dex-filter-search" class="pokedex-search-input" placeholder="Search name or dex number..." />
+              <input type="text" id="dex-filter-search" class="pokedex-search-input" placeholder="Search name/#..." />
               <select id="dex-filter-gen" class="pokedex-select">
                 <option value="">Gens I-IX (All)</option>
                 <option value="1">Gen I (#1-151)</option>
@@ -1415,21 +1285,21 @@
           <!-- 6. TRAINER CARD PANE -->
           <div id="pane-trainer" class="location-pane">
             <div class="trainer-passport">
-              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 243, 255, 0.3); padding-bottom: 10px; margin-bottom: 16px;">
-                <div style="font-size: 13px; color: var(--neon-yellow); font-weight: bold;">CYBER TRAINER PASSPORT</div>
-                <div style="font-size: 9px; color: var(--neon-cyan);" id="card-id-no">IDNo. 40821</div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2d4a36; padding-bottom: 8px; margin-bottom: 12px;">
+                <div style="font-size: 11px; color: #facc15; font-weight: bold;">TRAINER PASSPORT</div>
+                <div style="font-size: 8px; color: #94a3b8;" id="card-id-no">IDNo. 40821</div>
               </div>
 
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 10px; margin-bottom: 18px;">
-                <div>NAME: <span id="card-name" style="color: var(--neon-cyan);">TRAINER</span></div>
-                <div>LEVEL: <span id="card-level" style="color: var(--neon-green);">1</span></div>
-                <div>MONEY: <span id="card-money" style="color: var(--neon-yellow);">P$ 0</span></div>
-                <div>POKÉDEX: <span id="card-dex-count" style="color: var(--neon-pink);">0 / 1025</span></div>
-                <div>HUNTS: <span id="card-hunts" style="color: var(--neon-purple);">0</span></div>
-                <div>ARENA WINS: <span id="card-arena-wins" style="color: var(--neon-blue);">0</span></div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 8px; margin-bottom: 14px;">
+                <div>NAME: <span id="card-name" style="color: #60a5fa;">TRAINER</span></div>
+                <div>LEVEL: <span id="card-level" style="color: #4ade80;">1</span></div>
+                <div>MONEY: <span id="card-money" style="color: #facc15;">P$ 0</span></div>
+                <div>POKÉDEX: <span id="card-dex-count" style="color: #f472b6;">0 / 1025</span></div>
+                <div>HUNTS: <span id="card-hunts" style="color: #a78bfa;">0</span></div>
+                <div>ARENA WINS: <span id="card-arena-wins" style="color: #38bdf8;">0</span></div>
               </div>
 
-              <div style="font-size: 11px; color: var(--neon-yellow); margin-bottom: 8px;">BADGES CASE</div>
+              <div style="font-size: 9px; color: #facc15; margin-bottom: 6px;">BADGES CASE</div>
               <div class="badges-case-grid" id="badges-case-grid">
                 <!-- 10 Badges -->
               </div>
@@ -1440,24 +1310,34 @@
       </div>
     </div>
 
-    <!-- Retro-Futuristic Hotkey & Controller Bar -->
+    <!-- Handheld Console Physical Hardware Controls with Key Indicators -->
     <div class="console-controls">
-      <!-- D-Pad Navigation Buttons -->
+      <!-- D-Pad -->
       <div class="d-pad-container">
-        <button class="d-pad-btn" id="key-up">▲</button>
-        <button class="d-pad-btn" id="key-left">◀</button>
-        <button class="d-pad-btn" id="key-down">▼</button>
-        <button class="d-pad-btn" id="key-right">▶</button>
+        <button class="d-pad-btn d-pad-up" id="key-up">
+          ▲<span class="d-sub">W/↑</span>
+        </button>
+        <button class="d-pad-btn d-pad-left" id="key-left">
+          ◀<span class="d-sub">A/←</span>
+        </button>
+        <div class="d-pad-center"></div>
+        <button class="d-pad-btn d-pad-right" id="key-right">
+          ▶<span class="d-sub">D/→</span>
+        </button>
+        <button class="d-pad-btn d-pad-down" id="key-down">
+          ▼<span class="d-sub">S/↓</span>
+        </button>
       </div>
 
-      <!-- Select / Start Hotkeys -->
+      <!-- Select / Start -->
       <div class="console-middle-buttons">
         <div class="pill-key">
-          <button class="pill-key-btn" id="key-select">SPACE</button>
-          <span class="pill-key-label">HUNT / TAB</span>
+          <button class="pill-key-btn" id="key-select"></button>
+          <span class="pill-key-label">SELECT <span class="sub-key">[SPACE]</span></span>
         </div>
         <div class="pill-key">
-          <span class="pill-key-label" style="color:var(--neon-cyan);">KEYS: [1-4] BATTLE/MOVES • [Q/E] TABS • [H] HEAL • [C] CRY • [ESC] BACK</span>
+          <button class="pill-key-btn" id="key-start"></button>
+          <span class="pill-key-label">START <span class="sub-key">[ENTER]</span></span>
         </div>
       </div>
 
@@ -1465,11 +1345,11 @@
       <div class="ab-buttons-container">
         <div class="action-circle-btn-wrap">
           <button class="action-circle-btn" id="key-b">B</button>
-          <span class="pill-key-label">[X/ESC]</span>
+          <span class="pill-key-label"><span class="sub-key">[X/ESC]</span> CANCEL</span>
         </div>
         <div class="action-circle-btn-wrap">
           <button class="action-circle-btn btn-a" id="key-a">A</button>
-          <span class="pill-key-label">[Z/ENTER]</span>
+          <span class="pill-key-label"><span class="sub-key">[Z/ENTER]</span> ACTION</span>
         </div>
       </div>
     </div>
@@ -1479,7 +1359,7 @@
   <!-- Retro Details Modal -->
   <div id="retro-modal" class="retro-modal-backdrop">
     <div class="retro-modal-window">
-      <button id="modal-close" style="position: absolute; top: 12px; right: 14px; background: transparent; border: none; color: var(--neon-pink); font-size: 18px; cursor: pointer;">&times;</button>
+      <button id="modal-close" style="position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: #ef4444; font-size: 16px; cursor: pointer;">&times;</button>
       <div id="modal-body-content"></div>
     </div>
   </div>
@@ -2334,85 +2214,94 @@
       });
     }
 
-    // ============================================================
-    // HARDWARE CONTROLS & KEYBOARD LISTENERS
-    // ============================================================
-    // Sound Toggle
-    document.getElementById('toggle-sound').addEventListener('click', (e) => {
-      soundEnabled = !soundEnabled;
-      e.target.classList.toggle('active', soundEnabled);
-      e.target.textContent = soundEnabled ? '🔊 SFX ON' : '🔇 SFX OFF';
-    });
-
-    // CRT Scanlines Toggle
-    document.getElementById('toggle-scanlines').addEventListener('click', (e) => {
-      document.body.classList.toggle('no-scanlines');
-      const has = !document.body.classList.contains('no-scanlines');
-      e.target.classList.toggle('active', has);
-    });
-
-    // Screen-only / Fullscreen Toggle
-    document.getElementById('toggle-screen-mode').addEventListener('click', (e) => {
-      document.body.classList.toggle('screen-only');
-      const isScreenOnly = document.body.classList.contains('screen-only');
-      e.target.textContent = isScreenOnly ? '📱 GBA' : '🔲 FULL';
-    });
-
-    // Console Button Bindings (A, B, Select, Start, D-Pad)
-    document.getElementById('key-a').addEventListener('click', () => {
-      SFX.confirm();
-      // If modal open, close it
-      const modal = document.getElementById('retro-modal');
-      if (modal.classList.contains('open')) {
-        modal.classList.remove('open');
-        return;
-      }
-      // Trigger default action in view
-      const activeTab = document.querySelector('.location-pane.active');
-      if (activeTab && activeTab.id === 'pane-hunt') {
-        const fightBtn = document.getElementById('btn-menu-fight');
-        if (fightBtn && fightBtn.offsetParent !== null) fightBtn.click();
-      }
-    });
-
-    document.getElementById('key-b').addEventListener('click', () => {
-      SFX.cancel();
-      const modal = document.getElementById('retro-modal');
-      if (modal.classList.contains('open')) {
-        modal.classList.remove('open');
-        return;
-      }
-      showMainActionsMenu();
-    });
-
-    document.getElementById('key-select').addEventListener('click', () => {
-      SFX.blip();
-      // Cycle tabs
-      const tabs = Array.from(document.querySelectorAll('.nav-tab'));
-      const activeIdx = tabs.findIndex(t => t.classList.contains('active'));
-      const nextIdx = (activeIdx + 1) % tabs.length;
-      tabs[nextIdx].click();
-    });
-
-    document.getElementById('key-start').addEventListener('click', () => {
-      SFX.confirm();
-      document.querySelector('[data-tab="trainer"]').click();
-    });
-
         // ============================================================
-    // COMPREHENSIVE INTUITIVE KEYBOARD GAMEPLAY CONTROLLER
+    // DYNAMIC KEYPRESS FEEDBACK & FULL KEYBOARD GAME CONTROLLER
     // ============================================================
+    const hudPill = document.getElementById('hud-key-pill');
+    const hudVal = document.getElementById('hud-key-val');
+
+    function flashKeyHUD(label) {
+      if (!hudPill || !hudVal) return;
+      hudVal.textContent = label;
+      hudPill.classList.add('active');
+    }
+
+    function clearKeyHUD() {
+      if (!hudPill) return;
+      hudPill.classList.remove('active');
+    }
+
+    // Map physical keys to visual elements
+    function getElementsForKey(key) {
+      const lower = key.toLowerCase();
+      const elements = [];
+
+      // D-Pad
+      if (key === 'ArrowUp' || lower === 'w') elements.push(document.getElementById('key-up'));
+      if (key === 'ArrowDown' || lower === 's') elements.push(document.getElementById('key-down'));
+      if (key === 'ArrowLeft' || lower === 'a') elements.push(document.getElementById('key-left'));
+      if (key === 'ArrowRight' || lower === 'd') elements.push(document.getElementById('key-right'));
+
+      // Action A
+      if (lower === 'z' || key === 'Enter') elements.push(document.getElementById('key-a'));
+
+      // Action B
+      if (lower === 'x' || key === 'Escape' || key === 'Backspace') elements.push(document.getElementById('key-b'));
+
+      // SELECT / START
+      if (key === ' ') {
+        elements.push(document.getElementById('key-select'));
+        const huntBtn = document.getElementById('btn-hunt-grass');
+        if (huntBtn && huntBtn.offsetParent !== null) elements.push(huntBtn);
+      }
+      if (key === 'Enter') elements.push(document.getElementById('key-start'));
+
+      // Number keys 1, 2, 3, 4
+      if (key === '1') {
+        const moves = document.querySelectorAll('#moves-selection-grid .move-btn');
+        if (moves[0] && moves[0].offsetParent !== null) elements.push(moves[0]);
+        else elements.push(document.getElementById('btn-menu-fight'));
+      }
+      if (key === '2') {
+        const moves = document.querySelectorAll('#moves-selection-grid .move-btn');
+        if (moves[1] && moves[1].offsetParent !== null) elements.push(moves[1]);
+        else elements.push(document.getElementById('btn-menu-bag'));
+      }
+      if (key === '3') {
+        const moves = document.querySelectorAll('#moves-selection-grid .move-btn');
+        if (moves[2] && moves[2].offsetParent !== null) elements.push(moves[2]);
+        else elements.push(document.getElementById('btn-menu-pkmn'));
+      }
+      if (key === '4') {
+        const moves = document.querySelectorAll('#moves-selection-grid .move-btn');
+        if (moves[3] && moves[3].offsetParent !== null) elements.push(moves[3]);
+        else elements.push(document.getElementById('btn-menu-run'));
+      }
+
+      // Quick actions
+      if (lower === 'c') elements.push(document.getElementById('btn-play-cry'));
+      if (lower === 'h') elements.push(document.getElementById('btn-nurse-heal'));
+
+      return elements.filter(Boolean);
+    }
+
     window.addEventListener('keydown', (e) => {
-      // Allow normal typing inside search inputs
+      // Don't intercept typing in inputs
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
         if (e.key === 'Escape') e.target.blur();
         return;
       }
 
       const key = e.key;
+      const lower = key.toLowerCase();
+
+      // Visual depression effect on keyboard keys
+      const matched = getElementsForKey(key);
+      matched.forEach(el => el.classList.add('key-pressed'));
+      flashKeyHUD(key === ' ' ? 'SPACE' : key.toUpperCase());
 
       // 1. ESC / Back / Cancel / X
-      if (key === 'Escape' || key === 'x' || key === 'X' || key === 'Backspace') {
+      if (key === 'Escape' || lower === 'x' || key === 'Backspace') {
         e.preventDefault();
         const modal = document.getElementById('retro-modal');
         if (modal && modal.classList.contains('open')) {
@@ -2432,7 +2321,7 @@
         const bagGrid = document.getElementById('bag-selection-grid');
         const mainGrid = document.getElementById('main-actions-grid');
 
-        // A. If Moves selection is open: pick move 1-4
+        // Moves selection active
         if (movesGrid && movesGrid.style.display !== 'none') {
           e.preventDefault();
           const moveBtns = movesGrid.querySelectorAll('.move-btn');
@@ -2442,7 +2331,7 @@
           }
         }
 
-        // B. If Bag selection is open: throw ball 1-4
+        // Bag selection active
         if (bagGrid && bagGrid.style.display !== 'none') {
           e.preventDefault();
           const ballBtns = bagGrid.querySelectorAll('.move-btn');
@@ -2452,7 +2341,7 @@
           }
         }
 
-        // C. If Main Battle Actions menu is open:
+        // Main Battle Actions
         const activeTab = document.querySelector('.location-pane.active');
         if (activeTab && activeTab.id === 'pane-hunt' && mainGrid && mainGrid.style.display !== 'none') {
           e.preventDefault();
@@ -2464,25 +2353,25 @@
         }
       }
 
-      // 3. Battle Action Letter Keys: F (Fight), B (Bag), P (Party/Center), R (Run)
-      if (key === 'f' || key === 'F') {
+      // 3. Letters F, B, P, R for Battle Actions
+      if (lower === 'f') {
         const btn = document.getElementById('btn-menu-fight');
         if (btn && btn.offsetParent !== null) { e.preventDefault(); btn.click(); return; }
       }
-      if (key === 'b' || key === 'B') {
+      if (lower === 'b') {
         const btn = document.getElementById('btn-menu-bag');
         if (btn && btn.offsetParent !== null) { e.preventDefault(); btn.click(); return; }
       }
-      if (key === 'p' || key === 'P') {
+      if (lower === 'p') {
         const btn = document.getElementById('btn-menu-pkmn');
         if (btn && btn.offsetParent !== null) { e.preventDefault(); btn.click(); return; }
       }
-      if (key === 'r' || key === 'R') {
+      if (lower === 'r') {
         const btn = document.getElementById('btn-menu-run');
         if (btn && btn.offsetParent !== null) { e.preventDefault(); btn.click(); return; }
       }
 
-      // 4. Spacebar: Search Tall Grass (or select/confirm)
+      // 4. Spacebar: Search Tall Grass (or select)
       if (key === ' ' || key === 'Spacebar') {
         e.preventDefault();
         const activeTab = document.querySelector('.location-pane.active');
@@ -2493,26 +2382,24 @@
             return;
           }
         }
-        // Cycle tabs if not hunting
         document.getElementById('key-select').click();
         return;
       }
 
-      // 5. Cry shortcut: C
-      if (key === 'c' || key === 'C') {
+      // 5. C key: Cry
+      if (lower === 'c') {
         const cryBtn = document.getElementById('btn-play-cry');
         if (cryBtn && cryBtn.offsetParent !== null) { e.preventDefault(); cryBtn.click(); return; }
       }
 
-      // 6. Heal team shortcut: H
-      if (key === 'h' || key === 'H') {
+      // 6. H key: Heal
+      if (lower === 'h') {
         const healBtn = document.getElementById('btn-nurse-heal');
         if (healBtn && healBtn.offsetParent !== null) {
           e.preventDefault();
           healBtn.click();
           return;
         } else {
-          // Switch to Pokémon center tab and heal
           const centerTab = document.querySelector('[data-tab="center"]');
           if (centerTab) {
             e.preventDefault();
@@ -2526,8 +2413,8 @@
         }
       }
 
-      // 7. Tab switching: Q / E or ArrowLeft / ArrowRight
-      if (key === 'q' || key === 'Q' || key === 'ArrowLeft') {
+      // 7. Q / E or ArrowLeft / ArrowRight for Tabs
+      if (lower === 'q' || key === 'ArrowLeft') {
         e.preventDefault();
         const tabs = Array.from(document.querySelectorAll('.nav-tab'));
         const activeIdx = tabs.findIndex(t => t.classList.contains('active'));
@@ -2535,7 +2422,7 @@
         tabs[prevIdx].click();
         return;
       }
-      if (key === 'e' || key === 'E' || key === 'ArrowRight') {
+      if (lower === 'e' || key === 'ArrowRight') {
         e.preventDefault();
         const tabs = Array.from(document.querySelectorAll('.nav-tab'));
         const activeIdx = tabs.findIndex(t => t.classList.contains('active'));
@@ -2545,11 +2432,17 @@
       }
 
       // 8. Confirm / Action: Enter or Z
-      if (key === 'Enter' || key === 'z' || key === 'Z') {
+      if (key === 'Enter' || lower === 'z') {
         e.preventDefault();
         document.getElementById('key-a').click();
         return;
       }
+    });
+
+    window.addEventListener('keyup', (e) => {
+      const matched = getElementsForKey(e.key);
+      matched.forEach(el => el.classList.remove('key-pressed'));
+      clearKeyHUD();
     });
 
     // ============================================================
