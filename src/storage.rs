@@ -3,7 +3,8 @@ use std::fs;
 use std::path::PathBuf;
 use serde::Deserialize;
 
-use crate::models::{CaughtPokemon, PlayerData, Pokemon, PokemonStats, WildPokemonEncounter};
+use crate::models::{ActiveArenaBattle, CaughtPokemon, PlayerData, Pokemon, PokemonStats, WildPokemonEncounter};
+use crate::game::{create_battle_pokemon, get_player_level};
 
 #[derive(Debug, Deserialize)]
 struct PokemonJsonEntry {
@@ -21,6 +22,7 @@ pub struct Storage {
     pub player_file: PathBuf,
     pub pokedex_file: PathBuf,
     pub wild_file: PathBuf,
+    pub arena_file: PathBuf,
     pub pokemon_catalog: HashMap<u32, Pokemon>,
     pub pokemon_list: Vec<Pokemon>,
     pub rarity_pools: HashMap<String, Vec<u32>>,
@@ -37,6 +39,7 @@ impl Storage {
         let player_file = save_dir.join("player.json");
         let pokedex_file = save_dir.join("pokedex.json");
         let wild_file = save_dir.join("wild_pokemon.json");
+        let arena_file = save_dir.join("arena_battle.json");
 
         // Load pokemon_data.json
         let candidates = [
@@ -88,6 +91,7 @@ impl Storage {
             player_file,
             pokedex_file,
             wild_file,
+            arena_file,
             pokemon_catalog,
             pokemon_list,
             rarity_pools,
@@ -95,16 +99,37 @@ impl Storage {
     }
 
     pub fn load_player(&self) -> PlayerData {
-        if self.player_file.exists() {
+        let mut player = if self.player_file.exists() {
             if let Ok(content) = fs::read_to_string(&self.player_file) {
                 if let Ok(data) = serde_json::from_str::<PlayerData>(&content) {
-                    return data;
+                    data
+                } else {
+                    PlayerData::default()
                 }
+            } else {
+                PlayerData::default()
             }
+        } else {
+            PlayerData::default()
+        };
+
+        // Ensure player has a party if empty
+        if player.party.is_empty() {
+            let level = get_player_level(player.xp).max(5);
+            let dex = self.load_pokedex();
+            if let Some(first_caught) = dex.first() {
+                if let Some(proto) = self.pokemon_catalog.get(&first_caught.id) {
+                    player.party.push(create_battle_pokemon(proto, level));
+                    player.active_pokemon_id = Some(first_caught.id);
+                }
+            } else if let Some(starter) = self.pokemon_catalog.get(&25) { // Pikachu starter
+                player.party.push(create_battle_pokemon(starter, level));
+                player.active_pokemon_id = Some(25);
+            }
+            let _ = self.save_player(&player);
         }
-        let default_player = PlayerData::default();
-        let _ = self.save_player(&default_player);
-        default_player
+
+        player
     }
 
     pub fn save_player(&self, player: &PlayerData) -> std::io::Result<()> {
@@ -157,11 +182,35 @@ impl Storage {
         let _ = fs::remove_file(&self.wild_file);
     }
 
+    pub fn load_arena_battle(&self) -> Option<ActiveArenaBattle> {
+        if self.arena_file.exists() {
+            if let Ok(content) = fs::read_to_string(&self.arena_file) {
+                if let Ok(battle) = serde_json::from_str::<ActiveArenaBattle>(&content) {
+                    return Some(battle);
+                }
+            }
+        }
+        None
+    }
+
+    pub fn save_arena_battle(&self, battle: &ActiveArenaBattle) -> std::io::Result<()> {
+        let temp_file = self.save_dir.join("arena_battle.json.tmp");
+        let json = serde_json::to_string_pretty(battle)?;
+        fs::write(&temp_file, json)?;
+        fs::rename(temp_file, &self.arena_file)?;
+        Ok(())
+    }
+
+    pub fn clear_arena_battle(&self) {
+        let _ = fs::remove_file(&self.arena_file);
+    }
+
     pub fn reset_game(&self) -> std::io::Result<()> {
         let default_player = PlayerData::default();
         self.save_player(&default_player)?;
         self.save_pokedex(&[])?;
         self.clear_wild_encounter();
+        self.clear_arena_battle();
         Ok(())
     }
 

@@ -1,9 +1,9 @@
 use axum::{
     extract::{Path, Query, State},
     http::{header, StatusCode},
-    response::{IntoResponse, Json},
+    response::IntoResponse,
     routing::{get, post},
-    Router,
+    Json, Router,
 };
 use serde::Deserialize;
 use serde_json::json;
@@ -26,6 +26,21 @@ pub struct AppState {
 #[derive(Debug, Deserialize)]
 pub struct CatchPayload {
     pub ball: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct AttackPayload {
+    pub move_index: usize,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct PartySelectPayload {
+    pub pokemon_id: u32,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct ArenaStartPayload {
+    pub arena_id: String,
 }
 
 #[derive(Debug, Deserialize)]
@@ -74,6 +89,12 @@ pub fn create_router(state: AppState) -> Router {
         .route("/wild", get(get_wild))
         .route("/catch", post(post_catch))
         .route("/flee", post(post_flee))
+        .route("/battle/wild-attack", post(post_wild_attack))
+        .route("/battle/heal", post(post_heal))
+        .route("/party/select", post(post_party_select))
+        .route("/arena", get(get_arena))
+        .route("/arena/start", post(post_arena_start))
+        .route("/arena/attack", post(post_arena_attack))
         .route("/pokedex", get(get_pokedex))
         .route("/catalog", get(get_catalog))
         .route("/pokemon/:id", get(get_pokemon_by_id))
@@ -120,7 +141,7 @@ async fn get_status(State(state): State<AppState>) -> Json<serde_json::Value> {
     let level = get_player_level(player.xp);
     Json(json!({
         "status": "online",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "username": player.username,
         "level": level,
         "currency": player.currency,
@@ -168,10 +189,9 @@ async fn post_hunt(State(state): State<AppState>) -> Result<Json<serde_json::Val
             let dex = state.service.get_pokedex();
             let already_caught = dex.iter().any(|p| p.id == encounter.pokemon.id);
 
-            // Calculate odds for all 11 balls
             let mut odds = HashMap::new();
             for ball in crate::game::STORE_BALLS {
-                let chance = calculate_catch_chance(&encounter.pokemon, ball.id, level, already_caught);
+                let chance = calculate_catch_chance(&encounter.pokemon, ball.id, level, already_caught, encounter.current_hp, encounter.max_hp);
                 odds.insert(ball.id, (chance * 100.0).round() as u32);
             }
 
@@ -186,6 +206,7 @@ async fn post_hunt(State(state): State<AppState>) -> Result<Json<serde_json::Val
                 "cry_url": cry_url,
                 "art_url": art_url,
                 "showdown_url": showdown_url,
+                "player_lead": player.party.first(),
             })))
         }
         Err(e) => Err((
@@ -204,7 +225,7 @@ async fn get_wild(State(state): State<AppState>) -> Json<serde_json::Value> {
 
         let mut odds = HashMap::new();
         for ball in crate::game::STORE_BALLS {
-            let chance = calculate_catch_chance(&wild.pokemon, ball.id, level, already_caught);
+            let chance = calculate_catch_chance(&wild.pokemon, ball.id, level, already_caught, wild.current_hp, wild.max_hp);
             odds.insert(ball.id, (chance * 100.0).round() as u32);
         }
 
@@ -220,6 +241,7 @@ async fn get_wild(State(state): State<AppState>) -> Json<serde_json::Value> {
             "cry_url": cry_url,
             "art_url": art_url,
             "showdown_url": showdown_url,
+            "player_lead": player.party.first(),
         }))
     } else {
         Json(json!({
@@ -242,9 +264,95 @@ async fn post_catch(
     }
 }
 
+async fn post_wild_attack(
+    State(state): State<AppState>,
+    Json(payload): Json<AttackPayload>,
+) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
+    match state.service.wild_attack(payload.move_index) {
+        Ok(res) => Ok(Json(json!(res))),
+        Err(e) => Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": e })),
+        )),
+    }
+}
+
 async fn post_flee(State(state): State<AppState>) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
     match state.service.flee() {
         Ok(msg) => Ok(Json(json!({ "message": msg }))),
+        Err(e) => Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": e })),
+        )),
+    }
+}
+
+async fn post_heal(State(state): State<AppState>) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
+    match state.service.heal_party() {
+        Ok(msg) => {
+            let player = state.service.get_player();
+            Ok(Json(json!({
+                "message": msg,
+                "party": player.party,
+            })))
+        }
+        Err(e) => Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": e })),
+        )),
+    }
+}
+
+async fn post_party_select(
+    State(state): State<AppState>,
+    Json(payload): Json<PartySelectPayload>,
+) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
+    match state.service.set_active_pokemon(payload.pokemon_id) {
+        Ok(msg) => {
+            let player = state.service.get_player();
+            Ok(Json(json!({
+                "message": msg,
+                "party": player.party,
+            })))
+        }
+        Err(e) => Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": e })),
+        )),
+    }
+}
+
+async fn get_arena(State(state): State<AppState>) -> Json<serde_json::Value> {
+    let divisions = state.service.get_arena_list();
+    let active_battle = state.service.get_arena_battle();
+    let player = state.service.get_player();
+    Json(json!({
+        "divisions": divisions,
+        "active_battle": active_battle,
+        "player_lead": player.party.first(),
+        "badges_owned": player.arena_badges,
+    }))
+}
+
+async fn post_arena_start(
+    State(state): State<AppState>,
+    Json(payload): Json<ArenaStartPayload>,
+) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
+    match state.service.start_arena_battle(&payload.arena_id) {
+        Ok(battle) => Ok(Json(json!(battle))),
+        Err(e) => Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": e })),
+        )),
+    }
+}
+
+async fn post_arena_attack(
+    State(state): State<AppState>,
+    Json(payload): Json<AttackPayload>,
+) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
+    match state.service.arena_attack(payload.move_index) {
+        Ok(res) => Ok(Json(json!(res))),
         Err(e) => Err((
             StatusCode::BAD_REQUEST,
             Json(json!({ "error": e })),
@@ -258,7 +366,6 @@ async fn get_pokedex(
 ) -> Json<serde_json::Value> {
     let mut dex = state.service.get_pokedex();
 
-    // Filtering
     if let Some(ref search) = query.search {
         let s = search.trim().to_lowercase();
         dex.retain(|p| p.name.to_lowercase().contains(&s) || p.id.to_string() == s);
@@ -275,7 +382,6 @@ async fn get_pokedex(
         dex.retain(|p| p.rarity.to_lowercase() == target);
     }
 
-    // Sorting
     let sort_mode = query.sort.as_deref().unwrap_or("id");
     match sort_mode {
         "id_desc" => dex.sort_by(|a, b| b.id.cmp(&a.id)),
