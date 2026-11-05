@@ -107,6 +107,7 @@ pub fn create_router(state: AppState) -> Router {
     Router::new()
         .nest("/api", api_routes)
         .nest_service("/sprites", ServeDir::new("static/sprites"))
+        .nest_service("/fonts", ServeDir::new("static/fonts"))
         .fallback(serve_frontend)
         .layer(cors)
         .with_state(state)
