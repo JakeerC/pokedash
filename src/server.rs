@@ -106,11 +106,36 @@ pub fn create_router(state: AppState) -> Router {
 
     Router::new()
         .nest("/api", api_routes)
+        .route("/keyboard", get(serve_keyboard))
         .nest_service("/sprites", ServeDir::new("static/sprites"))
         .nest_service("/fonts", ServeDir::new("static/fonts"))
         .fallback(serve_frontend)
         .layer(cors)
         .with_state(state)
+}
+
+async fn serve_keyboard() -> impl IntoResponse {
+    let html_path = std::path::Path::new("static/keyboard.html");
+    if html_path.exists() {
+        match std::fs::read_to_string(html_path) {
+            Ok(content) => (
+                StatusCode::OK,
+                [(header::CONTENT_TYPE, "text/html; charset=utf-8")],
+                content,
+            ),
+            Err(_) => (
+                StatusCode::INTERNAL_SERVER_ERROR,
+                [(header::CONTENT_TYPE, "text/plain")],
+                "Could not read keyboard.html".to_string(),
+            ),
+        }
+    } else {
+        (
+            StatusCode::NOT_FOUND,
+            [(header::CONTENT_TYPE, "text/plain")],
+            "keyboard.html not found".to_string(),
+        )
+    }
 }
 
 async fn serve_frontend() -> impl IntoResponse {
