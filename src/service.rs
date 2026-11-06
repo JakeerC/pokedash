@@ -228,7 +228,7 @@ impl GameService {
 
             message = if is_new {
                 format!(
-                    "Gotcha! {} was caught! ✨ New Pokédex entry! XP doubled to +{} XP!",
+                    "Gotcha! {} was caught! [NEW DEX ENTRY] XP doubled to +{} XP!",
                     encounter.pokemon.name, xp_gained
                 )
             } else {
@@ -430,7 +430,7 @@ impl GameService {
             p.current_hp = p.max_hp;
         }
         self.storage.save_player(&player).map_err(|e| e.to_string())?;
-        Ok("Nurse Joy restored your Pokémon team to full health! 💖".to_string())
+        Ok("Nurse Joy restored your Pokémon team to full health!".to_string())
     }
 
     pub fn set_active_pokemon(&self, pokemon_id: u32) -> Result<String, String> {
