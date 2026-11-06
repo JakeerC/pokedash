@@ -226,17 +226,27 @@
       box-shadow: inset 0 0 30px rgba(0,0,0,0.85);
     }
 
-    /* CRT Scanline Effect Overlay */
+    /* CRT Scanline Effect Overlay (OFF by default, pointer-events none) */
     .scanlines-overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
       background-size: 100% 3px, 6px 100%;
-      pointer-events: none;
-      z-index: 99;
+      pointer-events: none !important;
+      z-index: 1;
       opacity: 0.7;
     }
-    body.no-scanlines .scanlines-overlay { display: none; }
+    body.no-scanlines .scanlines-overlay { display: none !important; }
+
+    /* Screen UI layers explicitly above scanlines with active pointer events */
+    .screen-header, .screen-nav, .screen-content {
+      position: relative;
+      z-index: 10;
+    }
+    button, .nav-tab, .action-menu-btn, .move-btn, .retro-pill-btn, .d-pad-btn, .action-circle-btn, .dex-slot-card, .btn-arena-challenge, .btn-heal-all {
+      cursor: pointer !important;
+      pointer-events: auto !important;
+    }
 
     /* Screen Top Header Bar */
     .screen-header {
@@ -1057,7 +1067,7 @@
     }
   </style>
 </head>
-<body>
+<body class="no-scanlines">
 
   <!-- Handheld Console Frame (Utilizes Maximum Screen Area) -->
   <div class="handheld-console">
@@ -1078,7 +1088,7 @@
           <span>KEY:</span> <span id="hud-key-val">READY</span>
         </div>
         <button id="toggle-sound" class="retro-pill-btn active">🔊 SFX ON</button>
-        <button id="toggle-scanlines" class="retro-pill-btn active">📺 CRT</button>
+        <button id="toggle-scanlines" class="retro-pill-btn">📺 CRT OFF</button>
         <button id="toggle-screen-mode" class="retro-pill-btn">⏹ FULL</button>
       </div>
     </div>
@@ -1636,7 +1646,9 @@
     document.getElementById('btn-menu-fight').addEventListener('click', () => {
       SFX.blip();
       if (!currentWild && !currentArenaBattle) {
-        setDialogue("No Pokémon to fight! Search the tall grass first!");
+        setDialogue("Searching tall grass for wild Pokémon...");
+        const huntBtn = document.getElementById('btn-hunt-grass');
+        if (huntBtn) huntBtn.click();
         return;
       }
       if (!playerData.party || playerData.party.length === 0) {
@@ -2213,6 +2225,146 @@
         grid.appendChild(slot);
       });
     }
+
+    // ============================================================
+    // HARDWARE CONTROLS & TOP CONSOLE SWITCH LISTENERS
+    // ============================================================
+    // Sound Toggle
+    document.getElementById('toggle-sound').addEventListener('click', (e) => {
+      soundEnabled = !soundEnabled;
+      e.target.classList.toggle('active', soundEnabled);
+      e.target.textContent = soundEnabled ? '🔊 SFX ON' : '🔇 SFX OFF';
+      if (soundEnabled) SFX.blip();
+    });
+
+    // CRT Scanlines Toggle (OFF by default)
+    document.getElementById('toggle-scanlines').addEventListener('click', (e) => {
+      document.body.classList.toggle('no-scanlines');
+      const isCRTOn = !document.body.classList.contains('no-scanlines');
+      e.target.classList.toggle('active', isCRTOn);
+      e.target.textContent = isCRTOn ? '📺 CRT ON' : '📺 CRT OFF';
+      SFX.blip();
+    });
+
+    // Fullscreen / Screen-only Toggle
+    document.getElementById('toggle-screen-mode').addEventListener('click', (e) => {
+      SFX.blip();
+      if (!document.fullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        }
+        e.target.textContent = '⛶ EXIT';
+        e.target.classList.add('active');
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        }
+        e.target.textContent = '⏹ FULL';
+        e.target.classList.remove('active');
+      }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+      const btn = document.getElementById('toggle-screen-mode');
+      if (!btn) return;
+      if (document.fullscreenElement) {
+        btn.textContent = '⛶ EXIT';
+        btn.classList.add('active');
+      } else {
+        btn.textContent = '⏹ FULL';
+        btn.classList.remove('active');
+      }
+    });
+
+    // D-Pad Click Handlers
+    document.getElementById('key-up').addEventListener('click', () => {
+      SFX.blip();
+      const screenContent = document.querySelector('.screen-content');
+      if (screenContent) screenContent.scrollBy({ top: -80, behavior: 'smooth' });
+    });
+
+    document.getElementById('key-down').addEventListener('click', () => {
+      SFX.blip();
+      const screenContent = document.querySelector('.screen-content');
+      if (screenContent) screenContent.scrollBy({ top: 80, behavior: 'smooth' });
+    });
+
+    document.getElementById('key-left').addEventListener('click', () => {
+      SFX.blip();
+      const tabs = Array.from(document.querySelectorAll('.nav-tab'));
+      const activeIdx = tabs.findIndex(t => t.classList.contains('active'));
+      const prevIdx = (activeIdx - 1 + tabs.length) % tabs.length;
+      tabs[prevIdx].click();
+    });
+
+    document.getElementById('key-right').addEventListener('click', () => {
+      SFX.blip();
+      const tabs = Array.from(document.querySelectorAll('.nav-tab'));
+      const activeIdx = tabs.findIndex(t => t.classList.contains('active'));
+      const nextIdx = (activeIdx + 1) % tabs.length;
+      tabs[nextIdx].click();
+    });
+
+    // Select Button Click -> Cycle Tabs
+    document.getElementById('key-select').addEventListener('click', () => {
+      SFX.blip();
+      const tabs = Array.from(document.querySelectorAll('.nav-tab'));
+      const activeIdx = tabs.findIndex(t => t.classList.contains('active'));
+      const nextIdx = (activeIdx + 1) % tabs.length;
+      tabs[nextIdx].click();
+    });
+
+    // Start Button Click -> Trainer Passport
+    document.getElementById('key-start').addEventListener('click', () => {
+      SFX.confirm();
+      const trainerTab = document.querySelector('[data-tab="trainer"]');
+      if (trainerTab) trainerTab.click();
+    });
+
+    // A Button Click -> Primary Action
+    document.getElementById('key-a').addEventListener('click', () => {
+      SFX.confirm();
+      const modal = document.getElementById('retro-modal');
+      if (modal && modal.classList.contains('open')) {
+        modal.classList.remove('open');
+        return;
+      }
+      const activeTab = document.querySelector('.location-pane.active');
+      if (activeTab && activeTab.id === 'pane-hunt') {
+        const movesGrid = document.getElementById('moves-selection-grid');
+        if (movesGrid && movesGrid.style.display !== 'none') {
+          const firstMove = movesGrid.querySelector('.move-btn');
+          if (firstMove) { firstMove.click(); return; }
+        }
+        if (!currentWild && !currentArenaBattle) {
+          const huntBtn = document.getElementById('btn-hunt-grass');
+          if (huntBtn) huntBtn.click();
+        } else {
+          const fightBtn = document.getElementById('btn-menu-fight');
+          if (fightBtn && fightBtn.offsetParent !== null) fightBtn.click();
+        }
+      } else if (activeTab && activeTab.id === 'pane-center') {
+        const healBtn = document.getElementById('btn-nurse-heal');
+        if (healBtn) healBtn.click();
+      }
+    });
+
+    // B Button Click -> Cancel / Back
+    document.getElementById('key-b').addEventListener('click', () => {
+      SFX.cancel();
+      const modal = document.getElementById('retro-modal');
+      if (modal && modal.classList.contains('open')) {
+        modal.classList.remove('open');
+        return;
+      }
+      showMainActionsMenu();
+    });
+
+    // Global Window Functions for Inline onclick Attributes
+    window.startArenaMatch = startArenaMatch;
+    window.setPartyLeader = setPartyLeader;
+    window.buyMartBall = buyMartBall;
+    window.playCryUrl = playCryUrl;
 
         // ============================================================
     // DYNAMIC KEYPRESS FEEDBACK & FULL KEYBOARD GAME CONTROLLER
