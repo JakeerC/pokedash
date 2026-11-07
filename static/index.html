@@ -1568,8 +1568,13 @@
             <span class="header-tag">LV. <span id="header-trainer-level">1</span></span>
             <button id="btn-logout" class="retro-btn btn-sm" style="display:none; padding: 2px 6px; font-size: 8px; background: #dc2626; color: #fff; border-color: #7f1d1d; cursor: pointer;" title="Sign Out of Trainer Passport">LOGOUT</button>
           </div>
-          <div class="header-gold">
-            <svg class="pixel-icon"><use href="#px-coin"></use></svg> P$ <span id="header-gold-val">0</span>
+          <div class="header-currency-row" style="display: flex; gap: 8px; align-items: center;">
+            <span class="header-tag" id="header-balls-tag" title="Poké Balls in Bag">
+              <svg class="pixel-icon"><use href="#px-pokeball"></use></svg> <span id="header-balls-val">0</span>
+            </span>
+            <div class="header-gold">
+              <svg class="pixel-icon"><use href="#px-coin"></use></svg> P$ <span id="header-gold-val">0</span>
+            </div>
           </div>
         </div>
 
@@ -2591,12 +2596,26 @@
     async function updateHeaderPlayer() {
       try {
         const data = await api('/player');
+        if (!data || !data.player) return null;
         playerData = data.player;
-        document.getElementById('header-trainer-name').textContent = data.player.username.toUpperCase();
-        document.getElementById('header-trainer-level').textContent = data.level;
-        document.getElementById('header-gold-val').textContent = data.player.currency.toLocaleString();
+
+        const nameEl = document.getElementById('header-trainer-name');
+        if (nameEl) nameEl.textContent = (data.player.username || 'TRAINER').toUpperCase();
+        
+        const levelEl = document.getElementById('header-trainer-level');
+        if (levelEl) levelEl.textContent = data.level;
+        
+        const goldEl = document.getElementById('header-gold-val');
+        if (goldEl) goldEl.textContent = (data.player.currency || 0).toLocaleString();
+
+        const totalBalls = Object.values(data.player.balls || {}).reduce((sum, n) => sum + (Number(n) || 0), 0);
+        const ballsEl = document.getElementById('header-balls-val');
+        if (ballsEl) ballsEl.textContent = totalBalls.toLocaleString();
+
         return data;
-      } catch (e) {}
+      } catch (e) {
+        return null;
+      }
     }
 
     // ============================================================
@@ -2606,24 +2625,53 @@
       await updateHeaderPlayer();
       try {
         const data = await api('/wild');
-        if (data.has_wild && data.encounter) {
+        if (data && data.has_wild && data.encounter) {
           isArenaMode = false;
           currentWild = data;
           renderWildBattle(data);
         } else {
           showSearchTallGrassState();
         }
-      } catch (e) {}
+      } catch (e) {
+        showSearchTallGrassState();
+      }
     }
 
     function showSearchTallGrassState() {
       currentWild = null;
-      document.getElementById('enemy-name').textContent = '???';
-      document.getElementById('enemy-level-tag').textContent = 'Lv. --';
+      document.getElementById('enemy-name').textContent = 'TALL GRASS';
+      document.getElementById('enemy-level-tag').textContent = 'ZONE 1';
       document.getElementById('enemy-hp-fill').style.width = '0%';
-      document.getElementById('enemy-hp-nums').textContent = '0 / 0 HP';
-      document.getElementById('enemy-sprite').src = '';
-      setDialogue("The tall grass rustles quietly. Press [SEARCH TALL GRASS] to hunt wild Pokémon!");
+      document.getElementById('enemy-hp-nums').textContent = 'READY';
+      
+      const enemySprite = document.getElementById('enemy-sprite');
+      if (enemySprite) {
+        enemySprite.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"></svg>';
+        enemySprite.style.opacity = '0';
+      }
+
+      // Render Player Lead on Platform
+      if (playerData && playerData.party && playerData.party.length > 0) {
+        const lead = playerData.party[0];
+        document.getElementById('player-name').textContent = lead.name.toUpperCase();
+        document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
+        updateHpBar('player', lead.current_hp, lead.max_hp);
+        
+        const playerSprite = document.getElementById('player-sprite');
+        if (playerSprite) {
+          playerSprite.style.display = 'block';
+          playerSprite.style.opacity = '1';
+          playerSprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${lead.id}.png`;
+          playerSprite.onerror = () => {
+            playerSprite.src = `/sprites/${lead.id}.png`;
+          };
+          playerSprite.classList.remove('faint');
+        }
+        setDialogue(`Your ${lead.name.toUpperCase()} is standing ready! Press [SPACE] or [SEARCH TALL GRASS] to hunt wild Pokémon.`);
+      } else {
+        setDialogue("The tall grass rustles quietly. Press [SPACE] or [SEARCH TALL GRASS] to hunt wild Pokémon!");
+      }
+
       document.getElementById('moves-selection-grid').style.display = 'none';
       document.getElementById('bag-selection-grid').style.display = 'none';
       document.getElementById('main-actions-grid').style.display = 'grid';
@@ -2639,6 +2687,7 @@
       updateHpBar('enemy', data.encounter.current_hp, data.encounter.max_hp);
       
       const enemySprite = document.getElementById('enemy-sprite');
+      enemySprite.style.opacity = '1';
       enemySprite.src = data.showdown_url;
       enemySprite.onerror = () => {
         enemySprite.src = `/sprites/${wild.id}.png`;
@@ -2652,6 +2701,8 @@
         updateHpBar('player', lead.current_hp, lead.max_hp);
         
         const playerSprite = document.getElementById('player-sprite');
+        playerSprite.style.display = 'block';
+        playerSprite.style.opacity = '1';
         playerSprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${lead.id}.png`;
         playerSprite.onerror = () => {
           playerSprite.src = `/sprites/${lead.id}.png`;
@@ -2814,45 +2865,69 @@
       }
     }
 
-    // BAG button clicked -> Show Poké Balls
+    // BAG button clicked -> Show Poké Balls (In battle or inventory view)
     document.getElementById('btn-menu-bag').addEventListener('click', async () => {
       SFX.blip();
-      if (!currentWild) {
-        setDialogue("You can only use Poké Balls against wild Pokémon!");
-        return;
-      }
+      try {
+        const storeData = await api('/store');
+        const odds = (currentWild && currentWild.ball_odds) ? currentWild.ball_odds : {};
+        const grid = document.getElementById('bag-selection-grid');
+        grid.innerHTML = '';
 
-      const storeData = await api('/store');
-      const odds = currentWild.ball_odds || {};
-      const grid = document.getElementById('bag-selection-grid');
-      grid.innerHTML = '';
+        let hasAny = false;
+        let ballSlot = 1;
+        (storeData.items || []).forEach(item => {
+          if (item.owned > 0) {
+            hasAny = true;
+            const btn = document.createElement('button');
+            btn.className = 'move-btn';
+            const catchPct = (currentWild && odds[item.id] !== undefined) ? `${odds[item.id]}%` : '--';
+            btn.innerHTML = `
+              <span><span class="k-hint">[${ballSlot}]</span> ${item.name.toUpperCase()}</span>
+              <span style="font-size:8px; color:var(--neon-yellow);">QTY: ${item.owned}</span>
+              <span style="font-size:8px; color:var(--neon-green);">${currentWild ? `ODDS: ${catchPct}` : 'BAG'}</span>
+            `;
+            if (currentWild) {
+              btn.onclick = () => throwBall(item.id);
+            } else {
+              btn.onclick = () => {
+                SFX.blip();
+                setDialogue(`You have ${item.owned}x ${item.name.toUpperCase()} in your bag. Press [SPACE] or [SEARCH TALL GRASS] to hunt wild Pokémon!`);
+              };
+            }
+            grid.appendChild(btn);
+            ballSlot++;
+          }
+        });
 
-      let hasAny = false;
-      storeData.items.forEach(item => {
-        if (item.owned > 0) {
-          hasAny = true;
-          const btn = document.createElement('button');
-          btn.className = 'move-btn';
-          const catchPct = odds[item.id] !== undefined ? `${odds[item.id]}%` : '?';
-          let ballSlot = grid.children.length + 1;
-          btn.innerHTML = `
-            <span><span class="k-hint">[${ballSlot}]</span> ${item.name.toUpperCase()}</span>
-            <span style="font-size:8px; color:var(--neon-yellow);">QTY: ${item.owned}</span>
-            <span style="font-size:8px; color:var(--neon-green);">ODDS: ${catchPct}</span>
-          `;
-          btn.onclick = () => throwBall(item.id);
-          grid.appendChild(btn);
+        // Add Back / Return button
+        const backBtn = document.createElement('button');
+        backBtn.className = 'move-btn';
+        backBtn.style.gridColumn = '1 / -1';
+        backBtn.innerHTML = `
+          <span><span class="k-hint">[B]</span> <svg class="pixel-icon"><use href="#px-arrow-left"></use></svg> BACK TO ACTIONS</span>
+          <span style="font-size:8px; color:var(--text-dim);">CLOSE BAG</span>
+        `;
+        backBtn.onclick = () => {
+          SFX.cancel();
+          showMainActionsMenu();
+        };
+        grid.appendChild(backBtn);
+
+        document.getElementById('main-actions-grid').style.display = 'none';
+        document.getElementById('moves-selection-grid').style.display = 'none';
+        document.getElementById('bag-selection-grid').style.display = 'grid';
+
+        if (!hasAny) {
+          setDialogue("Your bag has no Poké Balls! Visit the Poké Mart to restock.");
+        } else if (currentWild) {
+          setDialogue("Choose a Poké Ball to throw at the wild Pokémon:");
+        } else {
+          setDialogue("Viewing Poké Balls in your bag. Press [B] or BACK TO ACTIONS to close.");
         }
-      });
-
-      if (!hasAny) {
-        setDialogue("Your bag has no Poké Balls! Buy some at the Poké Mart.");
-        return;
+      } catch (e) {
+        setDialogue("Could not open bag: " + (e.message || "Unknown error"));
       }
-
-      document.getElementById('main-actions-grid').style.display = 'none';
-      document.getElementById('bag-selection-grid').style.display = 'grid';
-      setDialogue("Choose a Poké Ball to throw:");
     });
 
     // Throw Poké Ball Animation & Logic
@@ -3044,12 +3119,15 @@
     // ============================================================
     async function loadPokemonCenter() {
       const data = await updateHeaderPlayer();
-      const party = data.player.party || [];
+      const party = (data && data.player && data.player.party) 
+        ? data.player.party 
+        : (playerData && playerData.party ? playerData.party : []);
       const grid = document.getElementById('party-slots-grid');
+      if (!grid) return;
       grid.innerHTML = '';
 
       if (party.length === 0) {
-        grid.innerHTML = '<div style="font-size:8px; color:#cbd5e1;">No Pokémon in party yet! Catch some in the tall grass.</div>';
+        grid.innerHTML = '<div style="font-size:8px; color:#cbd5e1; padding: 12px; text-align: center;">No Pokémon in party yet! Catch some in the tall grass.</div>';
         return;
       }
 
@@ -3167,7 +3245,13 @@
 
         const items = mode === 'all' ? data.items : data.pokemon;
         if (!items || items.length === 0) {
-          grid.innerHTML = '<div style="font-size:8px; color:#94a3b8; padding:20px;">No Pokémon found!</div>';
+          grid.innerHTML = `
+            <div style="grid-column: 1 / -1; font-size:8px; color:#94a3b8; padding:24px 16px; line-height: 1.8; text-align: center;">
+              NO CAUGHT POKÉMON FOUND.<br>
+              SWITCH FILTER ABOVE TO <b style="color:#facc15;">"FULL NATIONAL DEX"</b> TO BROWSE ALL 1025 SPECIES,<br>
+              OR HUNT IN THE TALL GRASS TO FILL YOUR POKÉDEX!
+            </div>
+          `;
           return;
         }
 
@@ -3284,29 +3368,32 @@
     // ============================================================
     async function loadTrainerCard() {
       const data = await updateHeaderPlayer();
-      const p = data.player;
-      const s = p.stats;
+      const p = (data && data.player) ? data.player : (playerData || {});
+      const s = p.stats || {};
 
-      document.getElementById('card-name').textContent = p.username.toUpperCase();
-      document.getElementById('card-level').textContent = data.level;
-      document.getElementById('card-money').textContent = `P$ ${p.currency.toLocaleString()}`;
-      document.getElementById('card-dex-count').textContent = `${data.unique_count} / 1025`;
-      document.getElementById('card-hunts').textContent = s.total_hunts;
+      document.getElementById('card-name').textContent = (p.username || 'TRAINER').toUpperCase();
+      document.getElementById('card-level').textContent = (data && data.level) ? data.level : 1;
+      document.getElementById('card-money').textContent = `P$ ${(p.currency || 0).toLocaleString()}`;
+      document.getElementById('card-dex-count').textContent = `${(data && data.unique_count !== undefined) ? data.unique_count : 0} / 1025`;
+      document.getElementById('card-hunts').textContent = s.total_hunts || 0;
       document.getElementById('card-arena-wins').textContent = s.arena_victories || 0;
 
-      const arenaData = await api('/arena');
-      const grid = document.getElementById('badges-case-grid');
-      grid.innerHTML = '';
-
-      arenaData.divisions.forEach(d => {
-        const slot = document.createElement('div');
-        slot.className = `badge-slot ${d.completed ? 'unlocked' : ''}`;
-        slot.innerHTML = `
-          <div>${renderBadgeIcon(d.badge_icon || d.id, 'pixel-badge-icon')}</div>
-          <div style="font-size:6px; margin-top:2px;">${d.badge.split(' ')[0]}</div>
-        `;
-        grid.appendChild(slot);
-      });
+      try {
+        const arenaData = await api('/arena');
+        const grid = document.getElementById('badges-case-grid');
+        if (grid && arenaData && arenaData.divisions) {
+          grid.innerHTML = '';
+          arenaData.divisions.forEach(d => {
+            const slot = document.createElement('div');
+            slot.className = `badge-slot ${d.completed ? 'unlocked' : ''}`;
+            slot.innerHTML = `
+              <div>${renderBadgeIcon(d.badge_icon || d.id, 'pixel-badge-icon')}</div>
+              <div style="font-size:6px; margin-top:2px;">${d.badge.split(' ')[0]}</div>
+            `;
+            grid.appendChild(slot);
+          });
+        }
+      } catch (e) {}
     }
 
     // ============================================================
@@ -3481,6 +3568,7 @@
 
     // Map physical keys to visual elements
     function getElementsForKey(key) {
+      if (!key || typeof key !== 'string') return [];
       const lower = key.toLowerCase();
       const elements = [];
 
@@ -3534,6 +3622,7 @@
     }
 
     window.addEventListener('keydown', (e) => {
+      if (!e || !e.key) return;
       // Block all GBA game keys while unauthenticated or auth modal is displayed
       if (isAuthRequired()) {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'BUTTON') {
@@ -3697,8 +3786,11 @@
     });
 
     window.addEventListener('keyup', (e) => {
+      if (!e || !e.key) return;
       const matched = getElementsForKey(e.key);
-      matched.forEach(el => el.classList.remove('key-pressed'));
+      matched.forEach(el => {
+        if (el && el.classList) el.classList.remove('key-pressed');
+      });
       clearKeyHUD();
     });
 
