@@ -1,6 +1,6 @@
 # PokéDash ⚡
 
-A Pokémon hunting, catching, and collecting web game powered by a high-performance **Rust backend engine** and modern retro **Game Boy / Synthwave Web UI** with official PokeAPI integration.
+A retro Pokémon hunting, catching, battling, and collecting game powered by a high-performance **Rust backend engine** (Axum, Tokio, Serde), a custom **Game Boy Advance LCD Web UI**, and **Supabase PostgreSQL cloud persistence** with PokeAPI integration.
 
 Inspired by [PokéCatch](https://pokecatch.ritikkumar.dev/) and powered by [PokeAPI](https://pokeapi.co/docs/v2).
 
@@ -8,23 +8,30 @@ Inspired by [PokéCatch](https://pokecatch.ritikkumar.dev/) and powered by [Poke
 
 ## 🌟 Key Features
 
-- **Dedicated Web Application**:
-  - Interactive Wild Encounter arena with animated Showdown Pokémon sprites and high-res official artwork.
-  - Official Pokémon audio cries streamed directly from PokeAPI.
-  - Poké Ball selector with real-time calculated catch chance previews for every ball.
-  - Throwing and catching animations with shake sequence and escape/capture outcomes.
-  - Complete Pokédex with Generation tabs (Gen I–IX), Dual-type filtering, Rarity filtering, search, and detailed modal views.
-  - Poké Mart Store with 11 specialized Poké Balls, Level-based discounts, and 1-click duplicate sales.
-  - Trainer Passport with XP progress bar, leveling, currency, and achievement statistics.
+- **Dedicated Retro Web UI (`static/index.html`)**:
+  - **Authentic GBA LCD Aesthetics**: Custom dark emerald matrix LCD styling, optional CRT scanlines toggle, physical D-Pad, A/B action buttons, and top console slide switches.
+  - **Embedded Pixel Fonts**: High-legibility retro typography utilizing embedded `PixelEmulator` font.
+  - **Zero-Emoji Pixel Art**: 37 custom-drawn 8-bit/16-bit SVG pixel art icons (grass, swords, bag, pokeball, boots, gold coin, hearts, speaker, and full gym badges) plus a 24x24 animated Nurse Joy portrait.
+  - **Wild Encounter Arena**: Animated Showdown Pokémon battle sprites, health bars, attack lunges, damage shakes, and capture animations.
+  - **Official Audio & Procedural SFX**: Web Audio API retro chiptune sound effects combined with official Pokémon audio cries streamed dynamically from PokeAPI.
+  - **Turn-Based Battles**: Type effectiveness system (Super Effective $2.0\times$, Not Very Effective $0.5\times$, Neutral $1.0\times$) with party lead swapping and move selection.
+  - **Pokédex & Catalog**: Responsive 4-column national Pokédex card grid with enlarged 120px sprites, generation filters (Gen I–IX), dual-type filters, rarity filters, and deep 72% screen stat breakdown modals.
+  - **Gym League & Arena**: 10 Gym Divisions (Brock through Champion Cynthia) with team previews, dialogue intros, and collectible custom pixel badges.
+  - **Poké Mart Store**: 11 specialized Poké Balls, level-scaling store discounts (up to 15%), and 1-click duplicate Pokémon sales.
+  - **Dual Input Controls**: Complete parity between mouse clicks and tactile keyboard controls (`[SPACE]`, `[1-4]`, `[W/A/S/D]`, `[H]`, `[C]`, `[Z/ENTER]`, `[X/ESC]`).
+
 - **High-Performance Rust Backend**:
-  - Built with Axum, Tokio, and Serde.
-  - All 1025 Pokémon embedded and loaded into memory on startup.
-  - **Supabase PostgreSQL Cloud Persistence**: Direct integration with Supabase PostgREST API for robust cloud storage, with seamless auto-migration and local offline fallback in `~/.pokedash/`.
+  - Built with **Axum 0.7**, **Tokio**, and **Tower-HTTP**.
+  - All 1025 Pokémon definitions pre-loaded in memory for $O(1)$ weighted encounter lookups.
   - High-speed REST API endpoints for all gameplay operations.
-- **Authentic Game Mechanics**:
-  - 7 rarity tiers (Common to Mythical) with authentic spawn weights.
-  - Situational multipliers for all 11 Poké Balls (Water/Bug bonuses, Speed check, Nighttime check, BST check, Repeat bonus, Master ball guarantee).
-  - Progressive Trainer Level bonuses to base catch rates and store discounts.
+
+- **Supabase Cloud Persistence & Fail-Safe Offline Mode**:
+  - Direct integration with **Supabase PostgREST** for cross-device cloud persistence.
+  - Automatic migration from local saves on first boot.
+  - Transparent write-through fallback to local JSON in `~/.pokedash/` if offline or unconfigured.
+
+- **Agentic AI Ready**:
+  - Comprehensive documentation, skills, and architectures designed for AI developer agents (`AGENTS.md`, `CONTEXT.md`, `ARCHITECTURE.md`, `.agents/`, `.gemini/`).
 
 ---
 
@@ -36,9 +43,24 @@ Inspired by [PokéCatch](https://pokecatch.ritikkumar.dev/) and powered by [Poke
 cargo build --release
 ```
 
-The optimized binary is located at `./target/release/pokedash`.
+The compiled standalone binary is placed at `./target/release/pokedash`.
 
-### 2. Launch the Web Game
+### 2. Configure Cloud Database (Optional)
+
+Copy `.env.example` to `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Set your Supabase credentials:
+```bash
+SUPABASE_URL=https://<your-project-ref>.supabase.co
+SUPABASE_KEY=<your-anon-or-service-key>
+```
+*Note: If no Supabase environment variables are provided, the game automatically uses local JSON storage in `~/.pokedash/`.*
+
+### 3. Launch the Web Game
 
 ```bash
 ./target/release/pokedash --port 8080 --open
@@ -57,19 +79,39 @@ Options:
 
 ---
 
+## 🎮 Keyboard Controls
+
+| Key | Action |
+|---|---|
+| `[SPACE]` | Search Tall Grass for Wild Pokémon / Confirm Dialog |
+| `[1]` | Select **FIGHT** Menu in Battle |
+| `[2]` | Open **BAG** Menu to select Poké Balls |
+| `[3]` | Open **PKMN** Party Menu |
+| `[4]` | **RUN** / Flee from Wild Pokémon |
+| `[W]` / `[↑]` | Scroll Screen Up |
+| `[S]` / `[↓]` | Scroll Screen Down |
+| `[A]` / `[←]` | Navigate to Previous Tab |
+| `[D]` / `[→]` | Navigate to Next Tab |
+| `[H]` | Nurse Joy: Restore Team HP (Poké Center) |
+| `[C]` | Play Active Pokémon Audio Cry |
+| `[Z]` / `[ENTER]` | Physical **A** Action Button |
+| `[X]` / `[ESC]` | Physical **B** Cancel Button / Close Modals |
+
+---
+
 ## 🎯 Mechanics & Formulas
 
 ### Encounter Odds
 
 | Rarity | Spawn Weight | Base Catch Rate | Sell Value |
 |---|---|---|---|
-| Common | 50.0% | 50% | ₽150 |
-| Uncommon | 28.0% | 40% | ₽300 |
-| Rare | 12.0% | 30% | ₽800 |
-| UltraRare | 6.0% | 20% | ₽1,500 |
-| Epic | 2.5% | 10% | ₽3,000 |
-| Legendary | 1.0% | 5% | ₽10,000 |
-| Mythical | 0.5% | 2% | ₽25,000 |
+| Common | 50.0% | 50% | ₱150 |
+| Uncommon | 28.0% | 40% | ₱300 |
+| Rare | 12.0% | 30% | ₱800 |
+| UltraRare | 6.0% | 20% | ₱1,500 |
+| Epic | 2.5% | 10% | ₱3,000 |
+| Legendary | 1.0% | 5% | ₱10,000 |
+| Mythical | 0.5% | 2% | ₱25,000 |
 
 ### Catch Rate Formula
 
@@ -83,7 +125,7 @@ $$\text{Catch Chance} = \min\Big(\text{Base Rate} \times \text{Ball Multiplier} 
   - `net` (Net Ball): $3.0\times$ on Water or Bug types
   - `dive` (Dive Ball): $3.5\times$ on Water types
   - `fast` (Fast Ball): $2.0\times$ if Speed $\ge 80$, $3.0\times$ if Speed $\ge 120$
-  - `dusk` (Dusk Ball): $3.5\times$ at night (18:00 to 06:00)
+  - `dusk` (Dusk Ball): $3.5\times$ at night (18:00 to 06:00 local time)
   - `nest` (Nest Ball): $2.0\times$ if BST $\le 400$, $3.0\times$ if BST $\le 300$
   - `repeat` (Repeat Ball): $3.0\times$ if species is already in your Pokédex
   - `quick` (Quick Ball): $2.5\times$ flat boost
@@ -104,27 +146,25 @@ $$\text{XP Required for Level } L = \lfloor 100 \times L^{1.5} \rfloor$$
 
 PokéDash uses **Supabase PostgreSQL** as its primary cloud database, providing durable, scalable persistence across devices and sessions.
 
-### Architecture & Tables
+### Tables
 
 | Table | Description | Primary Key |
 |---|---|---|
 | `players` | Stores player profile, level, currency, XP, Pokéball inventory, party Pokémon, and badges. | `username` |
-| `pokedex` | Stores every caught Pokémon instance with stats, IVs, rarity, catch timestamps, and ball used. | `entry_id` (indexed by `username`, `caught_at`) |
+| `pokedex` | Stores every caught Pokémon instance with stats, IVs, rarity, catch timestamps, and ball used. | `id` (Unique on `username, pokemon_id`) |
 | `wild_encounters` | Persists active wild Pokémon encounter state, remaining HP, and cooldowns. | `username` |
 | `arena_battles` | Persists ongoing gym arena battles, active Pokémon, and combat logs. | `username` |
 
-- **Atomic Synchronization**: Catches, transfers, sales, and renames are safely synchronized via the `save_pokedex(p_username, p_entries)` database RPC.
-- **Row Level Security (RLS)**: Enabled across all tables with explicit access policies for data security.
-- **Auto-Migration & Offline Fallback**: On first launch with Supabase configured, existing local saves from `~/.pokedash/` are automatically migrated to Supabase. If offline, the game transparently falls back to local JSON storage.
+---
 
-### Configuration
+## 🤖 Agentic AI & Developer Documentation
 
-Copy `.env.example` to `.env` or set the environment variables:
+PokéDash includes dedicated documentation and skill definitions for autonomous coding agents:
 
-```bash
-SUPABASE_URL=https://<your-project-ref>.supabase.co
-SUPABASE_KEY=<your-anon-or-service-key>
-```
+- **[`AGENTS.md`](AGENTS.md)**: Rules of engagement, coding directives, zero-emoji policy, and definition of done for AI agents.
+- **[`CONTEXT.md`](CONTEXT.md)**: Exhaustive gameplay loops, mathematical formulas, Supabase SQL schemas, and REST API specification.
+- **[`ARCHITECTURE.md`](ARCHITECTURE.md)**: Deep architectural guide, concurrency model (`Arc<RwLock<()>>`), write-through storage flow, and latency optimizations.
+- **[`.agents/skills/`](.agents/skills/)** & **[`.gemini/skills/`](.gemini/skills/)**: Skill definitions for agent task execution and validation.
 
 ---
 
@@ -132,19 +172,29 @@ SUPABASE_KEY=<your-anon-or-service-key>
 
 ```
 pokedash/
-├── Cargo.toml            # Rust dependencies & config
+├── Cargo.toml            # Rust dependencies & build settings
 ├── .env.example          # Supabase environment variables template
+├── AGENTS.md             # Directives and guidelines for AI agents
+├── CONTEXT.md            # Deep gameplay mechanics, API & database schema
+├── ARCHITECTURE.md       # Architecture, concurrency, and persistence design
+├── .agents/skills/       # Agent skills for PokéDash core standards
+├── .gemini/skills/       # Gemini agent skills
 ├── data/
 │   └── pokemon_data.json # All 1025 Pokemon stats, types, rarities
 ├── static/
-│   ├── index.html        # Retro Game Boy/Synthwave Web Game & Dashboard
-│   ├── keyboard.html     # On-screen keyboard input interface
+│   ├── index.html        # Retro GBA Web Game UI & Dashboard
+│   ├── pixel-icons.svg   # 37 custom-drawn retro pixel art SVG icons
+│   ├── keyboard.html     # On-screen keyboard input test interface
+│   ├── fonts/            # PixelEmulator and Player2 retro font assets
 │   └── sprites/          # Bundled sprites (1.png - 1025.png)
+├── tools/
+│   ├── generate_pixel_icons.py # Pixel icon SVG symbol compiler
+│   └── apply_pixel_icons.py    # Pixel icon injector script
 ├── src/
 │   ├── main.rs           # Application entry point & initialization
 │   ├── lib.rs            # Library module exports
-│   ├── models.rs         # Data models and structures
-│   ├── game.rs           # Core mechanics, odds, ball formulas
+│   ├── models.rs         # Strongly typed data models
+│   ├── game.rs           # Core mechanics, odds, ball formulas, gym divisions
 │   ├── supabase.rs       # Supabase PostgREST client & environment loader
 │   ├── storage.rs        # Dual persistence: Supabase DB + local fallback
 │   ├── service.rs        # Core gameplay service & lock management
