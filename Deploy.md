@@ -7,10 +7,10 @@ This document covers the end-to-end deployment setup, architecture, and step-by-
 ## 🌐 Live Service Information
 
 - **Service Name**: `pokedash`
-- **Production URL**: [https://pokedash.onrender.com](https://pokedash.onrender.com)
-- **Health Check Endpoint**: [https://pokedash.onrender.com/api/status](https://pokedash.onrender.com/api/status)
-- **Render Dashboard**: [https://dashboard.render.com/web/srv-dbnh4v3rjlhs738q5mtg](https://dashboard.render.com/web/srv-dbnh4v3rjlhs738q5mtg)
-- **Render Service ID**: `srv-dbnh4v3rjlhs738q5mtg`
+- **Primary URL**: [https://pokedash-e79f.onrender.com](https://pokedash-e79f.onrender.com)
+- **Health Check Endpoint**: [https://pokedash-e79f.onrender.com/api/status](https://pokedash-e79f.onrender.com/api/status)
+- **Render Dashboard**: [https://dashboard.render.com/web/srv-dbnkb3mc6qcc73e4qfs0](https://dashboard.render.com/web/srv-dbnkb3mc6qcc73e4qfs0)
+- **Render Service ID**: `srv-dbnkb3mc6qcc73e4qfs0`
 - **Render Region**: `oregon` (US West)
 - **Instance Plan**: `free` (512 MB RAM, 0.1 CPU)
 
@@ -67,7 +67,7 @@ The CI/CD pipeline is defined in [`.github/workflows/deploy.yml`](.github/workfl
 | Secret Name | Required? | Description & How to Get |
 |---|---|---|
 | `RENDER_API_KEY` | **Required** | Your Render API key from [Render Account Settings > API Keys](https://dashboard.render.com/u/settings#api-keys). |
-| `RENDER_SERVICE_ID` | Optional | `srv-dbnh4v3rjlhs738q5mtg` (workflow automatically defaults to this if omitted). |
+| `RENDER_SERVICE_ID` | Optional | `srv-dbnkb3mc6qcc73e4qfs0` (workflow automatically defaults to this if omitted). |
 | `RENDER_DEPLOY_HOOK_URL` | Optional | Deploy Hook URL from **Render Dashboard > pokedash > Settings > Deploy Hook** (used as an automated fallback if no API key is set). |
 
 5. Once secrets are added, any merge or push to `main` will automatically build, test, and deploy.
@@ -117,13 +117,13 @@ If you are using Antigravity, Cursor, or Claude Code with Render MCP connected:
 call_mcp_tool("render", "list_services", { "workspaceId": "tea-d99rmqbeo5us7390r590" })
 
 // Check deploy history and status
-call_mcp_tool("render", "list_deploys", { "serviceId": "srv-dbnh4v3rjlhs738q5mtg" })
+call_mcp_tool("render", "list_deploys", { "serviceId": "srv-dbnkb3mc6qcc73e4qfs0" })
 
 // View live runtime or build logs
-call_mcp_tool("render", "list_logs", { "resource": ["srv-dbnh4v3rjlhs738q5mtg"], "direction": "backward", "limit": 50 })
+call_mcp_tool("render", "list_logs", { "resource": ["srv-dbnkb3mc6qcc73e4qfs0"], "direction": "backward", "limit": 50 })
 
 // Manually trigger a new deploy
-call_mcp_tool("render", "trigger_deploy", { "serviceId": "srv-dbnh4v3rjlhs738q5mtg" })
+call_mcp_tool("render", "trigger_deploy", { "serviceId": "srv-dbnkb3mc6qcc73e4qfs0" })
 ```
 
 #### MCP Server Configuration (`~/.gemini/config/mcp_config.json`):
@@ -160,7 +160,7 @@ After a deployment completes:
 
 1. **Verify Health Endpoint**:
    ```bash
-   curl -s https://pokedash.onrender.com/api/status | jq .
+   curl -s https://pokedash-e79f.onrender.com/api/status | jq .
    ```
    Expected response:
    ```json
@@ -173,7 +173,7 @@ After a deployment completes:
    ```
 
 2. **Verify Web Interface**:
-   Visit [https://pokedash.onrender.com](https://pokedash.onrender.com) in any browser. The retro GBA screen, sprite assets, and chiptune audio should load immediately without build errors.
+   Visit [https://pokedash-e79f.onrender.com](https://pokedash-e79f.onrender.com) in any browser. The retro GBA screen, sprite assets, and chiptune audio should load immediately without build errors.
 
 ---
 

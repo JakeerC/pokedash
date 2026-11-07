@@ -49,7 +49,7 @@ jobs:
         if: ${{ secrets.RENDER_API_KEY != '' }}
         env:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-          SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID || 'srv-dbnh4v3rjlhs738q5mtg' }}
+          SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID || 'srv-dbnkb3mc6qcc73e4qfs0' }}
         run: |
           echo "Installing Render CLI..."
           curl --fail-with-body --silent --show-error --location \
