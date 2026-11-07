@@ -1,0 +1,21 @@
+# PokéDash Advance — Render Deployment Blueprint
+# High-performance retro Pokémon hunting and collecting web game in Rust
+
+services:
+  - type: web
+    name: pokedash
+    runtime: rust
+    plan: free
+    region: oregon
+    branch: main
+    autoDeployTrigger: commit
+    buildCommand: cargo build --release
+    startCommand: ./target/release/pokedash --port $PORT
+    healthCheckPath: /api/status
+    envVars:
+      # Optional: Supabase persistence credentials
+      # If not provided, PokéDash automatically falls back to local disk storage
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false

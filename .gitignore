@@ -2,3 +2,5 @@
 pokedash_daemon.log
 *.log
 .env
+.agents/skills
+skills-lock.json

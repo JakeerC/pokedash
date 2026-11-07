@@ -4,12 +4,19 @@ use colored::*;
 use crate::server::{create_router, AppState};
 use crate::service::GameService;
 
+fn default_port() -> u16 {
+    std::env::var("PORT")
+        .ok()
+        .and_then(|p| p.parse().ok())
+        .unwrap_or(8080)
+}
+
 #[derive(Parser, Debug)]
 #[command(name = "pokedash")]
 #[command(about = "PokéDash — Pokémon Hunting & Collecting Web Game", long_about = None)]
 pub struct CliArgs {
     /// Port to listen on
-    #[arg(short, long, default_value_t = 8080)]
+    #[arg(short, long, default_value_t = default_port())]
     pub port: u16,
 
     /// Host interface to bind to
