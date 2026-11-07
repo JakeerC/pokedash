@@ -6,8 +6,9 @@ This document covers the end-to-end deployment setup, architecture, and step-by-
 
 ## 🌐 Live Service Information
 
-- **Production URL**: [https://pokedash-ydy0.onrender.com](https://pokedash-ydy0.onrender.com)
-- **Health Check Endpoint**: [https://pokedash-ydy0.onrender.com/api/status](https://pokedash-ydy0.onrender.com/api/status)
+- **Service Name**: `pokedash`
+- **Production URL**: [https://pokedash.onrender.com](https://pokedash.onrender.com)
+- **Health Check Endpoint**: [https://pokedash.onrender.com/api/status](https://pokedash.onrender.com/api/status)
 - **Render Dashboard**: [https://dashboard.render.com/web/srv-dbnh4v3rjlhs738q5mtg](https://dashboard.render.com/web/srv-dbnh4v3rjlhs738q5mtg)
 - **Render Service ID**: `srv-dbnh4v3rjlhs738q5mtg`
 - **Render Region**: `oregon` (US West)
@@ -26,7 +27,7 @@ flowchart LR
     end
 
     subgraph Render ["Render Cloud Platform"]
-        D -->|Render CLI deploys create| E[Render Web Service: pokedash-ydy0]
+        D -->|Render CLI deploys create| E[Render Web Service: pokedash]
         E --> F[Rust Release Binary: ./target/release/pokedash --port $PORT]
         F --> G[Health Check: /api/status]
     end
@@ -67,7 +68,7 @@ The CI/CD pipeline is defined in [`.github/workflows/deploy.yml`](.github/workfl
 |---|---|---|
 | `RENDER_API_KEY` | **Required** | Your Render API key from [Render Account Settings > API Keys](https://dashboard.render.com/u/settings#api-keys). |
 | `RENDER_SERVICE_ID` | Optional | `srv-dbnh4v3rjlhs738q5mtg` (workflow automatically defaults to this if omitted). |
-| `RENDER_DEPLOY_HOOK_URL` | Optional | Deploy Hook URL from **Render Dashboard > pokedash-ydy0 > Settings > Deploy Hook** (used as an automated fallback if no API key is set). |
+| `RENDER_DEPLOY_HOOK_URL` | Optional | Deploy Hook URL from **Render Dashboard > pokedash > Settings > Deploy Hook** (used as an automated fallback if no API key is set). |
 
 5. Once secrets are added, any merge or push to `main` will automatically build, test, and deploy.
 
@@ -159,7 +160,7 @@ After a deployment completes:
 
 1. **Verify Health Endpoint**:
    ```bash
-   curl -s https://pokedash-ydy0.onrender.com/api/status | jq .
+   curl -s https://pokedash.onrender.com/api/status | jq .
    ```
    Expected response:
    ```json
@@ -172,7 +173,7 @@ After a deployment completes:
    ```
 
 2. **Verify Web Interface**:
-   Visit [https://pokedash-ydy0.onrender.com](https://pokedash-ydy0.onrender.com) in any browser. The retro GBA screen, sprite assets, and chiptune audio should load immediately without build errors.
+   Visit [https://pokedash.onrender.com](https://pokedash.onrender.com) in any browser. The retro GBA screen, sprite assets, and chiptune audio should load immediately without build errors.
 
 ---
 
