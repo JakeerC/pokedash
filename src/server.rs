@@ -1,6 +1,7 @@
 use axum::{
-    extract::{Path, Query, State},
-    http::{header, StatusCode},
+    async_trait,
+    extract::{FromRef, FromRequestParts, Path, Query, State},
+    http::{header, request::Parts, StatusCode},
     response::IntoResponse,
     routing::{get, post},
     Json, Router,
@@ -11,16 +12,106 @@ use std::collections::HashMap;
 use tower_http::cors::{Any, CorsLayer};
 use tower_http::services::ServeDir;
 
-use crate::models::{BuyResult, CatchAttemptResult, CaughtPokemon};
 use crate::game::{
     calculate_catch_chance, get_generation, get_level_discount, get_level_xp_range,
     get_player_level,
 };
+use crate::models::{AuthResponse, BuyResult, CatchAttemptResult, CaughtPokemon};
 use crate::service::GameService;
 
 #[derive(Clone)]
 pub struct AppState {
     pub service: GameService,
+}
+
+/// Extractor to verify the Supabase Bearer token and extract the Trainer identity
+pub struct AuthenticatedTrainer {
+    pub username: String,
+    pub user_id: String,
+    pub email: String,
+}
+
+#[async_trait]
+impl<S> FromRequestParts<S> for AuthenticatedTrainer
+where
+    AppState: FromRef<S>,
+    S: Send + Sync,
+{
+    type Rejection = (StatusCode, Json<serde_json::Value>);
+
+    async fn from_request_parts(parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
+        let auth_header = parts
+            .headers
+            .get(header::AUTHORIZATION)
+            .and_then(|val| val.to_str().ok());
+
+        let token = match auth_header {
+            Some(h) if h.starts_with("Bearer ") => &h[7..],
+            Some(h) if !h.trim().is_empty() => h.trim(),
+            _ => {
+                return Err((
+                    StatusCode::UNAUTHORIZED,
+                    Json(json!({
+                        "error": "Authentication required. Please sign in to play PokéDash.",
+                        "code": "unauthorized"
+                    })),
+                ));
+            }
+        };
+
+        let app_state = AppState::from_ref(state);
+        let user = if let Some(supabase) = &app_state.service.storage.supabase {
+            supabase.verify_token(token).await.map_err(|e| {
+                (
+                    StatusCode::UNAUTHORIZED,
+                    Json(json!({
+                        "error": format!("Invalid or expired session: {}. Please sign in again.", e),
+                        "code": "session_expired"
+                    })),
+                )
+            })?
+        } else {
+            return Err((
+                StatusCode::SERVICE_UNAVAILABLE,
+                Json(json!({ "error": "Supabase authentication is not configured on this server." })),
+            ));
+        };
+
+        Ok(AuthenticatedTrainer {
+            username: user.username,
+            user_id: user.id,
+            email: user.email,
+        })
+    }
+}
+
+// -------------------------------------------------------------
+// Request Payloads
+// -------------------------------------------------------------
+
+#[derive(Debug, Deserialize)]
+pub struct SignupPayload {
+    pub email: String,
+    pub password: String,
+    pub username: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct LoginPayload {
+    pub email: String,
+    pub password: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct VerifyPayload {
+    pub email: String,
+    pub token: String,
+    pub r#type: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct ResendPayload {
+    pub email: String,
 }
 
 #[derive(Debug, Deserialize)]
@@ -82,7 +173,16 @@ pub fn create_router(state: AppState) -> Router {
         .allow_headers(Any);
 
     let api_routes = Router::new()
+        // Public endpoints
         .route("/status", get(get_status))
+        .route("/leaderboard", get(get_leaderboard))
+        // Authentication endpoints
+        .route("/auth/signup", post(post_auth_signup))
+        .route("/auth/login", post(post_auth_login))
+        .route("/auth/verify", post(post_auth_verify))
+        .route("/auth/resend", post(post_auth_resend))
+        .route("/auth/me", get(get_auth_me))
+        // Protected Game Endpoints (Strictly require AuthenticatedTrainer)
         .route("/player", get(get_player))
         .route("/player/reset", post(reset_player))
         .route("/hunt", post(post_hunt))
@@ -162,25 +262,241 @@ async fn serve_frontend() -> impl IntoResponse {
     }
 }
 
+// -------------------------------------------------------------
+// Auth Handlers
+// -------------------------------------------------------------
+
+async fn post_auth_signup(
+    State(state): State<AppState>,
+    Json(payload): Json<SignupPayload>,
+) -> Result<Json<AuthResponse>, (StatusCode, Json<serde_json::Value>)> {
+    let email = payload.email.trim();
+    let username = payload.username.trim();
+    let password = payload.password.trim();
+
+    if email.is_empty() || !email.contains('@') {
+        return Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": "Valid email address is required" })),
+        ));
+    }
+    if username.len() < 3 || username.len() > 20 {
+        return Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": "Trainer username must be between 3 and 20 characters" })),
+        ));
+    }
+    if !username.chars().all(|c| c.is_alphanumeric() || c == '_' || c == '-') {
+        return Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": "Username can only contain letters, numbers, hyphens, and underscores" })),
+        ));
+    }
+    if password.len() < 6 {
+        return Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": "Password must be at least 6 characters long" })),
+        ));
+    }
+
+    let supabase = state
+        .service
+        .storage
+        .supabase
+        .as_ref()
+        .ok_or_else(|| {
+            (
+                StatusCode::SERVICE_UNAVAILABLE,
+                Json(json!({ "error": "Supabase authentication is not configured" })),
+            )
+        })?;
+
+    // Check if username is already taken
+    match supabase.is_username_taken(username).await {
+        Ok(taken) if taken => {
+            return Err((
+                StatusCode::CONFLICT,
+                Json(json!({ "error": format!("Trainer username '{}' is already taken. Please choose another.", username) })),
+            ));
+        }
+        _ => {}
+    }
+
+    match supabase.signup(email, password, username).await {
+        Ok(auth_res) => {
+            // Also ensure default player profile is initialized in DB
+            let mut def_player = crate::models::PlayerData::default();
+            def_player.username = username.to_string();
+            let _ = supabase.save_player(&def_player).await;
+            Ok(Json(auth_res))
+        }
+        Err(e) => Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": e.to_string() })),
+        )),
+    }
+}
+
+async fn post_auth_login(
+    State(state): State<AppState>,
+    Json(payload): Json<LoginPayload>,
+) -> Result<Json<AuthResponse>, (StatusCode, Json<serde_json::Value>)> {
+    let email = payload.email.trim();
+    let password = payload.password.trim();
+
+    if email.is_empty() || password.is_empty() {
+        return Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": "Email and password are required" })),
+        ));
+    }
+
+    let supabase = state
+        .service
+        .storage
+        .supabase
+        .as_ref()
+        .ok_or_else(|| {
+            (
+                StatusCode::SERVICE_UNAVAILABLE,
+                Json(json!({ "error": "Supabase authentication is not configured" })),
+            )
+        })?;
+
+    match supabase.login(email, password).await {
+        Ok(auth_res) => {
+            // Ensure player record exists in DB
+            let existing = supabase.load_player(&auth_res.user.username).await.unwrap_or(None);
+            if existing.is_none() {
+                let mut def_player = crate::models::PlayerData::default();
+                def_player.username = auth_res.user.username.clone();
+                let _ = supabase.save_player(&def_player).await;
+            }
+            Ok(Json(auth_res))
+        }
+        Err(e) => Err((
+            StatusCode::UNAUTHORIZED,
+            Json(json!({ "error": e.to_string() })),
+        )),
+    }
+}
+
+async fn post_auth_verify(
+    State(state): State<AppState>,
+    Json(payload): Json<VerifyPayload>,
+) -> Result<Json<AuthResponse>, (StatusCode, Json<serde_json::Value>)> {
+    let email = payload.email.trim();
+    let token = payload.token.trim();
+
+    let supabase = state
+        .service
+        .storage
+        .supabase
+        .as_ref()
+        .ok_or_else(|| {
+            (
+                StatusCode::SERVICE_UNAVAILABLE,
+                Json(json!({ "error": "Supabase authentication is not configured" })),
+            )
+        })?;
+
+    match supabase.verify_code(email, token, payload.r#type.as_deref()).await {
+        Ok(auth_res) => {
+            let mut def_player = crate::models::PlayerData::default();
+            def_player.username = auth_res.user.username.clone();
+            let _ = supabase.save_player(&def_player).await;
+            Ok(Json(auth_res))
+        }
+        Err(e) => Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": e.to_string() })),
+        )),
+    }
+}
+
+async fn post_auth_resend(
+    State(state): State<AppState>,
+    Json(payload): Json<ResendPayload>,
+) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
+    let email = payload.email.trim();
+    if email.is_empty() || !email.contains('@') {
+        return Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": "Valid email address is required" })),
+        ));
+    }
+
+    let supabase = state
+        .service
+        .storage
+        .supabase
+        .as_ref()
+        .ok_or_else(|| {
+            (
+                StatusCode::SERVICE_UNAVAILABLE,
+                Json(json!({ "error": "Supabase authentication is not configured" })),
+            )
+        })?;
+
+    match supabase.resend_code(email).await {
+        Ok(_) => Ok(Json(json!({ "message": "Confirmation code resent to your email!" }))),
+        Err(e) => Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": e.to_string() })),
+        )),
+    }
+}
+
+async fn get_auth_me(
+    trainer: AuthenticatedTrainer,
+) -> Json<serde_json::Value> {
+    Json(json!({
+        "authenticated": true,
+        "user": {
+            "id": trainer.user_id,
+            "username": trainer.username,
+            "email": trainer.email,
+        }
+    }))
+}
+
+// -------------------------------------------------------------
+// Public Endpoints
+// -------------------------------------------------------------
+
 async fn get_status(State(state): State<AppState>) -> Json<serde_json::Value> {
-    let player = state.service.get_player();
-    let level = get_player_level(player.xp);
     Json(json!({
         "status": "online",
-        "version": "0.2.0",
-        "username": player.username,
-        "level": level,
-        "currency": player.currency,
+        "version": "0.3.0",
+        "auth": {
+            "primary": "supabase_email",
+            "enabled": state.service.storage.supabase.is_some(),
+        },
         "total_pokemon": 1025,
     }))
 }
 
-async fn get_player(State(state): State<AppState>) -> Json<serde_json::Value> {
-    let player = state.service.get_player();
+async fn get_leaderboard(State(state): State<AppState>) -> Json<serde_json::Value> {
+    let leaderboard = state.service.get_leaderboard();
+    Json(json!({
+        "leaderboard": leaderboard,
+        "total_trainers": leaderboard.len(),
+    }))
+}
+
+// -------------------------------------------------------------
+// Protected Game Endpoints
+// -------------------------------------------------------------
+
+async fn get_player(
+    trainer: AuthenticatedTrainer,
+    State(state): State<AppState>,
+) -> Json<serde_json::Value> {
+    let player = state.service.get_player(&trainer.username);
     let level = get_player_level(player.xp);
     let (prev_xp, next_xp) = get_level_xp_range(level);
     let discount = get_level_discount(level);
-    let pokedex = state.service.get_pokedex();
+    let pokedex = state.service.get_pokedex(&trainer.username);
 
     let unique_count = player.stats.lifetime_unique_pids.len();
     let total_caught = player.stats.total_lifetime_caught;
@@ -197,22 +513,28 @@ async fn get_player(State(state): State<AppState>) -> Json<serde_json::Value> {
     }))
 }
 
-async fn reset_player(State(state): State<AppState>) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
-    state.service.storage.reset_game().map_err(|e| {
+async fn reset_player(
+    trainer: AuthenticatedTrainer,
+    State(state): State<AppState>,
+) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
+    state.service.reset_player(&trainer.username).map_err(|e| {
         (
             StatusCode::INTERNAL_SERVER_ERROR,
-            Json(json!({ "error": e.to_string() })),
+            Json(json!({ "error": e })),
         )
     })?;
-    Ok(Json(json!({ "message": "Game data reset to fresh state" })))
+    Ok(Json(json!({ "message": format!("Player {} reset to fresh state", trainer.username) })))
 }
 
-async fn post_hunt(State(state): State<AppState>) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
-    match state.service.hunt() {
+async fn post_hunt(
+    trainer: AuthenticatedTrainer,
+    State(state): State<AppState>,
+) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
+    match state.service.hunt(&trainer.username) {
         Ok(encounter) => {
-            let player = state.service.get_player();
+            let player = state.service.get_player(&trainer.username);
             let level = get_player_level(player.xp);
-            let dex = state.service.get_pokedex();
+            let dex = state.service.get_pokedex(&trainer.username);
             let already_caught = dex.iter().any(|p| p.id == encounter.pokemon.id);
 
             let mut odds = HashMap::new();
@@ -242,11 +564,14 @@ async fn post_hunt(State(state): State<AppState>) -> Result<Json<serde_json::Val
     }
 }
 
-async fn get_wild(State(state): State<AppState>) -> Json<serde_json::Value> {
-    if let Some(wild) = state.service.get_wild() {
-        let player = state.service.get_player();
+async fn get_wild(
+    trainer: AuthenticatedTrainer,
+    State(state): State<AppState>,
+) -> Json<serde_json::Value> {
+    if let Some(wild) = state.service.get_wild(&trainer.username) {
+        let player = state.service.get_player(&trainer.username);
         let level = get_player_level(player.xp);
-        let dex = state.service.get_pokedex();
+        let dex = state.service.get_pokedex(&trainer.username);
         let already_caught = dex.iter().any(|p| p.id == wild.pokemon.id);
 
         let mut odds = HashMap::new();
@@ -278,10 +603,11 @@ async fn get_wild(State(state): State<AppState>) -> Json<serde_json::Value> {
 }
 
 async fn post_catch(
+    trainer: AuthenticatedTrainer,
     State(state): State<AppState>,
     Json(payload): Json<CatchPayload>,
 ) -> Result<Json<CatchAttemptResult>, (StatusCode, Json<serde_json::Value>)> {
-    match state.service.catch(&payload.ball) {
+    match state.service.catch(&trainer.username, &payload.ball) {
         Ok(result) => Ok(Json(result)),
         Err(e) => Err((
             StatusCode::BAD_REQUEST,
@@ -291,10 +617,11 @@ async fn post_catch(
 }
 
 async fn post_wild_attack(
+    trainer: AuthenticatedTrainer,
     State(state): State<AppState>,
     Json(payload): Json<AttackPayload>,
 ) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
-    match state.service.wild_attack(payload.move_index) {
+    match state.service.wild_attack(&trainer.username, payload.move_index) {
         Ok(res) => Ok(Json(json!(res))),
         Err(e) => Err((
             StatusCode::BAD_REQUEST,
@@ -303,8 +630,11 @@ async fn post_wild_attack(
     }
 }
 
-async fn post_flee(State(state): State<AppState>) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
-    match state.service.flee() {
+async fn post_flee(
+    trainer: AuthenticatedTrainer,
+    State(state): State<AppState>,
+) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
+    match state.service.flee(&trainer.username) {
         Ok(msg) => Ok(Json(json!({ "message": msg }))),
         Err(e) => Err((
             StatusCode::BAD_REQUEST,
@@ -313,10 +643,13 @@ async fn post_flee(State(state): State<AppState>) -> Result<Json<serde_json::Val
     }
 }
 
-async fn post_heal(State(state): State<AppState>) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
-    match state.service.heal_party() {
+async fn post_heal(
+    trainer: AuthenticatedTrainer,
+    State(state): State<AppState>,
+) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
+    match state.service.heal_party(&trainer.username) {
         Ok(msg) => {
-            let player = state.service.get_player();
+            let player = state.service.get_player(&trainer.username);
             Ok(Json(json!({
                 "message": msg,
                 "party": player.party,
@@ -330,12 +663,13 @@ async fn post_heal(State(state): State<AppState>) -> Result<Json<serde_json::Val
 }
 
 async fn post_party_select(
+    trainer: AuthenticatedTrainer,
     State(state): State<AppState>,
     Json(payload): Json<PartySelectPayload>,
 ) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
-    match state.service.set_active_pokemon(payload.pokemon_id) {
+    match state.service.set_active_pokemon(&trainer.username, payload.pokemon_id) {
         Ok(msg) => {
-            let player = state.service.get_player();
+            let player = state.service.get_player(&trainer.username);
             Ok(Json(json!({
                 "message": msg,
                 "party": player.party,
@@ -348,10 +682,13 @@ async fn post_party_select(
     }
 }
 
-async fn get_arena(State(state): State<AppState>) -> Json<serde_json::Value> {
-    let divisions = state.service.get_arena_list();
-    let active_battle = state.service.get_arena_battle();
-    let player = state.service.get_player();
+async fn get_arena(
+    trainer: AuthenticatedTrainer,
+    State(state): State<AppState>,
+) -> Json<serde_json::Value> {
+    let divisions = state.service.get_arena_list(&trainer.username);
+    let active_battle = state.service.get_arena_battle(&trainer.username);
+    let player = state.service.get_player(&trainer.username);
     Json(json!({
         "divisions": divisions,
         "active_battle": active_battle,
@@ -361,10 +698,11 @@ async fn get_arena(State(state): State<AppState>) -> Json<serde_json::Value> {
 }
 
 async fn post_arena_start(
+    trainer: AuthenticatedTrainer,
     State(state): State<AppState>,
     Json(payload): Json<ArenaStartPayload>,
 ) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
-    match state.service.start_arena_battle(&payload.arena_id) {
+    match state.service.start_arena_battle(&trainer.username, &payload.arena_id) {
         Ok(battle) => Ok(Json(json!(battle))),
         Err(e) => Err((
             StatusCode::BAD_REQUEST,
@@ -374,10 +712,11 @@ async fn post_arena_start(
 }
 
 async fn post_arena_attack(
+    trainer: AuthenticatedTrainer,
     State(state): State<AppState>,
     Json(payload): Json<AttackPayload>,
 ) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
-    match state.service.arena_attack(payload.move_index) {
+    match state.service.arena_attack(&trainer.username, payload.move_index) {
         Ok(res) => Ok(Json(json!(res))),
         Err(e) => Err((
             StatusCode::BAD_REQUEST,
@@ -387,10 +726,11 @@ async fn post_arena_attack(
 }
 
 async fn get_pokedex(
+    trainer: AuthenticatedTrainer,
     State(state): State<AppState>,
     Query(query): Query<PokedexQuery>,
 ) -> Json<serde_json::Value> {
-    let mut dex = state.service.get_pokedex();
+    let mut dex = state.service.get_pokedex(&trainer.username);
 
     if let Some(ref search) = query.search {
         let s = search.trim().to_lowercase();
@@ -446,11 +786,12 @@ async fn get_pokedex(
 }
 
 async fn get_catalog(
+    trainer: AuthenticatedTrainer,
     State(state): State<AppState>,
     Query(query): Query<PokedexQuery>,
 ) -> Json<serde_json::Value> {
     let mut catalog = state.service.storage.pokemon_list.clone();
-    let dex = state.service.get_pokedex();
+    let dex = state.service.get_pokedex(&trainer.username);
 
     let mut owned_map: HashMap<u32, usize> = HashMap::new();
     for p in dex {
@@ -522,11 +863,12 @@ async fn get_catalog(
 }
 
 async fn get_pokemon_by_id(
+    trainer: AuthenticatedTrainer,
     State(state): State<AppState>,
     Path(id): Path<u32>,
 ) -> Result<Json<serde_json::Value>, (StatusCode, Json<serde_json::Value>)> {
     if let Some(pokemon) = state.service.storage.pokemon_catalog.get(&id) {
-        let dex = state.service.get_pokedex();
+        let dex = state.service.get_pokedex(&trainer.username);
         let owned_instances: Vec<&CaughtPokemon> = dex.iter().filter(|p| p.id == id).collect();
         let cry_url = format!("https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/{}.ogg", id);
         let art_url = format!("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{}.png", id);
@@ -549,9 +891,12 @@ async fn get_pokemon_by_id(
     }
 }
 
-async fn get_store(State(state): State<AppState>) -> Json<serde_json::Value> {
-    let items = state.service.get_store_catalog();
-    let player = state.service.get_player();
+async fn get_store(
+    trainer: AuthenticatedTrainer,
+    State(state): State<AppState>,
+) -> Json<serde_json::Value> {
+    let items = state.service.get_store_catalog(&trainer.username);
+    let player = state.service.get_player(&trainer.username);
     let level = get_player_level(player.xp);
     let discount = get_level_discount(level);
 
@@ -573,10 +918,11 @@ async fn get_store(State(state): State<AppState>) -> Json<serde_json::Value> {
 }
 
 async fn post_store_buy(
+    trainer: AuthenticatedTrainer,
     State(state): State<AppState>,
     Json(payload): Json<BuyPayload>,
 ) -> Result<Json<BuyResult>, (StatusCode, Json<serde_json::Value>)> {
-    match state.service.buy(&payload.item, payload.amount) {
+    match state.service.buy(&trainer.username, &payload.item, payload.amount) {
         Ok(result) => Ok(Json(result)),
         Err(e) => Err((
             StatusCode::BAD_REQUEST,
@@ -586,10 +932,11 @@ async fn post_store_buy(
 }
 
 async fn post_store_sell(
+    trainer: AuthenticatedTrainer,
     State(state): State<AppState>,
     Json(payload): Json<SellPayload>,
 ) -> Result<Json<crate::models::SellResult>, (StatusCode, Json<serde_json::Value>)> {
-    match state.service.sell_one(&payload.name) {
+    match state.service.sell_one(&trainer.username, &payload.name) {
         Ok(result) => Ok(Json(result)),
         Err(e) => Err((
             StatusCode::BAD_REQUEST,
@@ -599,10 +946,11 @@ async fn post_store_sell(
 }
 
 async fn post_store_sell_all(
+    trainer: AuthenticatedTrainer,
     State(state): State<AppState>,
     Json(payload): Json<SellAllPayload>,
 ) -> Result<Json<crate::models::SellResult>, (StatusCode, Json<serde_json::Value>)> {
-    match state.service.sell_all_by_rarity(&payload.rarity) {
+    match state.service.sell_all_by_rarity(&trainer.username, &payload.rarity) {
         Ok(result) => Ok(Json(result)),
         Err(e) => Err((
             StatusCode::BAD_REQUEST,
@@ -612,9 +960,10 @@ async fn post_store_sell_all(
 }
 
 async fn post_store_sell_dupes(
+    trainer: AuthenticatedTrainer,
     State(state): State<AppState>,
 ) -> Result<Json<crate::models::SellResult>, (StatusCode, Json<serde_json::Value>)> {
-    match state.service.sell_duplicates() {
+    match state.service.sell_duplicates(&trainer.username) {
         Ok(result) => Ok(Json(result)),
         Err(e) => Err((
             StatusCode::BAD_REQUEST,

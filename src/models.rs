@@ -59,15 +59,25 @@ pub struct BattlePokemon {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PlayerStats {
+    #[serde(default)]
     pub total_hunts: u32,
+    #[serde(default)]
     pub successful_catches: u32,
+    #[serde(default)]
     pub failed_catches: u32,
+    #[serde(default)]
     pub first_time_catches: u32,
+    #[serde(default)]
     pub xp_from_hunting: u32,
+    #[serde(default)]
     pub xp_from_catching: u32,
+    #[serde(default)]
     pub total_lifetime_caught: u32,
+    #[serde(default)]
     pub lifetime_rarity: HashMap<String, u32>,
+    #[serde(default)]
     pub lifetime_gens: HashMap<String, u32>,
+    #[serde(default)]
     pub lifetime_unique_pids: Vec<u32>,
     #[serde(default)]
     pub arena_battles: u32,
@@ -106,10 +116,15 @@ impl Default for PlayerStats {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PlayerData {
     pub username: String,
+    #[serde(default)]
     pub currency: u64,
+    #[serde(default)]
     pub xp: u64,
+    #[serde(default)]
     pub balls: HashMap<String, u32>,
+    #[serde(default)]
     pub last_hunt_time: f64,
+    #[serde(default)]
     pub stats: PlayerStats,
     #[serde(default)]
     pub active_pokemon_id: Option<u32>,
@@ -283,4 +298,40 @@ pub struct BattleActionResult {
     pub badge_earned: Option<String>,
     pub message: String,
     pub logs: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AuthUser {
+    pub id: String,
+    pub email: String,
+    pub username: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AuthResponse {
+    pub token: String,
+    pub user: AuthUser,
+    #[serde(default)]
+    pub requires_verification: bool,
+    #[serde(default)]
+    pub message: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LeaderboardEntry {
+    pub rank: usize,
+    pub username: String,
+    pub level: u32,
+    pub xp: u64,
+    pub currency: u64,
+    pub badges_count: usize,
+    pub unique_caught: usize,
+    #[serde(default)]
+    pub lead_pokemon_id: Option<u32>,
+    #[serde(default)]
+    pub lead_pokemon_name: Option<String>,
+    #[serde(default)]
+    pub lead_pokemon_level: Option<u32>,
+    #[serde(default)]
+    pub lead_pokemon_sprite: Option<String>,
 }
