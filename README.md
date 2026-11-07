@@ -1,12 +1,23 @@
 # PokéDash ⚡
 
-A retro Pokémon hunting, catching, battling, and collecting game powered by a high-performance **Rust backend engine** (Axum, Tokio, Serde), a custom **Game Boy Advance LCD Web UI**, and **Supabase PostgreSQL cloud persistence** with PokeAPI integration.
+A retro Pokémon hunting, catching, battling, and collecting game powered by a high-performance **Rust backend engine** (Axum, Tokio, Serde), a custom **Game Boy Advance LCD Web UI**, and **Supabase PostgreSQL cloud persistence & GoTrue email authentication** with PokeAPI integration.
 
 Inspired by [PokéCatch](https://pokecatch.ritikkumar.dev/) and powered by [PokeAPI](https://pokeapi.co/docs/v2).
 
 ---
 
 ## 🌟 Key Features
+
+- **Email-Based Trainer Passport Authentication**:
+  - **Email as Primary Identity**: Secure authentication powered by Supabase GoTrue Auth (`/auth/v1`).
+  - **Unique Trainer Names (`playerName`)**: Globally unique, case-insensitive trainer handles enforced at both database (`lower(username)`) and application levels.
+  - **Friction-Free Verification**: Supports 6-digit confirmation codes as well as 1-click email confirmation links (`#access_token=...`) that automatically log you in.
+  - **Strict Gameplay Gating**: Unauthenticated gameplay is completely restricted. All game actions require valid Bearer JWT session tokens, and the frontend locks controls until signed in.
+
+- **Real-Time Multiplayer Leaderboard**:
+  - **Global Ranks**: Competitively ranks all trainers globally based on total experience points (`xp DESC`).
+  - **Live Lead Pokémon**: Displays each trainer's active party lead Pokémon name, level, and animated sprite.
+  - **Stats Tracking**: Displays player level, badges acquired (out of 10), and unique Pokémon caught (out of 1025).
 
 - **Dedicated Retro Web UI (`static/index.html`)**:
   - **Authentic GBA LCD Aesthetics**: Custom dark emerald matrix LCD styling, optional CRT scanlines toggle, physical D-Pad, A/B action buttons, and top console slide switches.
@@ -23,12 +34,12 @@ Inspired by [PokéCatch](https://pokecatch.ritikkumar.dev/) and powered by [Poke
 - **High-Performance Rust Backend**:
   - Built with **Axum 0.7**, **Tokio**, and **Tower-HTTP**.
   - All 1025 Pokémon definitions pre-loaded in memory for $O(1)$ weighted encounter lookups.
-  - High-speed REST API endpoints for all gameplay operations.
+  - High-speed REST API endpoints with in-memory JWT authentication cache (10-minute TTL).
 
 - **Supabase Cloud Persistence & Fail-Safe Offline Mode**:
   - Direct integration with **Supabase PostgREST** for cross-device cloud persistence.
-  - Automatic migration from local saves on first boot.
-  - Transparent write-through fallback to local JSON in `~/.pokedash/` if offline or unconfigured.
+  - Multi-tenant storage scoped by trainer username (`player_<username>.json`, `pokedex_<username>.json`).
+  - Transparent fallback to local JSON in `~/.pokedash/` if offline or unconfigured.
 
 - **Agentic AI Ready**:
   - Comprehensive documentation, skills, and architectures designed for AI developer agents (`AGENTS.md`, `CONTEXT.md`, `ARCHITECTURE.md`, `.agents/`, `.gemini/`).
@@ -45,7 +56,7 @@ cargo build --release
 
 The compiled standalone binary is placed at `./target/release/pokedash`.
 
-### 2. Configure Cloud Database (Optional)
+### 2. Configure Cloud Database & Authentication (Optional)
 
 Copy `.env.example` to `.env`:
 
@@ -58,7 +69,7 @@ Set your Supabase credentials:
 SUPABASE_URL=https://<your-project-ref>.supabase.co
 SUPABASE_KEY=<your-anon-or-service-key>
 ```
-*Note: If no Supabase environment variables are provided, the game automatically uses local JSON storage in `~/.pokedash/`.*
+*Note: If no Supabase environment variables are provided, the game falls back to local JSON storage in `~/.pokedash/`.*
 
 ### 3. Launch the Web Game
 
@@ -67,6 +78,11 @@ SUPABASE_KEY=<your-anon-or-service-key>
 ```
 
 Open your browser to: **`http://localhost:8080`**
+
+On initial launch, the **Silph Co. Trainer Terminal** will appear:
+1. Click **REGISTER** to create your unique Trainer Passport (email, password, and chosen trainer name).
+2. Enter your 6-digit confirmation code (or click the email confirmation link).
+3. Begin hunting, battling, and collecting Pokémon!
 
 ### Command-line Options:
 ```
@@ -144,16 +160,40 @@ $$\text{XP Required for Level } L = \lfloor 100 \times L^{1.5} \rfloor$$
 
 ## 🗄️ Database & Cloud Persistence (Supabase)
 
-PokéDash uses **Supabase PostgreSQL** as its primary cloud database, providing durable, scalable persistence across devices and sessions.
+PokéDash uses **Supabase PostgreSQL** as its primary cloud database, providing durable, multi-tenant persistence and global leaderboard synchronization across devices.
 
-### Tables
+### Tables & Key Indexes
 
-| Table | Description | Primary Key |
+| Table | Description | Key Constraint / Index |
 |---|---|---|
-| `players` | Stores player profile, level, currency, XP, Pokéball inventory, party Pokémon, and badges. | `username` |
-| `pokedex` | Stores every caught Pokémon instance with stats, IVs, rarity, catch timestamps, and ball used. | `id` (Unique on `username, pokemon_id`) |
-| `wild_encounters` | Persists active wild Pokémon encounter state, remaining HP, and cooldowns. | `username` |
-| `arena_battles` | Persists ongoing gym arena battles, active Pokémon, and combat logs. | `username` |
+| `players` | Stores player profile, level, currency, XP, Pokéball inventory, party Pokémon, and badges. | `PRIMARY KEY (username)`, `UNIQUE (lower(username))`, `INDEX (xp DESC)` |
+| `pokedex` | Stores every caught Pokémon instance with stats, IVs, rarity, catch timestamps, and ball used. | `PRIMARY KEY (entry_id)`, `INDEX (username)` |
+| `wild_encounters` | Persists active wild Pokémon encounter state, remaining HP, and cooldowns. | `PRIMARY KEY (username)` |
+| `arena_battles` | Persists ongoing gym arena battles, active Pokémon, and combat logs. | `PRIMARY KEY (username)` |
+
+---
+
+## 📡 REST API Overview
+
+### Public Routes
+- `GET /api/status` — Server health, engine version, and auth configuration.
+- `GET /api/leaderboard` — Real-time top 50 global multiplayer rankings.
+
+### Authentication Routes
+- `POST /api/auth/signup` — Register with email, password, and unique trainer name.
+- `POST /api/auth/login` — Sign in with email and password to receive Bearer JWT.
+- `POST /api/auth/verify` — Confirm email code to activate account.
+- `POST /api/auth/resend` — Resend verification code.
+- `GET /api/auth/me` — Verify current session token and retrieve trainer identity.
+
+### Protected Gameplay Routes (Requires `Authorization: Bearer <token>`)
+- `GET /api/player` & `POST /api/player/reset` — Player profile and reset.
+- `POST /api/hunt`, `GET /api/wild`, `POST /api/catch`, `POST /api/flee` — Tall grass hunting and catching.
+- `POST /api/battle/wild-attack` & `POST /api/battle/heal` — Turn-based combat and nurse healing.
+- `POST /api/party/select` — Active battle team management.
+- `GET /api/arena`, `POST /api/arena/start`, `POST /api/arena/attack` — Gym leader divisions and battles.
+- `GET /api/pokedex`, `GET /api/catalog`, `GET /api/pokemon/:id` — Pokédex entries and species details.
+- `GET /api/store`, `POST /api/store/buy`, `POST /api/store/sell`, `POST /api/store/sell-dupes` — Mart purchasing and selling.
 
 ---
 
@@ -163,7 +203,7 @@ PokéDash includes dedicated documentation and skill definitions for autonomous 
 
 - **[`AGENTS.md`](AGENTS.md)**: Rules of engagement, coding directives, zero-emoji policy, and definition of done for AI agents.
 - **[`CONTEXT.md`](CONTEXT.md)**: Exhaustive gameplay loops, mathematical formulas, Supabase SQL schemas, and REST API specification.
-- **[`ARCHITECTURE.md`](ARCHITECTURE.md)**: Deep architectural guide, concurrency model (`Arc<RwLock<()>>`), write-through storage flow, and latency optimizations.
+- **[`ARCHITECTURE.md`](ARCHITECTURE.md)**: Deep architectural guide, security model, concurrency model (`Arc<RwLock<()>>`), write-through storage flow, and latency optimizations.
 - **[`.agents/skills/`](.agents/skills/)** & **[`.gemini/skills/`](.gemini/skills/)**: Skill definitions for agent task execution and validation.
 
 ---
@@ -176,13 +216,13 @@ pokedash/
 ├── .env.example          # Supabase environment variables template
 ├── AGENTS.md             # Directives and guidelines for AI agents
 ├── CONTEXT.md            # Deep gameplay mechanics, API & database schema
-├── ARCHITECTURE.md       # Architecture, concurrency, and persistence design
+├── ARCHITECTURE.md       # Architecture, security, concurrency, and persistence design
 ├── .agents/skills/       # Agent skills for PokéDash core standards
 ├── .gemini/skills/       # Gemini agent skills
 ├── data/
 │   └── pokemon_data.json # All 1025 Pokemon stats, types, rarities
 ├── static/
-│   ├── index.html        # Retro GBA Web Game UI & Dashboard
+│   ├── index.html        # Retro GBA Web Game UI, Auth Modal & Dashboard
 │   ├── pixel-icons.svg   # 37 custom-drawn retro pixel art SVG icons
 │   ├── keyboard.html     # On-screen keyboard input test interface
 │   ├── fonts/            # PixelEmulator and Player2 retro font assets
@@ -193,12 +233,12 @@ pokedash/
 ├── src/
 │   ├── main.rs           # Application entry point & initialization
 │   ├── lib.rs            # Library module exports
-│   ├── models.rs         # Strongly typed data models
+│   ├── models.rs         # Strongly typed data models (Player, Auth, Leaderboard)
 │   ├── game.rs           # Core mechanics, odds, ball formulas, gym divisions
-│   ├── supabase.rs       # Supabase PostgREST client & environment loader
+│   ├── supabase.rs       # Supabase GoTrue client, token cache, and PostgREST ops
 │   ├── storage.rs        # Dual persistence: Supabase DB + local fallback
-│   ├── service.rs        # Core gameplay service & lock management
-│   ├── server.rs         # Axum HTTP API & static web router
+│   ├── service.rs        # Core gameplay service & lock management (user scoped)
+│   ├── server.rs         # Axum HTTP API, AuthenticatedTrainer extractor & routing
 │   └── cli.rs            # Web server arguments & terminal banner
 └── README.md             # Project documentation
 ```

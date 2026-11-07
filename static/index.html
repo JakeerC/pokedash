@@ -1221,6 +1221,263 @@
       text-transform: uppercase;
       font-weight: bold;
     }
+
+    /* Retro GBA Trainer Auth Modal */
+    .auth-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 12, 18, 0.95);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      backdrop-filter: blur(8px);
+    }
+    .auth-modal-overlay.hidden {
+      display: none !important;
+    }
+    .auth-modal-card {
+      background: #111a24;
+      border: 4px solid #facc15;
+      border-radius: 12px;
+      padding: 24px 28px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 0 40px rgba(250, 204, 21, 0.3), 0 20px 40px rgba(0,0,0,0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: auth-pop 0.25s ease-out;
+    }
+    @keyframes auth-pop {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .auth-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #233549;
+      padding-bottom: 12px;
+    }
+    .auth-header-title {
+      font-size: 11px;
+      color: #facc15;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .auth-status-chip {
+      font-size: 8px;
+      color: #f87171;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      border-radius: 4px;
+      padding: 2px 6px;
+    }
+    .auth-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ef4444;
+      display: inline-block;
+      animation: auth-pulse 1s infinite alternate;
+    }
+    @keyframes auth-pulse { from { opacity: 0.3; } to { opacity: 1; } }
+    .auth-banner {
+      background: #090e17;
+      border: 1px dashed #3b82f6;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 8px;
+      color: #93c5fd;
+      line-height: 1.5;
+      text-align: center;
+    }
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 4px;
+      background: #090e17;
+      padding: 3px;
+      border-radius: 6px;
+    }
+    .auth-tab {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-family: var(--pixel-font);
+      font-size: 9px;
+      padding: 8px 4px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .auth-tab.active {
+      background: #facc15;
+      color: #000;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(250, 204, 21, 0.4);
+    }
+    .auth-form {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .auth-form.active {
+      display: flex;
+    }
+    .auth-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .auth-field label {
+      font-size: 8px;
+      color: #cbd5e1;
+      font-weight: bold;
+    }
+    .auth-field input {
+      background: #080c14;
+      border: 2px solid #233549;
+      border-radius: 4px;
+      padding: 10px 12px;
+      color: #fff;
+      font-family: var(--pixel-font);
+      font-size: 10px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .auth-field input:focus {
+      border-color: #facc15;
+      box-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
+    }
+    .auth-hint {
+      font-size: 7px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    .auth-btn-submit {
+      background: linear-gradient(180deg, #facc15 0%, #ca8a04 100%);
+      border: 2px solid #78350f;
+      color: #000;
+      font-family: var(--pixel-font);
+      font-size: 11px;
+      font-weight: bold;
+      padding: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #78350f;
+      transition: all 0.1s;
+      margin-top: 4px;
+    }
+    .auth-btn-submit:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #78350f;
+    }
+    .auth-btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .auth-message {
+      font-size: 8px;
+      line-height: 1.5;
+      padding: 8px 10px;
+      border-radius: 4px;
+      display: none;
+      text-align: center;
+    }
+    .auth-message.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      color: #f87171;
+    }
+    .auth-message.success {
+      display: block;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid #22c55e;
+      color: #4ade80;
+    }
+
+    /* Leaderboards Pane Styling */
+    .leaderboard-container {
+      background: #0f1c14;
+      border: 3px solid #284430;
+      border-radius: 12px;
+      padding: 16px 20px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    .leaderboard-table-wrap {
+      flex: 1;
+      overflow-y: auto;
+      border: 2px solid #1a3022;
+      border-radius: 8px;
+      background: #0a130e;
+    }
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9px;
+      text-align: left;
+    }
+    .leaderboard-table th {
+      background: #14241b;
+      color: #facc15;
+      padding: 8px 10px;
+      border-bottom: 2px solid #284430;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    .leaderboard-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #16291d;
+      color: #e2e8f0;
+      vertical-align: middle;
+    }
+    .leaderboard-table tr:hover {
+      background: rgba(250, 204, 21, 0.08);
+    }
+    .leaderboard-table tr.current-trainer-row {
+      background: rgba(59, 130, 246, 0.2) !important;
+      border-left: 3px solid #3b82f6;
+    }
+    .rank-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+      text-align: center;
+      min-width: 28px;
+    }
+    .rank-1 { background: #facc15; color: #000; box-shadow: 0 0 8px rgba(250, 204, 21, 0.5); }
+    .rank-2 { background: #cbd5e1; color: #000; }
+    .rank-3 { background: #d97706; color: #fff; }
+    .rank-other { background: #1e293b; color: #94a3b8; }
+    .lead-mon-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #14241b;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #284430;
+    }
+    .lead-mon-sprite {
+      width: 22px;
+      height: 22px;
+      image-rendering: pixelated;
+    }
   </style>
 </head>
 <body class="no-scanlines">
@@ -1228,6 +1485,8 @@
   <div style="display: none;" id="pixel-icons-container">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 <defs>
+<symbol id="px-trophy" viewBox="0 0 16 16"><rect x="3" y="1" width="10" height="1" fill="#78350f"/><rect x="2" y="2" width="12" height="1" fill="#facc15"/><rect x="1" y="3" width="14" height="2" fill="#facc15"/><rect x="0" y="3" width="2" height="3" fill="#ca8a04"/><rect x="14" y="3" width="2" height="3" fill="#ca8a04"/><rect x="2" y="5" width="12" height="2" fill="#eab308"/><rect x="4" y="7" width="8" height="2" fill="#ca8a04"/><rect x="6" y="9" width="4" height="2" fill="#a16207"/><rect x="5" y="11" width="6" height="2" fill="#eab308"/><rect x="4" y="13" width="8" height="2" fill="#78350f"/></symbol>
+<symbol id="px-lock" viewBox="0 0 16 16"><rect x="5" y="1" width="6" height="1" fill="#0f172a"/><rect x="4" y="2" width="2" height="4" fill="#0f172a"/><rect x="10" y="2" width="2" height="4" fill="#0f172a"/><rect x="3" y="6" width="10" height="9" fill="#facc15"/><rect x="2" y="6" width="1" height="9" fill="#0f172a"/><rect x="13" y="6" width="1" height="9" fill="#0f172a"/><rect x="3" y="15" width="10" height="1" fill="#0f172a"/><rect x="7" y="9" width="2" height="3" fill="#78350f"/></symbol>
 <symbol id="px-grass" viewBox="0 0 16 16"><rect x="3" y="1" width="1" height="1" fill="#0a2318"/><rect x="10" y="1" width="1" height="1" fill="#0a2318"/><rect x="2" y="2" width="1" height="1" fill="#0a2318"/><rect x="3" y="2" width="1" height="1" fill="#86efac"/><rect x="4" y="2" width="1" height="1" fill="#0a2318"/><rect x="9" y="2" width="1" height="1" fill="#0a2318"/><rect x="10" y="2" width="1" height="1" fill="#86efac"/><rect x="11" y="2" width="1" height="1" fill="#0a2318"/><rect x="14" y="2" width="1" height="1" fill="#0a2318"/><rect x="2" y="3" width="1" height="1" fill="#0a2318"/><rect x="3" y="3" width="1" height="1" fill="#22c55e"/><rect x="4" y="3" width="1" height="1" fill="#86efac"/><rect x="5" y="3" width="1" height="1" fill="#0a2318"/><rect x="8" y="3" width="1" height="1" fill="#0a2318"/><rect x="9" y="3" width="1" height="1" fill="#22c55e"/><rect x="10" y="3" width="1" height="1" fill="#86efac"/><rect x="11" y="3" width="1" height="1" fill="#0a2318"/><rect x="13" y="3" width="1" height="1" fill="#0a2318"/><rect x="14" y="3" width="1" height="1" fill="#86efac"/><rect x="15" y="3" width="1" height="1" fill="#0a2318"/><rect x="2" y="4" width="1" height="1" fill="#0a2318"/><rect x="3" y="4" width="2" height="1" fill="#22c55e"/><rect x="5" y="4" width="1" height="1" fill="#0a2318"/><rect x="8" y="4" width="1" height="1" fill="#0a2318"/><rect x="9" y="4" width="2" height="1" fill="#22c55e"/><rect x="11" y="4" width="1" height="1" fill="#0a2318"/><rect x="13" y="4" width="1" height="1" fill="#0a2318"/><rect x="14" y="4" width="1" height="1" fill="#22c55e"/><rect x="15" y="4" width="1" height="1" fill="#0a2318"/><rect x="1" y="5" width="1" height="1" fill="#0a2318"/><rect x="2" y="5" width="1" height="1" fill="#15803d"/><rect x="3" y="5" width="2" height="1" fill="#22c55e"/><rect x="5" y="5" width="1" height="1" fill="#0a2318"/><rect x="8" y="5" width="1" height="1" fill="#0a2318"/><rect x="9" y="5" width="3" height="1" fill="#22c55e"/><rect x="12" y="5" width="1" height="1" fill="#0a2318"/><rect x="13" y="5" width="2" height="1" fill="#22c55e"/><rect x="15" y="5" width="1" height="1" fill="#0a2318"/><rect x="1" y="6" width="1" height="1" fill="#0a2318"/><rect x="2" y="6" width="1" height="1" fill="#15803d"/><rect x="3" y="6" width="2" height="1" fill="#22c55e"/><rect x="5" y="6" width="1" height="1" fill="#0a2318"/><rect x="8" y="6" width="1" height="1" fill="#0a2318"/><rect x="9" y="6" width="1" height="1" fill="#15803d"/><rect x="10" y="6" width="4" height="1" fill="#22c55e"/><rect x="14" y="6" width="1" height="1" fill="#15803d"/><rect x="15" y="6" width="1" height="1" fill="#0a2318"/><rect x="1" y="7" width="1" height="1" fill="#0a2318"/><rect x="2" y="7" width="1" height="1" fill="#15803d"/><rect x="3" y="7" width="3" height="1" fill="#22c55e"/><rect x="6" y="7" width="2" height="1" fill="#0a2318"/><rect x="8" y="7" width="1" height="1" fill="#15803d"/><rect x="9" y="7" width="5" height="1" fill="#22c55e"/><rect x="14" y="7" width="2" height="1" fill="#0a2318"/><rect x="1" y="8" width="1" height="1" fill="#0a2318"/><rect x="2" y="8" width="1" height="1" fill="#15803d"/><rect x="3" y="8" width="4" height="1" fill="#22c55e"/><rect x="7" y="8" width="1" height="1" fill="#15803d"/><rect x="8" y="8" width="6" height="1" fill="#22c55e"/><rect x="14" y="8" width="1" height="1" fill="#15803d"/><rect x="15" y="8" width="1" height="1" fill="#0a2318"/><rect x="1" y="9" width="2" height="1" fill="#0a2318"/><rect x="3" y="9" width="1" height="1" fill="#15803d"/><rect x="4" y="9" width="10" height="1" fill="#22c55e"/><rect x="14" y="9" width="1" height="1" fill="#15803d"/><rect x="15" y="9" width="1" height="1" fill="#0a2318"/><rect x="1" y="10" width="2" height="1" fill="#0a2318"/><rect x="3" y="10" width="1" height="1" fill="#15803d"/><rect x="4" y="10" width="7" height="1" fill="#22c55e"/><rect x="11" y="10" width="1" height="1" fill="#15803d"/><rect x="12" y="10" width="2" height="1" fill="#22c55e"/><rect x="14" y="10" width="1" height="1" fill="#15803d"/><rect x="15" y="10" width="1" height="1" fill="#0a2318"/><rect x="2" y="11" width="2" height="1" fill="#0a2318"/><rect x="4" y="11" width="2" height="1" fill="#15803d"/><rect x="6" y="11" width="4" height="1" fill="#22c55e"/><rect x="10" y="11" width="4" height="1" fill="#15803d"/><rect x="14" y="11" width="2" height="1" fill="#0a2318"/><rect x="3" y="12" width="3" height="1" fill="#0a2318"/><rect x="6" y="12" width="7" height="1" fill="#15803d"/><rect x="13" y="12" width="2" height="1" fill="#0a2318"/><rect x="5" y="13" width="9" height="1" fill="#0a2318"/></symbol>
 <symbol id="px-arena" viewBox="0 0 16 16"><rect x="5" y="1" width="6" height="1" fill="#0f172a"/><rect x="3" y="2" width="2" height="1" fill="#0f172a"/><rect x="5" y="2" width="6" height="1" fill="#facc15"/><rect x="11" y="2" width="2" height="1" fill="#0f172a"/><rect x="2" y="3" width="1" height="1" fill="#0f172a"/><rect x="3" y="3" width="8" height="1" fill="#facc15"/><rect x="11" y="3" width="2" height="1" fill="#ca8a04"/><rect x="13" y="3" width="1" height="1" fill="#0f172a"/><rect x="1" y="4" width="14" height="1" fill="#0f172a"/><rect x="1" y="5" width="1" height="1" fill="#0f172a"/><rect x="2" y="5" width="12" height="1" fill="#cbd5e1"/><rect x="14" y="5" width="1" height="1" fill="#0f172a"/><rect x="1" y="6" width="1" height="1" fill="#0f172a"/><rect x="2" y="6" width="1" height="1" fill="#cbd5e1"/><rect x="3" y="6" width="1" height="1" fill="#94a3b8"/><rect x="4" y="6" width="1" height="1" fill="#0f172a"/><rect x="5" y="6" width="2" height="1" fill="#1e293b"/><rect x="7" y="6" width="1" height="1" fill="#0f172a"/><rect x="8" y="6" width="1" height="1" fill="#cbd5e1"/><rect x="9" y="6" width="1" height="1" fill="#94a3b8"/><rect x="10" y="6" width="1" height="1" fill="#0f172a"/><rect x="11" y="6" width="2" height="1" fill="#1e293b"/><rect x="13" y="6" width="1" height="1" fill="#0f172a"/><rect x="14" y="6" width="1" height="1" fill="#cbd5e1"/><rect x="15" y="6" width="1" height="1" fill="#0f172a"/><rect x="1" y="7" width="1" height="1" fill="#0f172a"/><rect x="2" y="7" width="1" height="1" fill="#cbd5e1"/><rect x="3" y="7" width="1" height="1" fill="#94a3b8"/><rect x="4" y="7" width="1" height="1" fill="#0f172a"/><rect x="5" y="7" width="2" height="1" fill="#1e293b"/><rect x="7" y="7" width="1" height="1" fill="#0f172a"/><rect x="8" y="7" width="1" height="1" fill="#cbd5e1"/><rect x="9" y="7" width="1" height="1" fill="#94a3b8"/><rect x="10" y="7" width="1" height="1" fill="#0f172a"/><rect x="11" y="7" width="2" height="1" fill="#1e293b"/><rect x="13" y="7" width="1" height="1" fill="#0f172a"/><rect x="14" y="7" width="1" height="1" fill="#cbd5e1"/><rect x="15" y="7" width="1" height="1" fill="#0f172a"/><rect x="1" y="8" width="1" height="1" fill="#0f172a"/><rect x="2" y="8" width="1" height="1" fill="#cbd5e1"/><rect x="3" y="8" width="1" height="1" fill="#94a3b8"/><rect x="4" y="8" width="1" height="1" fill="#0f172a"/><rect x="5" y="8" width="2" height="1" fill="#1e293b"/><rect x="7" y="8" width="1" height="1" fill="#0f172a"/><rect x="8" y="8" width="1" height="1" fill="#cbd5e1"/><rect x="9" y="8" width="1" height="1" fill="#94a3b8"/><rect x="10" y="8" width="1" height="1" fill="#0f172a"/><rect x="11" y="8" width="2" height="1" fill="#1e293b"/><rect x="13" y="8" width="1" height="1" fill="#0f172a"/><rect x="14" y="8" width="1" height="1" fill="#cbd5e1"/><rect x="15" y="8" width="1" height="1" fill="#0f172a"/><rect x="1" y="9" width="1" height="1" fill="#0f172a"/><rect x="2" y="9" width="12" height="1" fill="#cbd5e1"/><rect x="14" y="9" width="1" height="1" fill="#0f172a"/><rect x="1" y="10" width="1" height="1" fill="#0f172a"/><rect x="2" y="10" width="1" height="1" fill="#cbd5e1"/><rect x="3" y="10" width="1" height="1" fill="#94a3b8"/><rect x="4" y="10" width="10" height="1" fill="#0f172a"/><rect x="14" y="10" width="1" height="1" fill="#cbd5e1"/><rect x="15" y="10" width="1" height="1" fill="#0f172a"/><rect x="1" y="11" width="1" height="1" fill="#0f172a"/><rect x="2" y="11" width="1" height="1" fill="#cbd5e1"/><rect x="3" y="11" width="1" height="1" fill="#94a3b8"/><rect x="4" y="11" width="1" height="1" fill="#0f172a"/><rect x="5" y="11" width="8" height="1" fill="#1e293b"/><rect x="13" y="11" width="1" height="1" fill="#0f172a"/><rect x="14" y="11" width="1" height="1" fill="#cbd5e1"/><rect x="15" y="11" width="1" height="1" fill="#0f172a"/><rect x="1" y="12" width="3" height="1" fill="#0f172a"/><rect x="4" y="12" width="10" height="1" fill="#1e293b"/><rect x="14" y="12" width="3" height="1" fill="#0f172a"/><rect x="1" y="13" width="14" height="1" fill="#0f172a"/></symbol>
 <symbol id="px-center" viewBox="0 0 16 16"><rect x="4" y="1" width="8" height="1" fill="#1e293b"/><rect x="3" y="2" width="1" height="1" fill="#1e293b"/><rect x="4" y="2" width="8" height="1" fill="#ef4444"/><rect x="12" y="2" width="1" height="1" fill="#1e293b"/><rect x="2" y="3" width="1" height="1" fill="#1e293b"/><rect x="3" y="3" width="8" height="1" fill="#ef4444"/><rect x="11" y="3" width="2" height="1" fill="#b91c1c"/><rect x="13" y="3" width="1" height="1" fill="#1e293b"/><rect x="1" y="4" width="14" height="1" fill="#1e293b"/><rect x="1" y="5" width="1" height="1" fill="#1e293b"/><rect x="2" y="5" width="12" height="1" fill="#f8fafc"/><rect x="14" y="5" width="1" height="1" fill="#1e293b"/><rect x="1" y="6" width="1" height="1" fill="#1e293b"/><rect x="2" y="6" width="2" height="1" fill="#f8fafc"/><rect x="4" y="6" width="1" height="1" fill="#e2e8f0"/><rect x="5" y="6" width="1" height="1" fill="#1e293b"/><rect x="6" y="6" width="2" height="1" fill="#ef4444"/><rect x="8" y="6" width="1" height="1" fill="#1e293b"/><rect x="9" y="6" width="1" height="1" fill="#f8fafc"/><rect x="10" y="6" width="1" height="1" fill="#e2e8f0"/><rect x="11" y="6" width="3" height="1" fill="#f8fafc"/><rect x="14" y="6" width="1" height="1" fill="#1e293b"/><rect x="1" y="7" width="1" height="1" fill="#1e293b"/><rect x="2" y="7" width="2" height="1" fill="#f8fafc"/><rect x="4" y="7" width="1" height="1" fill="#e2e8f0"/><rect x="5" y="7" width="1" height="1" fill="#1e293b"/><rect x="6" y="7" width="2" height="1" fill="#ef4444"/><rect x="8" y="7" width="1" height="1" fill="#1e293b"/><rect x="9" y="7" width="1" height="1" fill="#f8fafc"/><rect x="10" y="7" width="1" height="1" fill="#e2e8f0"/><rect x="11" y="7" width="3" height="1" fill="#f8fafc"/><rect x="14" y="7" width="1" height="1" fill="#1e293b"/><rect x="1" y="8" width="1" height="1" fill="#1e293b"/><rect x="2" y="8" width="1" height="1" fill="#f8fafc"/><rect x="3" y="8" width="6" height="1" fill="#1e293b"/><rect x="9" y="8" width="5" height="1" fill="#f8fafc"/><rect x="14" y="8" width="1" height="1" fill="#1e293b"/><rect x="1" y="9" width="1" height="1" fill="#1e293b"/><rect x="2" y="9" width="2" height="1" fill="#f8fafc"/><rect x="4" y="9" width="1" height="1" fill="#e2e8f0"/><rect x="5" y="9" width="1" height="1" fill="#1e293b"/><rect x="6" y="9" width="2" height="1" fill="#ef4444"/><rect x="8" y="9" width="1" height="1" fill="#1e293b"/><rect x="9" y="9" width="1" height="1" fill="#f8fafc"/><rect x="10" y="9" width="1" height="1" fill="#e2e8f0"/><rect x="11" y="9" width="3" height="1" fill="#f8fafc"/><rect x="14" y="9" width="1" height="1" fill="#1e293b"/><rect x="1" y="10" width="1" height="1" fill="#1e293b"/><rect x="2" y="10" width="2" height="1" fill="#f8fafc"/><rect x="4" y="10" width="1" height="1" fill="#e2e8f0"/><rect x="5" y="10" width="1" height="1" fill="#1e293b"/><rect x="6" y="10" width="2" height="1" fill="#ef4444"/><rect x="8" y="10" width="1" height="1" fill="#1e293b"/><rect x="9" y="10" width="1" height="1" fill="#f8fafc"/><rect x="10" y="10" width="1" height="1" fill="#e2e8f0"/><rect x="11" y="10" width="3" height="1" fill="#f8fafc"/><rect x="14" y="10" width="1" height="1" fill="#1e293b"/><rect x="1" y="11" width="1" height="1" fill="#1e293b"/><rect x="2" y="11" width="12" height="1" fill="#f8fafc"/><rect x="14" y="11" width="1" height="1" fill="#1e293b"/><rect x="1" y="12" width="1" height="1" fill="#1e293b"/><rect x="2" y="12" width="2" height="1" fill="#f8fafc"/><rect x="4" y="12" width="1" height="1" fill="#e2e8f0"/><rect x="5" y="12" width="8" height="1" fill="#1e293b"/><rect x="13" y="12" width="1" height="1" fill="#f8fafc"/><rect x="14" y="12" width="1" height="1" fill="#1e293b"/><rect x="1" y="13" width="3" height="1" fill="#1e293b"/><rect x="4" y="13" width="2" height="1" fill="#38bdf8"/><rect x="6" y="13" width="1" height="1" fill="#0284c7"/><rect x="7" y="13" width="4" height="1" fill="#1e293b"/><rect x="11" y="13" width="2" height="1" fill="#38bdf8"/><rect x="13" y="13" width="1" height="1" fill="#0284c7"/><rect x="14" y="13" width="2" height="1" fill="#1e293b"/><rect x="3" y="14" width="1" height="1" fill="#1e293b"/><rect x="4" y="14" width="2" height="1" fill="#38bdf8"/><rect x="6" y="14" width="1" height="1" fill="#0284c7"/><rect x="7" y="14" width="1" height="1" fill="#1e293b"/><rect x="10" y="14" width="1" height="1" fill="#1e293b"/><rect x="11" y="14" width="2" height="1" fill="#38bdf8"/><rect x="13" y="14" width="1" height="1" fill="#0284c7"/><rect x="14" y="14" width="1" height="1" fill="#1e293b"/><rect x="3" y="15" width="5" height="1" fill="#1e293b"/><rect x="10" y="15" width="5" height="1" fill="#1e293b"/></symbol>
@@ -1307,6 +1566,7 @@
           <div class="header-player-info">
             <span class="header-tag"><svg class="pixel-icon"><use href="#px-trainer"></use></svg> <span id="header-trainer-name">TRAINER</span></span>
             <span class="header-tag">LV. <span id="header-trainer-level">1</span></span>
+            <button id="btn-logout" class="retro-btn btn-sm" style="display:none; padding: 2px 6px; font-size: 8px; background: #dc2626; color: #fff; border-color: #7f1d1d; cursor: pointer;" title="Sign Out of Trainer Passport">LOGOUT</button>
           </div>
           <div class="header-gold">
             <svg class="pixel-icon"><use href="#px-coin"></use></svg> P$ <span id="header-gold-val">0</span>
@@ -1321,6 +1581,7 @@
           <button class="nav-tab" data-tab="mart"><svg class="pixel-icon"><use href="#px-mart"></use></svg> POKÉ MART</button>
           <button class="nav-tab" data-tab="dex"><svg class="pixel-icon"><use href="#px-dex"></use></svg> POKÉDEX</button>
           <button class="nav-tab" data-tab="trainer"><svg class="pixel-icon"><use href="#px-card"></use></svg> TRAINER CARD</button>
+          <button class="nav-tab" data-tab="ranks"><svg class="pixel-icon"><use href="#px-trophy"></use></svg> RANKS</button>
         </div>
 
         <!-- Screen Content Container (Spans 100% of available space) -->
@@ -1517,6 +1778,40 @@
             </div>
           </div>
 
+          <!-- 7. GLOBAL LEADERBOARDS & MULTIPLAYER HALL OF FAME -->
+          <div id="pane-ranks" class="location-pane">
+            <div class="leaderboard-container">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #284430; padding-bottom: 8px; margin-bottom: 12px;">
+                <div>
+                  <div style="font-size: 11px; color: #facc15; font-weight: bold; display: flex; align-items: center; gap: 6px;">
+                    <svg class="pixel-icon pixel-icon-md"><use href="#px-trophy"></use></svg>
+                    TRAINER HALL OF FAME
+                  </div>
+                  <div style="font-size: 8px; color: #94a3b8; margin-top: 2px;">GLOBAL MULTIPLAYER STANDINGS & RANKINGS</div>
+                </div>
+                <button id="btn-refresh-ranks" class="retro-btn btn-sm" style="font-size: 8px; padding: 4px 8px; cursor: pointer;">REFRESH</button>
+              </div>
+
+              <div class="leaderboard-table-wrap">
+                <table class="leaderboard-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 50px;">RANK</th>
+                      <th>TRAINER</th>
+                      <th>LEVEL / XP</th>
+                      <th>BADGES</th>
+                      <th>POKÉDEX</th>
+                      <th>LEAD POKÉMON</th>
+                    </tr>
+                  </thead>
+                  <tbody id="leaderboard-tbody">
+                    <!-- Dynamic Trainer Rankings -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -1572,6 +1867,96 @@
     <div class="retro-modal-window">
       <button id="modal-close" style="position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: #ef4444; font-size: 24px; cursor: pointer; padding: 4px 10px; z-index: 50;">&times;</button>
       <div id="modal-body-content"></div>
+    </div>
+  </div>
+
+  <!-- Retro GBA Trainer Auth Modal -->
+  <div id="auth-modal" class="auth-modal-overlay">
+    <div class="auth-modal-card">
+      <div class="auth-header">
+        <div class="auth-header-title">
+          <svg class="pixel-icon pixel-icon-md"><use href="#px-card"></use></svg>
+          SILPH CO. TRAINER TERMINAL
+        </div>
+        <div class="auth-status-chip" id="auth-status-chip">
+          <span class="auth-dot"></span> AUTH REQUIRED
+        </div>
+      </div>
+
+      <div class="auth-banner">
+        AUTHENTICATION REQUIRED &bull; EMAIL-BASED TRAINER PASSPORT
+      </div>
+
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" data-auth-mode="login">SIGN IN</button>
+        <button type="button" class="auth-tab" data-auth-mode="signup">REGISTER</button>
+        <button type="button" class="auth-tab" data-auth-mode="verify">CONFIRM CODE</button>
+      </div>
+
+      <!-- SIGN IN FORM -->
+      <form id="form-login" class="auth-form active">
+        <div class="auth-field">
+          <label>TRAINER EMAIL</label>
+          <input type="email" id="login-email" placeholder="trainer@pokemon.com" required autocomplete="email">
+        </div>
+        <div class="auth-field">
+          <label>PASSPORT PASSWORD</label>
+          <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="auth-btn-submit" id="btn-submit-login">
+          SIGN IN TO ADVENTURE
+        </button>
+        <div style="text-align: center; margin-top: 10px;">
+          <a href="#" id="link-goto-signup" style="color: #60a5fa; font-size: 8px; text-decoration: underline;">NEW TRAINER? REGISTER PASSPORT &raquo;</a>
+        </div>
+      </form>
+
+      <!-- SIGN UP FORM -->
+      <form id="form-signup" class="auth-form">
+        <div class="auth-field">
+          <label>CHOOSE TRAINER USERNAME</label>
+          <input type="text" id="signup-username" placeholder="RED / ASH / BLUE" maxlength="20" minlength="3" required autocomplete="username">
+          <div class="auth-hint">3-20 chars. Displayed on leaderboards & battles</div>
+        </div>
+        <div class="auth-field">
+          <label>TRAINER EMAIL</label>
+          <input type="email" id="signup-email" placeholder="trainer@pokemon.com" required autocomplete="email">
+        </div>
+        <div class="auth-field">
+          <label>PASSPORT PASSWORD</label>
+          <input type="password" id="signup-password" placeholder="Min. 6 characters" minlength="6" required autocomplete="new-password">
+        </div>
+        <button type="submit" class="auth-btn-submit" id="btn-submit-signup">
+          REGISTER TRAINER PASSPORT
+        </button>
+        <div style="text-align: center; margin-top: 10px;">
+          <a href="#" id="link-goto-login" style="color: #60a5fa; font-size: 8px; text-decoration: underline;">ALREADY REGISTERED? SIGN IN &raquo;</a>
+        </div>
+      </form>
+
+      <!-- VERIFY CODE FORM -->
+      <form id="form-verify" class="auth-form">
+        <div class="auth-field">
+          <label>TRAINER EMAIL</label>
+          <input type="email" id="verify-email" placeholder="trainer@pokemon.com" required autocomplete="email">
+        </div>
+        <div class="auth-field">
+          <label>6-DIGIT CONFIRMATION CODE</label>
+          <input type="text" id="verify-token" placeholder="123456" maxlength="30" required>
+          <div class="auth-hint">Check your email inbox or spam folder for code</div>
+        </div>
+        <button type="submit" class="auth-btn-submit" id="btn-submit-verify">
+          VERIFY CODE & ENTER
+        </button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+          <button type="button" id="btn-resend-code" class="retro-btn btn-sm" style="font-size: 8px; padding: 4px 8px; background: #1e293b; color: #94a3b8; border: 1px solid #334155; cursor: pointer;">
+            RESEND CODE
+          </button>
+          <a href="#" id="link-verify-back-login" style="color: #60a5fa; font-size: 8px; text-decoration: underline;">BACK TO SIGN IN</a>
+        </div>
+      </form>
+
+      <div id="auth-message" class="auth-message"></div>
     </div>
   </div>
 
@@ -1724,7 +2109,7 @@
     let playerData = null;
     let battleTurnBusy = false;
 
-        const TYPE_COLORS = {
+    const TYPE_COLORS = {
       Normal: "#a8b2c1", Fire: "#ff3b30", Water: "#00d2ff", Electric: "#ffe600",
       Grass: "#00ff88", Ice: "#70f3ff", Fighting: "#ff3366", Poison: "#c77dff",
       Ground: "#e09f3e", Flying: "#70a6ff", Psychic: "#ff007f", Bug: "#a7c957",
@@ -1733,18 +2118,379 @@
     };
 
     // ============================================================
-    // API CLIENT
+    // AUTHENTICATION & SESSION MANAGEMENT
+    // ============================================================
+    const AUTH_TOKEN_KEY = 'pokedash_session_token';
+    const AUTH_USER_KEY = 'pokedash_trainer_user';
+
+    function getAuthToken() {
+      return localStorage.getItem(AUTH_TOKEN_KEY);
+    }
+
+    function getAuthUser() {
+      try {
+        const u = localStorage.getItem(AUTH_USER_KEY);
+        return u ? JSON.parse(u) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function setAuthSession(token, user) {
+      if (token) localStorage.setItem(AUTH_TOKEN_KEY, token);
+      if (user) localStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
+      updateAuthUI();
+    }
+
+    function clearAuthSession() {
+      localStorage.removeItem(AUTH_TOKEN_KEY);
+      localStorage.removeItem(AUTH_USER_KEY);
+      playerData = null;
+      currentWild = null;
+      currentArenaBattle = null;
+      updateAuthUI();
+    }
+
+    function updateAuthUI() {
+      const user = getAuthUser();
+      const token = getAuthToken();
+      const logoutBtn = document.getElementById('btn-logout');
+      const authModal = document.getElementById('auth-modal');
+      const nameEl = document.getElementById('header-trainer-name');
+
+      if (token && user) {
+        if (logoutBtn) logoutBtn.style.display = 'inline-block';
+        if (authModal) authModal.classList.add('hidden');
+        if (nameEl) nameEl.textContent = (user.username || 'TRAINER').toUpperCase();
+      } else {
+        if (logoutBtn) logoutBtn.style.display = 'none';
+        if (authModal) authModal.classList.remove('hidden');
+        if (nameEl) nameEl.textContent = 'UNAUTHORIZED';
+      }
+    }
+
+    function switchAuthTab(mode) {
+      clearAuthMessage();
+      document.querySelectorAll('.auth-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.authMode === mode);
+      });
+      document.querySelectorAll('.auth-form').forEach(form => {
+        form.classList.toggle('active', form.id === `form-${mode}`);
+      });
+      if (mode === 'login') {
+        const el = document.getElementById('login-email');
+        if (el) el.focus();
+      } else if (mode === 'signup') {
+        const el = document.getElementById('signup-username');
+        if (el) el.focus();
+      } else if (mode === 'verify') {
+        const el = document.getElementById('verify-token');
+        if (el) el.focus();
+      }
+    }
+
+    function showAuthModal(errMsg = '') {
+      const modal = document.getElementById('auth-modal');
+      if (modal) modal.classList.remove('hidden');
+      if (errMsg) showAuthMessage(errMsg, 'error');
+    }
+
+    function showAuthMessage(msg, type = 'error') {
+      const el = document.getElementById('auth-message');
+      if (!el) return;
+      el.textContent = msg;
+      el.className = `auth-message ${type}`;
+    }
+
+    function clearAuthMessage() {
+      const el = document.getElementById('auth-message');
+      if (!el) return;
+      el.textContent = '';
+      el.className = 'auth-message';
+    }
+
+    async function checkAuthFromUrl() {
+      try {
+        const hash = window.location.hash ? window.location.hash.substring(1) : '';
+        if (hash) {
+          const params = new URLSearchParams(hash);
+          const token = params.get('access_token');
+          if (token) {
+            window.history.replaceState(null, null, window.location.pathname + window.location.search);
+            const res = await fetch('/api/auth/me', {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+              const data = await res.json();
+              if (data.authenticated && data.user) {
+                setAuthSession(token, data.user);
+                return true;
+              }
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Could not parse auth hash', e);
+      }
+      return false;
+    }
+
+    function initAuthHandlers() {
+      // Auth mode tab switching
+      document.querySelectorAll('.auth-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          SFX.blip();
+          switchAuthTab(tab.dataset.authMode);
+        });
+      });
+
+      // Quick links
+      const linkSignup = document.getElementById('link-goto-signup');
+      if (linkSignup) {
+        linkSignup.addEventListener('click', (e) => {
+          e.preventDefault();
+          SFX.blip();
+          switchAuthTab('signup');
+        });
+      }
+      const linkLogin = document.getElementById('link-goto-login');
+      if (linkLogin) {
+        linkLogin.addEventListener('click', (e) => {
+          e.preventDefault();
+          SFX.blip();
+          switchAuthTab('login');
+        });
+      }
+      const linkVerifyBack = document.getElementById('link-verify-back-login');
+      if (linkVerifyBack) {
+        linkVerifyBack.addEventListener('click', (e) => {
+          e.preventDefault();
+          SFX.blip();
+          switchAuthTab('login');
+        });
+      }
+
+      // Logout button
+      const logoutBtn = document.getElementById('btn-logout');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+          SFX.cancel();
+          clearAuthSession();
+          showAuthModal();
+          switchAuthTab('login');
+          setDialogue("LOGGED OUT OF SILPH CO. NETWORK. PLEASE SIGN IN TO CONTINUE.");
+        });
+      }
+
+      // Form 1: SIGN IN
+      const formLogin = document.getElementById('form-login');
+      if (formLogin) {
+        formLogin.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const emailInput = document.getElementById('login-email');
+          const passInput = document.getElementById('login-password');
+          const submitBtn = document.getElementById('btn-submit-login');
+
+          const email = emailInput ? emailInput.value.trim() : '';
+          const password = passInput ? passInput.value.trim() : '';
+
+          if (!email || !password) {
+            showAuthMessage('PLEASE ENTER BOTH EMAIL AND PASSWORD', 'error');
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'SIGNING IN...';
+          clearAuthMessage();
+
+          try {
+            const res = await api('/auth/login', 'POST', { email, password });
+            setAuthSession(res.token, res.user);
+            SFX.catchSuccess();
+            updateAuthUI();
+            await updateHeaderPlayer();
+            fetchWildBattle();
+            setDialogue(`WELCOME BACK, TRAINER ${res.user.username.toUpperCase()}! ACCESS GRANTED.`);
+          } catch (err) {
+            const msg = err.message || 'LOGIN FAILED';
+            if (msg.toLowerCase().includes('not confirmed') || msg.toLowerCase().includes('verification')) {
+              const verifyEmail = document.getElementById('verify-email');
+              if (verifyEmail) verifyEmail.value = email;
+              switchAuthTab('verify');
+              showAuthMessage('EMAIL CONFIRMATION REQUIRED. ENTER YOUR 6-DIGIT CODE BELOW.', 'error');
+            } else {
+              showAuthMessage(msg.toUpperCase(), 'error');
+              SFX.blip();
+            }
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'SIGN IN TO ADVENTURE';
+          }
+        });
+      }
+
+      // Form 2: REGISTER
+      const formSignup = document.getElementById('form-signup');
+      if (formSignup) {
+        formSignup.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const usernameInput = document.getElementById('signup-username');
+          const emailInput = document.getElementById('signup-email');
+          const passInput = document.getElementById('signup-password');
+          const submitBtn = document.getElementById('btn-submit-signup');
+
+          const username = usernameInput ? usernameInput.value.trim() : '';
+          const email = emailInput ? emailInput.value.trim() : '';
+          const password = passInput ? passInput.value.trim() : '';
+
+          if (username.length < 3 || username.length > 20) {
+            showAuthMessage('USERNAME MUST BE 3 TO 20 CHARACTERS', 'error');
+            return;
+          }
+          if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
+            showAuthMessage('USERNAME MAY ONLY CONTAIN LETTERS, NUMBERS, _ AND -', 'error');
+            return;
+          }
+          if (!email || !email.includes('@')) {
+            showAuthMessage('VALID EMAIL ADDRESS REQUIRED', 'error');
+            return;
+          }
+          if (password.length < 6) {
+            showAuthMessage('PASSWORD MUST BE AT LEAST 6 CHARACTERS', 'error');
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'REGISTERING PASSPORT...';
+          clearAuthMessage();
+
+          try {
+            const res = await api('/auth/signup', 'POST', { username, email, password });
+            if (res.requires_verification || !res.token) {
+              const verifyEmail = document.getElementById('verify-email');
+              if (verifyEmail) verifyEmail.value = email;
+              switchAuthTab('verify');
+              showAuthMessage(`CONFIRMATION CODE SENT TO ${email.toUpperCase()}! ENTER CODE BELOW.`, 'success');
+              SFX.blip();
+            } else {
+              setAuthSession(res.token, res.user);
+              SFX.catchSuccess();
+              updateAuthUI();
+              await updateHeaderPlayer();
+              fetchWildBattle();
+              setDialogue(`PASSPORT ISSUED! WELCOME TO POKÉDASH ADVANCE, ${res.user.username.toUpperCase()}!`);
+            }
+          } catch (err) {
+            showAuthMessage((err.message || 'REGISTRATION FAILED').toUpperCase(), 'error');
+            SFX.blip();
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'REGISTER TRAINER PASSPORT';
+          }
+        });
+      }
+
+      // Form 3: CONFIRM CODE
+      const formVerify = document.getElementById('form-verify');
+      if (formVerify) {
+        formVerify.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const emailInput = document.getElementById('verify-email');
+          const tokenInput = document.getElementById('verify-token');
+          const submitBtn = document.getElementById('btn-submit-verify');
+
+          const email = emailInput ? emailInput.value.trim() : '';
+          const token = tokenInput ? tokenInput.value.trim() : '';
+
+          if (!email || !token) {
+            showAuthMessage('PLEASE ENTER BOTH EMAIL AND CONFIRMATION CODE', 'error');
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'VERIFYING CODE...';
+          clearAuthMessage();
+
+          try {
+            const res = await api('/auth/verify', 'POST', { email, token });
+            setAuthSession(res.token, res.user);
+            SFX.catchSuccess();
+            updateAuthUI();
+            await updateHeaderPlayer();
+            fetchWildBattle();
+            setDialogue(`CONFIRMED! WELCOME, TRAINER ${res.user.username.toUpperCase()}!`);
+          } catch (err) {
+            showAuthMessage((err.message || 'VERIFICATION FAILED').toUpperCase(), 'error');
+            SFX.blip();
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'VERIFY CODE & ENTER';
+          }
+        });
+      }
+
+      // Resend Confirmation Code
+      const btnResend = document.getElementById('btn-resend-code');
+      if (btnResend) {
+        btnResend.addEventListener('click', async () => {
+          const verifyEmail = document.getElementById('verify-email');
+          const loginEmail = document.getElementById('login-email');
+          const signupEmail = document.getElementById('signup-email');
+
+          const email = (verifyEmail && verifyEmail.value.trim()) ||
+                        (signupEmail && signupEmail.value.trim()) ||
+                        (loginEmail && loginEmail.value.trim());
+
+          if (!email || !email.includes('@')) {
+            showAuthMessage('ENTER YOUR EMAIL TO RESEND CONFIRMATION CODE', 'error');
+            return;
+          }
+
+          btnResend.disabled = true;
+          btnResend.textContent = 'SENDING...';
+          try {
+            await api('/auth/resend', 'POST', { email });
+            showAuthMessage(`NEW CODE DISPATCHED TO ${email.toUpperCase()}! CHECK INBOX/SPAM.`, 'success');
+            SFX.blip();
+          } catch (err) {
+            showAuthMessage((err.message || 'FAILED TO RESEND CODE').toUpperCase(), 'error');
+          } finally {
+            btnResend.disabled = false;
+            btnResend.textContent = 'RESEND CODE';
+          }
+        });
+      }
+    }
+
+    // ============================================================
+    // API CLIENT (Strictly authenticated)
     // ============================================================
     async function api(path, method = 'GET', body = null) {
-      const opts = { method, headers: { 'Content-Type': 'application/json' } };
+      const token = getAuthToken();
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      const opts = { method, headers };
       if (body) opts.body = JSON.stringify(body);
+
       try {
         const res = await fetch(`/api${path}`, opts);
         const data = await res.json();
+
+        if (res.status === 401) {
+          clearAuthSession();
+          showAuthModal(data.error || 'Authentication required to enter PokéDash.');
+          throw new Error(data.error || 'Unauthorized');
+        }
+
         if (!res.ok) throw new Error(data.error || 'API Error');
         return data;
       } catch (err) {
-        setDialogue(`ERROR: ${err.message}`);
+        if (!path.startsWith('/auth/')) {
+          setDialogue(`ERROR: ${err.message}`);
+        }
         throw err;
       }
     }
@@ -1774,13 +2520,18 @@
     // NAVIGATION & LOCATION SWITCHING
     // ============================================================
     document.querySelectorAll('.nav-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
+      tab.addEventListener('click', (e) => {
+        const target = tab.dataset.tab;
+        if (!getAuthToken()) {
+          showAuthModal('PLEASE SIGN IN WITH YOUR TRAINER PASSPORT TO PROCEED.');
+          return;
+        }
         SFX.blip();
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.location-pane').forEach(p => p.classList.remove('active'));
         tab.classList.add('active');
-        const target = tab.dataset.tab;
-        document.getElementById(`pane-${target}`).classList.add('active');
+        const pane = document.getElementById(`pane-${target}`);
+        if (pane) pane.classList.add('active');
 
         if (target === 'hunt') fetchWildBattle();
         if (target === 'arena') loadArenaDivisions();
@@ -1788,8 +2539,51 @@
         if (target === 'mart') loadPokeMart();
         if (target === 'dex') loadPokedex();
         if (target === 'trainer') loadTrainerCard();
+        if (target === 'ranks') loadLeaderboards();
       });
     });
+
+    // ============================================================
+    // GLOBAL LEADERBOARDS LOADER
+    // ============================================================
+    async function loadLeaderboards() {
+      const tbody = document.getElementById('leaderboard-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 24px; color: #94a3b8;">CONNECTING TO SILPH SATELLITE...</td></tr>';
+      try {
+        const data = await api('/leaderboard');
+        const list = data.leaderboard || [];
+        const currentUser = getAuthUser();
+
+        if (list.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 24px; color: #94a3b8;">NO TRAINER RECORDS RECORDED YET.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = list.map(entry => {
+          const isCurrent = currentUser && currentUser.username.toLowerCase() === entry.username.toLowerCase();
+          const rankClass = entry.rank === 1 ? 'rank-1' : entry.rank === 2 ? 'rank-2' : entry.rank === 3 ? 'rank-3' : 'rank-other';
+          const leadMonSprite = entry.lead_pokemon_id 
+            ? `<div class="lead-mon-tag"><img src="/sprites/${entry.lead_pokemon_id}.png" class="lead-mon-sprite" alt="${entry.lead_pokemon_name || ''}"><span>#${entry.lead_pokemon_id} ${entry.lead_pokemon_name || ''}</span></div>`
+            : '<span style="color:#64748b;">NONE</span>';
+
+          return `
+            <tr class="${isCurrent ? 'current-trainer-row' : ''}">
+              <td><span class="rank-badge ${rankClass}">#${entry.rank}</span></td>
+              <td style="font-weight: bold; color: ${isCurrent ? '#60a5fa' : '#f8fafc'};">
+                ${entry.username.toUpperCase()} ${isCurrent ? '<span style="font-size: 7px; color: #3b82f6; border: 1px solid #3b82f6; padding: 1px 4px; border-radius: 3px; margin-left: 4px;">YOU</span>' : ''}
+              </td>
+              <td><span style="color: #4ade80;">LV.${entry.level}</span> <span style="color: #64748b; font-size: 7px;">(${entry.xp.toLocaleString()} XP)</span></td>
+              <td><span style="color: #facc15;"><svg class="pixel-icon pixel-icon-sm"><use href="#px-badge-champion"></use></svg> ${entry.badges_count} / 10</span></td>
+              <td><span style="color: #f472b6;"><svg class="pixel-icon pixel-icon-sm"><use href="#px-dex"></use></svg> ${entry.unique_caught} / 1025</span></td>
+              <td>${leadMonSprite}</td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 24px; color: #ef4444;">FAILED TO LOAD LEADERBOARDS: ${err.message}</td></tr>`;
+      }
+    }
 
     // ============================================================
     // PLAYER STATUS UPDATE
@@ -2565,20 +3359,28 @@
       }
     });
 
+    function isAuthRequired() {
+      const modal = document.getElementById('auth-modal');
+      return !getAuthToken() || (modal && !modal.classList.contains('hidden'));
+    }
+
     // D-Pad Click Handlers
     document.getElementById('key-up').addEventListener('click', () => {
+      if (isAuthRequired()) return;
       SFX.blip();
       const screenContent = document.querySelector('.screen-content');
       if (screenContent) screenContent.scrollBy({ top: -80, behavior: 'smooth' });
     });
 
     document.getElementById('key-down').addEventListener('click', () => {
+      if (isAuthRequired()) return;
       SFX.blip();
       const screenContent = document.querySelector('.screen-content');
       if (screenContent) screenContent.scrollBy({ top: 80, behavior: 'smooth' });
     });
 
     document.getElementById('key-left').addEventListener('click', () => {
+      if (isAuthRequired()) return;
       SFX.blip();
       const tabs = Array.from(document.querySelectorAll('.nav-tab'));
       const activeIdx = tabs.findIndex(t => t.classList.contains('active'));
@@ -2587,6 +3389,7 @@
     });
 
     document.getElementById('key-right').addEventListener('click', () => {
+      if (isAuthRequired()) return;
       SFX.blip();
       const tabs = Array.from(document.querySelectorAll('.nav-tab'));
       const activeIdx = tabs.findIndex(t => t.classList.contains('active'));
@@ -2596,6 +3399,7 @@
 
     // Select Button Click -> Cycle Tabs
     document.getElementById('key-select').addEventListener('click', () => {
+      if (isAuthRequired()) return;
       SFX.blip();
       const tabs = Array.from(document.querySelectorAll('.nav-tab'));
       const activeIdx = tabs.findIndex(t => t.classList.contains('active'));
@@ -2605,6 +3409,7 @@
 
     // Start Button Click -> Trainer Passport
     document.getElementById('key-start').addEventListener('click', () => {
+      if (isAuthRequired()) return;
       SFX.confirm();
       const trainerTab = document.querySelector('[data-tab="trainer"]');
       if (trainerTab) trainerTab.click();
@@ -2612,6 +3417,7 @@
 
     // A Button Click -> Primary Action
     document.getElementById('key-a').addEventListener('click', () => {
+      if (isAuthRequired()) return;
       SFX.confirm();
       const modal = document.getElementById('retro-modal');
       if (modal && modal.classList.contains('open')) {
@@ -2640,6 +3446,7 @@
 
     // B Button Click -> Cancel / Back
     document.getElementById('key-b').addEventListener('click', () => {
+      if (isAuthRequired()) return;
       SFX.cancel();
       const modal = document.getElementById('retro-modal');
       if (modal && modal.classList.contains('open')) {
@@ -2727,6 +3534,15 @@
     }
 
     window.addEventListener('keydown', (e) => {
+      // Block all GBA game keys while unauthenticated or auth modal is displayed
+      if (isAuthRequired()) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'BUTTON') {
+          return;
+        }
+        e.preventDefault();
+        return;
+      }
+
       // Don't intercept typing in inputs
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
         if (e.key === 'Escape') e.target.blur();
@@ -2890,6 +3706,17 @@
     // INITIALIZATION
     // ============================================================
     window.addEventListener('DOMContentLoaded', async () => {
+      initAuthHandlers();
+      await checkAuthFromUrl();
+      updateAuthUI();
+
+      const token = getAuthToken();
+      if (!token) {
+        showAuthModal();
+        setDialogue("HALT! SILPH CO. SECURITY GATE: ACCESS DENIED. PLEASE SIGN IN WITH YOUR TRAINER PASSPORT.");
+        return;
+      }
+
       await updateHeaderPlayer();
       fetchWildBattle();
     });

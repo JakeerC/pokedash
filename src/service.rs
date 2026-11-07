@@ -5,7 +5,7 @@ use rand::Rng;
 
 use crate::models::{
     ActiveArenaBattle, ArenaDivision, BattleActionResult, BattleMove, BattlePokemon,
-    BuyResult, CatchAttemptResult, CaughtPokemon, PlayerData,
+    BuyResult, CatchAttemptResult, CaughtPokemon, LeaderboardEntry, PlayerData,
     SellResult, StoreItemInfo, WildPokemonEncounter,
 };
 use crate::game::{
@@ -30,29 +30,42 @@ impl GameService {
         }
     }
 
-    pub fn get_player(&self) -> PlayerData {
+    pub fn get_player(&self, username: &str) -> PlayerData {
         let _guard = self.lock.read().unwrap();
-        self.storage.load_player()
+        self.storage.load_player(username)
     }
 
-    pub fn get_wild(&self) -> Option<WildPokemonEncounter> {
+    pub fn get_wild(&self, username: &str) -> Option<WildPokemonEncounter> {
         let _guard = self.lock.read().unwrap();
-        self.storage.load_wild_encounter()
+        self.storage.load_wild_encounter(username)
     }
 
-    pub fn get_pokedex(&self) -> Vec<CaughtPokemon> {
+    pub fn get_pokedex(&self, username: &str) -> Vec<CaughtPokemon> {
         let _guard = self.lock.read().unwrap();
-        self.storage.load_pokedex()
+        self.storage.load_pokedex(username)
     }
 
-    pub fn get_arena_battle(&self) -> Option<ActiveArenaBattle> {
+    pub fn get_arena_battle(&self, username: &str) -> Option<ActiveArenaBattle> {
         let _guard = self.lock.read().unwrap();
-        self.storage.load_arena_battle()
+        self.storage.load_arena_battle(username)
     }
 
-    pub fn hunt(&self) -> Result<WildPokemonEncounter, String> {
+    pub fn get_leaderboard(&self) -> Vec<LeaderboardEntry> {
+        let _guard = self.lock.read().unwrap();
+        self.storage.get_leaderboard()
+    }
+
+    pub fn reset_player(&self, username: &str) -> Result<PlayerData, String> {
         let _guard = self.lock.write().unwrap();
-        let mut player = self.storage.load_player();
+        self.storage
+            .reset_game(username)
+            .map_err(|e| e.to_string())?;
+        Ok(self.storage.load_player(username))
+    }
+
+    pub fn hunt(&self, username: &str) -> Result<WildPokemonEncounter, String> {
+        let _guard = self.lock.write().unwrap();
+        let mut player = self.storage.load_player(username);
         let now = Storage::now_sec();
 
         let time_since_last = now - player.last_hunt_time;
@@ -122,17 +135,17 @@ impl GameService {
         };
 
         self.storage
-            .save_wild_encounter(&encounter)
+            .save_wild_encounter(username, &encounter)
             .map_err(|e| e.to_string())?;
 
         Ok(encounter)
     }
 
-    pub fn catch(&self, ball_input: &str) -> Result<CatchAttemptResult, String> {
+    pub fn catch(&self, username: &str, ball_input: &str) -> Result<CatchAttemptResult, String> {
         let _guard = self.lock.write().unwrap();
         let encounter = self
             .storage
-            .load_wild_encounter()
+            .load_wild_encounter(username)
             .ok_or_else(|| "You haven't found a Pokémon to catch! Search the grass first.".to_string())?;
 
         let ball_id = canonicalize_ball(ball_input).ok_or_else(|| {
@@ -142,7 +155,7 @@ impl GameService {
             )
         })?;
 
-        let mut player = self.storage.load_player();
+        let mut player = self.storage.load_player(username);
         let current_count = player.balls.get(ball_id).copied().unwrap_or(0);
         if current_count == 0 {
             return Err(format!("You don't have any {}s!", ball_id.replace('_', " ")));
@@ -152,7 +165,7 @@ impl GameService {
         let remaining_balls = current_count - 1;
         player.balls.insert(ball_id.to_string(), remaining_balls);
 
-        let pokedex = self.storage.load_pokedex();
+        let pokedex = self.storage.load_pokedex(username);
         let already_caught = pokedex.iter().any(|p| p.id == encounter.pokemon.id);
         let is_new = !already_caught;
 
@@ -217,7 +230,7 @@ impl GameService {
                 ball_used: Some(ball_id.to_string()),
             });
             self.storage
-                .save_pokedex(&updated_dex)
+                .save_pokedex(username, &updated_dex)
                 .map_err(|e| e.to_string())?;
 
             // Add to battle party if party has room
@@ -246,7 +259,7 @@ impl GameService {
         }
 
         self.storage.save_player(&player).map_err(|e| e.to_string())?;
-        self.storage.clear_wild_encounter();
+        self.storage.clear_wild_encounter(username);
 
         Ok(CatchAttemptResult {
             success,
@@ -262,14 +275,14 @@ impl GameService {
         })
     }
 
-    pub fn wild_attack(&self, move_index: usize) -> Result<BattleActionResult, String> {
+    pub fn wild_attack(&self, username: &str, move_index: usize) -> Result<BattleActionResult, String> {
         let _guard = self.lock.write().unwrap();
         let mut encounter = self
             .storage
-            .load_wild_encounter()
+            .load_wild_encounter(username)
             .ok_or_else(|| "No active wild encounter to battle!".to_string())?;
 
-        let mut player = self.storage.load_player();
+        let mut player = self.storage.load_player(username);
         let active_index = 0;
         let player_mon = player
             .party
@@ -344,7 +357,7 @@ impl GameService {
             player.currency += reward_money;
             logs.push(format!("Victory! Gained +{} XP and ₽{}.", reward_xp, reward_money));
 
-            self.storage.clear_wild_encounter();
+            self.storage.clear_wild_encounter(username);
         } else {
             // 2. Wild Pokemon strikes back
             let mut rng = rand::thread_rng();
@@ -379,7 +392,7 @@ impl GameService {
                 logs.push(format!("{} fainted! Head to the Pokémon Center to heal.", player_mon.name));
             } else {
                 // Save updated encounter HP
-                let _ = self.storage.save_wild_encounter(&encounter);
+                let _ = self.storage.save_wild_encounter(username, &encounter);
             }
         }
 
@@ -413,19 +426,19 @@ impl GameService {
         })
     }
 
-    pub fn flee(&self) -> Result<String, String> {
+    pub fn flee(&self, username: &str) -> Result<String, String> {
         let _guard = self.lock.write().unwrap();
-        if let Some(wild) = self.storage.load_wild_encounter() {
-            self.storage.clear_wild_encounter();
+        if let Some(wild) = self.storage.load_wild_encounter(username) {
+            self.storage.clear_wild_encounter(username);
             Ok(format!("Got away safely from {}!", wild.pokemon.name))
         } else {
             Err("No active wild encounter to flee from.".to_string())
         }
     }
 
-    pub fn heal_party(&self) -> Result<String, String> {
+    pub fn heal_party(&self, username: &str) -> Result<String, String> {
         let _guard = self.lock.write().unwrap();
-        let mut player = self.storage.load_player();
+        let mut player = self.storage.load_player(username);
         for p in &mut player.party {
             p.current_hp = p.max_hp;
         }
@@ -433,9 +446,9 @@ impl GameService {
         Ok("Nurse Joy restored your Pokémon team to full health!".to_string())
     }
 
-    pub fn set_active_pokemon(&self, pokemon_id: u32) -> Result<String, String> {
+    pub fn set_active_pokemon(&self, username: &str, pokemon_id: u32) -> Result<String, String> {
         let _guard = self.lock.write().unwrap();
-        let mut player = self.storage.load_player();
+        let mut player = self.storage.load_player(username);
         if let Some(idx) = player.party.iter().position(|p| p.id == pokemon_id) {
             let selected = player.party.remove(idx);
             player.party.insert(0, selected);
@@ -444,7 +457,7 @@ impl GameService {
             Ok(format!("{} is now leading your battle party!", player.party[0].name))
         } else {
             // Check if in pokedex
-            let dex = self.storage.load_pokedex();
+            let dex = self.storage.load_pokedex(username);
             if let Some(caught) = dex.iter().find(|p| p.id == pokemon_id) {
                 if let Some(proto) = self.storage.pokemon_catalog.get(&caught.id) {
                     let lvl = get_player_level(player.xp).max(5);
@@ -462,9 +475,9 @@ impl GameService {
         }
     }
 
-    pub fn get_arena_list(&self) -> Vec<ArenaDivision> {
+    pub fn get_arena_list(&self, username: &str) -> Vec<ArenaDivision> {
         let _guard = self.lock.read().unwrap();
-        let player = self.storage.load_player();
+        let player = self.storage.load_player(username);
         let mut divisions = get_arena_divisions();
         for d in &mut divisions {
             if player.arena_badges.contains(&d.badge) {
@@ -474,7 +487,7 @@ impl GameService {
         divisions
     }
 
-    pub fn start_arena_battle(&self, arena_id: &str) -> Result<ActiveArenaBattle, String> {
+    pub fn start_arena_battle(&self, username: &str, arena_id: &str) -> Result<ActiveArenaBattle, String> {
         let _guard = self.lock.write().unwrap();
         let divisions = get_arena_divisions();
         let div = divisions
@@ -482,7 +495,7 @@ impl GameService {
             .find(|d| d.id == arena_id)
             .ok_or_else(|| format!("Arena division '{}' not found", arena_id))?;
 
-        let player = self.storage.load_player();
+        let player = self.storage.load_player(username);
         let player_active = player
             .party
             .first()
@@ -518,22 +531,22 @@ impl GameService {
             player_won: false,
         };
 
-        self.storage.save_arena_battle(&battle).map_err(|e| e.to_string())?;
+        self.storage.save_arena_battle(username, &battle).map_err(|e| e.to_string())?;
         Ok(battle)
     }
 
-    pub fn arena_attack(&self, move_index: usize) -> Result<BattleActionResult, String> {
+    pub fn arena_attack(&self, username: &str, move_index: usize) -> Result<BattleActionResult, String> {
         let _guard = self.lock.write().unwrap();
         let mut battle = self
             .storage
-            .load_arena_battle()
+            .load_arena_battle(username)
             .ok_or_else(|| "No active arena battle found!".to_string())?;
 
         if battle.is_over {
             return Err("This arena match has already concluded.".to_string());
         }
 
-        let mut player = self.storage.load_player();
+        let mut player = self.storage.load_player(username);
         let player_mon = player
             .party
             .get_mut(0)
@@ -586,7 +599,7 @@ impl GameService {
                 let next_enemy_name = battle.enemy_team[battle.current_enemy_index].name.clone();
                 logs.push(format!("{} sent out {}!", battle.leader_name, next_enemy_name));
                 battle.player_active = player_mon.clone();
-                let _ = self.storage.save_arena_battle(&battle);
+                let _ = self.storage.save_arena_battle(username, &battle);
             } else {
                 // Entire leader team defeated!
                 battle_ended = true;
@@ -609,7 +622,7 @@ impl GameService {
                     logs.push(format!("{}: \"{}\"", battle.leader_name, div.dialogue_defeat));
                     logs.push(format!("Victory! Claimed {} and ₽{} prize!", div.badge, reward_money));
                 }
-                self.storage.clear_arena_battle();
+                self.storage.clear_arena_battle(username);
             }
         } else {
             // Enemy attacks
@@ -639,10 +652,10 @@ impl GameService {
                 battle_ended = true;
                 battle.is_over = true;
                 logs.push(format!("Your {} fainted! You lost the arena challenge.", player_mon.name));
-                self.storage.clear_arena_battle();
+                self.storage.clear_arena_battle(username);
             } else {
                 battle.player_active = player_mon.clone();
-                let _ = self.storage.save_arena_battle(&battle);
+                let _ = self.storage.save_arena_battle(username, &battle);
             }
         }
 
@@ -653,7 +666,6 @@ impl GameService {
         let e_max = enemy_mon.max_hp;
 
         self.storage.save_player(&player).map_err(|e| e.to_string())?;
-
 
         Ok(BattleActionResult {
             player_move_name: chosen_move.name,
@@ -680,9 +692,9 @@ impl GameService {
         })
     }
 
-    pub fn get_store_catalog(&self) -> Vec<StoreItemInfo> {
+    pub fn get_store_catalog(&self, username: &str) -> Vec<StoreItemInfo> {
         let _guard = self.lock.read().unwrap();
-        let player = self.storage.load_player();
+        let player = self.storage.load_player(username);
         let level = get_player_level(player.xp);
         let discount = get_level_discount(level);
 
@@ -706,7 +718,7 @@ impl GameService {
             .collect()
     }
 
-    pub fn buy(&self, item_input: &str, amount: u32) -> Result<BuyResult, String> {
+    pub fn buy(&self, username: &str, item_input: &str, amount: u32) -> Result<BuyResult, String> {
         if amount == 0 {
             return Err("Amount must be greater than 0".to_string());
         }
@@ -719,7 +731,7 @@ impl GameService {
         let spec = get_ball_spec(ball_id).unwrap();
 
         let _guard = self.lock.write().unwrap();
-        let mut player = self.storage.load_player();
+        let mut player = self.storage.load_player(username);
         let level = get_player_level(player.xp);
 
         if level < spec.unlock_level {
@@ -761,10 +773,10 @@ impl GameService {
         })
     }
 
-    pub fn sell_one(&self, pokemon_name: &str) -> Result<SellResult, String> {
+    pub fn sell_one(&self, username: &str, pokemon_name: &str) -> Result<SellResult, String> {
         let _guard = self.lock.write().unwrap();
-        let mut dex = self.storage.load_pokedex();
-        let mut player = self.storage.load_player();
+        let mut dex = self.storage.load_pokedex(username);
+        let mut player = self.storage.load_player(username);
 
         let lower = pokemon_name.trim().to_lowercase();
         let index = dex
@@ -776,7 +788,7 @@ impl GameService {
         let price = get_rarity_sell_price(&sold.rarity);
         player.currency += price;
 
-        self.storage.save_pokedex(&dex).map_err(|e| e.to_string())?;
+        self.storage.save_pokedex(username, &dex).map_err(|e| e.to_string())?;
         self.storage.save_player(&player).map_err(|e| e.to_string())?;
 
         Ok(SellResult {
@@ -790,10 +802,10 @@ impl GameService {
         })
     }
 
-    pub fn sell_all_by_rarity(&self, rarity_input: &str) -> Result<SellResult, String> {
+    pub fn sell_all_by_rarity(&self, username: &str, rarity_input: &str) -> Result<SellResult, String> {
         let _guard = self.lock.write().unwrap();
-        let dex = self.storage.load_pokedex();
-        let mut player = self.storage.load_player();
+        let dex = self.storage.load_pokedex(username);
+        let mut player = self.storage.load_player(username);
 
         let target_rarity = rarity_input.trim().to_lowercase();
         let mut kept = Vec::new();
@@ -815,7 +827,7 @@ impl GameService {
         }
 
         player.currency += total_earnings;
-        self.storage.save_pokedex(&kept).map_err(|e| e.to_string())?;
+        self.storage.save_pokedex(username, &kept).map_err(|e| e.to_string())?;
         self.storage.save_player(&player).map_err(|e| e.to_string())?;
 
         Ok(SellResult {
@@ -829,10 +841,10 @@ impl GameService {
         })
     }
 
-    pub fn sell_duplicates(&self) -> Result<SellResult, String> {
+    pub fn sell_duplicates(&self, username: &str) -> Result<SellResult, String> {
         let _guard = self.lock.write().unwrap();
-        let dex = self.storage.load_pokedex();
-        let mut player = self.storage.load_player();
+        let dex = self.storage.load_pokedex(username);
+        let mut player = self.storage.load_player(username);
 
         if dex.is_empty() {
             return Err("Your Pokédex is empty! There is nothing to sell.".to_string());
@@ -863,7 +875,7 @@ impl GameService {
         kept.sort_by_key(|p| p.id);
         player.currency += total_earnings;
 
-        self.storage.save_pokedex(&kept).map_err(|e| e.to_string())?;
+        self.storage.save_pokedex(username, &kept).map_err(|e| e.to_string())?;
         self.storage.save_player(&player).map_err(|e| e.to_string())?;
 
         Ok(SellResult {
