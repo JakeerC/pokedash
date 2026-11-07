@@ -50,12 +50,27 @@ flowchart LR
 
 ### Method 1: Automated Deployment via GitHub Actions (Recommended)
 
-The CI/CD pipeline is defined in [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
+The CI/CD pipeline is defined in [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) and uses our dedicated GitHub Action in [`.github/actions/render-deploy`](.github/actions/render-deploy).
 
-#### Workflow Behavior
-- **Pull Requests to `main`**: Runs the `test` job (`cargo check`, `cargo test`, dependency caching) to validate changes before merging.
-- **Pushes / Merges to `main`**: Runs the `test` job, and upon success, automatically runs the `deploy` job.
-- **Manual Trigger**: Can be manually triggered from the **Actions** tab on GitHub (`workflow_dispatch`).
+#### Reusable Render Deploy GitHub Action (`.github/actions/render-deploy`)
+You can invoke the custom Render Deploy Action from any workflow:
+```yaml
+- name: Run Render Deploy Action
+  uses: ./.github/actions/render-deploy
+  with:
+    service-id: ${{ secrets.RENDER_SERVICE_ID || 'srv-dbnkb3mc6qcc73e4qfs0' }}
+    api-key: ${{ secrets.RENDER_API_KEY }}
+    deploy-hook-url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }} # optional fallback
+    wait: 'true' # waits for build to succeed and health checks to pass
+```
+
+#### Workflows Included:
+1. **Automated CI/CD** ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)):
+   - **Pull Requests to `main`**: Runs the `test` job (`cargo check`, `cargo test`, dependency caching) to validate changes before merging.
+   - **Pushes / Merges to `main`**: Runs the `test` job, and upon success, automatically triggers the Render deploy.
+2. **On-Demand Manual Deploy** ([`.github/workflows/manual-deploy.yml`](.github/workflows/manual-deploy.yml)):
+   - Triggerable at any time from GitHub's **Actions** tab $\rightarrow$ **Manual Deploy to Render** $\rightarrow$ **Run workflow**.
+   - Allows choosing whether to run tests first and whether to wait for deployment completion.
 
 #### Step-by-Step GitHub Setup
 

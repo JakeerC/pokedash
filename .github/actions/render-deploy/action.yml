@@ -1,0 +1,63 @@
+name: 'Render Deploy Action'
+description: 'Deploys a service to Render using the official Render CLI or Deploy Hook with real-time status tracking'
+author: 'PokéDash'
+
+inputs:
+  service-id:
+    description: 'The Render service ID (e.g. srv-xxx)'
+    required: false
+    default: 'srv-dbnkb3mc6qcc73e4qfs0'
+  api-key:
+    description: 'Render API Key from Account Settings'
+    required: false
+  deploy-hook-url:
+    description: 'Render Deploy Hook URL from service Settings'
+    required: false
+  wait:
+    description: 'Whether to wait for deployment to complete before finishing'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Check Secrets
+      if: ${{ inputs.api-key == '' && inputs.deploy-hook-url == '' }}
+      shell: bash
+      run: |
+        echo "::error::Either api-key or deploy-hook-url must be provided to render-deploy action!"
+        exit 1
+
+    - name: Deploy via Render CLI
+      if: ${{ inputs.api-key != '' }}
+      shell: bash
+      env:
+        RENDER_API_KEY: ${{ inputs.api-key }}
+        SERVICE_ID: ${{ inputs.service-id }}
+        WAIT: ${{ inputs.wait }}
+      run: |
+        echo "==> Installing official Render CLI..."
+        curl --fail-with-body --silent --show-error --location \
+          https://raw.githubusercontent.com/render-oss/cli/refs/heads/main/bin/install.sh \
+          --output /tmp/install-render-cli.sh
+        sudo sh /tmp/install-render-cli.sh
+        render --version
+
+        WAIT_FLAG=""
+        if [ "$WAIT" = "true" ]; then
+          WAIT_FLAG="--wait"
+        fi
+
+        echo "==> Triggering Render deploy for service: $SERVICE_ID..."
+        render deploys create "$SERVICE_ID" $WAIT_FLAG --confirm -o json
+        echo "==> Deployment finished successfully!"
+
+    - name: Deploy via Render Deploy Hook
+      if: ${{ inputs.api-key == '' && inputs.deploy-hook-url != '' }}
+      shell: bash
+      env:
+        DEPLOY_HOOK_URL: ${{ inputs.deploy-hook-url }}
+      run: |
+        echo "==> Triggering deployment via Render Deploy Hook..."
+        curl --fail -sS -X POST "$DEPLOY_HOOK_URL"
+        echo "==> Deploy hook triggered successfully!"

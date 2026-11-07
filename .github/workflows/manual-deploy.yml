@@ -1,0 +1,53 @@
+name: Manual Deploy to Render
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_tests:
+        description: 'Run cargo check & test before deployment'
+        type: boolean
+        required: true
+        default: true
+      wait_for_completion:
+        description: 'Wait for Render deployment to complete (fails on deploy error)'
+        type: boolean
+        required: true
+        default: true
+
+jobs:
+  test:
+    name: Build & Test
+    if: ${{ inputs.run_tests }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+
+      - name: Cargo Check
+        run: cargo check --verbose
+
+      - name: Cargo Test
+        run: cargo test --verbose
+
+  deploy:
+    name: Deploy to Render
+    needs: test
+    if: ${{ always() && (needs.test.result == 'success' || needs.test.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Render Deploy Action
+        uses: ./.github/actions/render-deploy
+        with:
+          service-id: ${{ secrets.RENDER_SERVICE_ID || 'srv-dbnkb3mc6qcc73e4qfs0' }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
+          deploy-hook-url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+          wait: ${{ inputs.wait_for_completion && 'true' || 'false' }}
