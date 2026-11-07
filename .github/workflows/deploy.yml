@@ -1,0 +1,70 @@
+name: Deploy PokéDash to Render
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+
+      - name: Cargo Check
+        run: cargo check --verbose
+
+      - name: Cargo Test
+        run: cargo test --verbose
+
+  deploy:
+    name: Deploy to Render
+    needs: test
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Check Deployment Secrets
+        if: ${{ secrets.RENDER_API_KEY == '' && secrets.RENDER_DEPLOY_HOOK_URL == '' }}
+        run: |
+          echo "::error::Neither RENDER_API_KEY nor RENDER_DEPLOY_HOOK_URL secret is set in GitHub repository secrets!"
+          echo "Please add RENDER_API_KEY (from https://dashboard.render.com/u/settings#api-keys) to your repository secrets."
+          exit 1
+
+      - name: Deploy via Render CLI
+        if: ${{ secrets.RENDER_API_KEY != '' }}
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID || 'srv-dbnh4v3rjlhs738q5mtg' }}
+        run: |
+          echo "Installing Render CLI..."
+          curl --fail-with-body --silent --show-error --location \
+            https://raw.githubusercontent.com/render-oss/cli/refs/heads/main/bin/install.sh \
+            --output /tmp/install-render-cli.sh
+          sudo sh /tmp/install-render-cli.sh
+          render --version
+          echo "Triggering deployment for service: $SERVICE_ID"
+          render deploys create "$SERVICE_ID" --wait --confirm -o json
+
+      - name: Deploy via Render Deploy Hook (Fallback)
+        if: ${{ secrets.RENDER_API_KEY == '' && secrets.RENDER_DEPLOY_HOOK_URL != '' }}
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          echo "Triggering deployment via Render Deploy Hook..."
+          curl --fail -sS -X POST "$RENDER_DEPLOY_HOOK_URL"
+          echo "Deploy hook triggered successfully!"

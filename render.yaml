@@ -8,7 +8,7 @@ services:
     plan: free
     region: oregon
     branch: main
-    autoDeployTrigger: commit
+    autoDeployTrigger: off
     buildCommand: cargo build --release
     startCommand: ./target/release/pokedash --port $PORT
     healthCheckPath: /api/status
