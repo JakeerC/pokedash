@@ -37,7 +37,12 @@ pub async fn run_server(service: GameService) -> Result<(), Box<dyn std::error::
     println!("╰──────────────────────────────────────────────────────────────╯");
     println!("  🎮 Web Game:       {}", format!("http://localhost:{}", args.port).bold().green());
     println!("  📡 REST API:       {}", format!("http://localhost:{}/api", args.port).bold().cyan());
-    println!("  💾 Persistent DB:  ~/.pokedash");
+    if let Some(supabase) = &service.storage.supabase {
+        println!("  💾 Persistent DB:  {} ({})", "Supabase DB".bold().green(), supabase.config.url.cyan());
+        println!("  👤 Player Account: {}", supabase.config.username.bold().yellow());
+    } else {
+        println!("  💾 Persistent DB:  ~/.pokedash (local fallback)");
+    }
     println!("  Press Ctrl+C to stop.\n");
 
     if args.open {

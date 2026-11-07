@@ -1,3 +1,4 @@
 /target
 pokedash_daemon.log
 *.log
+.env

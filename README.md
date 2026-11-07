@@ -19,7 +19,7 @@ Inspired by [PokéCatch](https://pokecatch.ritikkumar.dev/) and powered by [Poke
 - **High-Performance Rust Backend**:
   - Built with Axum, Tokio, and Serde.
   - All 1025 Pokémon embedded and loaded into memory on startup.
-  - Atomic JSON persistence in `~/.pokedash/` ensuring zero save-file corruption.
+  - **Supabase PostgreSQL Cloud Persistence**: Direct integration with Supabase PostgREST API for robust cloud storage, with seamless auto-migration and local offline fallback in `~/.pokedash/`.
   - High-speed REST API endpoints for all gameplay operations.
 - **Authentic Game Mechanics**:
   - 7 rarity tiers (Common to Mythical) with authentic spawn weights.
@@ -100,23 +100,55 @@ $$\text{XP Required for Level } L = \lfloor 100 \times L^{1.5} \rfloor$$
 
 ---
 
+## 🗄️ Database & Cloud Persistence (Supabase)
+
+PokéDash uses **Supabase PostgreSQL** as its primary cloud database, providing durable, scalable persistence across devices and sessions.
+
+### Architecture & Tables
+
+| Table | Description | Primary Key |
+|---|---|---|
+| `players` | Stores player profile, level, currency, XP, Pokéball inventory, party Pokémon, and badges. | `username` |
+| `pokedex` | Stores every caught Pokémon instance with stats, IVs, rarity, catch timestamps, and ball used. | `entry_id` (indexed by `username`, `caught_at`) |
+| `wild_encounters` | Persists active wild Pokémon encounter state, remaining HP, and cooldowns. | `username` |
+| `arena_battles` | Persists ongoing gym arena battles, active Pokémon, and combat logs. | `username` |
+
+- **Atomic Synchronization**: Catches, transfers, sales, and renames are safely synchronized via the `save_pokedex(p_username, p_entries)` database RPC.
+- **Row Level Security (RLS)**: Enabled across all tables with explicit access policies for data security.
+- **Auto-Migration & Offline Fallback**: On first launch with Supabase configured, existing local saves from `~/.pokedash/` are automatically migrated to Supabase. If offline, the game transparently falls back to local JSON storage.
+
+### Configuration
+
+Copy `.env.example` to `.env` or set the environment variables:
+
+```bash
+SUPABASE_URL=https://<your-project-ref>.supabase.co
+SUPABASE_KEY=<your-anon-or-service-key>
+```
+
+---
+
 ## 🛠️ Project Structure
 
 ```
 pokedash/
 ├── Cargo.toml            # Rust dependencies & config
+├── .env.example          # Supabase environment variables template
 ├── data/
 │   └── pokemon_data.json # All 1025 Pokemon stats, types, rarities
 ├── static/
 │   ├── index.html        # Retro Game Boy/Synthwave Web Game & Dashboard
+│   ├── keyboard.html     # On-screen keyboard input interface
 │   └── sprites/          # Bundled sprites (1.png - 1025.png)
 ├── src/
-│   ├── main.rs           # Entry point
+│   ├── main.rs           # Application entry point & initialization
+│   ├── lib.rs            # Library module exports
 │   ├── models.rs         # Data models and structures
 │   ├── game.rs           # Core mechanics, odds, ball formulas
-│   ├── storage.rs        # Atomic JSON persistence (~/.pokedash/)
-│   ├── service.rs        # Core gameplay service
+│   ├── supabase.rs       # Supabase PostgREST client & environment loader
+│   ├── storage.rs        # Dual persistence: Supabase DB + local fallback
+│   ├── service.rs        # Core gameplay service & lock management
 │   ├── server.rs         # Axum HTTP API & static web router
-│   └── cli.rs            # Web server arguments & launcher
+│   └── cli.rs            # Web server arguments & terminal banner
 └── README.md             # Project documentation
 ```
