@@ -2,8 +2,6 @@
 
 A retro Pokémon hunting, catching, battling, and collecting game powered by a high-performance **Rust backend engine** (Axum, Tokio, Serde), a custom **Game Boy Advance LCD Web UI**, and **Supabase PostgreSQL cloud persistence** with PokeAPI integration.
 
-Inspired by [PokéCatch](https://pokecatch.ritikkumar.dev/) and powered by [PokeAPI](https://pokeapi.co/docs/v2).
-
 ---
 
 ## 🌟 Key Features
@@ -32,6 +30,9 @@ Inspired by [PokéCatch](https://pokecatch.ritikkumar.dev/) and powered by [Poke
 
 - **Agentic AI Ready**:
   - Comprehensive documentation, skills, and architectures designed for AI developer agents (`AGENTS.md`, `CONTEXT.md`, `ARCHITECTURE.md`, `.agents/`, `.gemini/`).
+
+- **Cloud Deployment Ready**:
+  - Hosted live on **Render** with Infrastructure-as-Code (`render.yaml`) and automated testing & deployment via **GitHub Actions** CI/CD. See [`Deploy.md`](Deploy.md) for full details.
 
 ---
 
