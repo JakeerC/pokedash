@@ -4,3 +4,5 @@ pokedash_daemon.log
 .env
 .agents/skills
 skills-lock.json
+.DS_Store
+**/**/.DS_Store
