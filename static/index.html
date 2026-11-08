@@ -2733,7 +2733,7 @@
     }
 
     // FIGHT button clicked -> Show Moves
-    document.getElementById('btn-menu-fight').addEventListener('click', () => {
+    document.getElementById('btn-menu-fight').addEventListener('click', async () => {
       SFX.blip();
       if (!currentWild && !currentArenaBattle) {
         setDialogue("Searching tall grass for wild Pokémon...");
@@ -2745,10 +2745,33 @@
         setDialogue("You have no Pokémon in your party to fight with!");
         return;
       }
-      const lead = playerData.party[0];
+      let lead = playerData.party[0];
       if (lead.current_hp === 0) {
-        setDialogue(`${lead.name} is fainted! Visit the Pokémon Center to heal.`);
-        return;
+        const healthyIdx = playerData.party.findIndex(p => p.current_hp > 0);
+        if (healthyIdx !== -1) {
+          const healthy = playerData.party[healthyIdx];
+          setDialogue(`${lead.name.toUpperCase()} is fainted! Sending out ${healthy.name.toUpperCase()}!`);
+          try {
+            await api('/party/select', 'POST', { pokemon_id: healthy.id });
+            await updateHeaderPlayer();
+            lead = playerData.party[0];
+            const playerSprite = document.getElementById('player-sprite');
+            if (playerSprite) {
+              playerSprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${lead.id}.png`;
+              playerSprite.onerror = () => { playerSprite.src = `/sprites/${lead.id}.png`; };
+              playerSprite.classList.remove('faint');
+            }
+            document.getElementById('player-name').textContent = lead.name.toUpperCase();
+            document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
+            updateHpBar('player', lead.current_hp, lead.max_hp);
+          } catch (e) {
+            setDialogue(`Cannot switch: ${e.message}`);
+            return;
+          }
+        } else {
+          setDialogue("ALL YOUR POKÉMON HAVE FAINTED! VISIT THE POKÉMON CENTER [H] TO HEAL.");
+          return;
+        }
       }
 
       const grid = document.getElementById('moves-selection-grid');
@@ -2806,9 +2829,9 @@
               enemySprite.classList.add('faint');
               setDialogue(res.logs.join(' • '));
               if (res.battle_ended) {
-                setTimeout(() => {
+                setTimeout(async () => {
                   SFX.victory();
-                  updateHeaderPlayer();
+                  await updateHeaderPlayer();
                   battleTurnBusy = false;
                   showMainActionsMenu();
                   if (!isArenaMode) showSearchTallGrassState();
@@ -2839,14 +2862,27 @@
                 setDialogue(res.logs[res.logs.length - 1] || 'Opponent attacked!');
 
                 if (res.player_fainted) {
-                  setTimeout(() => {
+                  setTimeout(async () => {
                     SFX.faint();
                     playerSprite.classList.add('faint');
-                    setDialogue(`${document.getElementById('player-name').textContent} fainted! Visit the Pokémon Center.`);
+                    setDialogue(`${document.getElementById('player-name').textContent} fainted! All your Pokémon were defeated. Visit the Pokémon Center.`);
                     battleTurnBusy = false;
                     showMainActionsMenu();
+                    await updateHeaderPlayer();
                   }, 800);
                 } else {
+                  // If our lead changed or was damaged, update player data
+                  updateHeaderPlayer().then(() => {
+                    if (playerData.party && playerData.party.length > 0) {
+                      const curLead = playerData.party[0];
+                      document.getElementById('player-name').textContent = curLead.name.toUpperCase();
+                      document.getElementById('player-level-tag').textContent = `Lv. ${curLead.level}`;
+                      playerSprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${curLead.id}.png`;
+                      playerSprite.onerror = () => { playerSprite.src = `/sprites/${curLead.id}.png`; };
+                      playerSprite.classList.remove('faint');
+                      updateHpBar('player', curLead.current_hp, curLead.max_hp);
+                    }
+                  });
                   battleTurnBusy = false;
                   showMainActionsMenu();
                 }
@@ -2860,8 +2896,10 @@
         }, 300);
 
       } catch (e) {
+        setDialogue(`Battle: ${e.message}`);
         battleTurnBusy = false;
         showMainActionsMenu();
+        await updateHeaderPlayer();
       }
     }
 
@@ -3015,8 +3053,52 @@
       } catch (e) {}
     });
 
-    // Tall grass hunt trigger
+    // Tall grass hunt trigger & cooldown manager
+    let huntCooldownTimer = null;
+    let huntCooldownSeconds = 0;
+    let huntBusy = false;
+
+    function startHuntCooldown(seconds) {
+      if (huntCooldownTimer) clearInterval(huntCooldownTimer);
+      huntCooldownSeconds = seconds;
+      const huntBtn = document.getElementById('btn-hunt-grass');
+
+      const updateBtnText = () => {
+        if (!huntBtn) return;
+        if (huntCooldownSeconds > 0) {
+          huntBtn.disabled = true;
+          huntBtn.style.opacity = '0.65';
+          huntBtn.innerHTML = `<span class="k-hint">[SPACE]</span> <svg class="pixel-icon"><use href="#px-grass"></use></svg> RESTING (${huntCooldownSeconds}s)`;
+        } else {
+          huntBtn.disabled = false;
+          huntBtn.style.opacity = '1';
+          huntBtn.innerHTML = `<span class="k-hint">[SPACE]</span> <svg class="pixel-icon"><use href="#px-grass"></use></svg> SEARCH TALL GRASS`;
+          if (huntCooldownTimer) {
+            clearInterval(huntCooldownTimer);
+            huntCooldownTimer = null;
+          }
+        }
+      };
+
+      updateBtnText();
+      huntCooldownTimer = setInterval(() => {
+        huntCooldownSeconds--;
+        if (huntCooldownSeconds <= 0) {
+          updateBtnText();
+        } else {
+          updateBtnText();
+        }
+      }, 1000);
+    }
+
     document.getElementById('btn-hunt-grass').addEventListener('click', async () => {
+      if (huntCooldownSeconds > 0) {
+        setDialogue(`You are resting from your last hunt. Please wait ${huntCooldownSeconds} more second${huntCooldownSeconds === 1 ? '' : 's'}.`);
+        SFX.blip();
+        return;
+      }
+      if (huntBusy) return;
+      huntBusy = true;
       SFX.confirm();
       setDialogue("Searching through tall grass...");
       try {
@@ -3024,7 +3106,21 @@
         isArenaMode = false;
         currentWild = encounter;
         renderWildBattle(encounter);
-      } catch (e) {}
+        startHuntCooldown(15);
+        await updateHeaderPlayer();
+      } catch (e) {
+        const msg = e.message || '';
+        const match = msg.match(/(\d+)\s+more seconds/i);
+        if (match) {
+          const waitSecs = parseInt(match[1], 10);
+          startHuntCooldown(waitSecs);
+          setDialogue(`You are resting. Please wait ${waitSecs} more second${waitSecs === 1 ? '' : 's'}.`);
+        } else {
+          setDialogue(`Hunt: ${msg}`);
+        }
+      } finally {
+        huntBusy = false;
+      }
     });
 
     // Cry sound

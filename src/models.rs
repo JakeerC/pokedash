@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct PokemonStats {
     #[serde(rename = "HP")]
     pub hp: u32,
@@ -156,8 +156,35 @@ impl Default for PlayerData {
             balls,
             last_hunt_time: 0.0,
             stats: PlayerStats::default(),
-            active_pokemon_id: None,
-            party: Vec::new(),
+            active_pokemon_id: Some(25),
+            party: vec![
+                BattlePokemon {
+                    id: 25,
+                    name: "Pikachu".to_string(),
+                    level: 5,
+                    current_hp: 20,
+                    max_hp: 20,
+                    stats: PokemonStats {
+                        hp: 35,
+                        atk: 55,
+                        def: 40,
+                        spa: 50,
+                        spd: 50,
+                        spe: 90,
+                        total: 320,
+                    },
+                    types: vec!["Electric".to_string()],
+                    abilities: vec!["Static".to_string(), "Lightning Rod".to_string()],
+                    moves: vec![
+                        BattleMove { name: "Tackle".to_string(), r#type: "Normal".to_string(), power: 40, accuracy: 100, category: "physical".to_string() },
+                        BattleMove { name: "Thunderbolt".to_string(), r#type: "Electric".to_string(), power: 80, accuracy: 100, category: "special".to_string() },
+                        BattleMove { name: "Slash".to_string(), r#type: "Normal".to_string(), power: 70, accuracy: 100, category: "physical".to_string() },
+                        BattleMove { name: "Giga Impact".to_string(), r#type: "Normal".to_string(), power: 110, accuracy: 90, category: "physical".to_string() },
+                    ],
+                    rarity: "Common".to_string(),
+                    sprite_url: "/sprites/25.png".to_string(),
+                }
+            ],
             arena_badges: Vec::new(),
         }
     }

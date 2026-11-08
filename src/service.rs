@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::sync::{Arc, RwLock};
+use std::sync::Arc;
 use rand::seq::SliceRandom;
 use rand::Rng;
 
@@ -19,44 +19,36 @@ use crate::storage::Storage;
 #[derive(Clone)]
 pub struct GameService {
     pub storage: Arc<Storage>,
-    pub lock: Arc<RwLock<()>>,
 }
 
 impl GameService {
     pub fn new(storage: Arc<Storage>) -> Self {
         Self {
             storage,
-            lock: Arc::new(RwLock::new(())),
         }
     }
 
     pub fn get_player(&self, username: &str) -> PlayerData {
-        let _guard = self.lock.read().unwrap();
         self.storage.load_player(username)
     }
 
     pub fn get_wild(&self, username: &str) -> Option<WildPokemonEncounter> {
-        let _guard = self.lock.read().unwrap();
         self.storage.load_wild_encounter(username)
     }
 
     pub fn get_pokedex(&self, username: &str) -> Vec<CaughtPokemon> {
-        let _guard = self.lock.read().unwrap();
         self.storage.load_pokedex(username)
     }
 
     pub fn get_arena_battle(&self, username: &str) -> Option<ActiveArenaBattle> {
-        let _guard = self.lock.read().unwrap();
         self.storage.load_arena_battle(username)
     }
 
     pub fn get_leaderboard(&self) -> Vec<LeaderboardEntry> {
-        let _guard = self.lock.read().unwrap();
         self.storage.get_leaderboard()
     }
 
     pub fn reset_player(&self, username: &str) -> Result<PlayerData, String> {
-        let _guard = self.lock.write().unwrap();
         self.storage
             .reset_game(username)
             .map_err(|e| e.to_string())?;
@@ -64,7 +56,6 @@ impl GameService {
     }
 
     pub fn hunt(&self, username: &str) -> Result<WildPokemonEncounter, String> {
-        let _guard = self.lock.write().unwrap();
         let mut player = self.storage.load_player(username);
         let now = Storage::now_sec();
 
@@ -142,7 +133,6 @@ impl GameService {
     }
 
     pub fn catch(&self, username: &str, ball_input: &str) -> Result<CatchAttemptResult, String> {
-        let _guard = self.lock.write().unwrap();
         let encounter = self
             .storage
             .load_wild_encounter(username)
@@ -276,24 +266,30 @@ impl GameService {
     }
 
     pub fn wild_attack(&self, username: &str, move_index: usize) -> Result<BattleActionResult, String> {
-        let _guard = self.lock.write().unwrap();
         let mut encounter = self
             .storage
             .load_wild_encounter(username)
             .ok_or_else(|| "No active wild encounter to battle!".to_string())?;
 
         let mut player = self.storage.load_player(username);
-        let active_index = 0;
-        let player_mon = player
-            .party
-            .get_mut(active_index)
-            .ok_or_else(|| "You have no Pokémon ready to battle!".to_string())?;
-
-        if player_mon.current_hp == 0 {
-            return Err(format!("{} is fainted! Heal your team at the Pokémon Center first.", player_mon.name));
+        if player.party.is_empty() {
+            return Err("You have no Pokémon ready to battle!".to_string());
         }
 
-        let chosen_move = player_mon
+        // Auto-switch to first conscious Pokémon if current lead is fainted
+        if player.party[0].current_hp == 0 {
+            if let Some(healthy_idx) = player.party.iter().position(|p| p.current_hp > 0) {
+                let healthy_mon = player.party.remove(healthy_idx);
+                player.party.insert(0, healthy_mon);
+                player.active_pokemon_id = Some(player.party[0].id);
+                let _ = self.storage.save_player(&player);
+            } else {
+                return Err("All your Pokémon have fainted! Heal your team at the Pokémon Center first.".to_string());
+            }
+        }
+
+        let chosen_move = player
+            .party[0]
             .moves
             .get(move_index)
             .cloned()
@@ -317,11 +313,15 @@ impl GameService {
         let mut logs = Vec::new();
 
         // 1. Player attacks wild Pokemon
-        let (p_dmg, p_crit, p_eff) = calculate_battle_damage(player_mon, &enemy_battle_mon, &chosen_move);
+        let (p_dmg, p_crit, p_eff, player_mon_name) = {
+            let player_mon = &player.party[0];
+            let (dmg, crit, eff) = calculate_battle_damage(player_mon, &enemy_battle_mon, &chosen_move);
+            (dmg, crit, eff, player_mon.name.clone())
+        };
         enemy_battle_mon.current_hp = enemy_battle_mon.current_hp.saturating_sub(p_dmg);
         encounter.current_hp = enemy_battle_mon.current_hp;
 
-        let mut msg = format!("{} used {}!", player_mon.name, chosen_move.name);
+        let mut msg = format!("{} used {}!", player_mon_name, chosen_move.name);
         if p_crit {
             msg.push_str(" A critical hit!");
         }
@@ -370,12 +370,15 @@ impl GameService {
             });
             enemy_move_name = Some(enemy_move.name.clone());
 
-            let (e_dmg, e_crit, e_eff) = calculate_battle_damage(&enemy_battle_mon, player_mon, &enemy_move);
+            let (e_dmg, e_crit, e_eff) = {
+                let player_mon = &player.party[0];
+                calculate_battle_damage(&enemy_battle_mon, player_mon, &enemy_move)
+            };
             enemy_damage = e_dmg;
             enemy_crit = e_crit;
             enemy_eff = e_eff;
 
-            player_mon.current_hp = player_mon.current_hp.saturating_sub(e_dmg);
+            player.party[0].current_hp = player.party[0].current_hp.saturating_sub(e_dmg);
 
             let mut emsg = format!("Wild {} used {}!", enemy_battle_mon.name, enemy_move.name);
             if e_crit {
@@ -386,18 +389,29 @@ impl GameService {
             }
             logs.push(emsg);
 
-            if player_mon.current_hp == 0 {
-                player_fainted = true;
-                battle_ended = true;
-                logs.push(format!("{} fainted! Head to the Pokémon Center to heal.", player_mon.name));
+            if player.party[0].current_hp == 0 {
+                let fainted_name = player.party[0].name.clone();
+                if let Some(next_idx) = player.party.iter().position(|p| p.current_hp > 0) {
+                    let next_mon = player.party.remove(next_idx);
+                    player.party.insert(0, next_mon);
+                    let new_leader_name = player.party[0].name.clone();
+                    player.active_pokemon_id = Some(player.party[0].id);
+                    logs.push(format!("{} fainted! Go, {}!", fainted_name, new_leader_name));
+                    let _ = self.storage.save_wild_encounter(username, &encounter);
+                } else {
+                    player_fainted = true;
+                    battle_ended = true;
+                    logs.push("All your Pokémon have fainted! Head to the Pokémon Center to heal.".to_string());
+                    self.storage.clear_wild_encounter(username);
+                }
             } else {
                 // Save updated encounter HP
                 let _ = self.storage.save_wild_encounter(username, &encounter);
             }
         }
 
-        let p_hp = player_mon.current_hp;
-        let p_max = player_mon.max_hp;
+        let p_hp = player.party.first().map(|p| p.current_hp).unwrap_or(0);
+        let p_max = player.party.first().map(|p| p.max_hp).unwrap_or(1);
 
         self.storage.save_player(&player).map_err(|e| e.to_string())?;
 
@@ -427,7 +441,6 @@ impl GameService {
     }
 
     pub fn flee(&self, username: &str) -> Result<String, String> {
-        let _guard = self.lock.write().unwrap();
         if let Some(wild) = self.storage.load_wild_encounter(username) {
             self.storage.clear_wild_encounter(username);
             Ok(format!("Got away safely from {}!", wild.pokemon.name))
@@ -437,7 +450,6 @@ impl GameService {
     }
 
     pub fn heal_party(&self, username: &str) -> Result<String, String> {
-        let _guard = self.lock.write().unwrap();
         let mut player = self.storage.load_player(username);
         for p in &mut player.party {
             p.current_hp = p.max_hp;
@@ -447,7 +459,6 @@ impl GameService {
     }
 
     pub fn set_active_pokemon(&self, username: &str, pokemon_id: u32) -> Result<String, String> {
-        let _guard = self.lock.write().unwrap();
         let mut player = self.storage.load_player(username);
         if let Some(idx) = player.party.iter().position(|p| p.id == pokemon_id) {
             let selected = player.party.remove(idx);
@@ -476,7 +487,6 @@ impl GameService {
     }
 
     pub fn get_arena_list(&self, username: &str) -> Vec<ArenaDivision> {
-        let _guard = self.lock.read().unwrap();
         let player = self.storage.load_player(username);
         let mut divisions = get_arena_divisions();
         for d in &mut divisions {
@@ -488,23 +498,34 @@ impl GameService {
     }
 
     pub fn start_arena_battle(&self, username: &str, arena_id: &str) -> Result<ActiveArenaBattle, String> {
-        let _guard = self.lock.write().unwrap();
         let divisions = get_arena_divisions();
         let div = divisions
             .into_iter()
             .find(|d| d.id == arena_id)
             .ok_or_else(|| format!("Arena division '{}' not found", arena_id))?;
 
-        let player = self.storage.load_player(username);
+        let mut player = self.storage.load_player(username);
+        if player.party.is_empty() {
+            return Err("You need at least one Pokémon in your party to enter the Arena!".to_string());
+        }
+
+        // Auto-switch to first conscious Pokémon if current lead is fainted
+        if player.party[0].current_hp == 0 {
+            if let Some(healthy_idx) = player.party.iter().position(|p| p.current_hp > 0) {
+                let healthy_mon = player.party.remove(healthy_idx);
+                player.party.insert(0, healthy_mon);
+                player.active_pokemon_id = Some(player.party[0].id);
+                let _ = self.storage.save_player(&player);
+            } else {
+                return Err("All your Pokémon have fainted! Visit the Pokémon Center to heal first.".to_string());
+            }
+        }
+
         let player_active = player
             .party
             .first()
             .cloned()
             .ok_or_else(|| "You need at least one Pokémon in your party to enter the Arena!".to_string())?;
-
-        if player_active.current_hp == 0 {
-            return Err("Your lead Pokémon is fainted! Visit the Pokémon Center to heal first.".to_string());
-        }
 
         // Build enemy team
         let mut enemy_team = Vec::new();
@@ -536,7 +557,6 @@ impl GameService {
     }
 
     pub fn arena_attack(&self, username: &str, move_index: usize) -> Result<BattleActionResult, String> {
-        let _guard = self.lock.write().unwrap();
         let mut battle = self
             .storage
             .load_arena_battle(username)
@@ -547,12 +567,26 @@ impl GameService {
         }
 
         let mut player = self.storage.load_player(username);
-        let player_mon = player
-            .party
-            .get_mut(0)
-            .ok_or_else(|| "No active Pokémon in party!".to_string())?;
+        if player.party.is_empty() {
+            return Err("No active Pokémon in party!".to_string());
+        }
 
-        let chosen_move = player_mon
+        // Auto-switch to first conscious Pokémon if current lead is fainted
+        if player.party[0].current_hp == 0 {
+            if let Some(healthy_idx) = player.party.iter().position(|p| p.current_hp > 0) {
+                let healthy_mon = player.party.remove(healthy_idx);
+                player.party.insert(0, healthy_mon);
+                player.active_pokemon_id = Some(player.party[0].id);
+                battle.player_active = player.party[0].clone();
+                let _ = self.storage.save_player(&player);
+                let _ = self.storage.save_arena_battle(username, &battle);
+            } else {
+                return Err("All your Pokémon have fainted! Visit the Pokémon Center to heal.".to_string());
+            }
+        }
+
+        let chosen_move = player
+            .party[0]
             .moves
             .get(move_index)
             .cloned()
@@ -568,11 +602,15 @@ impl GameService {
         let mut logs = Vec::new();
 
         // 1. Player attacks
-        let (p_dmg, p_crit, p_eff) = calculate_battle_damage(player_mon, &enemy_mon, &chosen_move);
+        let (p_dmg, p_crit, p_eff, player_mon_name) = {
+            let player_mon = &player.party[0];
+            let (dmg, crit, eff) = calculate_battle_damage(player_mon, &enemy_mon, &chosen_move);
+            (dmg, crit, eff, player_mon.name.clone())
+        };
         enemy_mon.current_hp = enemy_mon.current_hp.saturating_sub(p_dmg);
         battle.enemy_team[cur_idx].current_hp = enemy_mon.current_hp;
 
-        let mut msg = format!("{} used {}!", player_mon.name, chosen_move.name);
+        let mut msg = format!("{} used {}!", player_mon_name, chosen_move.name);
         if p_crit { msg.push_str(" Critical hit!"); }
         if p_eff >= 2.0 { msg.push_str(" Super effective!"); }
         else if p_eff > 0.0 && p_eff < 1.0 { msg.push_str(" Not very effective..."); }
@@ -598,7 +636,7 @@ impl GameService {
                 battle.current_enemy_index += 1;
                 let next_enemy_name = battle.enemy_team[battle.current_enemy_index].name.clone();
                 logs.push(format!("{} sent out {}!", battle.leader_name, next_enemy_name));
-                battle.player_active = player_mon.clone();
+                battle.player_active = player.party[0].clone();
                 let _ = self.storage.save_arena_battle(username, &battle);
             } else {
                 // Entire leader team defeated!
@@ -636,32 +674,47 @@ impl GameService {
             });
             enemy_move_name = Some(enemy_move.name.clone());
 
-            let (e_dmg, e_crit, e_eff) = calculate_battle_damage(&enemy_mon, player_mon, &enemy_move);
+            let (e_dmg, e_crit, e_eff) = {
+                let player_mon = &player.party[0];
+                calculate_battle_damage(&enemy_mon, player_mon, &enemy_move)
+            };
             enemy_damage = e_dmg;
             enemy_crit = e_crit;
             enemy_eff = e_eff;
-            player_mon.current_hp = player_mon.current_hp.saturating_sub(e_dmg);
+            player.party[0].current_hp = player.party[0].current_hp.saturating_sub(e_dmg);
 
             let mut emsg = format!("{}'s {} used {}!", battle.leader_name, enemy_mon.name, enemy_move.name);
             if e_crit { emsg.push_str(" Critical hit!"); }
             if e_eff >= 2.0 { emsg.push_str(" Super effective!"); }
             logs.push(emsg);
 
-            if player_mon.current_hp == 0 {
-                player_fainted = true;
-                battle_ended = true;
-                battle.is_over = true;
-                logs.push(format!("Your {} fainted! You lost the arena challenge.", player_mon.name));
-                self.storage.clear_arena_battle(username);
+            if player.party[0].current_hp == 0 {
+                let fainted_name = player.party[0].name.clone();
+                // Check if any remaining party member is conscious
+                if let Some(next_idx) = player.party.iter().position(|p| p.current_hp > 0) {
+                    let next_mon = player.party.remove(next_idx);
+                    player.party.insert(0, next_mon);
+                    let new_leader_name = player.party[0].name.clone();
+                    player.active_pokemon_id = Some(player.party[0].id);
+                    battle.player_active = player.party[0].clone();
+                    logs.push(format!("Your {} fainted! Go, {}!", fainted_name, new_leader_name));
+                    let _ = self.storage.save_arena_battle(username, &battle);
+                } else {
+                    player_fainted = true;
+                    battle_ended = true;
+                    battle.is_over = true;
+                    logs.push(format!("Your {} fainted! All your Pokémon were defeated.", fainted_name));
+                    self.storage.clear_arena_battle(username);
+                }
             } else {
-                battle.player_active = player_mon.clone();
+                battle.player_active = player.party[0].clone();
                 let _ = self.storage.save_arena_battle(username, &battle);
             }
         }
 
         player.stats.arena_battles += 1;
-        let p_hp = player_mon.current_hp;
-        let p_max = player_mon.max_hp;
+        let p_hp = player.party.first().map(|p| p.current_hp).unwrap_or(0);
+        let p_max = player.party.first().map(|p| p.max_hp).unwrap_or(1);
         let e_hp = enemy_mon.current_hp;
         let e_max = enemy_mon.max_hp;
 
@@ -693,7 +746,6 @@ impl GameService {
     }
 
     pub fn get_store_catalog(&self, username: &str) -> Vec<StoreItemInfo> {
-        let _guard = self.lock.read().unwrap();
         let player = self.storage.load_player(username);
         let level = get_player_level(player.xp);
         let discount = get_level_discount(level);
@@ -730,7 +782,6 @@ impl GameService {
             .ok_or_else(|| format!("Unknown store item '{}'", item_input))?;
         let spec = get_ball_spec(ball_id).unwrap();
 
-        let _guard = self.lock.write().unwrap();
         let mut player = self.storage.load_player(username);
         let level = get_player_level(player.xp);
 
@@ -774,7 +825,6 @@ impl GameService {
     }
 
     pub fn sell_one(&self, username: &str, pokemon_name: &str) -> Result<SellResult, String> {
-        let _guard = self.lock.write().unwrap();
         let mut dex = self.storage.load_pokedex(username);
         let mut player = self.storage.load_player(username);
 
@@ -803,7 +853,6 @@ impl GameService {
     }
 
     pub fn sell_all_by_rarity(&self, username: &str, rarity_input: &str) -> Result<SellResult, String> {
-        let _guard = self.lock.write().unwrap();
         let dex = self.storage.load_pokedex(username);
         let mut player = self.storage.load_player(username);
 
@@ -842,7 +891,6 @@ impl GameService {
     }
 
     pub fn sell_duplicates(&self, username: &str) -> Result<SellResult, String> {
-        let _guard = self.lock.write().unwrap();
         let dex = self.storage.load_pokedex(username);
         let mut player = self.storage.load_player(username);
 
@@ -887,5 +935,62 @@ impl GameService {
                 sold_count, total_earnings, player.currency
             ),
         })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::models::{BattleMove, BattlePokemon, PlayerData, PokemonStats};
+
+    #[test]
+    fn test_default_player_starter_pikachu() {
+        let player = PlayerData::default();
+        assert_eq!(player.party.len(), 1, "New trainer should start with 1 starter");
+        assert_eq!(player.party[0].id, 25, "Starter should be Pikachu (#25)");
+        assert_eq!(player.party[0].level, 5, "Starter should be Level 5");
+        assert!(player.party[0].current_hp > 0, "Starter should have full HP");
+        assert_eq!(player.party[0].current_hp, player.party[0].max_hp);
+        assert_eq!(player.active_pokemon_id, Some(25));
+        assert_eq!(player.balls.get("poke_ball").copied().unwrap_or(0), 50);
+    }
+
+    #[test]
+    fn test_auto_switch_logic() {
+        let mut player = PlayerData::default();
+        // Faint the starter
+        player.party[0].current_hp = 0;
+
+        // Add a second healthy Pokemon
+        player.party.push(BattlePokemon {
+            id: 1,
+            name: "Bulbasaur".to_string(),
+            level: 5,
+            current_hp: 25,
+            max_hp: 25,
+            stats: PokemonStats::default(),
+            types: vec!["Grass".to_string()],
+            abilities: vec![],
+            moves: vec![BattleMove {
+                name: "Tackle".to_string(),
+                r#type: "Normal".to_string(),
+                power: 40,
+                accuracy: 100,
+                category: "physical".to_string(),
+            }],
+            rarity: "Common".to_string(),
+            sprite_url: "/sprites/1.png".to_string(),
+        });
+
+        // Test switch: when party[0].current_hp == 0, find first healthy and promote
+        assert_eq!(player.party[0].current_hp, 0);
+        if let Some(healthy_idx) = player.party.iter().position(|p| p.current_hp > 0) {
+            let healthy_mon = player.party.remove(healthy_idx);
+            player.party.insert(0, healthy_mon);
+            player.active_pokemon_id = Some(player.party[0].id);
+        }
+
+        assert_eq!(player.party[0].id, 1, "Bulbasaur should now be the lead");
+        assert_eq!(player.party[0].current_hp, 25);
+        assert_eq!(player.party[1].id, 25, "Fainted Pikachu should be in position 1");
     }
 }

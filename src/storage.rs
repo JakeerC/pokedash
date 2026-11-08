@@ -213,6 +213,8 @@ impl Storage {
             self.load_player_from_file(username)
         };
 
+        let mut modified = false;
+
         // Ensure player has a party if empty
         if player.party.is_empty() {
             let level = get_player_level(player.xp).max(5);
@@ -221,6 +223,7 @@ impl Storage {
                 if let Some(proto) = self.pokemon_catalog.get(&first_caught.id) {
                     player.party.push(create_battle_pokemon(proto, level));
                     player.active_pokemon_id = Some(first_caught.id);
+                    modified = true;
                 }
             } else if let Some(starter) = self.pokemon_catalog.get(&25) { // Pikachu starter
                 player.party.push(create_battle_pokemon(starter, level));
@@ -245,54 +248,24 @@ impl Storage {
                     player.stats.lifetime_unique_pids.push(25);
                 }
                 player.stats.total_lifetime_caught = player.stats.total_lifetime_caught.max(1);
-            }
-            let _ = self.save_player(&player);
-        }
-
-        // Ensure Pokédex is synced with party if Pokédex is empty
-        let mut dex = self.load_pokedex(username);
-        if dex.is_empty() && !player.party.is_empty() {
-            let now = std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap_or_default()
-                .as_secs_f64();
-            for mon in &player.party {
-                if !dex.iter().any(|d| d.id == mon.id) {
-                    if let Some(proto) = self.pokemon_catalog.get(&mon.id) {
-                        dex.push(CaughtPokemon {
-                            id: proto.id,
-                            name: proto.name.clone(),
-                            types: proto.types.clone(),
-                            abilities: proto.abilities.clone(),
-                            stats: proto.stats.clone(),
-                            rarity: proto.rarity.clone(),
-                            rarity_score: proto.rarity_score,
-                            caught_at: now,
-                            ball_used: Some("poke_ball".to_string()),
-                        });
-                        if !player.stats.lifetime_unique_pids.contains(&proto.id) {
-                            player.stats.lifetime_unique_pids.push(proto.id);
-                        }
-                    }
-                }
-            }
-            if !dex.is_empty() {
-                player.stats.total_lifetime_caught = player.stats.total_lifetime_caught.max(dex.len() as u32);
-                let _ = self.save_pokedex(username, &dex);
-                let _ = self.save_player(&player);
+                modified = true;
             }
         }
 
         // Ensure active_pokemon_id is set
         if player.active_pokemon_id.is_none() && !player.party.is_empty() {
             player.active_pokemon_id = Some(player.party[0].id);
-            let _ = self.save_player(&player);
+            modified = true;
         }
 
         // Ensure player has starter Poké Balls
         let total_balls: u32 = player.balls.values().sum();
         if total_balls == 0 {
             player.balls.insert("poke_ball".to_string(), 50);
+            modified = true;
+        }
+
+        if modified {
             let _ = self.save_player(&player);
         }
 
