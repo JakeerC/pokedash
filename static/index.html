@@ -309,11 +309,10 @@
       border-bottom: 2px solid #223b2a;
     }
     body.layout-full .screen-content {
-      padding: 10px 14px;
-      display: flex;
-      flex-direction: column;
+      padding: 10px 16px;
       box-sizing: border-box;
-      height: 100%;
+      overflow-y: auto;
+      flex: 1;
       min-height: 0;
     }
     body.layout-full .retro-pill-btn {
@@ -548,12 +547,14 @@
     }
 
     .location-pane {
-      display: none;
+      display: none !important;
       animation: retro-fade 0.2s ease-out;
       height: 100%;
+      width: 100%;
+      box-sizing: border-box;
     }
     .location-pane.active {
-      display: block;
+      display: block !important;
     }
     @keyframes retro-fade { from { opacity: 0; transform: scale(0.99); } to { opacity: 1; transform: scale(1); } }
 
@@ -561,13 +562,16 @@
     /* 1. BATTLE SCREEN & ARENA LAYOUT           */
     /* ========================================= */
     #pane-hunt {
+      display: none !important;
       flex: 1;
       height: 100%;
       width: 100%;
       min-height: 0;
-      display: flex;
       flex-direction: column;
       box-sizing: border-box;
+    }
+    #pane-hunt.active {
+      display: flex !important;
     }
     .battle-stage-wrapper {
       display: flex;
@@ -601,8 +605,8 @@
       background: rgba(15, 29, 20, 0.92);
       border: 2px solid #233e2b;
       border-radius: 8px;
-      padding: 8px 12px;
-      width: 270px;
+      padding: clamp(8px, 1.2vh, 12px) 14px;
+      width: clamp(260px, 20vw, 320px);
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
       color: #f8fafc;
       transition: all 0.2s ease;
@@ -612,13 +616,13 @@
       z-index: 10;
     }
     .enemy-status-box {
-      top: 14px;
-      left: 16px;
+      top: clamp(12px, 2vh, 20px);
+      left: clamp(14px, 2vw, 24px);
       border-left: 4px solid #ef4444;
     }
     .player-status-box {
-      bottom: 14px;
-      right: 16px;
+      bottom: clamp(12px, 2vh, 20px);
+      right: clamp(14px, 2vw, 24px);
       border-left: 4px solid #38bdf8;
     }
     .status-name-row {
@@ -688,8 +692,8 @@
     /* Battle Environment Pill Badge (Top-Right inside Arena) */
     .battle-env-badge {
       position: absolute;
-      top: 14px;
-      right: 16px;
+      top: clamp(12px, 2vh, 20px);
+      right: clamp(14px, 2vw, 24px);
       z-index: 10;
       background: rgba(16, 31, 22, 0.88);
       border: 1px solid #22432d;
@@ -725,8 +729,8 @@
     /* Upper Field: Enemy Pokémon Platform on Upper-Right */
     .battle-upper-field {
       position: absolute;
-      top: 40px;
-      right: 64px;
+      top: clamp(24px, 5vh, 50px);
+      right: clamp(40px, 6vw, 120px);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -735,18 +739,18 @@
     /* Lower Field: Player Pokémon Platform on Lower-Left */
     .battle-lower-field {
       position: absolute;
-      bottom: 24px;
-      left: 64px;
+      bottom: clamp(20px, 4vh, 48px);
+      left: clamp(40px, 6vw, 120px);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 5;
     }
 
-    /* Platforms & Sprites with Proper Clearance */
+    /* Platforms & Sprites with Responsive Dynamic Sizing */
     .battle-platform {
-      width: 200px;
-      height: 48px;
+      width: clamp(200px, 24vw, 340px);
+      height: clamp(48px, 6vh, 76px);
       background: radial-gradient(ellipse at center, #355e43 0%, #1e3a28 65%, transparent 75%);
       border-radius: 50%;
       position: relative;
@@ -755,14 +759,24 @@
       justify-content: center;
     }
     .pokemon-battle-sprite {
-      max-width: 130px;
-      max-height: 130px;
+      max-width: clamp(140px, 20vw, 260px);
+      max-height: clamp(140px, 26vh, 260px);
       width: auto;
       height: auto;
-      min-width: 75px;
-      min-height: 75px;
+      min-width: 90px;
+      min-height: 90px;
       object-fit: contain;
       image-rendering: -webkit-optimize-contrast;
+      image-rendering: auto;
+      image-rendering: smooth;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,0.85)) contrast(106%) brightness(102%) saturate(104%);
+      position: absolute;
+      bottom: clamp(8px, 1.5vh, 20px);
+      transition: transform 0.2s, max-width 0.25s, max-height 0.25s;
+    }
       image-rendering: auto;
       image-rendering: smooth;
       -webkit-backface-visibility: hidden;
@@ -1233,9 +1247,9 @@
       grid-template-columns: 1.25fr 1fr;
       gap: 10px;
       width: 100%;
-      height: 116px;
-      min-height: 116px;
-      max-height: 116px;
+      height: 145px;
+      min-height: 145px;
+      max-height: 145px;
       flex-shrink: 0;
       box-sizing: border-box;
     }
@@ -1243,7 +1257,7 @@
       .battle-bottom-dock {
         grid-template-columns: 1fr;
         height: auto;
-        min-height: 180px;
+        min-height: 200px;
         max-height: none;
       }
     }
@@ -1261,9 +1275,9 @@
       background: #0f1d14;
       border: 2px solid #233e2b;
       border-radius: 8px;
-      padding: 14px 18px;
-      font-size: 11px;
-      line-height: 1.6;
+      padding: 18px 22px;
+      font-size: 11.5px;
+      line-height: 1.7;
       color: #f8fafc;
       display: flex;
       align-items: center;
@@ -1323,13 +1337,13 @@
       border: 2px solid;
       border-radius: 6px;
       font-family: var(--pixel-font);
-      font-size: 10px;
+      font-size: 11px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 0 8px;
+      gap: 8px;
+      padding: 0 10px;
       transition: all 0.12s ease;
       font-weight: bold;
       letter-spacing: 0.5px;
@@ -1383,7 +1397,7 @@
       box-shadow: 0 1px 0 rgba(0,0,0,0.6);
     }
     .k-hint {
-      font-size: 9.5px;
+      font-size: 10px;
       color: #facc15;
       font-weight: bold;
     }
@@ -1392,7 +1406,8 @@
     .moves-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 4px;
+      grid-template-rows: 1fr 1fr 28px;
+      gap: 5px;
       width: 100%;
       height: 100%;
       min-height: 100%;
@@ -1404,14 +1419,14 @@
       border: 1.5px solid #2e523a;
       border-radius: 5px;
       font-family: var(--pixel-font);
-      font-size: 8.5px;
-      padding: 3px 6px;
+      font-size: 9px;
+      padding: 4px 8px;
       cursor: pointer;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      gap: 4px;
+      gap: 6px;
       color: #f8fafc;
       font-weight: bold;
       transition: all 0.12s;
@@ -1426,21 +1441,21 @@
       transform: translateY(1px);
     }
     .move-type-badge {
-      font-size: 7px;
-      padding: 1px 4px;
+      font-size: 7.5px;
+      padding: 2px 5px;
       border-radius: 3px;
       color: #fff;
     }
     .move-back-btn {
       grid-column: 1 / -1 !important;
-      height: 24px !important;
-      min-height: 24px !important;
-      max-height: 24px !important;
+      height: 28px !important;
+      min-height: 28px !important;
+      max-height: 28px !important;
       justify-content: center !important;
       background: #1e293b !important;
       border-color: #475569 !important;
       color: #cbd5e1 !important;
-      font-size: 8px !important;
+      font-size: 8.5px !important;
     }
     .move-back-btn:hover {
       background: #334155 !important;
@@ -1452,8 +1467,8 @@
     .bag-grid-scrollable {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-auto-rows: 38px;
-      gap: 4px;
+      grid-auto-rows: 44px;
+      gap: 5px;
       width: 100%;
       height: 100%;
       min-height: 100%;
@@ -1476,8 +1491,8 @@
     }
     .btn-hunt-active {
       height: 100%;
-      padding: 0 12px;
-      font-size: 9.5px;
+      padding: 0 14px;
+      font-size: 10.5px;
       background: linear-gradient(180deg, #15803d 0%, #14532d 100%) !important;
       border: 2px solid #22c55e !important;
       color: #fff !important;
@@ -1487,7 +1502,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       font-family: var(--pixel-font);
       font-weight: bold;
       transition: all 0.12s;
@@ -1502,7 +1517,7 @@
     .btn-cry-active {
       height: 100%;
       padding: 0 8px;
-      font-size: 8.5px;
+      font-size: 9.5px;
       background: linear-gradient(180deg, #334155 0%, #1e293b 100%) !important;
       border: 2px solid #64748b !important;
       color: #cbd5e1 !important;
@@ -3314,6 +3329,9 @@
             <div class="header-gold" title="Poké Dollars">
               <svg class="pixel-icon"><use href="#px-coin"></use></svg> P$ <span id="header-gold-val">0</span>
             </div>
+            <button id="btn-header-fullscreen" class="retro-pill-btn" title="Toggle Fullscreen [F]">
+              <svg class="pixel-icon" id="header-fs-icon"><use href="#px-expand"></use></svg> <span id="header-fs-text">FULLSCREEN</span>
+            </button>
             <button id="btn-open-settings" class="retro-pill-btn settings-pill-btn" title="Settings & Trainer Passport [S]">
               <svg class="pixel-icon"><use href="#px-settings"></use></svg> SETTINGS
             </button>
@@ -6492,36 +6510,44 @@
     const savedLayout = localStorage.getItem('pokedash_layout_mode');
     setLayoutMode(savedLayout === 'retro' ? 'retro' : 'full');
 
-    // Fullscreen / Screen-only Toggle
+    // Fullscreen Toggle Helper
+    function toggleBrowserFullscreen() {
+      SFX.blip();
+      if (!document.fullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+    }
+
+    const headerFsBtn = document.getElementById('btn-header-fullscreen');
+    if (headerFsBtn) {
+      headerFsBtn.addEventListener('click', toggleBrowserFullscreen);
+    }
+
     const screenModeBtn = document.getElementById('toggle-screen-mode');
     if (screenModeBtn) {
-      screenModeBtn.addEventListener('click', (e) => {
-        SFX.blip();
-        if (!document.fullscreenElement) {
-          if (document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen().catch(() => {});
-          }
-          screenModeBtn.innerHTML = `${pIcon('shrink')} <span id="fullscreen-toggle-text">EXIT</span>`;
-          screenModeBtn.classList.add('active');
-        } else {
-          if (document.exitFullscreen) {
-            document.exitFullscreen().catch(() => {});
-          }
-          screenModeBtn.innerHTML = `${pIcon('expand')} <span id="fullscreen-toggle-text">FULL</span>`;
-          screenModeBtn.classList.remove('active');
-        }
-      });
+      screenModeBtn.addEventListener('click', toggleBrowserFullscreen);
     }
 
     document.addEventListener('fullscreenchange', () => {
-      const btn = document.getElementById('toggle-screen-mode');
-      if (!btn) return;
-      if (document.fullscreenElement) {
-        btn.innerHTML = `${pIcon('shrink')} <span id="fullscreen-toggle-text">EXIT</span>`;
-        btn.classList.add('active');
-      } else {
-        btn.innerHTML = `${pIcon('expand')} <span id="fullscreen-toggle-text">FULL</span>`;
-        btn.classList.remove('active');
+      const isFs = !!document.fullscreenElement;
+      
+      const headerIcon = document.getElementById('header-fs-icon');
+      const headerText = document.getElementById('header-fs-text');
+      const headerBtn = document.getElementById('btn-header-fullscreen');
+      if (headerIcon) headerIcon.innerHTML = `<use href="${isFs ? '#px-shrink' : '#px-expand'}"></use>`;
+      if (headerText) headerText.textContent = isFs ? 'EXIT FULL' : 'FULLSCREEN';
+      if (headerBtn) headerBtn.classList.toggle('active', isFs);
+
+      const modalBtn = document.getElementById('toggle-screen-mode');
+      if (modalBtn) {
+        modalBtn.innerHTML = `${pIcon(isFs ? 'shrink' : 'expand')} <span id="fullscreen-toggle-text">${isFs ? 'EXIT' : 'FULL'}</span>`;
+        modalBtn.classList.toggle('active', isFs);
       }
     });
 
@@ -6850,10 +6876,18 @@
         }
       }
 
-      // 3. Letters F, B, P, R for Battle Actions
+      // 3. Letters F, B, P, R for Battle Actions / Hotkeys
       if (lower === 'f') {
         const btn = document.getElementById('btn-menu-fight');
-        if (btn && btn.offsetParent !== null) { e.preventDefault(); btn.click(); return; }
+        if (btn && btn.offsetParent !== null) {
+          e.preventDefault();
+          btn.click();
+          return;
+        } else {
+          e.preventDefault();
+          toggleBrowserFullscreen();
+          return;
+        }
       }
       if (lower === 'b') {
         const btn = document.getElementById('btn-menu-bag');
