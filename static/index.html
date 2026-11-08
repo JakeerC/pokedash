@@ -244,6 +244,163 @@
       box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
     }
 
+    /* ============================================================ */
+    /* FULL-WIDTH BORDERLESS LAYOUT (ZERO PURPLE CASING)            */
+    /* ============================================================ */
+    body.layout-full {
+      padding: 0 !important;
+      margin: 0 !important;
+      background: #08100b !important;
+    }
+    body.layout-full .handheld-console {
+      border: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: #0b170f !important;
+      box-shadow: none !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: 100vw !important;
+      max-height: 100vh !important;
+    }
+    body.layout-full .console-top {
+      background: #0d1a12 !important;
+      border-bottom: 2px solid #1f3827 !important;
+      padding: 6px 20px !important;
+      height: 44px !important;
+      box-sizing: border-box;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6) !important;
+    }
+    body.layout-full .console-branding {
+      color: #86efac !important;
+      text-shadow: 0 0 10px rgba(134, 239, 172, 0.4) !important;
+    }
+    body.layout-full .screen-bezel {
+      border: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      flex: 1 !important;
+      min-height: 0 !important;
+    }
+    body.layout-full .screen-logo-badge {
+      display: none !important;
+    }
+    body.layout-full .retro-screen {
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      width: 100% !important;
+      height: 100% !important;
+      flex: 1 !important;
+    }
+    body.layout-full .console-controls {
+      display: none !important;
+    }
+    body.layout-full .screen-header {
+      padding: 10px 24px;
+      border-bottom: 2px solid #233b2a;
+    }
+    body.layout-full .screen-nav {
+      padding: 0 16px;
+      border-bottom: 2px solid #223b2a;
+    }
+    body.layout-full .screen-content {
+      padding: 16px 28px;
+    }
+    body.layout-full .retro-pill-btn {
+      background: #162a1e;
+      border: 1px solid #2d4f39;
+      color: #cbd5e1;
+    }
+    body.layout-full .retro-pill-btn:hover {
+      background: #234230;
+      color: #fff;
+    }
+    body.layout-full .retro-pill-btn.active {
+      background: #facc15;
+      color: #111;
+      border-color: #eab308;
+      box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+    }
+
+    /* Content Pane Optimization in Full-Width Mode */
+    body.layout-full #pane-hunt .battle-arena-canvas {
+      max-width: 1160px;
+      margin: 0 auto;
+      height: calc(100% - 62px);
+      min-height: 420px;
+    }
+    body.layout-full #pane-hunt #hunt-trigger-box {
+      max-width: 1160px;
+      margin: 10px auto 0 auto;
+    }
+    body.layout-full #pane-arena .arena-divisions-grid {
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+    body.layout-full #pane-center .poke-center-box {
+      max-width: 860px;
+      margin: 0 auto 16px auto;
+    }
+    body.layout-full #pane-center #party-slots-grid {
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+    body.layout-full #pane-mart .mart-balls-grid {
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+    body.layout-full #pane-cards .cards-search-toolbar,
+    body.layout-full #pane-cards #cards-catalog-grid {
+      max-width: 1650px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    body.layout-full #pane-dex .pokedex-search-toolbar,
+    body.layout-full #pane-dex #pokedex-grid {
+      max-width: 1650px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    body.layout-full #pane-trainer .trainer-passport-card {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+    body.layout-full #pane-ranks .leaderboard-container {
+      max-width: 1250px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 900px) {
+      .console-top {
+        padding: 4px 10px !important;
+        gap: 8px;
+      }
+      .console-branding {
+        font-size: 12px;
+        letter-spacing: 1px;
+      }
+      .hud-key-pill {
+        display: none;
+      }
+      .retro-pill-btn {
+        padding: 6px 8px;
+        font-size: 9px;
+      }
+    }
+    @media (max-width: 600px) {
+      .console-branding span {
+        display: none;
+      }
+      .power-light span {
+        display: none;
+      }
+    }
+
     /* Glass Bezel & Screen (Expands Vertically) */
     .screen-bezel {
       background: #14121c;
@@ -2638,7 +2795,8 @@
         </div>
         <button id="toggle-sound" class="retro-pill-btn active"><svg class="pixel-icon"><use href="#px-sound-on"></use></svg> SFX ON</button>
         <button id="toggle-scanlines" class="retro-pill-btn"><svg class="pixel-icon"><use href="#px-crt"></use></svg> CRT OFF</button>
-        <button id="toggle-screen-mode" class="retro-pill-btn"><svg class="pixel-icon"><use href="#px-expand"></use></svg> FULL</button>
+        <button id="toggle-layout-mode" class="retro-pill-btn active" title="Toggle Layout: Full-Width Screen vs Retro GBA Handheld [L]"><svg class="pixel-icon"><use href="#px-expand"></use></svg> <span id="layout-toggle-text">FULL WIDTH</span></button>
+        <button id="toggle-screen-mode" class="retro-pill-btn" title="Toggle Browser Fullscreen Window"><svg class="pixel-icon"><use href="#px-expand"></use></svg> <span id="fullscreen-toggle-text">FULLSCREEN</span></button>
       </div>
     </div>
 
@@ -5581,32 +5739,75 @@
       SFX.blip();
     });
 
-    // Fullscreen / Screen-only Toggle
-    document.getElementById('toggle-screen-mode').addEventListener('click', (e) => {
-      SFX.blip();
-      if (!document.fullscreenElement) {
-        if (document.documentElement.requestFullscreen) {
-          document.documentElement.requestFullscreen().catch(() => {});
+    // Layout Mode (Full-Width vs Classic Retro GBA Handheld)
+    function setLayoutMode(mode) {
+      const isFull = mode === 'full';
+      document.body.classList.toggle('layout-full', isFull);
+      document.body.classList.toggle('layout-retro', !isFull);
+      
+      const btn = document.getElementById('toggle-layout-mode');
+      const label = document.getElementById('layout-toggle-text');
+      if (btn) {
+        btn.classList.toggle('active', isFull);
+        btn.title = isFull 
+          ? "Currently Full-Width Mode (Click to switch to Classic Retro GBA Casing) [L]" 
+          : "Currently Retro GBA Mode (Click to switch to Full-Width Borderless Screen) [L]";
+        if (label) {
+          label.textContent = isFull ? 'FULL WIDTH' : 'RETRO GBA';
         }
-        e.target.innerHTML = `${pIcon('shrink')} EXIT`;
-        e.target.classList.add('active');
-      } else {
-        if (document.exitFullscreen) {
-          document.exitFullscreen().catch(() => {});
+        const iconUse = btn.querySelector('svg use');
+        if (iconUse) {
+          iconUse.setAttribute('href', isFull ? '#px-expand' : '#px-pkmn');
         }
-        e.target.innerHTML = `${pIcon('expand')} FULL`;
-        e.target.classList.remove('active');
       }
-    });
+      
+      try {
+        localStorage.setItem('pokedash_layout_mode', isFull ? 'full' : 'retro');
+      } catch (e) {}
+    }
+
+    const layoutBtn = document.getElementById('toggle-layout-mode');
+    if (layoutBtn) {
+      layoutBtn.addEventListener('click', () => {
+        SFX.blip();
+        const currentIsFull = document.body.classList.contains('layout-full');
+        setLayoutMode(currentIsFull ? 'retro' : 'full');
+      });
+    }
+
+    // Initialize layout mode from localStorage (Default: 'full' to remove purple casing and use full width)
+    const savedLayout = localStorage.getItem('pokedash_layout_mode');
+    setLayoutMode(savedLayout === 'retro' ? 'retro' : 'full');
+
+    // Fullscreen / Screen-only Toggle
+    const screenModeBtn = document.getElementById('toggle-screen-mode');
+    if (screenModeBtn) {
+      screenModeBtn.addEventListener('click', (e) => {
+        SFX.blip();
+        if (!document.fullscreenElement) {
+          if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen().catch(() => {});
+          }
+          screenModeBtn.innerHTML = `${pIcon('shrink')} <span id="fullscreen-toggle-text">EXIT</span>`;
+          screenModeBtn.classList.add('active');
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen().catch(() => {});
+          }
+          screenModeBtn.innerHTML = `${pIcon('expand')} <span id="fullscreen-toggle-text">FULL</span>`;
+          screenModeBtn.classList.remove('active');
+        }
+      });
+    }
 
     document.addEventListener('fullscreenchange', () => {
       const btn = document.getElementById('toggle-screen-mode');
       if (!btn) return;
       if (document.fullscreenElement) {
-        btn.innerHTML = `${pIcon('shrink')} EXIT`;
+        btn.innerHTML = `${pIcon('shrink')} <span id="fullscreen-toggle-text">EXIT</span>`;
         btn.classList.add('active');
       } else {
-        btn.innerHTML = `${pIcon('expand')} FULL`;
+        btn.innerHTML = `${pIcon('expand')} <span id="fullscreen-toggle-text">FULL</span>`;
         btn.classList.remove('active');
       }
     });
@@ -5946,6 +6147,15 @@
       if (key === 'Enter' || lower === 'z') {
         e.preventDefault();
         document.getElementById('key-a').click();
+        return;
+      }
+
+      // 9. L key: Toggle Layout Mode (Full-Width vs Retro GBA)
+      if (lower === 'l') {
+        e.preventDefault();
+        const currentIsFull = document.body.classList.contains('layout-full');
+        setLayoutMode(currentIsFull ? 'retro' : 'full');
+        SFX.blip();
         return;
       }
     });
