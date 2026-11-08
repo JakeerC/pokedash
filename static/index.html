@@ -328,15 +328,9 @@
     }
 
     /* Content Pane Optimization in Full-Width Mode */
-    body.layout-full #pane-hunt .battle-arena-canvas {
-      max-width: 880px;
+    body.layout-full #pane-hunt .battle-stage-wrapper {
+      max-width: 960px;
       margin: 0 auto;
-      height: calc(100% - 62px);
-      min-height: 420px;
-    }
-    body.layout-full #pane-hunt #hunt-trigger-box {
-      max-width: 880px;
-      margin: 10px auto 0 auto;
     }
     body.layout-full #pane-arena .arena-divisions-grid {
       max-width: 1500px;
@@ -559,110 +553,181 @@
     /* ========================================= */
     /* 1. BATTLE SCREEN & ARENA LAYOUT           */
     /* ========================================= */
-    .battle-arena-canvas {
-      background: #132219 radial-gradient(circle at 50% 30%, #1e3828 0%, #0d1a12 75%);
-      border: 2px solid #2e4d37;
-      border-radius: 8px;
-      padding: 14px 20px;
-      position: relative;
-      height: calc(100% - 48px);
-      min-height: 380px;
+    .battle-stage-wrapper {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      overflow: hidden;
-      box-shadow: inset 0 0 25px rgba(0,0,0,0.7);
+      gap: 10px;
+      max-width: 960px;
+      margin: 0 auto;
+      height: 100%;
       box-sizing: border-box;
     }
 
-    /* Battle Environment Elements */
-    .battle-background-decor {
-      position: absolute;
-      top: 0; left: 0; right: 0; height: 60%;
-      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02) 1px, transparent 1px, transparent 10px);
-      pointer-events: none;
-    }
-
-    /* Enemy Upper Field */
-    .battle-upper-field {
+    /* Top Combat Status HUD (OUTSIDE ARENA) */
+    .battle-top-hud {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
-      position: relative;
-      min-height: 140px;
-      padding-top: 4px;
-      z-index: 5;
-    }
-    /* Player Lower Field */
-    .battle-lower-field {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      position: relative;
-      min-height: 140px;
-      padding-bottom: 4px;
-      z-index: 5;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      flex-shrink: 0;
+      box-sizing: border-box;
     }
 
-    /* Pokémon Battle Status Box (GBA Style) */
+    /* Pokémon Status Boxes (Clean Retro Dark Glass Styling) */
     .pokemon-status-box {
-      background: #fbfbf3;
-      border: 3px solid #2f342f;
-      border-radius: 10px;
-      padding: 10px 16px;
-      min-width: 270px;
-      box-shadow: 4px 4px 0 #111;
-      color: #111;
+      background: #0f1d14;
+      border: 2px solid #233e2b;
+      border-radius: 8px;
+      padding: 8px 14px;
+      min-width: 260px;
+      max-width: 340px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      color: #f8fafc;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+    }
+    .enemy-status-box {
+      border-left: 4px solid #ef4444;
+    }
+    .player-status-box {
+      border-left: 4px solid #38bdf8;
+      width: 100%;
+      max-width: 100%;
     }
     .status-name-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
-      font-size: 13px;
+      margin-bottom: 5px;
+      font-size: 11px;
       font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+    .status-name-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #facc15;
     }
     .status-level {
-      color: #b45309;
-      font-size: 12px;
+      color: #86efac;
+      font-size: 9.5px;
       font-weight: bold;
+      background: #15291b;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #22432d;
     }
 
-    /* HP Bar */
+    /* Health Track & Gauge */
     .hp-bar-container {
       display: flex;
       align-items: center;
       gap: 8px;
-      background: #2b2b2b;
+      background: #09120c;
       padding: 4px 8px;
       border-radius: 4px;
-      border: 1px solid #111;
+      border: 1px solid #1a3323;
     }
     .hp-label {
-      font-size: 11px;
+      font-size: 9px;
       color: #fbbf24;
       font-weight: bold;
+      font-family: var(--pixel-font);
     }
     .hp-track {
       flex: 1;
-      height: 9px;
-      background: #555;
+      height: 8px;
+      background: #1c2b20;
       border-radius: 3px;
       overflow: hidden;
+      border: 1px solid #000;
     }
     .hp-fill {
       height: 100%;
       width: 100%;
       background: var(--hp-green);
       transition: width 0.4s ease, background 0.4s ease;
+      box-shadow: 0 0 6px currentColor;
     }
     .hp-text-nums {
-      font-size: 11px;
-      text-align: right;
-      color: #111;
-      margin-top: 4px;
+      font-size: 9px;
+      color: #cbd5e1;
       font-weight: bold;
       font-family: var(--pixel-font);
+      white-space: nowrap;
+    }
+
+    /* Battle Environment Pill Badge */
+    .battle-env-badge {
+      background: #101f16;
+      border: 1px solid #22432d;
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-size: 8.5px;
+      color: #86efac;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      font-weight: bold;
+    }
+    .env-badge-pulse {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulse-glow 2s infinite;
+    }
+
+    /* Central Clean Battlefield (THE ARENA) */
+    .battle-arena-canvas {
+      background: #132219 radial-gradient(circle at 50% 35%, #1e3828 0%, #0d1a12 75%);
+      border: 2px solid #2e4d37;
+      border-radius: 10px;
+      padding: 16px 24px;
+      position: relative;
+      flex: 1;
+      min-height: 270px;
+      max-height: 380px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.8), 0 4px 15px rgba(0,0,0,0.5);
+      box-sizing: border-box;
+    }
+
+    /* Battle Environment Elements */
+    .battle-background-decor {
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 100%;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.015), rgba(255,255,255,0.015) 1px, transparent 1px, transparent 10px);
+      pointer-events: none;
+    }
+
+    /* Upper Field: Enemy Pokémon Platform on Upper-Right */
+    .battle-upper-field {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      position: relative;
+      min-height: 110px;
+      padding-right: 56px;
+      z-index: 5;
+    }
+    /* Lower Field: Player Pokémon Platform on Lower-Left */
+    .battle-lower-field {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: relative;
+      min-height: 110px;
+      padding-left: 56px;
+      z-index: 5;
     }
 
     /* Platforms & Sprites with Proper Clearance */
@@ -1148,27 +1213,46 @@
       100% { transform: rotate(var(--rot)) scaleX(1.6); opacity: 0; }
     }
 
-    /* Retro Dialogue & Action Control Box (Classic GBA 4-Box) */
-    .battle-control-box {
-      background: #fbfbf3;
-      border: 3px solid #2f342f;
-      border-radius: 6px;
+    /* ========================================= */
+    /* BOTTOM COMBAT CONSOLE DOCK (OUTSIDE ARENA)*/
+    /* ========================================= */
+    .battle-bottom-dock {
       display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      min-height: 94px;
-      box-shadow: 0 4px 0 #111;
-      margin-top: 8px;
-      z-index: 10;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 12px;
+      width: 100%;
+      flex-shrink: 0;
+      box-sizing: border-box;
+      min-height: 126px;
+    }
+    @media (max-width: 768px) {
+      .battle-bottom-dock {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left Column: Dialogue & Narrative Log */
+    .battle-dock-left {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
     .dialogue-text-area {
+      background: #0f1d14;
+      border: 2px solid #233e2b;
+      border-radius: 8px;
       padding: 14px 18px;
-      font-size: 13px;
+      font-size: 11px;
       line-height: 1.7;
-      color: #111;
+      color: #f8fafc;
       display: flex;
       align-items: center;
-      border-right: 3px solid #2f342f;
+      height: 100%;
+      box-sizing: border-box;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
       position: relative;
+      font-family: var(--pixel-font);
+      letter-spacing: 0.5px;
     }
     .dialogue-arrow {
       position: absolute;
@@ -1180,67 +1264,122 @@
     }
     @keyframes blink-arrow { from { opacity: 0.2; } to { opacity: 1; } }
 
-    /* 4-Box Action Menu */
+    /* Right Column: Player HP Status Card + Controls (RIGHT BOTTOM) */
+    .battle-dock-right {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      justify-content: space-between;
+    }
+    .battle-action-controls-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      flex: 1;
+    }
+
+    /* 4 Tactile In-Battle Action Buttons */
     .battle-actions-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 3px;
-      background: #2f342f;
-      padding: 3px;
+      gap: 6px;
+      width: 100%;
     }
     .action-menu-btn {
-      background: #fbfbf3;
-      border: none;
+      border: 2px solid;
+      border-radius: 8px;
       font-family: var(--pixel-font);
-      font-size: 13px;
+      font-size: 10.5px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 10px;
-      transition: all 0.1s;
-      color: #111;
+      padding: 10px 8px;
+      transition: all 0.12s ease;
       font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 3px 0 rgba(0,0,0,0.6);
+      text-transform: uppercase;
     }
-    .action-menu-btn:hover, .action-menu-btn.key-pressed {
-      background: #facc15 !important;
+    .btn-action-fight {
+      background: linear-gradient(180deg, #7f1d1d 0%, #450a0a 100%);
+      border-color: #ef4444;
+      color: #fef2f2;
+    }
+    .btn-action-fight:hover, .btn-action-fight.key-pressed {
+      background: #ef4444 !important;
+      color: #fff !important;
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.6);
+    }
+    .btn-action-bag {
+      background: linear-gradient(180deg, #78350f 0%, #451a03 100%);
+      border-color: #f59e0b;
+      color: #fffbeb;
+    }
+    .btn-action-bag:hover, .btn-action-bag.key-pressed {
+      background: #f59e0b !important;
       color: #000 !important;
-      transform: scale(0.97);
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.6);
+    }
+    .btn-action-pkmn {
+      background: linear-gradient(180deg, #14532d 0%, #052e16 100%);
+      border-color: #22c55e;
+      color: #f0fdf4;
+    }
+    .btn-action-pkmn:hover, .btn-action-pkmn.key-pressed {
+      background: #22c55e !important;
+      color: #000 !important;
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.6);
+    }
+    .btn-action-run {
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border-color: #06b6d4;
+      color: #f0fdfa;
+    }
+    .btn-action-run:hover, .btn-action-run.key-pressed {
+      background: #06b6d4 !important;
+      color: #000 !important;
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.6);
     }
     .k-hint {
-      font-size: 11px;
-      color: #b45309;
+      font-size: 9.5px;
+      color: #facc15;
       font-weight: bold;
     }
 
-    /* 4-Move Selection Grid */
+    /* Moves Grid (Submenu) */
     .moves-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      padding: 6px;
-      background: #2f342f;
+      gap: 5px;
       width: 100%;
     }
     .move-btn {
-      background: #fbfbf3;
-      border: 1px solid #111;
+      background: #15291b;
+      border: 1.5px solid #2e523a;
+      border-radius: 6px;
       font-family: var(--pixel-font);
-      font-size: 11px;
-      padding: 8px 6px;
+      font-size: 9.5px;
+      padding: 7px 5px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
-      color: #111;
+      gap: 3px;
+      color: #f8fafc;
       font-weight: bold;
+      transition: all 0.12s;
     }
     .move-btn:hover, .move-btn.key-pressed {
-      background: #facc15 !important;
-      color: #000 !important;
-      transform: scale(0.97);
+      background: #234530 !important;
+      border-color: #4ade80 !important;
+      color: #fff !important;
+      transform: translateY(1px);
     }
     .move-type-badge {
       font-size: 7px;
@@ -1249,12 +1388,59 @@
       color: #fff;
     }
 
-    /* Out-of-battle Hunt trigger */
-    #hunt-trigger-box {
-      margin-top: 10px;
+    /* Out-of-Battle Hunt Trigger Controls (RIGHT BOTTOM) */
+    .hunt-trigger-controls {
       display: flex;
-      gap: 8px;
-      flex-shrink: 0;
+      gap: 6px;
+      width: 100%;
+    }
+    .btn-hunt-active {
+      flex: 2.2;
+      padding: 12px 10px;
+      font-size: 9px;
+      background: linear-gradient(180deg, #15803d 0%, #14532d 100%) !important;
+      border: 2px solid #22c55e !important;
+      color: #fff !important;
+      border-radius: 8px;
+      box-shadow: 0 3px 0 #052e16, 0 0 15px rgba(34, 197, 94, 0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: var(--pixel-font);
+      font-weight: bold;
+      transition: all 0.12s;
+    }
+    .btn-hunt-active:hover {
+      background: #22c55e !important;
+      color: #000 !important;
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #052e16;
+    }
+    .btn-cry-active {
+      flex: 1;
+      padding: 12px 6px;
+      font-size: 8px;
+      background: linear-gradient(180deg, #334155 0%, #1e293b 100%) !important;
+      border: 2px solid #64748b !important;
+      color: #cbd5e1 !important;
+      border-radius: 8px;
+      box-shadow: 0 3px 0 #0f172a;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-family: var(--pixel-font);
+      font-weight: bold;
+      transition: all 0.12s;
+    }
+    .btn-cry-active:hover {
+      background: #64748b !important;
+      color: #fff !important;
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #0f172a;
     }
 
     /* ========================================= */
@@ -3059,20 +3245,16 @@
           <!-- 1. TALL GRASS & WILD BATTLE PANE -->
           <div id="pane-hunt" class="location-pane active">
             
-            <div id="battle-active-view" class="battle-arena-canvas">
-              <div class="battle-background-decor"></div>
-
-              <!-- Ball Throw Sprite -->
-              <div id="ball-throw-anim" class="battle-pokeball-throw"></div>
-
-              <!-- Elemental Attack FX Layer -->
-              <div id="battle-fx-layer" class="battle-fx-layer"></div>
-
-              <!-- Upper Field (Wild Pokémon with platform & status box) -->
-              <div class="battle-upper-field">
-                <div class="pokemon-status-box">
+            <div class="battle-stage-wrapper">
+              
+              <!-- Top Combat Status HUD (OUTSIDE ARENA) -->
+              <div class="battle-top-hud" id="battle-top-hud">
+                <div class="pokemon-status-box enemy-status-box" id="enemy-status-box">
                   <div class="status-name-row">
-                    <span id="enemy-name">PIKACHU</span>
+                    <span class="status-name-tag">
+                      <svg class="pixel-icon"><use href="#px-pkmn"></use></svg>
+                      <span id="enemy-name">PIKACHU</span>
+                    </span>
                     <span class="status-level" id="enemy-level-tag">Lv. 5</span>
                   </div>
                   <div class="hp-bar-container">
@@ -3080,72 +3262,111 @@
                     <div class="hp-track">
                       <div id="enemy-hp-fill" class="hp-fill" style="width: 100%;"></div>
                     </div>
+                    <span class="hp-text-nums" id="enemy-hp-nums">25 / 25 HP</span>
                   </div>
-                  <div class="hp-text-nums" id="enemy-hp-nums">25 / 25 HP</div>
                 </div>
 
-                <div class="battle-platform">
-                  <img id="enemy-sprite" class="pokemon-battle-sprite" src="" alt="Wild Enemy" />
+                <div class="battle-env-badge" id="battle-env-badge">
+                  <span class="env-badge-pulse"></span>
+                  <svg class="pixel-icon"><use href="#px-grass"></use></svg>
+                  <span id="battle-env-label">WILD ENCOUNTER</span>
                 </div>
               </div>
 
-              <!-- Lower Field (Player Pokémon with platform & status box) -->
-              <div class="battle-lower-field">
-                <div class="battle-platform">
-                  <img id="player-sprite" class="pokemon-battle-sprite" src="" alt="Player Pokemon" />
+              <!-- Central Clean Battle Arena Canvas (THE ARENA) -->
+              <div id="battle-active-view" class="battle-arena-canvas">
+                <div class="battle-background-decor"></div>
+
+                <!-- Ball Throw Sprite -->
+                <div id="ball-throw-anim" class="battle-pokeball-throw"></div>
+
+                <!-- Elemental Attack FX Layer -->
+                <div id="battle-fx-layer" class="battle-fx-layer"></div>
+
+                <!-- Upper Field: Enemy Pokémon Platform & Sprite on Upper-Right -->
+                <div class="battle-upper-field">
+                  <div class="battle-platform enemy-platform">
+                    <img id="enemy-sprite" class="pokemon-battle-sprite" src="" alt="Wild Enemy" />
+                  </div>
                 </div>
 
-                <div class="pokemon-status-box">
-                  <div class="status-name-row">
-                    <span id="player-name">PIKACHU</span>
-                    <span class="status-level" id="player-level-tag">Lv. 5</span>
+                <!-- Lower Field: Player Pokémon Platform & Sprite on Lower-Left -->
+                <div class="battle-lower-field">
+                  <div class="battle-platform player-platform">
+                    <img id="player-sprite" class="pokemon-battle-sprite" src="" alt="Player Pokemon" />
                   </div>
-                  <div class="hp-bar-container">
-                    <span class="hp-label">HP</span>
-                    <div class="hp-track">
-                      <div id="player-hp-fill" class="hp-fill" style="width: 100%;"></div>
+                </div>
+              </div>
+
+              <!-- Bottom Combat Console Dock (OUTSIDE ARENA) -->
+              <div class="battle-bottom-dock" id="battle-bottom-dock">
+                
+                <!-- Left: Dialogue & Narrative Log -->
+                <div class="battle-dock-left">
+                  <div class="dialogue-text-area" id="dialogue-text">
+                    The tall grass rustles quietly. Press [SEARCH TALL GRASS] to hunt wild Pokémon!
+                    <span class="dialogue-arrow"><svg class="pixel-icon pixel-icon-no-margin" style="width:10px; height:10px;"><use href="#px-arrow-down"></use></svg></span>
+                  </div>
+                </div>
+
+                <!-- Right: Player Status & Action Buttons (RIGHT BOTTOM) -->
+                <div class="battle-dock-right">
+                  
+                  <!-- Player Status Box (Outside arena) -->
+                  <div class="pokemon-status-box player-status-box" id="player-status-box">
+                    <div class="status-name-row">
+                      <span class="status-name-tag">
+                        <svg class="pixel-icon"><use href="#px-trainer"></use></svg>
+                        <span id="player-name">PIKACHU</span>
+                      </span>
+                      <span class="status-level" id="player-level-tag">Lv. 5</span>
+                    </div>
+                    <div class="hp-bar-container">
+                      <span class="hp-label">HP</span>
+                      <div class="hp-track">
+                        <div id="player-hp-fill" class="hp-fill" style="width: 100%;"></div>
+                      </div>
+                      <span class="hp-text-nums" id="player-hp-nums">25 / 25 HP</span>
                     </div>
                   </div>
-                  <div class="hp-text-nums" id="player-hp-nums">25 / 25 HP</div>
+
+                  <!-- Action Controls Container (RIGHT BOTTOM) -->
+                  <div class="battle-action-controls-box">
+                    
+                    <!-- In-Battle: 4 Tactile Action Buttons -->
+                    <div class="battle-actions-grid" id="main-actions-grid">
+                      <button class="action-menu-btn btn-action-fight" id="btn-menu-fight"><span class="k-hint">[1]</span> <svg class="pixel-icon"><use href="#px-fight"></use></svg> FIGHT</button>
+                      <button class="action-menu-btn btn-action-bag" id="btn-menu-bag"><span class="k-hint">[2]</span> <svg class="pixel-icon"><use href="#px-bag"></use></svg> BAG</button>
+                      <button class="action-menu-btn btn-action-pkmn" id="btn-menu-pkmn"><span class="k-hint">[3]</span> <svg class="pixel-icon"><use href="#px-pkmn"></use></svg> PKMN</button>
+                      <button class="action-menu-btn btn-action-run" id="btn-menu-run"><span class="k-hint">[4]</span> <svg class="pixel-icon"><use href="#px-run"></use></svg> RUN</button>
+                    </div>
+
+                    <!-- Submenu: Moves Grid -->
+                    <div class="moves-grid" id="moves-selection-grid" style="display: none;">
+                      <!-- Dynamic 4 moves -->
+                    </div>
+
+                    <!-- Submenu: Poké Balls Grid -->
+                    <div class="moves-grid" id="bag-selection-grid" style="display: none;">
+                      <!-- Dynamic balls in bag -->
+                    </div>
+
+                    <!-- Out-of-Battle Hunt Controls (RIGHT BOTTOM) -->
+                    <div class="hunt-trigger-controls" id="hunt-trigger-box">
+                      <button id="btn-hunt-grass" class="btn-arena-challenge btn-hunt-active">
+                        <span class="k-hint" style="color:#facc15;">[SPACE]</span> <svg class="pixel-icon"><use href="#px-grass"></use></svg> SEARCH TALL GRASS (+5 XP)
+                      </button>
+                      <button id="btn-play-cry" class="btn-arena-challenge btn-cry-active" title="Play Cry [C]">
+                        <span class="k-hint" style="color:#facc15;">[C]</span> <svg class="pixel-icon"><use href="#px-cry"></use></svg> CRY
+                      </button>
+                    </div>
+
+                  </div>
+
                 </div>
+
               </div>
 
-              <!-- Control & Action Dialogue Box (Classic GBA 4-quadrant Menu) -->
-              <div class="battle-control-box">
-                <div class="dialogue-text-area" id="dialogue-text">
-                  The tall grass rustles quietly. Press [SEARCH TALL GRASS] to hunt wild Pokémon!
-                  <span class="dialogue-arrow"><svg class="pixel-icon pixel-icon-no-margin" style="width:10px; height:10px;"><use href="#px-arrow-down"></use></svg></span>
-                </div>
-
-                <!-- Main Action Menu (Fight, Bag, Pkmn, Run) with key indicators -->
-                <div class="battle-actions-grid" id="main-actions-grid">
-                  <button class="action-menu-btn" id="btn-menu-fight"><span class="k-hint">[1]</span> <svg class="pixel-icon"><use href="#px-fight"></use></svg> FIGHT</button>
-                  <button class="action-menu-btn" id="btn-menu-bag"><span class="k-hint">[2]</span> <svg class="pixel-icon"><use href="#px-bag"></use></svg> BAG</button>
-                  <button class="action-menu-btn" id="btn-menu-pkmn"><span class="k-hint">[3]</span> <svg class="pixel-icon"><use href="#px-pkmn"></use></svg> PKMN</button>
-                  <button class="action-menu-btn" id="btn-menu-run"><span class="k-hint">[4]</span> <svg class="pixel-icon"><use href="#px-run"></use></svg> RUN</button>
-                </div>
-
-                <!-- Submenu: Moves Grid -->
-                <div class="moves-grid" id="moves-selection-grid" style="display: none;">
-                  <!-- Dynamic 4 moves -->
-                </div>
-
-                <!-- Submenu: Poké Balls Grid -->
-                <div class="moves-grid" id="bag-selection-grid" style="display: none;">
-                  <!-- Dynamic balls in bag -->
-                </div>
-              </div>
-
-            </div>
-
-            <!-- Out-of-battle Hunt trigger with indicators -->
-            <div id="hunt-trigger-box">
-              <button id="btn-hunt-grass" class="btn-arena-challenge" style="flex: 2; padding: 12px; font-size: 9px; background: #15803d; border-color: #166534;">
-                <span class="k-hint" style="color:#facc15;">[SPACE]</span> <svg class="pixel-icon"><use href="#px-grass"></use></svg> SEARCH TALL GRASS FOR WILD POKÉMON (+5 XP)
-              </button>
-              <button id="btn-play-cry" class="btn-arena-challenge" style="flex: 1; padding: 12px; font-size: 8px; background: #334155; border-color: #1e293b;">
-                <span class="k-hint" style="color:#facc15;">[C]</span> <svg class="pixel-icon"><use href="#px-cry"></use></svg> CRY
-              </button>
             </div>
 
           </div>
@@ -4793,8 +5014,11 @@
       document.getElementById('enemy-name').textContent = 'TALL GRASS';
       document.getElementById('enemy-level-tag').textContent = 'ZONE 1';
       document.getElementById('enemy-hp-fill').style.width = '0%';
-      document.getElementById('enemy-hp-nums').textContent = 'READY';
+      document.getElementById('enemy-hp-nums').textContent = 'PEACEFUL';
       
+      const envLabel = document.getElementById('battle-env-label');
+      if (envLabel) envLabel.textContent = 'ROUTE 1 • TALL GRASS';
+
       const enemySprite = document.getElementById('enemy-sprite');
       if (enemySprite) {
         enemySprite.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"></svg>';
@@ -4815,7 +5039,9 @@
 
       document.getElementById('moves-selection-grid').style.display = 'none';
       document.getElementById('bag-selection-grid').style.display = 'none';
-      document.getElementById('main-actions-grid').style.display = 'grid';
+      document.getElementById('main-actions-grid').style.display = 'none';
+      const huntBox = document.getElementById('hunt-trigger-box');
+      if (huntBox) huntBox.style.display = 'flex';
     }
 
     function renderWildBattle(data) {
@@ -4827,6 +5053,9 @@
       document.getElementById('enemy-level-tag').textContent = `Lv. ${data.encounter.level}`;
       updateHpBar('enemy', data.encounter.current_hp, data.encounter.max_hp);
       
+      const envLabel = document.getElementById('battle-env-label');
+      if (envLabel) envLabel.textContent = isArenaMode ? 'CHAMPION ARENA' : 'WILD ENCOUNTER';
+
       const enemySprite = document.getElementById('enemy-sprite');
       enemySprite.style.opacity = '1';
       enemySprite.src = data.showdown_url;
@@ -4862,7 +5091,15 @@
     function showMainActionsMenu() {
       document.getElementById('moves-selection-grid').style.display = 'none';
       document.getElementById('bag-selection-grid').style.display = 'none';
-      document.getElementById('main-actions-grid').style.display = 'grid';
+      if (currentWild || currentArenaBattle) {
+        document.getElementById('main-actions-grid').style.display = 'grid';
+        const huntBox = document.getElementById('hunt-trigger-box');
+        if (huntBox) huntBox.style.display = 'none';
+      } else {
+        document.getElementById('main-actions-grid').style.display = 'none';
+        const huntBox = document.getElementById('hunt-trigger-box');
+        if (huntBox) huntBox.style.display = 'flex';
+      }
     }
 
     // FIGHT button clicked -> Show Moves
@@ -4916,6 +5153,21 @@
         btn.onclick = () => executeMove(idx);
         grid.appendChild(btn);
       });
+
+      // Add Back button to moves grid
+      const backBtn = document.createElement('button');
+      backBtn.className = 'move-btn';
+      backBtn.style.gridColumn = '1 / -1';
+      backBtn.style.background = '#1e293b';
+      backBtn.style.borderColor = '#475569';
+      backBtn.innerHTML = `
+        <span><span class="k-hint">[B]</span> <svg class="pixel-icon"><use href="#px-arrow-left"></use></svg> BACK TO ACTIONS</span>
+      `;
+      backBtn.onclick = () => {
+        SFX.cancel();
+        showMainActionsMenu();
+      };
+      grid.appendChild(backBtn);
 
       document.getElementById('main-actions-grid').style.display = 'none';
       document.getElementById('moves-selection-grid').style.display = 'grid';
