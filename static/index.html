@@ -1397,7 +1397,9 @@
       box-shadow: 0 0 15px #f87171, inset 0 2px 4px rgba(0,0,0,0.8) !important;
     }
 
-    /* Modal Details (Occupies 70% of Screen Area) */
+    /* ========================================= */
+    /* RETRO DETAIL MODAL & LIVE STADIUM SHOWCASE */
+    /* ========================================= */
     .retro-modal-backdrop {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -1406,27 +1408,49 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 24px;
-      backdrop-filter: blur(5px);
+      padding: 20px;
+      backdrop-filter: blur(6px);
     }
     .retro-modal-backdrop.open { display: flex; }
     .retro-modal-window {
-      background: #122218;
-      border: 4px solid #facc15;
-      border-radius: 16px;
-      padding: 28px 36px;
-      width: 72vw;
-      height: 72vh;
-      min-width: 600px;
-      max-width: 1050px;
+      background: #0f1d14;
+      border: 3px solid #facc15;
+      border-radius: 14px;
+      padding: 22px 24px;
+      width: 90vw;
+      height: 86vh;
+      min-width: 320px;
+      max-width: 1140px;
       min-height: 480px;
-      max-height: 820px;
-      box-shadow: 0 0 50px rgba(0,0,0,0.95), 0 0 30px rgba(250, 204, 21, 0.4);
+      max-height: 860px;
+      box-shadow: 0 0 60px rgba(0,0,0,0.95), 0 0 25px rgba(250, 204, 21, 0.35);
       position: relative;
       display: flex;
       flex-direction: column;
       box-sizing: border-box;
       overflow: hidden;
+    }
+    .modal-close-corner {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      background: #450a0a;
+      border: 2px solid #ef4444;
+      border-radius: 6px;
+      color: #fca5a5;
+      font-size: 16px;
+      font-family: monospace;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 2px 10px;
+      z-index: 50;
+      line-height: 1.2;
+      transition: all 0.15s;
+    }
+    .modal-close-corner:hover {
+      background: #7f1d1d;
+      color: #fff;
+      box-shadow: 0 0 10px #ef4444;
     }
     #modal-body-content {
       flex: 1;
@@ -1434,70 +1458,401 @@
       flex-direction: column;
       height: 100%;
       min-height: 0;
-      overflow-y: auto;
+      overflow: hidden;
     }
     .modal-split-layout {
       display: grid;
-      grid-template-columns: 1fr 1.35fr;
-      gap: 28px;
+      grid-template-columns: minmax(280px, 320px) 1fr;
+      gap: 22px;
       flex: 1;
       min-height: 0;
-      align-items: center;
+      height: 100%;
+      align-items: stretch;
     }
-    .modal-left-pane {
+    .modal-card-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 4px;
+    }
+    .modal-card-col .pkmn-playing-card {
+      width: 100%;
+      max-width: 310px;
+      cursor: default;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.5);
+    }
+    .modal-card-col .pkmn-playing-card:hover {
+      transform: none !important;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.5) !important;
+    }
+    .modal-live-col {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 10px;
-      background: #0d1812;
-      border: 2px solid #223b2b;
-      border-radius: 12px;
-      padding: 20px;
+      gap: 12px;
       height: 100%;
-      justify-content: center;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 6px;
     }
-    .modal-pokemon-hero-img {
-      width: 160px;
-      height: 160px;
+    .stadium-stage {
+      background: radial-gradient(ellipse at bottom, #1e3a29 0%, #0c1811 75%);
+      border: 2px solid #2d4a36;
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+      flex-shrink: 0;
+    }
+    .stadium-arena-pedestal {
+      position: relative;
+      width: 130px;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .stadium-arena-ring {
+      position: absolute;
+      bottom: 6px;
+      width: 120px;
+      height: 38px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(34, 197, 94, 0.45) 0%, rgba(13, 24, 17, 0.9) 70%, transparent 100%);
+      border: 2px solid #22c55e;
+      box-shadow: 0 0 16px #22c55e, inset 0 0 12px rgba(34, 197, 94, 0.5);
+      animation: arenaRingPulse 2.5s ease-in-out infinite alternate;
+    }
+    @keyframes arenaRingPulse {
+      0% { box-shadow: 0 0 10px #22c55e, inset 0 0 8px rgba(34, 197, 94, 0.4); transform: scale(0.98); }
+      100% { box-shadow: 0 0 22px #4ade80, inset 0 0 16px rgba(74, 222, 128, 0.7); transform: scale(1.02); }
+    }
+    .stadium-live-sprite {
+      position: relative;
+      z-index: 2;
+      width: 100px;
+      height: 100px;
       object-fit: contain;
       image-rendering: pixelated;
-      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.7));
+      filter: drop-shadow(0 10px 14px rgba(0,0,0,0.8));
+      animation: stadiumBob 2s ease-in-out infinite alternate;
     }
-    .modal-right-pane {
+    @keyframes stadiumBob {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-7px); }
+    }
+    .stadium-stage-meta {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      height: 100%;
-      justify-content: space-between;
+      gap: 7px;
+      min-width: 0;
     }
-    .stat-row-item {
+    .stadium-stage-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .stadium-mon-name {
+      font-size: 15px;
+      font-weight: bold;
+      color: #facc15;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 0 #000;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .stage-cry-btn {
+      font-family: var(--pixel-font);
+      font-size: 7.5px;
+      background: #1f2937;
+      border: 1px solid #4b5563;
+      color: #f3f4f6;
+      border-radius: 4px;
+      padding: 4px 10px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 12px;
+      gap: 5px;
+      cursor: pointer;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .stage-cry-btn:hover {
+      background: #374151;
+      border-color: #facc15;
+      color: #facc15;
+    }
+    .stadium-stage-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      align-items: center;
+    }
+    .stadium-rarity-badge {
+      font-size: 7px;
+      padding: 2px 7px;
+      border-radius: 3px;
+      background: rgba(250, 204, 21, 0.18);
+      border: 1px solid rgba(250, 204, 21, 0.45);
+      color: #fde047;
       font-weight: bold;
     }
-    .stat-label-col {
-      width: 80px;
-      color: #94a3b8;
+    .stadium-gen-badge {
+      font-size: 7px;
+      padding: 2px 7px;
+      border-radius: 3px;
+      background: rgba(148, 163, 184, 0.15);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      color: #cbd5e1;
+      font-weight: bold;
     }
-    .stat-val-col {
-      width: 45px;
+    .stadium-owned-badge {
+      font-size: 7px;
+      padding: 2px 7px;
+      border-radius: 3px;
+      background: rgba(71, 85, 105, 0.35);
+      border: 1px solid #475569;
+      color: #94a3b8;
+      font-weight: bold;
+    }
+    .stadium-owned-badge.owned {
+      background: rgba(34, 197, 94, 0.2);
+      border-color: #22c55e;
+      color: #4ade80;
+    }
+    .modal-panel-box {
+      background: #0d1711;
+      border: 2px solid #243c2d;
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .modal-panel-header {
+      font-size: 8.5px;
+      font-weight: bold;
+      color: #facc15;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1f3326;
+      padding-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+    .stat-bst-badge {
+      font-size: 7.5px;
+      color: #86efac;
+      background: rgba(34, 197, 94, 0.15);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    .modal-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px 14px;
+    }
+    .modal-stat-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 7.5px;
+    }
+    .modal-stat-name {
+      width: 48px;
+      color: #94a3b8;
+      flex-shrink: 0;
+    }
+    .modal-stat-val {
+      width: 28px;
       text-align: right;
       color: #fff;
+      font-weight: bold;
+      flex-shrink: 0;
     }
-    .stat-bar-track {
+    .modal-stat-bar-track {
       flex: 1;
-      height: 10px;
-      background: #2a3d30;
+      height: 6px;
+      background: #1b2e22;
       border-radius: 3px;
       overflow: hidden;
     }
-    .stat-bar-fill {
+    .modal-stat-bar-fill {
       height: 100%;
-      background: linear-gradient(90deg, #22c55e, #86efac);
       border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+    .modal-moves-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .modal-move-chip {
+      background: #132319;
+      border: 1px solid #233b2b;
+      border-radius: 6px;
+      padding: 5px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .modal-move-chip-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+    .modal-move-name {
+      font-size: 7.5px;
+      font-weight: bold;
+      color: #f1f5f9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .modal-move-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 6.5px;
+      color: #94a3b8;
+    }
+    .modal-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    .modal-meta-cell {
+      background: #0d1711;
+      border: 1px solid #213728;
+      border-radius: 6px;
+      padding: 6px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .meta-label {
+      font-size: 6.5px;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+    }
+    .meta-val {
+      font-size: 7.5px;
+      font-weight: bold;
+      color: #f8fafc;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .modal-actions-bar {
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 4px;
+      flex-shrink: 0;
+    }
+    .btn-action-lead {
+      flex: 1.4;
+      font-family: var(--pixel-font);
+      font-size: 8px;
+      background: #15803d;
+      border: 2px solid #22c55e;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+    .btn-action-lead:hover {
+      background: #16a34a;
+      box-shadow: 0 0 10px #22c55e;
+    }
+    .btn-action-hunt {
+      flex: 1.4;
+      font-family: var(--pixel-font);
+      font-size: 8px;
+      background: #b45309;
+      border: 2px solid #f59e0b;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+    .btn-action-hunt:hover {
+      background: #d97706;
+      box-shadow: 0 0 10px #f59e0b;
+    }
+    .btn-action-cry {
+      flex: 1;
+      font-family: var(--pixel-font);
+      font-size: 8px;
+      background: #1e293b;
+      border: 2px solid #475569;
+      color: #f1f5f9;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+    .btn-action-cry:hover {
+      background: #334155;
+      border-color: #facc15;
+      color: #facc15;
+    }
+    .btn-action-close {
+      flex: 0.8;
+      font-family: var(--pixel-font);
+      font-size: 8px;
+      background: #450a0a;
+      border: 2px solid #ef4444;
+      color: #fca5a5;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+    .btn-action-close:hover {
+      background: #7f1d1d;
+      color: #fff;
+    }
+    @media (max-width: 820px) {
+      .modal-split-layout {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+      }
+      .modal-card-col {
+        max-width: 100%;
+      }
+      .modal-stats-grid {
+        grid-template-columns: 1fr;
+      }
+      .modal-moves-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     /* Type Badges */
@@ -2000,7 +2355,7 @@
               YOUR BATTLE PARTY (MAX 6)
             </div>
 
-            <div class="party-slots-grid" id="party-slots-grid">
+            <div class="cards-catalog-grid" id="party-slots-grid">
               <!-- Rendered Party Members -->
             </div>
           </div>
@@ -2162,7 +2517,7 @@
               </select>
             </div>
 
-            <div class="pokedex-grid" id="pokedex-grid">
+            <div class="cards-catalog-grid" id="pokedex-grid">
               <!-- Rendered Dex Slots -->
             </div>
           </div>
@@ -2278,7 +2633,7 @@
   <!-- Retro Details Modal -->
   <div id="retro-modal" class="retro-modal-backdrop">
     <div class="retro-modal-window">
-      <button id="modal-close" style="position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: #ef4444; font-size: 24px; cursor: pointer; padding: 4px 10px; z-index: 50;">&times;</button>
+      <button id="modal-close" class="modal-close-corner" title="Close [ESC]">&times;</button>
       <div id="modal-body-content"></div>
     </div>
   </div>
@@ -3556,7 +3911,7 @@
           card.className = `arena-card ${d.completed ? 'completed' : ''}`;
           
           const teamImgs = d.team_preview.map(pid => 
-            `<img class="arena-team-thumb" src="/sprites/${pid}.png" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pid}.png'" />`
+            `<img class="arena-team-thumb" src="/sprites/${pid}.png" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pid}.png'" onclick="event.stopPropagation(); showPokemonDetailModal(${pid})" title="View Card #${pid}" style="cursor:pointer;" />`
           ).join('');
 
           card.innerHTML = `
@@ -3619,8 +3974,21 @@
       } catch (e) {}
     }
 
+    function getGeneration(id) {
+      const num = parseInt(id, 10);
+      if (num <= 151) return 1;
+      if (num <= 251) return 2;
+      if (num <= 386) return 3;
+      if (num <= 493) return 4;
+      if (num <= 649) return 5;
+      if (num <= 721) return 6;
+      if (num <= 809) return 7;
+      if (num <= 905) return 8;
+      return 9;
+    }
+
     // ============================================================
-    // 3. POKÉMON CENTER & NURSE JOY
+    // 3. POKÉMON CENTER & NURSE JOY (CARDS FORMAT)
     // ============================================================
     async function loadPokemonCenter() {
       const data = await updateHeaderPlayer();
@@ -3632,29 +4000,24 @@
       grid.innerHTML = '';
 
       if (party.length === 0) {
-        grid.innerHTML = '<div style="font-size:8px; color:#cbd5e1; padding: 12px; text-align: center;">No Pokémon in party yet! Catch some in the tall grass.</div>';
+        grid.innerHTML = '<div style="grid-column: 1 / -1; font-size:8.5px; color:#cbd5e1; padding: 28px 16px; text-align: center; line-height: 2;">NO POKÉMON IN YOUR BATTLE PARTY YET!<br>EXPLORE THE TALL GRASS TO HUNT & CATCH YOUR FIRST COMPANION.</div>';
         return;
       }
 
-      party.forEach((mon, idx) => {
-        const slot = document.createElement('div');
-        slot.className = `party-slot-card ${idx === 0 ? 'leader' : ''}`;
-        
-        const movesList = mon.moves.map(m => m.name).join(', ');
-        slot.innerHTML = `
-          <img class="party-sprite" src="/sprites/${mon.id}.png" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${mon.id}.png'" />
-          <div style="flex: 1;">
-            <div style="display:flex; justify-content:space-between; font-size:9px; font-weight:bold;">
-              <span>${mon.name.toUpperCase()} ${idx === 0 ? `${pIcon('crown', 'pixel-icon-sm')} [LEAD]` : ''}</span>
-              <span style="color:#facc15;">Lv. ${mon.level}</span>
-            </div>
-            <div style="font-size:7px; color:#86efac; margin:2px 0;">HP: ${mon.current_hp} / ${mon.max_hp}</div>
-            <div style="font-size:7px; color:#cbd5e1;">MOVES: ${movesList}</div>
-          </div>
-          ${idx !== 0 ? `<button class="retro-pill-btn" onclick="setPartyLeader(${mon.id})">MAKE LEAD</button>` : ''}
-        `;
-        grid.appendChild(slot);
-      });
+      grid.innerHTML = party.map((mon, idx) => {
+        return renderPlayingCard({
+          pokemon: mon,
+          owned: true,
+          count: 1,
+          generation: getGeneration(mon.id),
+        }, {
+          isParty: true,
+          partyIdx: idx,
+          currentHp: mon.current_hp,
+          maxHp: mon.max_hp,
+          level: mon.level,
+        });
+      }).join('');
     }
 
     document.getElementById('btn-nurse-heal').addEventListener('click', async () => {
@@ -3730,12 +4093,12 @@
     });
 
     // ============================================================
-    // 5. POKÉDEX & CATALOG
+    // 5. POKÉDEX & CATALOG (AUTHENTIC CARDS DISPLAY)
     // ============================================================
     async function loadPokedex() {
-      const search = document.getElementById('dex-filter-search').value;
-      const gen = document.getElementById('dex-filter-gen').value;
-      const mode = document.getElementById('dex-filter-ownership').value;
+      const search = (document.getElementById('dex-filter-search')?.value || '').trim();
+      const gen = document.getElementById('dex-filter-gen')?.value || '';
+      const mode = document.getElementById('dex-filter-ownership')?.value || 'owned';
 
       let endpoint = mode === 'all' ? '/catalog' : '/pokedex';
       let params = new URLSearchParams();
@@ -3743,16 +4106,26 @@
       if (gen) params.append('gen', gen);
       params.append('limit', '80');
 
+      const grid = document.getElementById('pokedex-grid');
+      if (grid) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #86efac; font-size: 8.5px; line-height: 2;">
+            <svg class="pixel-icon pixel-icon-md"><use href="#px-card"></use></svg><br>
+            RETRIEVING POKÉDEX PLAYING CARDS...
+          </div>
+        `;
+      }
+
       try {
         const data = await api(`${endpoint}?${params.toString()}`);
-        const grid = document.getElementById('pokedex-grid');
+        if (!grid) return;
         grid.innerHTML = '';
 
-        const items = mode === 'all' ? data.items : data.pokemon;
-        if (!items || items.length === 0) {
+        const rawList = mode === 'all' ? (data.items || []) : (data.pokemon || []);
+        if (rawList.length === 0) {
           grid.innerHTML = `
-            <div style="grid-column: 1 / -1; font-size:8px; color:#94a3b8; padding:24px 16px; line-height: 1.8; text-align: center;">
-              NO CAUGHT POKÉMON FOUND.<br>
+            <div style="grid-column: 1 / -1; font-size:8.5px; color:#94a3b8; padding:36px 16px; line-height: 2; text-align: center;">
+              NO CAUGHT POKÉMON FOUND IN THIS CATEGORY.<br>
               SWITCH FILTER ABOVE TO <b style="color:#facc15;">"FULL NATIONAL DEX"</b> TO BROWSE ALL 1025 SPECIES,<br>
               OR HUNT IN THE TALL GRASS TO FILL YOUR POKÉDEX!
             </div>
@@ -3760,27 +4133,27 @@
           return;
         }
 
-        items.forEach(item => {
-          const p = mode === 'all' ? item.pokemon : item;
-          const owned = mode === 'all' ? item.owned : true;
-          const card = document.createElement('div');
-          card.className = `dex-slot-card ${!owned ? 'unowned' : ''}`;
-          
-          card.innerHTML = `
-            <div style="font-size:12px; color:#94a3b8; letter-spacing:1px;">#${String(p.id).padStart(3, '0')}</div>
-            <img src="/sprites/${p.id}.png" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.id}.png'" />
-            <div style="font-size:14px; font-weight:bold; color:#fff; margin-top:2px;">${p.name.toUpperCase()}</div>
-          `;
-          card.onclick = () => showPokemonDetailModal(p.id);
-          grid.appendChild(card);
-        });
-      } catch (e) {}
+        grid.innerHTML = rawList.map(raw => {
+          const p = mode === 'all' ? raw.pokemon : raw;
+          const owned = mode === 'all' ? raw.owned : true;
+          const count = mode === 'all' ? (raw.count || (owned ? 1 : 0)) : 1;
+          const generation = mode === 'all' ? (raw.generation || getGeneration(p.id)) : getGeneration(p.id);
+          return renderPlayingCard({ pokemon: p, owned, count, generation });
+        }).join('');
+      } catch (e) {
+        if (grid) {
+          grid.innerHTML = `<div style="grid-column: 1 / -1; color:#ef4444; padding:24px; text-align:center; font-size:8px;">Error loading Pokédex: ${e.message}</div>`;
+        }
+      }
     }
 
     document.getElementById('dex-filter-search').addEventListener('input', () => loadPokedex());
     document.getElementById('dex-filter-gen').addEventListener('change', () => loadPokedex());
     document.getElementById('dex-filter-ownership').addEventListener('change', () => loadPokedex());
 
+    // ============================================================
+    // RETRO DETAIL MODAL: SPLIT CARD & LIVE STADIUM SHOWCASE
+    // ============================================================
     async function showPokemonDetailModal(id) {
       SFX.blip();
       try {
@@ -3789,83 +4162,199 @@
         const modal = document.getElementById('retro-modal');
         const body = document.getElementById('modal-body-content');
 
+        const stats = p.stats || p.base_stats || { HP: 45, Atk: 49, Def: 49, SpA: 65, SpD: 65, Spe: 45, Total: 318 };
+        const hpVal = stats.HP !== undefined ? stats.HP : (stats.hp !== undefined ? stats.hp : 45);
+        const atkVal = stats.Atk !== undefined ? stats.Atk : (stats.attack !== undefined ? stats.attack : 49);
+        const defVal = stats.Def !== undefined ? stats.Def : (stats.defense !== undefined ? stats.defense : 49);
+        const spaVal = stats.SpA !== undefined ? stats.SpA : (stats.special_attack !== undefined ? stats.special_attack : 65);
+        const spdVal = stats.SpD !== undefined ? stats.SpD : (stats.special_defense !== undefined ? stats.special_defense : 65);
+        const speVal = stats.Spe !== undefined ? stats.Spe : (stats.speed !== undefined ? stats.speed : 45);
+        const bst = stats.Total || stats.total || (hpVal + atkVal + defVal + spaVal + spdVal + speVal);
+
         const statsList = [
-          { name: 'HP', val: p.stats.HP, max: 255 },
-          { name: 'ATTACK', val: p.stats.Atk, max: 190 },
-          { name: 'DEFENSE', val: p.stats.Def, max: 230 },
-          { name: 'SP. ATK', val: p.stats.SpA, max: 194 },
-          { name: 'SP. DEF', val: p.stats.SpD, max: 230 },
-          { name: 'SPEED', val: p.stats.Spe, max: 200 }
+          { name: 'HP', val: hpVal, max: 255, col: 'linear-gradient(90deg, #15803d, #22c55e)' },
+          { name: 'ATTACK', val: atkVal, max: 190, col: 'linear-gradient(90deg, #b91c1c, #ef4444)' },
+          { name: 'DEFENSE', val: defVal, max: 230, col: 'linear-gradient(90deg, #1d4ed8, #3b82f6)' },
+          { name: 'SP. ATK', val: spaVal, max: 194, col: 'linear-gradient(90deg, #7e22ce, #a855f7)' },
+          { name: 'SP. DEF', val: spdVal, max: 230, col: 'linear-gradient(90deg, #0e7490, #06b6d4)' },
+          { name: 'SPEED', val: speVal, max: 200, col: 'linear-gradient(90deg, #ca8a04, #facc15)' }
         ];
 
         const statsHtml = statsList.map(s => {
           const pct = Math.min(100, Math.round((s.val / s.max) * 100));
+          const tier = s.val >= 130 ? 'S' : (s.val >= 100 ? 'A' : (s.val >= 75 ? 'B' : (s.val >= 50 ? 'C' : 'D')));
           return `
-            <div class="stat-row-item">
-              <div class="stat-label-col">${s.name}</div>
-              <div class="stat-val-col">${s.val}</div>
-              <div class="stat-bar-track">
-                <div class="stat-bar-fill" style="width: ${pct}%;"></div>
+            <div class="modal-stat-row">
+              <div class="modal-stat-name">${s.name}</div>
+              <div class="modal-stat-val">${s.val}</div>
+              <div class="modal-stat-bar-track">
+                <div class="modal-stat-bar-fill" style="width: ${pct}%; background: ${s.col};"></div>
               </div>
+              <span style="font-size:7px; color:#cbd5e1; width:12px; text-align:right;">${tier}</span>
             </div>
           `;
         }).join('');
 
-        body.innerHTML = `
-          <div class="modal-split-layout">
-            <div class="modal-left-pane">
-              <img class="modal-pokemon-hero-img" src="${data.showdown_url}" onerror="this.src='/sprites/${p.id}.png'" />
-              <div style="font-size: 20px; font-weight: bold; color: #facc15; letter-spacing: 1px;">
-                #${String(p.id).padStart(3, '0')} ${p.name.toUpperCase()}
+        const moves = data.moves || [];
+        const movesHtml = moves.length > 0 ? moves.map(m => {
+          const mTypeCol = TYPE_COLORS[m.type] || '#666';
+          const catIcon = m.category === 'physical' ? '⚔' : (m.category === 'special' ? '✦' : '🛡');
+          return `
+            <div class="modal-move-chip">
+              <div class="modal-move-chip-header">
+                <span class="modal-move-name">${m.name.toUpperCase()}</span>
+                <span class="card-type-chip" style="background:${mTypeCol}; font-size:6.5px; padding:1px 5px;">${m.type.toUpperCase()}</span>
               </div>
-              <div style="display: flex; gap: 8px; margin: 4px 0;">
-                ${p.types.map(t => `<span class="type-badge" style="background:${TYPE_COLORS[t] || '#555'}; font-size: 11px; padding: 4px 12px;">${t}</span>`).join('')}
-              </div>
-              <div style="font-size: 11px; color: #94a3b8; line-height: 1.6;">
-                RARITY: <span style="color:#facc15; font-weight:bold;">${p.rarity.toUpperCase()}</span> • GEN ${data.generation}
-              </div>
-              <div style="font-size: 11px; color: #86efac; font-weight: bold;">
-                OWNED: ${data.owned_count || 1}
+              <div class="modal-move-meta">
+                <span>${catIcon} ${m.category.toUpperCase()}</span>
+                <span>PWR: <b style="color:#facc15;">${m.power || '—'}</b></span>
+                <span>ACC: <b style="color:#86efac;">${m.accuracy ? m.accuracy + '%' : '—'}</b></span>
               </div>
             </div>
+          `;
+        }).join('') : '<div style="grid-column: 1 / -1; font-size:7.5px; color:#94a3b8; text-align:center; padding:8px;">No battle moves recorded.</div>';
 
-            <div class="modal-right-pane">
-              <div style="background: #0d1711; border: 2px solid #2d4a36; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
-                <div style="font-size: 13px; color: #facc15; font-weight: bold; border-bottom: 1px solid #223b2b; padding-bottom: 6px; display: flex; justify-content: space-between;">
-                  <span>BASE ATTRIBUTES</span>
-                  <span>TOTAL: ${p.stats.Total}</span>
+        // Render authentic card on left
+        const cardHtml = renderPlayingCard({
+          pokemon: p,
+          generation: data.generation,
+          owned: data.owned_count > 0,
+          count: data.owned_count,
+        }, { isModal: true });
+
+        const primaryType = (p.types && p.types[0]) ? p.types[0] : 'Normal';
+        const typeColor = TYPE_COLORS[primaryType] || '#a8b2c1';
+
+        body.innerHTML = `
+          <div class="modal-split-layout">
+            <!-- LEFT: AUTHENTIC POKÉMON PLAYING CARD -->
+            <div class="modal-card-col">
+              ${cardHtml}
+            </div>
+
+            <!-- RIGHT: LIVE ANIMATED SHOWDOWN + DETAILS + ACTIONS -->
+            <div class="modal-live-col">
+              <!-- Stadium Stage with Live Showdown Animation -->
+              <div class="stadium-stage" style="border-color: ${typeColor}77;">
+                <div class="stadium-arena-pedestal">
+                  <div class="stadium-arena-ring" style="border-color:${typeColor}; box-shadow:0 0 16px ${typeColor};"></div>
+                  <img class="stadium-live-sprite"
+                       src="${data.showdown_url}"
+                       alt="${p.name}"
+                       onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${p.id}.gif'; this.onerror=()=>this.src='/sprites/${p.id}.png';" />
                 </div>
-                ${statsHtml}
+                <div class="stadium-stage-meta">
+                  <div class="stadium-stage-header">
+                    <div class="stadium-mon-name" style="color:#fff;">
+                      <span style="color:#facc15;">#${String(p.id).padStart(3, '0')}</span> ${p.name.toUpperCase()}
+                    </div>
+                    <button class="stage-cry-btn" onclick="playCryUrl('${data.cry_url}')" title="Play Cry">
+                      ${pIcon('cry')} <span>CRY</span>
+                    </button>
+                  </div>
+                  <div class="stadium-stage-badges">
+                    ${p.types.map(t => `<span class="card-type-chip" style="background:${TYPE_COLORS[t] || '#555'}; font-size:8px; padding:3px 8px;">${t.toUpperCase()}</span>`).join(' ')}
+                    <span class="stadium-rarity-badge">${p.rarity.toUpperCase()}</span>
+                    <span class="stadium-gen-badge">GEN ${data.generation}</span>
+                    <span class="stadium-owned-badge ${data.owned_count > 0 ? 'owned' : ''}">
+                      ${data.owned_count > 0 ? `★ OWNED (${data.owned_count})` : 'NOT CAUGHT'}
+                    </span>
+                  </div>
+                </div>
               </div>
 
-              <div style="background: #0d1711; border: 2px solid #2d4a36; border-radius: 10px; padding: 14px 18px; font-size: 12px; line-height: 1.6;">
-                <span style="color: #94a3b8;">ABILITIES:</span> <span style="color: #86efac; font-weight: bold;">${p.abilities.join(', ')}</span>
+              <!-- Base Attributes Box -->
+              <div class="modal-panel-box">
+                <div class="modal-panel-header">
+                  <span>BASE ATTRIBUTES & COMBAT RATINGS</span>
+                  <span class="stat-bst-badge">BST: ${bst}</span>
+                </div>
+                <div class="modal-stats-grid">
+                  ${statsHtml}
+                </div>
               </div>
 
-              <div style="display: flex; gap: 12px;">
-                <button class="btn-arena-challenge" style="flex: 1.5; padding: 14px; font-size: 13px; background: #15803d; border-color: #166534;" onclick="setPartyLeader(${p.id})">
-                  ${pIcon('crown')} MAKE BATTLE LEAD
-                </button>
-                <button class="btn-arena-challenge" style="flex: 1; padding: 14px; font-size: 13px; background: #334155; border-color: #1e293b;" onclick="playCryUrl('${data.cry_url}')">
+              <!-- 4-Move Battle Pool -->
+              <div class="modal-panel-box">
+                <div class="modal-panel-header">
+                  <span>COMBAT MOVE POOL (4 BATTLE MOVES)</span>
+                  <span style="color:#94a3b8; font-size:7px;">GBA ENGINE SPEC</span>
+                </div>
+                <div class="modal-moves-grid">
+                  ${movesHtml}
+                </div>
+              </div>
+
+              <!-- Dex & Characteristics -->
+              <div class="modal-meta-grid">
+                <div class="modal-meta-cell">
+                  <span class="meta-label">PRIMARY ABILITY</span>
+                  <span class="meta-val">${p.abilities && p.abilities[0] ? p.abilities[0] : 'None'}</span>
+                </div>
+                <div class="modal-meta-cell">
+                  <span class="meta-label">ALL ABILITIES</span>
+                  <span class="meta-val">${p.abilities ? p.abilities.join(', ') : 'None'}</span>
+                </div>
+                <div class="modal-meta-cell">
+                  <span class="meta-label">SPECIES RARITY</span>
+                  <span class="meta-val" style="color:#facc15;">${p.rarity.toUpperCase()}</span>
+                </div>
+                <div class="modal-meta-cell">
+                  <span class="meta-label">DEX REGISTRATION</span>
+                  <span class="meta-val" style="color:${data.owned_count > 0 ? '#4ade80' : '#f87171'};">
+                    ${data.owned_count > 0 ? `REGISTERED (${data.owned_count} CAUGHT)` : 'UNREGISTERED'}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Actions Footer Bar -->
+              <div class="modal-actions-bar">
+                ${data.owned_count > 0 ? `
+                  <button class="btn-action-lead" onclick="setPartyLeader(${p.id}); document.getElementById('retro-modal').classList.remove('open');">
+                    ${pIcon('crown')} MAKE BATTLE LEAD
+                  </button>
+                ` : `
+                  <button class="btn-action-hunt" onclick="document.querySelector('[data-tab=\\'hunt\\']').click(); document.getElementById('retro-modal').classList.remove('open');">
+                    ${pIcon('grass')} HUNT IN TALL GRASS
+                  </button>
+                `}
+                <button class="btn-action-cry" onclick="playCryUrl('${data.cry_url}')">
                   ${pIcon('cry')} PLAY CRY
+                </button>
+                <button class="btn-action-close" onclick="document.getElementById('retro-modal').classList.remove('open');">
+                  CLOSE
                 </button>
               </div>
             </div>
           </div>
         `;
         modal.classList.add('open');
-      } catch (e) {}
+      } catch (e) {
+        console.error('Failed to show detail modal', e);
+      }
     }
 
     function playCryUrl(url) {
       if (!url) return;
       const audio = document.getElementById('audio-cry');
-      audio.src = url;
-      audio.play().catch(() => {});
+      if (audio) {
+        audio.src = url;
+        audio.play().catch(() => {});
+      }
     }
 
     document.getElementById('modal-close').addEventListener('click', () => {
       document.getElementById('retro-modal').classList.remove('open');
+    });
+    document.getElementById('retro-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'retro-modal') {
+        document.getElementById('retro-modal').classList.remove('open');
+      }
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && document.getElementById('retro-modal').classList.contains('open')) {
+        document.getElementById('retro-modal').classList.remove('open');
+      }
     });
 
     // ============================================================
@@ -3877,17 +4366,29 @@
     let cardsTotalItems = 0;
     let cardsSearchDebounce = null;
 
-    function renderPlayingCard(item) {
-      const p = item.pokemon;
-      const owned = item.owned;
-      const count = item.count || 0;
-      const gen = item.generation || 1;
+    function renderPlayingCard(item, options = {}) {
+      const p = item.pokemon || item;
+      const isParty = options.isParty || false;
+      const isModal = options.isModal || false;
+      const partyIdx = options.partyIdx !== undefined ? options.partyIdx : -1;
+
+      const owned = item.owned !== undefined ? item.owned : (isParty ? true : true);
+      const count = item.count !== undefined ? item.count : (owned ? 1 : 0);
+      const gen = item.generation || getGeneration(p.id);
+
       const primaryType = (p.types && p.types[0]) ? p.types[0] : 'Normal';
       const typeColor = TYPE_COLORS[primaryType] || '#a8b2c1';
-      const isFoil = ['Legendary', 'Mythical', 'Epic', 'UltraRare'].includes(p.rarity);
+      const rarity = p.rarity || 'Common';
+      const isFoil = ['Legendary', 'Mythical', 'Epic', 'UltraRare'].includes(rarity);
 
-      const stats = p.stats || { HP: 45, Atk: 49, Def: 49, SpA: 65, SpD: 65, Spe: 45, Total: 318 };
-      const bst = stats.Total || (stats.HP + stats.Atk + stats.Def + stats.SpA + stats.SpD + stats.Spe);
+      const stats = p.stats || p.base_stats || { HP: 45, Atk: 49, Def: 49, SpA: 65, SpD: 65, Spe: 45, Total: 318 };
+      const hpVal = stats.HP !== undefined ? stats.HP : (stats.hp !== undefined ? stats.hp : 45);
+      const atkVal = stats.Atk !== undefined ? stats.Atk : (stats.attack !== undefined ? stats.attack : 49);
+      const defVal = stats.Def !== undefined ? stats.Def : (stats.defense !== undefined ? stats.defense : 49);
+      const spaVal = stats.SpA !== undefined ? stats.SpA : (stats.special_attack !== undefined ? stats.special_attack : 65);
+      const spdVal = stats.SpD !== undefined ? stats.SpD : (stats.special_defense !== undefined ? stats.special_defense : 65);
+      const speVal = stats.Spe !== undefined ? stats.Spe : (stats.speed !== undefined ? stats.speed : 45);
+      const bst = stats.Total || stats.total || (hpVal + atkVal + defVal + spaVal + spdVal + speVal);
 
       const typesHtml = (p.types || []).map(t => {
         const col = TYPE_COLORS[t] || '#666';
@@ -3901,33 +4402,71 @@
       const showdownUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${p.id}.gif`;
       const spriteFallback = `/sprites/${p.id}.png`;
 
+      // Party-specific details
+      const level = options.level !== undefined ? options.level : (p.level || 1);
+      const curHp = options.currentHp !== undefined ? options.currentHp : (p.current_hp !== undefined ? p.current_hp : hpVal);
+      const maxHp = options.maxHp !== undefined ? options.maxHp : (p.max_hp !== undefined ? p.max_hp : hpVal);
+      const hpPct = Math.max(0, Math.min(100, Math.round((curHp / maxHp) * 100)));
+      const hpColor = hpPct > 50 ? '#22c55e' : (hpPct > 20 ? '#eab308' : '#ef4444');
+
+      const cardClasses = [
+        'pkmn-playing-card',
+        isFoil ? 'foil' : '',
+        (!owned && !isParty) ? 'unowned' : '',
+        isModal ? 'modal-card-display' : '',
+        isParty ? 'party-playing-card' : '',
+        (isParty && partyIdx === 0) ? 'party-lead' : ''
+      ].filter(Boolean).join(' ');
+
+      const clickAttr = isModal ? '' : `onclick="showPokemonDetailModal(${p.id})"`;
+
       return `
-        <div class="pkmn-playing-card ${isFoil ? 'foil' : ''} ${!owned ? 'unowned' : ''}" style="border-color: ${typeColor}; background: radial-gradient(circle at top right, ${typeColor}22 0%, #142219 75%);" onclick="showPokemonDetailModal(${p.id})">
+        <div class="${cardClasses}" style="border-color: ${typeColor}; background: radial-gradient(circle at top right, ${typeColor}22 0%, #142219 75%);" ${clickAttr}>
           <!-- Card Header Bar -->
           <div class="card-header-bar">
             <div class="card-title-col">
               <span class="card-dex-tag">NO. ${String(p.id).padStart(3, '0')}</span>
               <span class="card-name-txt" title="${p.name.toUpperCase()}">${p.name.toUpperCase()}</span>
             </div>
-            <div class="card-hp-badge" style="border-color: ${typeColor};">
-              <span style="font-size:7px; color:#fca5a5;">HP</span>
-              <span style="color:#fff;">${stats.HP}</span>
-              <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:${typeColor}; box-shadow:0 0 4px ${typeColor};"></span>
-            </div>
+            ${isParty ? `
+              <div class="card-hp-badge" style="border-color:${typeColor};">
+                <span style="font-size:7px; color:#facc15;">Lv.${level}</span>
+                <span style="color:#fff; font-size:7.5px;">${partyIdx === 0 ? '👑 LEAD' : 'PARTY'}</span>
+              </div>
+            ` : `
+              <div class="card-hp-badge" style="border-color: ${typeColor};">
+                <span style="font-size:7px; color:#fca5a5;">HP</span>
+                <span style="color:#fff;">${hpVal}</span>
+                <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:${typeColor}; box-shadow:0 0 4px ${typeColor};"></span>
+              </div>
+            `}
           </div>
 
           <!-- Card Artwork Frame -->
-          <div class="card-artwork-frame" style="background: radial-gradient(circle, ${typeColor}28 0%, #0d1712 100%); border-color: ${typeColor}55;">
-            <span class="card-status-stamp ${owned ? 'owned' : 'unowned'}">
-              ${owned ? `★ OWNED (${count})` : 'NOT CAUGHT'}
+          <div class="card-artwork-frame" style="background: radial-gradient(circle, ${typeColor}28 0%, #0d1710 100%); border-color: ${typeColor}55;">
+            <span class="card-status-stamp ${(owned || isParty) ? 'owned' : 'unowned'}">
+              ${isParty ? (partyIdx === 0 ? '★ BATTLE LEAD' : `SLOT ${partyIdx + 1}`) : (owned ? `★ OWNED (${count})` : 'NOT CAUGHT')}
             </span>
             <img class="card-pokemon-img"
                  src="${artworkUrl}"
                  alt="${p.name}"
                  loading="lazy"
                  onerror="this.onerror=null; this.src='${showdownUrl}'; this.onerror=() => this.src='${spriteFallback}';" />
+            
+            ${isParty ? `
+              <div style="width:100%; margin-top:4px;">
+                <div style="display:flex; justify-content:space-between; font-size:7px; font-weight:bold; margin-bottom:2px;">
+                  <span style="color:#94a3b8;">HP</span>
+                  <span style="color:${hpColor};">${curHp} / ${maxHp}</span>
+                </div>
+                <div style="width:100%; height:5px; background:#1e293b; border-radius:3px; overflow:hidden;">
+                  <div style="width:${hpPct}%; height:100%; background:${hpColor}; transition:width 0.3s ease;"></div>
+                </div>
+              </div>
+            ` : ''}
+
             <div class="card-meta-ribbon">
-              <span>GEN ${gen} • ${p.rarity.toUpperCase()}</span>
+              <span>GEN ${gen} • ${rarity.toUpperCase()}</span>
               <div class="card-types-row">${typesHtml}</div>
             </div>
           </div>
@@ -3941,52 +4480,72 @@
             <div class="card-stat-mini-grid">
               <div class="card-stat-mini-row">
                 <span class="card-stat-mini-name">HP</span>
-                <span class="card-stat-mini-val" style="color:#4ade80;">${stats.HP}</span>
+                <span class="card-stat-mini-val" style="color:#4ade80;">${hpVal}</span>
               </div>
               <div class="card-stat-mini-row">
                 <span class="card-stat-mini-name">ATK</span>
-                <span class="card-stat-mini-val" style="color:#f87171;">${stats.Atk}</span>
+                <span class="card-stat-mini-val" style="color:#f87171;">${atkVal}</span>
               </div>
               <div class="card-stat-mini-row">
                 <span class="card-stat-mini-name">DEF</span>
-                <span class="card-stat-mini-val" style="color:#60a5fa;">${stats.Def}</span>
+                <span class="card-stat-mini-val" style="color:#60a5fa;">${defVal}</span>
               </div>
               <div class="card-stat-mini-row">
                 <span class="card-stat-mini-name">SP.ATK</span>
-                <span class="card-stat-mini-val" style="color:#c084fc;">${stats.SpA}</span>
+                <span class="card-stat-mini-val" style="color:#c084fc;">${spaVal}</span>
               </div>
               <div class="card-stat-mini-row">
                 <span class="card-stat-mini-name">SP.DEF</span>
-                <span class="card-stat-mini-val" style="color:#38bdf8;">${stats.SpD}</span>
+                <span class="card-stat-mini-val" style="color:#38bdf8;">${spdVal}</span>
               </div>
               <div class="card-stat-mini-row">
                 <span class="card-stat-mini-name">SPEED</span>
-                <span class="card-stat-mini-val" style="color:#facc15;">${stats.Spe}</span>
+                <span class="card-stat-mini-val" style="color:#facc15;">${speVal}</span>
               </div>
             </div>
           </div>
 
           <!-- Ability Box -->
           <div class="card-ability-box">
-            <div class="card-ability-title">ABILITY</div>
-            <div style="font-size:7px; color:#cbd5e1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${abilitiesTxt}</div>
+            <div class="card-ability-title">${isParty ? 'PARTY MOVES' : 'ABILITY'}</div>
+            <div style="font-size:7px; color:#cbd5e1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+              ${isParty ? ((p.moves || []).map(m => m.name).join(', ') || abilitiesTxt) : abilitiesTxt}
+            </div>
           </div>
 
           <!-- Interactive Action Buttons -->
-          <div class="card-actions-footer" onclick="event.stopPropagation();">
-            <button class="card-btn" onclick="playCryUrl('${cryUrl}')">
-              ${pIcon('cry')} CRY
-            </button>
-            ${owned ? `
-              <button class="card-btn lead-btn" onclick="setPartyLeader(${p.id})">
-                ${pIcon('crown')} LEAD
+          ${!isModal ? `
+            <div class="card-actions-footer" onclick="event.stopPropagation();">
+              <button class="card-btn" onclick="playCryUrl('${cryUrl}')" title="Play Cry">
+                ${pIcon('cry')} CRY
               </button>
-            ` : `
-              <button class="card-btn" onclick="showPokemonDetailModal(${p.id})">
-                ${pIcon('star')} VIEW
-              </button>
-            `}
-          </div>
+              ${isParty ? (
+                partyIdx !== 0 ? `
+                  <button class="card-btn lead-btn" onclick="setPartyLeader(${p.id})">
+                    ${pIcon('crown')} MAKE LEAD
+                  </button>
+                ` : `
+                  <span class="card-btn" style="background:#15803d; border-color:#22c55e; color:#86efac; cursor:default;">
+                    ${pIcon('crown')} LEADER
+                  </span>
+                `
+              ) : (
+                owned ? `
+                  <button class="card-btn lead-btn" onclick="setPartyLeader(${p.id})">
+                    ${pIcon('crown')} LEAD
+                  </button>
+                ` : `
+                  <button class="card-btn" onclick="showPokemonDetailModal(${p.id})">
+                    ${pIcon('star')} VIEW
+                  </button>
+                `
+              )}
+            </div>
+          ` : `
+            <div style="text-align:center; padding: 6px 0 2px; font-size: 7px; color: ${typeColor}; letter-spacing: 0.5px; border-top: 1px dashed rgba(255,255,255,0.15);">
+              ★ OFFICIAL TRADING CARD SPECIFICATION ★
+            </div>
+          `}
         </div>
       `;
     }

@@ -888,12 +888,14 @@ async fn get_pokemon_by_id(
         let cry_url = format!("https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/{}.ogg", id);
         let art_url = format!("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{}.png", id);
         let showdown_url = format!("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/{}.gif", id);
+        let moves = crate::game::generate_moves_for_pokemon(pokemon);
 
         Ok(Json(json!({
             "pokemon": pokemon,
             "generation": get_generation(id),
             "owned_count": owned_instances.len(),
             "caught_history": owned_instances,
+            "moves": moves,
             "cry_url": cry_url,
             "art_url": art_url,
             "showdown_url": showdown_url,
