@@ -329,13 +329,13 @@
 
     /* Content Pane Optimization in Full-Width Mode */
     body.layout-full #pane-hunt .battle-arena-canvas {
-      max-width: 1160px;
+      max-width: 880px;
       margin: 0 auto;
       height: calc(100% - 62px);
       min-height: 420px;
     }
     body.layout-full #pane-hunt #hunt-trigger-box {
-      max-width: 1160px;
+      max-width: 880px;
       margin: 10px auto 0 auto;
     }
     body.layout-full #pane-arena .arena-divisions-grid {
@@ -2724,6 +2724,241 @@
       height: 22px;
       image-rendering: pixelated;
     }
+
+    /* ============================================================ */
+    /* SETTINGS MODAL & TRAINER PASSPORT STYLES                     */
+    /* ============================================================ */
+    .settings-modal-window {
+      background: #0f1d14;
+      border: 3px solid #facc15;
+      border-radius: 14px;
+      padding: 20px 24px;
+      width: 90vw;
+      max-width: 680px;
+      max-height: 86vh;
+      box-shadow: 0 0 60px rgba(0,0,0,0.95), 0 0 25px rgba(250, 204, 21, 0.35);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    .settings-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #233e2b;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+      padding-right: 36px;
+    }
+    .settings-modal-title {
+      font-size: 11px;
+      color: #facc15;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.5px;
+    }
+    .settings-modal-body {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-right: 4px;
+      min-height: 0;
+    }
+    .settings-modal-body::-webkit-scrollbar {
+      width: 6px;
+    }
+    .settings-modal-body::-webkit-scrollbar-thumb {
+      background: #233e2b;
+      border-radius: 3px;
+    }
+    .settings-section {
+      background: rgba(14, 28, 20, 0.7);
+      border: 1px solid #233e2b;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .settings-section-title {
+      font-size: 9px;
+      color: #86efac;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid #1c3523;
+      padding-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .settings-user-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .settings-user-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .settings-avatar-box {
+      width: 44px;
+      height: 44px;
+      background: #172d20;
+      border: 2px solid #2e523a;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .settings-user-meta {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .settings-user-name {
+      font-size: 13px;
+      color: #facc15;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+    .settings-user-level {
+      font-size: 9px;
+      color: #4ade80;
+      font-weight: bold;
+    }
+    .settings-user-email {
+      font-size: 8px;
+      color: #94a3b8;
+    }
+    .btn-logout-main {
+      background: #7f1d1d !important;
+      border: 1px solid #ef4444 !important;
+      color: #fee2e2 !important;
+      padding: 6px 12px !important;
+      font-size: 8.5px !important;
+      cursor: pointer;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+    .btn-logout-main:hover {
+      background: #991b1b !important;
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+    }
+    .settings-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .settings-stat-pill {
+      background: #102117;
+      border: 1px solid #1e3a29;
+      border-radius: 6px;
+      padding: 6px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8px;
+    }
+    .settings-stat-label {
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .settings-stat-val {
+      font-weight: bold;
+      color: #facc15;
+    }
+    .settings-controls-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .settings-control-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #102117;
+      border: 1px solid #1e3a29;
+      border-radius: 6px;
+      padding: 8px 12px;
+      gap: 12px;
+    }
+    .settings-control-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .settings-control-name {
+      font-size: 9px;
+      color: #f8fafc;
+      font-weight: bold;
+    }
+    .settings-control-hint {
+      font-size: 7.5px;
+      color: #64748b;
+    }
+    .settings-keys-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 14px;
+    }
+    .settings-key-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 8px;
+      color: #cbd5e1;
+    }
+    .settings-key-item kbd {
+      background: #1e3325;
+      border: 1px solid #2d4f39;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 7.5px;
+      color: #facc15;
+      font-family: monospace;
+      font-weight: bold;
+      min-width: 48px;
+      text-align: center;
+    }
+    .header-tools-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .settings-pill-btn {
+      background: #172e20 !important;
+      border: 1px solid #2d4f39 !important;
+      color: #86efac !important;
+      padding: 5px 12px !important;
+      font-size: 9px !important;
+      border-radius: 8px !important;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+    .settings-pill-btn:hover {
+      background: #234530 !important;
+      color: #fff !important;
+      border-color: #4ade80 !important;
+      box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+    }
   </style>
 </head>
 <body class="no-scanlines">
@@ -2770,6 +3005,7 @@
 <symbol id="px-arrow-up" viewBox="0 0 12 12"><rect x="5" y="1" width="2" height="1" fill="#1e293b"/><rect x="4" y="2" width="1" height="1" fill="#1e293b"/><rect x="5" y="2" width="2" height="1" fill="#f8fafc"/><rect x="7" y="2" width="1" height="1" fill="#1e293b"/><rect x="3" y="3" width="1" height="1" fill="#1e293b"/><rect x="4" y="3" width="4" height="1" fill="#f8fafc"/><rect x="8" y="3" width="1" height="1" fill="#1e293b"/><rect x="2" y="4" width="1" height="1" fill="#1e293b"/><rect x="3" y="4" width="6" height="1" fill="#f8fafc"/><rect x="9" y="4" width="1" height="1" fill="#1e293b"/><rect x="1" y="5" width="1" height="1" fill="#1e293b"/><rect x="2" y="5" width="8" height="1" fill="#f8fafc"/><rect x="10" y="5" width="1" height="1" fill="#1e293b"/><rect x="0" y="6" width="1" height="1" fill="#1e293b"/><rect x="1" y="6" width="10" height="1" fill="#f8fafc"/><rect x="11" y="6" width="1" height="1" fill="#1e293b"/><rect x="0" y="7" width="5" height="1" fill="#1e293b"/><rect x="5" y="7" width="2" height="1" fill="#f8fafc"/><rect x="7" y="7" width="5" height="1" fill="#1e293b"/><rect x="4" y="8" width="1" height="1" fill="#1e293b"/><rect x="5" y="8" width="2" height="1" fill="#f8fafc"/><rect x="7" y="8" width="1" height="1" fill="#1e293b"/><rect x="4" y="9" width="1" height="1" fill="#1e293b"/><rect x="5" y="9" width="2" height="1" fill="#f8fafc"/><rect x="7" y="9" width="1" height="1" fill="#1e293b"/><rect x="4" y="10" width="4" height="1" fill="#1e293b"/></symbol>
 <symbol id="px-arrow-left" viewBox="0 0 12 12"><rect x="6" y="1" width="1" height="1" fill="#1e293b"/><rect x="5" y="2" width="2" height="1" fill="#1e293b"/><rect x="4" y="3" width="1" height="1" fill="#1e293b"/><rect x="5" y="3" width="1" height="1" fill="#f8fafc"/><rect x="6" y="3" width="1" height="1" fill="#1e293b"/><rect x="3" y="4" width="1" height="1" fill="#1e293b"/><rect x="4" y="4" width="2" height="1" fill="#f8fafc"/><rect x="6" y="4" width="6" height="1" fill="#1e293b"/><rect x="2" y="5" width="1" height="1" fill="#1e293b"/><rect x="3" y="5" width="9" height="1" fill="#f8fafc"/><rect x="1" y="6" width="1" height="1" fill="#1e293b"/><rect x="2" y="6" width="10" height="1" fill="#f8fafc"/><rect x="2" y="7" width="1" height="1" fill="#1e293b"/><rect x="3" y="7" width="9" height="1" fill="#f8fafc"/><rect x="3" y="8" width="1" height="1" fill="#1e293b"/><rect x="4" y="8" width="2" height="1" fill="#f8fafc"/><rect x="6" y="8" width="6" height="1" fill="#1e293b"/><rect x="4" y="9" width="1" height="1" fill="#1e293b"/><rect x="5" y="9" width="1" height="1" fill="#f8fafc"/><rect x="6" y="9" width="1" height="1" fill="#1e293b"/><rect x="5" y="10" width="2" height="1" fill="#1e293b"/><rect x="6" y="11" width="1" height="1" fill="#1e293b"/></symbol>
 <symbol id="px-arrow-right" viewBox="0 0 12 12"><rect x="5" y="1" width="1" height="1" fill="#1e293b"/><rect x="5" y="2" width="2" height="1" fill="#1e293b"/><rect x="5" y="3" width="1" height="1" fill="#1e293b"/><rect x="6" y="3" width="1" height="1" fill="#f8fafc"/><rect x="7" y="3" width="1" height="1" fill="#1e293b"/><rect x="0" y="4" width="6" height="1" fill="#1e293b"/><rect x="6" y="4" width="2" height="1" fill="#f8fafc"/><rect x="8" y="4" width="1" height="1" fill="#1e293b"/><rect x="0" y="5" width="9" height="1" fill="#f8fafc"/><rect x="9" y="5" width="1" height="1" fill="#1e293b"/><rect x="0" y="6" width="10" height="1" fill="#f8fafc"/><rect x="10" y="6" width="1" height="1" fill="#1e293b"/><rect x="0" y="7" width="9" height="1" fill="#f8fafc"/><rect x="9" y="7" width="1" height="1" fill="#1e293b"/><rect x="0" y="8" width="6" height="1" fill="#1e293b"/><rect x="6" y="8" width="2" height="1" fill="#f8fafc"/><rect x="8" y="8" width="1" height="1" fill="#1e293b"/><rect x="5" y="9" width="1" height="1" fill="#1e293b"/><rect x="6" y="9" width="1" height="1" fill="#f8fafc"/><rect x="7" y="9" width="1" height="1" fill="#1e293b"/><rect x="5" y="10" width="2" height="1" fill="#1e293b"/><rect x="5" y="11" width="1" height="1" fill="#1e293b"/></symbol>
+<symbol id="px-settings" viewBox="0 0 16 16"><rect x="6" y="1" width="4" height="2" fill="#94a3b8"/><rect x="6" y="13" width="4" height="2" fill="#94a3b8"/><rect x="1" y="6" width="2" height="4" fill="#94a3b8"/><rect x="13" y="6" width="2" height="4" fill="#94a3b8"/><rect x="2" y="2" width="3" height="3" fill="#64748b"/><rect x="11" y="2" width="3" height="3" fill="#64748b"/><rect x="2" y="11" width="3" height="3" fill="#64748b"/><rect x="11" y="11" width="3" height="3" fill="#64748b"/><rect x="4" y="4" width="8" height="8" fill="#cbd5e1"/><rect x="3" y="5" width="10" height="6" fill="#cbd5e1"/><rect x="5" y="3" width="6" height="10" fill="#cbd5e1"/><rect x="6" y="6" width="4" height="4" fill="#0f172a"/></symbol>
 </defs>
 </svg>
   </div>
@@ -2777,28 +3013,6 @@
 
   <!-- Handheld Console Frame (Utilizes Maximum Screen Area) -->
   <div class="handheld-console">
-
-    <!-- Top Console Header -->
-    <div class="console-top">
-      <div class="power-light">
-        <div class="power-led"></div>
-        <span>POWER</span>
-      </div>
-
-      <div class="console-branding">
-        POKÉDASH <span>ADVANCE</span>
-      </div>
-
-      <div class="top-switches">
-        <div class="hud-key-pill" id="hud-key-pill">
-          <span>KEY:</span> <span id="hud-key-val">READY</span>
-        </div>
-        <button id="toggle-sound" class="retro-pill-btn active"><svg class="pixel-icon"><use href="#px-sound-on"></use></svg> SFX ON</button>
-        <button id="toggle-scanlines" class="retro-pill-btn"><svg class="pixel-icon"><use href="#px-crt"></use></svg> CRT OFF</button>
-        <button id="toggle-layout-mode" class="retro-pill-btn active" title="Toggle Layout: Full-Width Screen vs Retro GBA Handheld [L]"><svg class="pixel-icon"><use href="#px-expand"></use></svg> <span id="layout-toggle-text">FULL WIDTH</span></button>
-        <button id="toggle-screen-mode" class="retro-pill-btn" title="Toggle Browser Fullscreen Window"><svg class="pixel-icon"><use href="#px-expand"></use></svg> <span id="fullscreen-toggle-text">FULLSCREEN</span></button>
-      </div>
-    </div>
 
     <!-- Screen Bezel -->
     <div class="screen-bezel">
@@ -2810,18 +3024,20 @@
 
         <!-- Top Status Bar -->
         <div class="screen-header">
-          <div class="header-player-info">
-            <span class="header-tag"><svg class="pixel-icon"><use href="#px-trainer"></use></svg> <span id="header-trainer-name">TRAINER</span></span>
-            <span class="header-tag">LV. <span id="header-trainer-level">1</span></span>
-            <button id="btn-logout" class="retro-btn btn-sm" style="display:none; padding: 2px 6px; font-size: 8px; background: #dc2626; color: #fff; border-color: #7f1d1d; cursor: pointer;" title="Sign Out of Trainer Passport">LOGOUT</button>
+          <div class="console-branding">
+            POKÉDASH <span>ADVANCE</span>
           </div>
-          <div class="header-currency-row" style="display: flex; gap: 8px; align-items: center;">
+
+          <div class="header-tools-row">
             <span class="header-tag" id="header-balls-tag" title="Poké Balls in Bag">
               <svg class="pixel-icon"><use href="#px-pokeball"></use></svg> <span id="header-balls-val">0</span>
             </span>
-            <div class="header-gold">
+            <div class="header-gold" title="Poké Dollars">
               <svg class="pixel-icon"><use href="#px-coin"></use></svg> P$ <span id="header-gold-val">0</span>
             </div>
+            <button id="btn-open-settings" class="retro-pill-btn settings-pill-btn" title="Settings & Trainer Passport [S]">
+              <svg class="pixel-icon"><use href="#px-settings"></use></svg> SETTINGS
+            </button>
           </div>
         </div>
 
@@ -3241,6 +3457,144 @@
     <div class="retro-modal-window">
       <button id="modal-close" class="modal-close-corner" title="Close [ESC]">&times;</button>
       <div id="modal-body-content"></div>
+    </div>
+  </div>
+
+  <!-- Settings & Trainer Profile Modal -->
+  <div id="settings-modal" class="retro-modal-backdrop">
+    <div class="retro-modal-window settings-modal-window">
+      <button id="settings-modal-close" class="modal-close-corner" title="Close [ESC]">&times;</button>
+      
+      <div class="settings-modal-header">
+        <div class="settings-modal-title">
+          <svg class="pixel-icon pixel-icon-md"><use href="#px-settings"></use></svg>
+          SYSTEM SETTINGS & TRAINER PASSPORT
+        </div>
+        <div class="power-light">
+          <div class="power-led"></div>
+          <span>SYSTEM ONLINE</span>
+        </div>
+      </div>
+
+      <div class="settings-modal-body">
+        <!-- 1. TRAINER PROFILE & USER DETAILS -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg class="pixel-icon"><use href="#px-trainer"></use></svg> TRAINER PROFILE & ACCOUNT
+          </div>
+          
+          <div class="settings-user-card">
+            <div class="settings-user-header">
+              <div class="settings-avatar-box">
+                <svg class="pixel-icon" style="width: 28px; height: 28px;"><use href="#px-trainer"></use></svg>
+              </div>
+              <div class="settings-user-meta">
+                <div class="settings-user-name" id="header-trainer-name">TRAINER</div>
+                <div class="settings-user-level">TRAINER RANK: <span id="header-trainer-level">1</span></div>
+                <div class="settings-user-email" id="settings-user-email">AUTHENTICATED PASSPORT</div>
+              </div>
+              <button id="btn-logout" class="retro-btn btn-danger btn-logout-main" style="display:none;" title="Sign Out of Trainer Passport">
+                <svg class="pixel-icon"><use href="#px-trainer"></use></svg> SIGN OUT
+              </button>
+            </div>
+
+            <!-- Stats Mini Grid -->
+            <div class="settings-stats-grid">
+              <div class="settings-stat-pill">
+                <span class="settings-stat-label"><svg class="pixel-icon"><use href="#px-coin"></use></svg> POKÉ DOLLARS:</span>
+                <span class="settings-stat-val" id="settings-gold-val">P$ 0</span>
+              </div>
+              <div class="settings-stat-pill">
+                <span class="settings-stat-label"><svg class="pixel-icon"><use href="#px-pokeball"></use></svg> POKÉ BALLS:</span>
+                <span class="settings-stat-val" id="settings-balls-val">0</span>
+              </div>
+              <div class="settings-stat-pill">
+                <span class="settings-stat-label"><svg class="pixel-icon"><use href="#px-dex"></use></svg> POKÉDEX CAUGHT:</span>
+                <span class="settings-stat-val" id="settings-dex-count">0 / 1025</span>
+              </div>
+              <div class="settings-stat-pill">
+                <span class="settings-stat-label"><svg class="pixel-icon"><use href="#px-trophy"></use></svg> GYM BADGES:</span>
+                <span class="settings-stat-val" id="settings-badges-count">0 / 10</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. SYSTEM SETTINGS & CONTROLS (The bar from user screenshot!) -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg class="pixel-icon"><use href="#px-settings"></use></svg> SYSTEM CONTROLS & DISPLAY
+          </div>
+
+          <div class="settings-controls-list">
+            <!-- SFX -->
+            <div class="settings-control-row">
+              <div class="settings-control-text">
+                <div class="settings-control-name">SOUND EFFECTS (SFX)</div>
+                <div class="settings-control-hint">Procedural 8-bit synthesizer audio and official Pokémon cries</div>
+              </div>
+              <button id="toggle-sound" class="retro-pill-btn active"><svg class="pixel-icon"><use href="#px-sound-on"></use></svg> SFX ON</button>
+            </div>
+
+            <!-- CRT -->
+            <div class="settings-control-row">
+              <div class="settings-control-text">
+                <div class="settings-control-name">CRT SCANLINES FILTER</div>
+                <div class="settings-control-hint">Simulate classic retro CRT arcade monitor phosphor lines</div>
+              </div>
+              <button id="toggle-scanlines" class="retro-pill-btn"><svg class="pixel-icon"><use href="#px-crt"></use></svg> CRT OFF</button>
+            </div>
+
+            <!-- LAYOUT -->
+            <div class="settings-control-row">
+              <div class="settings-control-text">
+                <div class="settings-control-name">SCREEN LAYOUT MODE</div>
+                <div class="settings-control-hint">Toggle between clean full-width screen and retro purple GBA casing [L]</div>
+              </div>
+              <button id="toggle-layout-mode" class="retro-pill-btn active" title="Toggle Layout [L]"><svg class="pixel-icon"><use href="#px-expand"></use></svg> <span id="layout-toggle-text">FULL WIDTH</span></button>
+            </div>
+
+            <!-- FULLSCREEN -->
+            <div class="settings-control-row">
+              <div class="settings-control-text">
+                <div class="settings-control-name">FULLSCREEN WINDOW</div>
+                <div class="settings-control-hint">Expand game window to native browser fullscreen</div>
+              </div>
+              <button id="toggle-screen-mode" class="retro-pill-btn" title="Toggle Browser Fullscreen"><svg class="pixel-icon"><use href="#px-expand"></use></svg> <span id="fullscreen-toggle-text">FULLSCREEN</span></button>
+            </div>
+
+            <!-- KEY HUD -->
+            <div class="settings-control-row">
+              <div class="settings-control-text">
+                <div class="settings-control-name">KEYBOARD INPUT HUD</div>
+                <div class="settings-control-hint">Visual feedback showing live pressed hardware keys</div>
+              </div>
+              <div class="hud-key-pill" id="hud-key-pill">
+                <span>KEY:</span> <span id="hud-key-val">READY</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. KEYBOARD SHORTCUTS REFERENCE -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg class="pixel-icon"><use href="#px-fight"></use></svg> KEYBOARD SHORTCUTS CHEATSHEET
+          </div>
+          <div class="settings-keys-grid">
+            <div class="settings-key-item"><kbd>W / A / S / D</kbd> <span>Navigate / Scroll</span></div>
+            <div class="settings-key-item"><kbd>SPACE</kbd> <span>Search Grass / Select</span></div>
+            <div class="settings-key-item"><kbd>1 / 2 / 3 / 4</kbd> <span>Fight / Bag / Pkmn / Run</span></div>
+            <div class="settings-key-item"><kbd>H</kbd> <span>Quick Heal Team</span></div>
+            <div class="settings-key-item"><kbd>C</kbd> <span>Play Pokémon Cry</span></div>
+            <div class="settings-key-item"><kbd>Q / E</kbd> <span>Switch Location Tabs</span></div>
+            <div class="settings-key-item"><kbd>L</kbd> <span>Toggle Layout Mode</span></div>
+            <div class="settings-key-item"><kbd>S</kbd> <span>Open Settings Menu</span></div>
+            <div class="settings-key-item"><kbd>ESC</kbd> <span>Close Menu / Cancel</span></div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
@@ -3923,15 +4277,18 @@
       const logoutBtn = document.getElementById('btn-logout');
       const authModal = document.getElementById('auth-modal');
       const nameEl = document.getElementById('header-trainer-name');
+      const emailEl = document.getElementById('settings-user-email');
 
       if (token && user) {
         if (logoutBtn) logoutBtn.style.display = 'inline-block';
         if (authModal) authModal.classList.add('hidden');
         if (nameEl) nameEl.textContent = (user.username || 'TRAINER').toUpperCase();
+        if (emailEl) emailEl.textContent = user.email || 'AUTHENTICATED PASSPORT';
       } else {
         if (logoutBtn) logoutBtn.style.display = 'none';
         if (authModal) authModal.classList.remove('hidden');
         if (nameEl) nameEl.textContent = 'UNAUTHORIZED';
+        if (emailEl) emailEl.textContent = 'PASSPORT REQUIRED';
       }
     }
 
@@ -4041,6 +4398,7 @@
       if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
           SFX.cancel();
+          closeSettingsModal();
           clearAuthSession();
           showAuthModal();
           switchAuthTab('login');
@@ -4373,6 +4731,22 @@
         const totalBalls = Object.values(data.player.balls || {}).reduce((sum, n) => sum + (Number(n) || 0), 0);
         const ballsEl = document.getElementById('header-balls-val');
         if (ballsEl) ballsEl.textContent = totalBalls.toLocaleString();
+
+        const setGold = document.getElementById('settings-gold-val');
+        if (setGold) setGold.textContent = `P$ ${(data.player.currency || 0).toLocaleString()}`;
+
+        const setBalls = document.getElementById('settings-balls-val');
+        if (setBalls) setBalls.textContent = totalBalls.toLocaleString();
+
+        const setDex = document.getElementById('settings-dex-count');
+        if (setDex && data.unique_count !== undefined) {
+          setDex.textContent = `${data.unique_count} / 1025`;
+        }
+
+        const setBadges = document.getElementById('settings-badges-count');
+        if (setBadges && data.player.badges) {
+          setBadges.textContent = `${(data.player.badges || []).length} / 10`;
+        }
 
         return data;
       } catch (e) {
@@ -5812,6 +6186,72 @@
       }
     });
 
+    // ============================================================
+    // SETTINGS MODAL & TRAINER PASSPORT SYSTEM
+    // ============================================================
+    function syncSettingsModalData() {
+      const token = getAuthToken();
+      const user = getAuthUser();
+      const emailEl = document.getElementById('settings-user-email');
+      if (emailEl) {
+        if (user && user.email) {
+          emailEl.textContent = user.email;
+        } else if (token) {
+          try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            if (payload && payload.email) emailEl.textContent = payload.email;
+          } catch (e) {}
+        }
+      }
+
+      const goldEl = document.getElementById('header-gold-val');
+      const ballsEl = document.getElementById('header-balls-val');
+      const dexEl = document.getElementById('card-dex-count');
+      const badgesEl = document.getElementById('arena-badges-count');
+      const setGold = document.getElementById('settings-gold-val');
+      const setBalls = document.getElementById('settings-balls-val');
+      const setDex = document.getElementById('settings-dex-count');
+      const setBadges = document.getElementById('settings-badges-count');
+
+      if (setGold && goldEl) setGold.textContent = 'P$ ' + goldEl.textContent;
+      if (setBalls && ballsEl) setBalls.textContent = ballsEl.textContent;
+      if (setDex && dexEl) setDex.textContent = dexEl.textContent;
+      if (setBadges && badgesEl) setBadges.textContent = badgesEl.textContent.replace('Badges: ', '');
+    }
+
+    function openSettingsModal() {
+      const modal = document.getElementById('settings-modal');
+      if (!modal) return;
+      SFX.blip();
+      syncSettingsModalData();
+      modal.classList.add('open');
+    }
+
+    function closeSettingsModal() {
+      const modal = document.getElementById('settings-modal');
+      if (modal && modal.classList.contains('open')) {
+        modal.classList.remove('open');
+        SFX.cancel();
+      }
+    }
+
+    const btnOpenSettings = document.getElementById('btn-open-settings');
+    if (btnOpenSettings) {
+      btnOpenSettings.addEventListener('click', openSettingsModal);
+    }
+    const settingsCloseBtn = document.getElementById('settings-modal-close');
+    if (settingsCloseBtn) {
+      settingsCloseBtn.addEventListener('click', closeSettingsModal);
+    }
+    const settingsModalBackdrop = document.getElementById('settings-modal');
+    if (settingsModalBackdrop) {
+      settingsModalBackdrop.addEventListener('click', (e) => {
+        if (e.target.id === 'settings-modal') {
+          closeSettingsModal();
+        }
+      });
+    }
+
     function isAuthRequired() {
       const modal = document.getElementById('auth-modal');
       return !getAuthToken() || (modal && !modal.classList.contains('hidden'));
@@ -5940,9 +6380,10 @@
 
       // D-Pad
       if (key === 'ArrowUp' || lower === 'w') elements.push(document.getElementById('key-up'));
-      if (key === 'ArrowDown' || lower === 's') elements.push(document.getElementById('key-down'));
+      if (key === 'ArrowDown') elements.push(document.getElementById('key-down'));
       if (key === 'ArrowLeft' || lower === 'a') elements.push(document.getElementById('key-left'));
       if (key === 'ArrowRight' || lower === 'd') elements.push(document.getElementById('key-right'));
+      if (lower === 's') elements.push(document.getElementById('btn-open-settings'));
 
       // Action A
       if (lower === 'z' || key === 'Enter') elements.push(document.getElementById('key-a'));
@@ -6015,6 +6456,11 @@
       // 1. ESC / Back / Cancel / X
       if (key === 'Escape' || lower === 'x' || key === 'Backspace') {
         e.preventDefault();
+        const settingsModal = document.getElementById('settings-modal');
+        if (settingsModal && settingsModal.classList.contains('open')) {
+          closeSettingsModal();
+          return;
+        }
         const modal = document.getElementById('retro-modal');
         if (modal && modal.classList.contains('open')) {
           modal.classList.remove('open');
@@ -6156,6 +6602,18 @@
         const currentIsFull = document.body.classList.contains('layout-full');
         setLayoutMode(currentIsFull ? 'retro' : 'full');
         SFX.blip();
+        return;
+      }
+
+      // 10. S key: Open / Toggle Settings Modal
+      if (lower === 's') {
+        e.preventDefault();
+        const settingsModal = document.getElementById('settings-modal');
+        if (settingsModal && settingsModal.classList.contains('open')) {
+          closeSettingsModal();
+        } else {
+          openSettingsModal();
+        }
         return;
       }
     });
