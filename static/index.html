@@ -582,6 +582,415 @@
       display: none;
     }
 
+    /* ========================================= */
+    /* ELEMENTAL BATTLE FX SYSTEM                */
+    /* ========================================= */
+    .battle-fx-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 45;
+      overflow: hidden;
+    }
+    .attack-fx-anchor {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 46;
+    }
+
+    /* Arena impact flashes */
+    .arena-flash-fire { animation: arenaFlashFire 0.4s ease-out; }
+    .arena-flash-electric { animation: arenaFlashElectric 0.4s ease-out; }
+    .arena-flash-water { animation: arenaFlashWater 0.4s ease-out; }
+    .arena-flash-ice { animation: arenaFlashIce 0.4s ease-out; }
+    .arena-flash-impact { animation: arenaFlashImpact 0.35s ease-out; }
+
+    @keyframes arenaFlashFire {
+      0% { box-shadow: inset 0 0 45px rgba(239, 68, 68, 0.75); }
+      100% { box-shadow: inset 0 0 0 transparent; }
+    }
+    @keyframes arenaFlashElectric {
+      0%, 40% { box-shadow: inset 0 0 55px rgba(250, 204, 21, 0.9); filter: brightness(1.35); }
+      100% { box-shadow: inset 0 0 0 transparent; filter: brightness(1); }
+    }
+    @keyframes arenaFlashWater {
+      0% { box-shadow: inset 0 0 45px rgba(6, 182, 212, 0.75); }
+      100% { box-shadow: inset 0 0 0 transparent; }
+    }
+    @keyframes arenaFlashIce {
+      0% { box-shadow: inset 0 0 50px rgba(165, 243, 252, 0.85); }
+      100% { box-shadow: inset 0 0 0 transparent; }
+    }
+    @keyframes arenaFlashImpact {
+      0% { filter: brightness(1.6) contrast(1.2); }
+      100% { filter: brightness(1) contrast(1); }
+    }
+
+    /* FIRE FX */
+    .fx-fire-blast-core {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 36px; height: 36px;
+      margin: -18px 0 0 -18px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 0%, #facc15 35%, #ef4444 70%, transparent 100%);
+      animation: fireCoreExpand 0.45s ease-out forwards;
+    }
+    .fx-fire-flame {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 22px; height: 36px;
+      margin: -18px 0 0 -11px;
+      background: radial-gradient(ellipse at bottom, #fef08a 0%, #f97316 50%, #dc2626 90%);
+      border-radius: 50% 50% 20% 20%;
+      filter: drop-shadow(0 0 8px #f97316);
+      transform-origin: center bottom;
+      animation: fireTongueBurst 0.5s ease-out forwards;
+    }
+    @keyframes fireCoreExpand {
+      0% { transform: scale(0.2); opacity: 1; }
+      50% { transform: scale(2.2); opacity: 0.9; }
+      100% { transform: scale(2.8); opacity: 0; }
+    }
+    @keyframes fireTongueBurst {
+      0% { transform: rotate(var(--rot)) translateY(0) scale(0.3); opacity: 1; }
+      60% { transform: rotate(var(--rot)) translateY(-45px) scale(1.3); opacity: 0.9; }
+      100% { transform: rotate(var(--rot)) translateY(-65px) scale(0.6); opacity: 0; }
+    }
+
+    /* WATER FX */
+    .fx-water-ring {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 30px; height: 30px;
+      margin: -15px 0 0 -15px;
+      border: 4px solid #38bdf8;
+      border-radius: 50%;
+      box-shadow: 0 0 16px #0284c7, inset 0 0 10px #38bdf8;
+      animation: waterRingBurst 0.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+    }
+    .fx-water-drop {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 14px; height: 18px;
+      margin: -9px 0 0 -7px;
+      background: radial-gradient(circle at 35% 35%, #e0f2fe 0%, #0ea5e9 60%, #0369a1 100%);
+      border-radius: 50% 50% 40% 40%;
+      animation: waterDropSplash 0.52s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
+    }
+    @keyframes waterRingBurst {
+      0% { transform: scale(0.3); opacity: 1; }
+      100% { transform: scale(3.2); opacity: 0; border-width: 1px; }
+    }
+    @keyframes waterDropSplash {
+      0% { transform: rotate(var(--rot)) translateY(0) scale(0.4); opacity: 1; }
+      70% { transform: rotate(var(--rot)) translateY(-48px) scale(1.1); opacity: 0.85; }
+      100% { transform: rotate(var(--rot)) translateY(-60px) scale(0.3); opacity: 0; }
+    }
+
+    /* ELECTRIC FX */
+    .fx-electric-bolt {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 60px; height: 120px;
+      margin: -60px 0 0 -30px;
+      animation: electricStrobe 0.45s ease-out forwards;
+      filter: drop-shadow(0 0 10px #facc15) drop-shadow(0 0 20px #eab308);
+    }
+    .fx-electric-spark {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 6px; height: 26px;
+      margin: -13px 0 0 -3px;
+      background: #fef08a;
+      box-shadow: 0 0 8px #facc15;
+      border-radius: 3px;
+      animation: electricSparkPop 0.4s ease-out forwards;
+    }
+    @keyframes electricStrobe {
+      0%, 20%, 40%, 60%, 80% { opacity: 1; transform: scale(1.1) rotate(var(--rot, 0deg)); }
+      10%, 30%, 50%, 70% { opacity: 0.3; transform: scale(0.9) rotate(var(--rot, 0deg)); }
+      100% { opacity: 0; transform: scale(1.3) rotate(var(--rot, 0deg)); }
+    }
+    @keyframes electricSparkPop {
+      0% { transform: rotate(var(--rot)) translateY(0) scale(0.5); opacity: 1; }
+      100% { transform: rotate(var(--rot)) translateY(-55px) scale(1.2); opacity: 0; }
+    }
+
+    /* GRASS FX */
+    .fx-razor-leaf {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 22px; height: 12px;
+      margin: -6px 0 0 -11px;
+      background: radial-gradient(ellipse at 40% 40%, #bbf7d0 0%, #22c55e 60%, #15803d 100%);
+      border-radius: 80% 0 80% 0;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
+      animation: leafSpinCut 0.55s ease-out forwards;
+    }
+    @keyframes leafSpinCut {
+      0% { transform: rotate(var(--start-rot)) translate(60px, 0) rotate(0deg) scale(0.5); opacity: 1; }
+      50% { transform: rotate(calc(var(--start-rot) + 180deg)) translate(20px, 0) rotate(360deg) scale(1.2); opacity: 1; }
+      100% { transform: rotate(calc(var(--start-rot) + 360deg)) translate(70px, 0) rotate(720deg) scale(0.2); opacity: 0; }
+    }
+
+    /* ICE FX */
+    .fx-ice-shard {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 18px; height: 26px;
+      margin: -13px 0 0 -9px;
+      background: linear-gradient(135deg, #ffffff 0%, #a5f3fc 45%, #06b6d4 100%);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+      box-shadow: 0 0 12px #38bdf8;
+      animation: iceShardShatter 0.5s ease-out forwards;
+    }
+    @keyframes iceShardShatter {
+      0% { transform: scale(0.2) rotate(0deg); opacity: 0; }
+      35% { transform: scale(1.3) rotate(var(--rot)) translateY(0); opacity: 1; }
+      100% { transform: scale(0.7) rotate(calc(var(--rot) * 2)) translateY(var(--dist, 50px)); opacity: 0; }
+    }
+
+    /* FIGHTING FX */
+    .fx-punch-impact {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 50px; height: 50px;
+      margin: -25px 0 0 -25px;
+      border: 3px solid #f97316;
+      border-radius: 50%;
+      box-shadow: 0 0 16px #ea580c;
+      animation: punchShockwave 0.4s ease-out forwards;
+    }
+    .fx-cross-chop {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 70px; height: 6px;
+      margin: -3px 0 0 -35px;
+      background: linear-gradient(90deg, transparent 0%, #fff 50%, transparent 100%);
+      box-shadow: 0 0 10px #ea580c;
+      animation: crossChopSlice 0.38s ease-out forwards;
+    }
+    @keyframes punchShockwave {
+      0% { transform: scale(0.2); opacity: 1; }
+      100% { transform: scale(2.2); opacity: 0; border-width: 1px; }
+    }
+    @keyframes crossChopSlice {
+      0% { transform: rotate(var(--rot)) scaleX(0.2); opacity: 1; }
+      50% { transform: rotate(var(--rot)) scaleX(1.4); opacity: 1; }
+      100% { transform: rotate(var(--rot)) scaleX(1.8); opacity: 0; }
+    }
+
+    /* POISON FX */
+    .fx-poison-blob {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 22px; height: 22px;
+      margin: -11px 0 0 -11px;
+      background: radial-gradient(circle at 35% 35%, #e9d5ff 0%, #a855f7 50%, #6b21a8 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 10px #9333ea;
+      animation: poisonBlobPop 0.55s ease-out forwards;
+    }
+    @keyframes poisonBlobPop {
+      0% { transform: translate(0, 0) scale(0.3); opacity: 1; }
+      50% { transform: translate(var(--tx), var(--ty)) scale(1.4); opacity: 0.9; }
+      100% { transform: translate(calc(var(--tx) * 1.3), calc(var(--ty) * 1.3)) scale(1.8); opacity: 0; }
+    }
+
+    /* GROUND FX */
+    .fx-ground-chunk {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 20px; height: 16px;
+      margin: -8px 0 0 -10px;
+      background: #78350f;
+      border: 1px solid #d97706;
+      clip-path: polygon(25% 0%, 75% 10%, 100% 65%, 65% 100%, 0% 70%);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.7);
+      animation: groundChunkToss 0.5s ease-out forwards;
+    }
+    @keyframes groundChunkToss {
+      0% { transform: translate(0, 20px) scale(0.4); opacity: 1; }
+      40% { transform: translate(var(--tx), -35px) scale(1.2) rotate(var(--rot)); opacity: 1; }
+      100% { transform: translate(calc(var(--tx) * 1.5), 30px) scale(0.8) rotate(calc(var(--rot) * 2)); opacity: 0; }
+    }
+
+    /* FLYING FX */
+    .fx-air-blade {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 80px; height: 12px;
+      margin: -6px 0 0 -40px;
+      border-radius: 50%;
+      border-top: 4px solid #ffffff;
+      box-shadow: 0 -2px 10px #70a6ff;
+      animation: airBladeCut 0.4s ease-out forwards;
+    }
+    @keyframes airBladeCut {
+      0% { transform: rotate(var(--rot)) translateY(-40px) scaleX(0.3); opacity: 0; }
+      40% { transform: rotate(var(--rot)) translateY(0) scaleX(1.2); opacity: 1; }
+      100% { transform: rotate(var(--rot)) translateY(40px) scaleX(1.5); opacity: 0; }
+    }
+
+    /* PSYCHIC FX */
+    .fx-psy-ring {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 36px; height: 36px;
+      margin: -18px 0 0 -18px;
+      border-radius: 50%;
+      border: 3px solid #ec4899;
+      box-shadow: 0 0 16px #d946ef, inset 0 0 12px #a855f7;
+      animation: psyRingWarp 0.55s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+    }
+    @keyframes psyRingWarp {
+      0% { transform: scale(0.2) rotate(0deg); opacity: 1; }
+      50% { transform: scale(1.8) rotate(180deg); opacity: 0.9; }
+      100% { transform: scale(3) rotate(360deg); opacity: 0; border-width: 1px; }
+    }
+
+    /* BUG FX */
+    .fx-bug-snip {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 65px; height: 8px;
+      margin: -4px 0 0 -32px;
+      background: linear-gradient(90deg, #bef264 0%, #65a30d 50%, #365314 100%);
+      clip-path: polygon(0% 50%, 90% 0%, 100% 50%, 90% 100%);
+      box-shadow: 0 0 10px #84cc16;
+      animation: bugSnipCross 0.42s ease-out forwards;
+    }
+    @keyframes bugSnipCross {
+      0% { transform: rotate(var(--rot)) translateX(var(--dist)) scale(0.5); opacity: 0; }
+      50% { transform: rotate(var(--rot)) translateX(0) scale(1.2); opacity: 1; }
+      100% { transform: rotate(var(--rot)) translateX(calc(var(--dist) * -0.5)) scale(0.8); opacity: 0; }
+    }
+
+    /* ROCK FX */
+    .fx-rock-boulder {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 34px; height: 28px;
+      margin: -14px 0 0 -17px;
+      background: radial-gradient(circle at 40% 40%, #a8a29e 0%, #57534e 60%, #292524 100%);
+      clip-path: polygon(30% 0%, 80% 15%, 100% 60%, 75% 100%, 15% 90%, 0% 40%);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.8);
+      animation: rockBoulderSmash 0.48s ease-in forwards;
+    }
+    @keyframes rockBoulderSmash {
+      0% { transform: translate(var(--tx), -60px) scale(0.4) rotate(0deg); opacity: 0; }
+      60% { transform: translate(var(--tx), 0) scale(1.3) rotate(var(--rot)); opacity: 1; }
+      80% { transform: translate(var(--tx), 5px) scale(1.4) rotate(var(--rot)); }
+      100% { transform: translate(calc(var(--tx) * 1.5), 15px) scale(0.2) rotate(calc(var(--rot) * 2)); opacity: 0; }
+    }
+
+    /* GHOST FX */
+    .fx-ghost-wisp {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 50px; height: 50px;
+      margin: -25px 0 0 -25px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #c084fc 0%, #7e22ce 50%, #1e1b4b 90%, transparent 100%);
+      box-shadow: 0 0 20px #9333ea, 0 0 35px #581c87;
+      animation: ghostWispFade 0.58s ease-out forwards;
+    }
+    @keyframes ghostWispFade {
+      0% { transform: scale(0.3) translateY(20px); opacity: 0; }
+      40% { transform: scale(1.5) translateY(-10px); opacity: 0.9; }
+      100% { transform: scale(2.2) translateY(-30px); opacity: 0; }
+    }
+
+    /* DRAGON FX */
+    .fx-dragon-claw {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 75px; height: 8px;
+      margin: -4px 0 0 -37px;
+      background: linear-gradient(90deg, #60a5fa 0%, #c084fc 50%, #f43f5e 100%);
+      box-shadow: 0 0 14px #818cf8;
+      border-radius: 4px;
+      animation: dragonClawRend 0.45s ease-out forwards;
+    }
+    @keyframes dragonClawRend {
+      0% { transform: rotate(var(--rot)) translateX(-40px) scaleX(0.2); opacity: 0; }
+      50% { transform: rotate(var(--rot)) translateX(0) scaleX(1.3); opacity: 1; }
+      100% { transform: rotate(var(--rot)) translateX(40px) scaleX(1.6); opacity: 0; }
+    }
+
+    /* DARK FX */
+    .fx-dark-slash {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 75px; height: 16px;
+      margin: -8px 0 0 -37px;
+      border-radius: 50%;
+      border-top: 5px solid #0f172a;
+      box-shadow: 0 -3px 12px #9333ea, 0 0 16px #475569;
+      animation: darkSlashSlice 0.44s ease-out forwards;
+    }
+    @keyframes darkSlashSlice {
+      0% { transform: rotate(var(--rot)) translateY(-35px) scale(0.3); opacity: 0; }
+      50% { transform: rotate(var(--rot)) translateY(0) scale(1.3); opacity: 1; }
+      100% { transform: rotate(var(--rot)) translateY(35px) scale(1.6); opacity: 0; }
+    }
+
+    /* STEEL FX */
+    .fx-steel-blade {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 75px; height: 6px;
+      margin: -3px 0 0 -37px;
+      background: linear-gradient(90deg, transparent 0%, #ffffff 40%, #cbd5e1 60%, transparent 100%);
+      box-shadow: 0 0 14px #ffffff, 0 0 24px #94a3b8;
+      animation: steelBladeClang 0.4s ease-out forwards;
+    }
+    @keyframes steelBladeClang {
+      0% { transform: rotate(var(--rot)) scaleX(0.3); opacity: 0; }
+      40% { transform: rotate(var(--rot)) scaleX(1.4); opacity: 1; filter: brightness(2); }
+      100% { transform: rotate(var(--rot)) scaleX(1.8); opacity: 0; filter: brightness(1); }
+    }
+
+    /* FAIRY FX */
+    .fx-fairy-star {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 20px; height: 20px;
+      margin: -10px 0 0 -10px;
+      background: radial-gradient(circle, #ffffff 0%, #f472b6 40%, #ec4899 80%, transparent 100%);
+      clip-path: polygon(50% 0%, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0% 50%, 35% 35%);
+      box-shadow: 0 0 16px #f472b6;
+      animation: fairyStarShimmer 0.52s ease-out forwards;
+    }
+    @keyframes fairyStarShimmer {
+      0% { transform: translate(0, 0) scale(0.2) rotate(0deg); opacity: 1; }
+      60% { transform: translate(var(--tx), var(--ty)) scale(1.4) rotate(180deg); opacity: 1; }
+      100% { transform: translate(calc(var(--tx) * 1.3), calc(var(--ty) * 1.3)) scale(0.4) rotate(360deg); opacity: 0; }
+    }
+
+    /* NORMAL FX */
+    .fx-normal-slash {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 70px; height: 6px;
+      margin: -3px 0 0 -35px;
+      background: linear-gradient(90deg, transparent 0%, #ffffff 50%, transparent 100%);
+      box-shadow: 0 0 12px #ffffff;
+      animation: normalImpactSlash 0.38s ease-out forwards;
+    }
+    @keyframes normalImpactSlash {
+      0% { transform: rotate(var(--rot)) scaleX(0.2); opacity: 1; }
+      50% { transform: rotate(var(--rot)) scaleX(1.3); opacity: 1; }
+      100% { transform: rotate(var(--rot)) scaleX(1.6); opacity: 0; }
+    }
+
     /* Retro Dialogue & Action Control Box (Classic GBA 4-Box) */
     .battle-control-box {
       background: #fbfbf3;
@@ -1727,6 +2136,18 @@
       display: flex;
       flex-direction: column;
       gap: 3px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .modal-move-chip:hover {
+      border-color: #22c55e;
+      background: #183022;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(34, 197, 94, 0.25);
+    }
+    .modal-move-chip:active {
+      transform: translateY(0);
     }
     .modal-move-chip-header {
       display: flex;
@@ -2269,6 +2690,9 @@
 
               <!-- Ball Throw Sprite -->
               <div id="ball-throw-anim" class="battle-pokeball-throw"></div>
+
+              <!-- Elemental Attack FX Layer -->
+              <div id="battle-fx-layer" class="battle-fx-layer"></div>
 
               <!-- Upper Field (Wild Pokémon with platform & status box) -->
               <div class="battle-upper-field">
@@ -2832,6 +3256,69 @@
       } catch (e) {}
     }
 
+    function playRampTone(ctx, startTime, startFreq, endFreq, duration, type = 'sawtooth', gainVal = 0.15) {
+      if (!soundEnabled) return;
+      try {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(startFreq, startTime);
+        osc.frequency.exponentialRampToValueAtTime(Math.max(10, endFreq), startTime + duration);
+        gain.gain.setValueAtTime(gainVal, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      } catch (e) {}
+    }
+
+    function playNoiseSweep(ctx, startTime, startFreq, endFreq, duration, filterType = 'bandpass', gainVal = 0.15) {
+      if (!soundEnabled) return;
+      try {
+        const bufferSize = Math.floor(ctx.sampleRate * duration);
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+        const filter = ctx.createBiquadFilter();
+        filter.type = filterType;
+        filter.frequency.setValueAtTime(startFreq, startTime);
+        filter.frequency.exponentialRampToValueAtTime(Math.max(20, endFreq), startTime + duration);
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(gainVal, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        noise.start(startTime);
+        noise.stop(startTime + duration);
+      } catch (e) {}
+    }
+
+    function playFMTone(ctx, startTime, carrierFreq, modFreq, modIndex, duration, gainVal = 0.15) {
+      if (!soundEnabled) return;
+      try {
+        const carrier = ctx.createOscillator();
+        const modulator = ctx.createOscillator();
+        const modGain = ctx.createGain();
+        const masterGain = ctx.createGain();
+        carrier.frequency.setValueAtTime(carrierFreq, startTime);
+        modulator.frequency.setValueAtTime(modFreq, startTime);
+        modGain.gain.setValueAtTime(modIndex * 10, startTime);
+        modulator.connect(carrier.frequency);
+        masterGain.gain.setValueAtTime(gainVal, startTime);
+        masterGain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+        carrier.connect(masterGain);
+        masterGain.connect(ctx.destination);
+        modulator.start(startTime);
+        carrier.start(startTime);
+        modulator.stop(startTime + duration);
+        carrier.stop(startTime + duration);
+      } catch (e) {}
+    }
+
     const SFX = {
       blip: () => playTone(600, 'square', 0.05, 0.08),
       confirm: () => {
@@ -2889,8 +3376,337 @@
         notes.forEach((n, i) => {
           setTimeout(() => playTone(n, 'triangle', 0.2, 0.15), times[i]);
         });
+      },
+      attack: (type, options = {}) => {
+        if (!soundEnabled) return;
+        try {
+          const ctx = getAudioCtx();
+          const now = ctx.currentTime;
+          const normType = (type || 'Normal').toLowerCase();
+
+          switch (normType) {
+            case 'fire':
+              playNoiseSweep(ctx, now, 1200, 220, 0.35, 'bandpass', 0.22);
+              playRampTone(ctx, now, 140, 60, 0.3, 'sawtooth', 0.18);
+              break;
+            case 'water':
+              playFMTone(ctx, now, 480, 800, 35, 0.28, 0.18);
+              playNoiseSweep(ctx, now, 800, 250, 0.25, 'lowpass', 0.14);
+              break;
+            case 'electric':
+              playTone(880, 'sawtooth', 0.05, 0.2);
+              setTimeout(() => playTone(330, 'sawtooth', 0.06, 0.22), 35);
+              setTimeout(() => playTone(1320, 'sawtooth', 0.07, 0.22), 75);
+              setTimeout(() => playTone(220, 'square', 0.12, 0.2), 120);
+              playNoiseSweep(ctx, now, 3500, 1500, 0.2, 'highpass', 0.12);
+              break;
+            case 'grass':
+              playNoiseSweep(ctx, now, 2400, 700, 0.25, 'bandpass', 0.2);
+              playRampTone(ctx, now + 0.05, 680, 160, 0.08, 'triangle', 0.18);
+              break;
+            case 'ice':
+              playTone(1480, 'sine', 0.15, 0.15);
+              setTimeout(() => playTone(1850, 'sine', 0.15, 0.16), 40);
+              setTimeout(() => playTone(2220, 'sine', 0.2, 0.18), 80);
+              setTimeout(() => playRampTone(ctx, ctx.currentTime, 950, 180, 0.1, 'sawtooth', 0.14), 100);
+              break;
+            case 'fighting':
+              playRampTone(ctx, now, 260, 45, 0.18, 'sawtooth', 0.26);
+              setTimeout(() => playRampTone(ctx, ctx.currentTime, 180, 50, 0.14, 'square', 0.2), 70);
+              break;
+            case 'poison':
+              playFMTone(ctx, now, 320, 140, 24, 0.32, 0.2);
+              setTimeout(() => playRampTone(ctx, ctx.currentTime, 220, 80, 0.18, 'triangle', 0.15), 100);
+              break;
+            case 'ground':
+              playRampTone(ctx, now, 90, 30, 0.45, 'sawtooth', 0.28);
+              playNoiseSweep(ctx, now, 250, 60, 0.4, 'lowpass', 0.22);
+              break;
+            case 'flying':
+              playNoiseSweep(ctx, now, 3200, 600, 0.22, 'bandpass', 0.24);
+              playRampTone(ctx, now, 600, 240, 0.15, 'triangle', 0.15);
+              break;
+            case 'psychic':
+              playFMTone(ctx, now, 520, 1100, 12, 0.38, 0.22);
+              playTone(524, 'sine', 0.38, 0.16);
+              break;
+            case 'bug':
+              playRampTone(ctx, now, 640, 380, 0.12, 'square', 0.18);
+              setTimeout(() => playRampTone(ctx, ctx.currentTime, 720, 420, 0.12, 'square', 0.18), 60);
+              setTimeout(() => playTone(980, 'triangle', 0.04, 0.15), 130);
+              break;
+            case 'rock':
+              playRampTone(ctx, now, 180, 50, 0.25, 'sawtooth', 0.25);
+              playNoiseSweep(ctx, now, 600, 120, 0.32, 'lowpass', 0.2);
+              setTimeout(() => playRampTone(ctx, ctx.currentTime, 120, 40, 0.18, 'sawtooth', 0.2), 90);
+              break;
+            case 'ghost':
+              playTone(330, 'sine', 0.38, 0.16);
+              playTone(392, 'sine', 0.38, 0.14);
+              playTone(494, 'triangle', 0.4, 0.12);
+              break;
+            case 'dragon':
+              playRampTone(ctx, now, 140, 50, 0.4, 'sawtooth', 0.26);
+              playNoiseSweep(ctx, now, 1600, 300, 0.35, 'bandpass', 0.2);
+              setTimeout(() => playTone(440, 'triangle', 0.15, 0.16), 110);
+              break;
+            case 'dark':
+              playRampTone(ctx, now, 200, 40, 0.26, 'sawtooth', 0.24);
+              playTone(155, 'square', 0.2, 0.16);
+              setTimeout(() => playRampTone(ctx, ctx.currentTime, 110, 30, 0.18, 'sawtooth', 0.2), 80);
+              break;
+            case 'steel':
+              playTone(1860, 'sine', 0.35, 0.2);
+              playTone(2790, 'sine', 0.3, 0.16);
+              playRampTone(ctx, now, 880, 220, 0.08, 'sawtooth', 0.2);
+              break;
+            case 'fairy':
+              [523, 659, 784, 1046, 1318].forEach((freq, idx) => {
+                setTimeout(() => playTone(freq, 'sine', 0.2, 0.15), idx * 45);
+              });
+              break;
+            case 'normal':
+            default:
+              playRampTone(ctx, now, 200, 70, 0.15, 'sawtooth', 0.22);
+              setTimeout(() => playTone(120, 'square', 0.1, 0.16), 40);
+              break;
+          }
+
+          if (options.isSuperEff) {
+            setTimeout(() => SFX.superHit(), 80);
+          } else if (options.isCrit) {
+            setTimeout(() => playTone(350, 'sawtooth', 0.12, 0.2), 60);
+          }
+        } catch (e) {}
       }
     };
+
+    function playAttackVisuals(type, target, options = {}) {
+      try {
+        const normType = (type || 'Normal').toLowerCase();
+        let targetEl = null;
+        let container = null;
+        const isModal = options.isModal || false;
+
+        if (isModal) {
+          targetEl = typeof target === 'string' ? document.querySelector(target) : target;
+          container = targetEl || document.querySelector('.stadium-arena-pedestal');
+        } else {
+          if (target === 'enemy') targetEl = document.getElementById('enemy-sprite');
+          else if (target === 'player') targetEl = document.getElementById('player-sprite');
+          else if (typeof target === 'string') targetEl = document.querySelector(target);
+          else targetEl = target;
+          container = document.getElementById('battle-fx-layer') || document.getElementById('battle-active-view');
+        }
+
+        if (!container) return;
+
+        let x = 0;
+        let y = 0;
+
+        if (isModal) {
+          x = (container.clientWidth || 130) / 2;
+          y = (container.clientHeight || 110) / 2;
+        } else {
+          const containerRect = container.getBoundingClientRect();
+          if (targetEl) {
+            const targetRect = targetEl.getBoundingClientRect();
+            x = targetRect.left - containerRect.left + (targetRect.width / 2);
+            y = targetRect.top - containerRect.top + (targetRect.height / 2);
+          }
+          if (!x || isNaN(x) || x <= 0) x = (target === 'enemy') ? containerRect.width * 0.68 : containerRect.width * 0.32;
+          if (!y || isNaN(y) || y <= 0) y = (target === 'enemy') ? containerRect.height * 0.32 : containerRect.height * 0.68;
+        }
+
+        // Arena flash tint
+        const arenaView = document.getElementById('battle-active-view');
+        if (arenaView && !isModal) {
+          const flashClass = `arena-flash-${normType}`;
+          const fallbackFlash = ['fire', 'water', 'electric', 'ice'].includes(normType) ? flashClass : 'arena-flash-impact';
+          arenaView.classList.remove('arena-flash-fire', 'arena-flash-electric', 'arena-flash-water', 'arena-flash-ice', 'arena-flash-impact');
+          arenaView.classList.add(fallbackFlash);
+          setTimeout(() => arenaView.classList.remove(fallbackFlash), 400);
+        }
+
+        // Target sprite shake
+        if (targetEl) {
+          targetEl.classList.remove('shake');
+          void targetEl.offsetWidth;
+          targetEl.classList.add('shake');
+          setTimeout(() => targetEl.classList.remove('shake'), 420);
+        }
+
+        const anchor = document.createElement('div');
+        anchor.className = 'attack-fx-anchor';
+        anchor.style.left = `${Math.round(x)}px`;
+        anchor.style.top = `${Math.round(y)}px`;
+
+        switch (normType) {
+          case 'fire':
+            anchor.innerHTML = `
+              <div class="fx-fire-blast-core"></div>
+              ${[0, 60, 120, 180, 240, 300].map(rot => `<div class="fx-fire-flame" style="--rot:${rot}deg;"></div>`).join('')}
+            `;
+            break;
+          case 'water':
+            anchor.innerHTML = `
+              <div class="fx-water-ring"></div>
+              ${[0, 45, 90, 135, 180, 225, 270, 315].map(rot => `<div class="fx-water-drop" style="--rot:${rot}deg;"></div>`).join('')}
+            `;
+            break;
+          case 'electric':
+            anchor.innerHTML = `
+              <svg class="fx-electric-bolt" viewBox="0 0 60 120" style="--rot:-15deg;">
+                <polygon points="32,0 12,50 28,50 16,120 48,55 32,55" fill="#fef08a" stroke="#eab308" stroke-width="2"/>
+              </svg>
+              <svg class="fx-electric-bolt" viewBox="0 0 60 120" style="--rot:20deg; animation-delay:0.08s;">
+                <polygon points="32,0 14,48 30,48 18,120 46,56 30,56" fill="#fff" stroke="#facc15" stroke-width="2"/>
+              </svg>
+              ${[20, 80, 140, 200, 260, 320].map(rot => `<div class="fx-electric-spark" style="--rot:${rot}deg;"></div>`).join('')}
+            `;
+            break;
+          case 'grass':
+            anchor.innerHTML = `
+              ${[0, 60, 120, 180, 240, 300].map(rot => `<div class="fx-razor-leaf" style="--start-rot:${rot}deg;"></div>`).join('')}
+              <div class="fx-cross-chop" style="--rot:35deg; box-shadow:0 0 12px #22c55e; background:linear-gradient(90deg,transparent,#86efac,#22c55e,transparent);"></div>
+            `;
+            break;
+          case 'ice':
+            anchor.innerHTML = `
+              ${[
+                { rot: -30, dist: '45px' },
+                { rot: 25, dist: '55px' },
+                { rot: 70, dist: '40px' },
+                { rot: -80, dist: '50px' },
+                { rot: 140, dist: '48px' }
+              ].map(s => `<div class="fx-ice-shard" style="--rot:${s.rot}deg; --dist:${s.dist};"></div>`).join('')}
+            `;
+            break;
+          case 'fighting':
+            anchor.innerHTML = `
+              <div class="fx-punch-impact"></div>
+              <div class="fx-cross-chop" style="--rot:45deg;"></div>
+              <div class="fx-cross-chop" style="--rot:-45deg; animation-delay:0.06s;"></div>
+            `;
+            break;
+          case 'poison':
+            anchor.innerHTML = `
+              ${[
+                { tx: '-35px', ty: '-20px' },
+                { tx: '30px', ty: '-25px' },
+                { tx: '-25px', ty: '30px' },
+                { tx: '25px', ty: '25px' },
+                { tx: '0px', ty: '-40px' }
+              ].map(p => `<div class="fx-poison-blob" style="--tx:${p.tx}; --ty:${p.ty};"></div>`).join('')}
+            `;
+            break;
+          case 'ground':
+            anchor.innerHTML = `
+              ${[
+                { tx: '-38px', rot: '45deg' },
+                { tx: '-15px', rot: '-30deg' },
+                { tx: '18px', rot: '60deg' },
+                { tx: '36px', rot: '-50deg' }
+              ].map(g => `<div class="fx-ground-chunk" style="--tx:${g.tx}; --rot:${g.rot};"></div>`).join('')}
+            `;
+            break;
+          case 'flying':
+            anchor.innerHTML = `
+              <div class="fx-air-blade" style="--rot:-35deg;"></div>
+              <div class="fx-air-blade" style="--rot:10deg; animation-delay:0.07s;"></div>
+              <div class="fx-air-blade" style="--rot:45deg; animation-delay:0.14s;"></div>
+            `;
+            break;
+          case 'psychic':
+            anchor.innerHTML = `
+              <div class="fx-psy-ring" style="animation-delay:0s;"></div>
+              <div class="fx-psy-ring" style="animation-delay:0.1s; border-color:#818cf8; box-shadow:0 0 18px #6366f1;"></div>
+              <div class="fx-psy-ring" style="animation-delay:0.2s; border-color:#c084fc; box-shadow:0 0 20px #a855f7;"></div>
+            `;
+            break;
+          case 'bug':
+            anchor.innerHTML = `
+              <div class="fx-bug-snip" style="--rot:30deg; --dist:40px;"></div>
+              <div class="fx-bug-snip" style="--rot:-30deg; --dist:-40px; animation-delay:0.05s;"></div>
+            `;
+            break;
+          case 'rock':
+            anchor.innerHTML = `
+              <div class="fx-rock-boulder" style="--tx:-30px; --rot:45deg;"></div>
+              <div class="fx-rock-boulder" style="--tx:10px; --rot:-60deg; animation-delay:0.08s;"></div>
+              <div class="fx-rock-boulder" style="--tx:35px; --rot:90deg; animation-delay:0.15s;"></div>
+            `;
+            break;
+          case 'ghost':
+            anchor.innerHTML = `
+              <div class="fx-ghost-wisp"></div>
+              <div class="fx-ghost-wisp" style="animation-delay:0.1s; transform:scale(0.8) translate(20px, 10px);"></div>
+            `;
+            break;
+          case 'dragon':
+            anchor.innerHTML = `
+              <div class="fx-dragon-claw" style="--rot:-25deg;"></div>
+              <div class="fx-dragon-claw" style="--rot:5deg; animation-delay:0.06s;"></div>
+              <div class="fx-dragon-claw" style="--rot:35deg; animation-delay:0.12s;"></div>
+            `;
+            break;
+          case 'dark':
+            anchor.innerHTML = `
+              <div class="fx-dark-slash" style="--rot:-40deg;"></div>
+              <div class="fx-dark-slash" style="--rot:40deg; animation-delay:0.08s;"></div>
+            `;
+            break;
+          case 'steel':
+            anchor.innerHTML = `
+              <div class="fx-steel-blade" style="--rot:45deg;"></div>
+              <div class="fx-steel-blade" style="--rot:-45deg; animation-delay:0.05s;"></div>
+            `;
+            break;
+          case 'fairy':
+            anchor.innerHTML = `
+              ${[
+                { tx: '-35px', ty: '-25px' },
+                { tx: '35px', ty: '-20px' },
+                { tx: '-25px', ty: '30px' },
+                { tx: '30px', ty: '25px' },
+                { tx: '0px', ty: '-38px' },
+                { tx: '0px', ty: '38px' }
+              ].map(f => `<div class="fx-fairy-star" style="--tx:${f.tx}; --ty:${f.ty};"></div>`).join('')}
+            `;
+            break;
+          case 'normal':
+          default:
+            anchor.innerHTML = `
+              <div class="fx-punch-impact" style="border-color:#fff; box-shadow:0 0 14px #cbd5e1;"></div>
+              <div class="fx-normal-slash" style="--rot:35deg;"></div>
+              <div class="fx-normal-slash" style="--rot:-45deg; animation-delay:0.06s;"></div>
+            `;
+            break;
+        }
+
+        container.appendChild(anchor);
+        setTimeout(() => {
+          if (anchor && anchor.parentNode) anchor.parentNode.removeChild(anchor);
+        }, 580);
+      } catch (err) {
+        console.error('Error in playAttackVisuals', err);
+      }
+    }
+
+    function previewMoveAttack(name, type) {
+      SFX.attack(type, { isCrit: false, isSuperEff: false });
+      const sprite = document.querySelector('.stadium-live-sprite');
+      if (sprite) {
+        sprite.classList.remove('shake');
+        void sprite.offsetWidth;
+        sprite.classList.add('shake');
+        setTimeout(() => sprite.classList.remove('shake'), 420);
+      }
+      const pedestal = document.querySelector('.stadium-arena-pedestal');
+      if (pedestal) {
+        playAttackVisuals(type, pedestal, { isModal: true });
+      }
+    }
 
     // ============================================================
     // STATE & GAME DATA
@@ -3592,9 +4408,14 @@
 
         // Opponent hit animation
         setTimeout(() => {
-          if (res.player_effectiveness >= 2.0) SFX.superHit();
-          else SFX.hit();
-          
+          const chosenMove = (playerData && playerData.party && playerData.party[0] && playerData.party[0].moves)
+            ? playerData.party[0].moves[moveIdx]
+            : null;
+          const playerMoveType = res.player_move_type || (chosenMove ? chosenMove.type : 'Normal');
+
+          SFX.attack(playerMoveType, { isCrit: res.player_crit, isSuperEff: res.player_effectiveness >= 2.0 });
+          playAttackVisuals(playerMoveType, 'enemy', { isCrit: res.player_crit, isSuperEff: res.player_effectiveness >= 2.0 });
+
           const enemySprite = document.getElementById('enemy-sprite');
           enemySprite.classList.add('shake');
           setTimeout(() => enemySprite.classList.remove('shake'), 400);
@@ -3630,11 +4451,14 @@
           // Enemy strikes back
           setTimeout(() => {
             if (res.enemy_move_name) {
+              const enemyMoveType = res.enemy_move_type || 'Normal';
               enemySprite.classList.add('attack-lunge-left');
               setTimeout(() => enemySprite.classList.remove('attack-lunge-left'), 300);
 
               setTimeout(() => {
-                SFX.hit();
+                SFX.attack(enemyMoveType, { isCrit: res.enemy_crit, isSuperEff: res.enemy_effectiveness >= 2.0 });
+                playAttackVisuals(enemyMoveType, 'player', { isCrit: res.enemy_crit, isSuperEff: res.enemy_effectiveness >= 2.0 });
+
                 playerSprite.classList.add('shake');
                 setTimeout(() => playerSprite.classList.remove('shake'), 400);
                 updateHpBar('player', res.player_current_hp, res.player_max_hp);
@@ -3657,9 +4481,7 @@
                       const curLead = playerData.party[0];
                       document.getElementById('player-name').textContent = curLead.name.toUpperCase();
                       document.getElementById('player-level-tag').textContent = `Lv. ${curLead.level}`;
-                      playerSprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${curLead.id}.png`;
-                      playerSprite.onerror = () => { playerSprite.src = `/sprites/${curLead.id}.png`; };
-                      playerSprite.classList.remove('faint');
+                      setPlayerBattleSprite(curLead.id);
                       updateHpBar('player', curLead.current_hp, curLead.max_hp);
                     }
                   });
@@ -4209,15 +5031,18 @@
         const moves = data.moves || [];
         const movesHtml = moves.length > 0 ? moves.map(m => {
           const mTypeCol = TYPE_COLORS[m.type] || '#666';
-          const catIcon = m.category === 'physical' ? '⚔' : (m.category === 'special' ? '✦' : '🛡');
+          const catTag = m.category === 'physical' ? 'PHYS' : (m.category === 'special' ? 'SPEC' : 'STAT');
           return `
-            <div class="modal-move-chip">
+            <div class="modal-move-chip" onclick="previewMoveAttack('${m.name}', '${m.type}')" title="Click to test ${m.name.toUpperCase()} (${m.type}) attack animation & sound!">
               <div class="modal-move-chip-header">
                 <span class="modal-move-name">${m.name.toUpperCase()}</span>
-                <span class="card-type-chip" style="background:${mTypeCol}; font-size:6.5px; padding:1px 5px;">${m.type.toUpperCase()}</span>
+                <div style="display:flex; align-items:center; gap:4px;">
+                  <span class="card-type-chip" style="background:${mTypeCol}; font-size:6.5px; padding:1px 5px;">${m.type.toUpperCase()}</span>
+                  <span style="font-size:6px; color:#22c55e; background:#112217; border:1px solid #234d31; border-radius:3px; padding:1px 4px;">PLAY ▶</span>
+                </div>
               </div>
               <div class="modal-move-meta">
-                <span>${catIcon} ${m.category.toUpperCase()}</span>
+                <span>[${catTag}] ${m.category.toUpperCase()}</span>
                 <span>PWR: <b style="color:#facc15;">${m.power || '—'}</b></span>
                 <span>ACC: <b style="color:#86efac;">${m.accuracy ? m.accuracy + '%' : '—'}</b></span>
               </div>

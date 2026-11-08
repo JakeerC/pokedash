@@ -305,10 +305,14 @@ pub struct ActiveArenaBattle {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BattleActionResult {
     pub player_move_name: String,
+    #[serde(default)]
+    pub player_move_type: Option<String>,
     pub player_damage: u32,
     pub player_crit: bool,
     pub player_effectiveness: f64,
     pub enemy_move_name: Option<String>,
+    #[serde(default)]
+    pub enemy_move_type: Option<String>,
     pub enemy_damage: u32,
     pub enemy_crit: bool,
     pub enemy_effectiveness: f64,

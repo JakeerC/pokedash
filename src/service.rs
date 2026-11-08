@@ -336,6 +336,7 @@ impl GameService {
 
         let enemy_fainted = enemy_battle_mon.current_hp == 0;
         let mut enemy_move_name = None;
+        let mut enemy_move_type = None;
         let mut enemy_damage = 0;
         let mut enemy_crit = false;
         let mut enemy_eff = 1.0;
@@ -369,6 +370,7 @@ impl GameService {
                 category: "physical".to_string(),
             });
             enemy_move_name = Some(enemy_move.name.clone());
+            enemy_move_type = Some(enemy_move.r#type.clone());
 
             let (e_dmg, e_crit, e_eff) = {
                 let player_mon = &player.party[0];
@@ -417,10 +419,12 @@ impl GameService {
 
         Ok(BattleActionResult {
             player_move_name: chosen_move.name,
+            player_move_type: Some(chosen_move.r#type),
             player_damage: p_dmg,
             player_crit: p_crit,
             player_effectiveness: p_eff,
             enemy_move_name,
+            enemy_move_type,
             enemy_damage,
             enemy_crit,
             enemy_effectiveness: enemy_eff,
@@ -618,6 +622,7 @@ impl GameService {
 
         let enemy_fainted = enemy_mon.current_hp == 0;
         let mut enemy_move_name = None;
+        let mut enemy_move_type = None;
         let mut enemy_damage = 0;
         let mut enemy_crit = false;
         let mut enemy_eff = 1.0;
@@ -673,6 +678,7 @@ impl GameService {
                 category: "physical".to_string(),
             });
             enemy_move_name = Some(enemy_move.name.clone());
+            enemy_move_type = Some(enemy_move.r#type.clone());
 
             let (e_dmg, e_crit, e_eff) = {
                 let player_mon = &player.party[0];
@@ -722,10 +728,12 @@ impl GameService {
 
         Ok(BattleActionResult {
             player_move_name: chosen_move.name,
+            player_move_type: Some(chosen_move.r#type),
             player_damage: p_dmg,
             player_crit: p_crit,
             player_effectiveness: p_eff,
             enemy_move_name,
+            enemy_move_type,
             enemy_damage,
             enemy_crit,
             enemy_effectiveness: enemy_eff,
