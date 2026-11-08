@@ -521,11 +521,20 @@
       margin-top: 100px;
     }
     .pokemon-battle-sprite {
-      width: 130px;
-      height: 130px;
+      max-width: 130px;
+      max-height: 130px;
+      width: auto;
+      height: auto;
+      min-width: 75px;
+      min-height: 75px;
       object-fit: contain;
-      image-rendering: pixelated;
-      filter: drop-shadow(0 6px 6px rgba(0,0,0,0.6));
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: auto;
+      image-rendering: smooth;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.75)) contrast(106%) brightness(102%) saturate(104%);
       position: absolute;
       bottom: 8px;
       transition: transform 0.2s;
@@ -1077,6 +1086,12 @@
       width: 135px;
       height: 135px;
       object-fit: contain;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: auto;
+      image-rendering: smooth;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transform: translateZ(0);
       filter: drop-shadow(0 6px 10px rgba(0,0,0,0.7));
       transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
@@ -1536,16 +1551,25 @@
     .stadium-live-sprite {
       position: relative;
       z-index: 2;
-      width: 100px;
-      height: 100px;
+      max-width: 120px;
+      max-height: 105px;
+      width: auto;
+      height: auto;
+      min-width: 70px;
+      min-height: 70px;
       object-fit: contain;
-      image-rendering: pixelated;
-      filter: drop-shadow(0 10px 14px rgba(0,0,0,0.8));
-      animation: stadiumBob 2s ease-in-out infinite alternate;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: auto;
+      image-rendering: smooth;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+      filter: drop-shadow(0 10px 16px rgba(0,0,0,0.85)) contrast(106%) brightness(102%) saturate(104%);
+      animation: stadiumBob 2.2s ease-in-out infinite alternate;
     }
     @keyframes stadiumBob {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-7px); }
+      0% { transform: translateY(0) translateZ(0); }
+      100% { transform: translateY(-7px) translateZ(0); }
     }
     .stadium-stage-meta {
       flex: 1;
@@ -3401,6 +3425,21 @@
       }
     }
 
+    function setPlayerBattleSprite(id) {
+      const playerSprite = document.getElementById('player-sprite');
+      if (!playerSprite) return;
+      playerSprite.style.display = 'block';
+      playerSprite.style.opacity = '1';
+      playerSprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/back/${id}.gif`;
+      playerSprite.onerror = () => {
+        playerSprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`;
+        playerSprite.onerror = () => {
+          playerSprite.src = `/sprites/${id}.png`;
+        };
+      };
+      playerSprite.classList.remove('faint');
+    }
+
     function showSearchTallGrassState() {
       currentWild = null;
       document.getElementById('enemy-name').textContent = 'TALL GRASS';
@@ -3420,17 +3459,7 @@
         document.getElementById('player-name').textContent = lead.name.toUpperCase();
         document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
         updateHpBar('player', lead.current_hp, lead.max_hp);
-        
-        const playerSprite = document.getElementById('player-sprite');
-        if (playerSprite) {
-          playerSprite.style.display = 'block';
-          playerSprite.style.opacity = '1';
-          playerSprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${lead.id}.png`;
-          playerSprite.onerror = () => {
-            playerSprite.src = `/sprites/${lead.id}.png`;
-          };
-          playerSprite.classList.remove('faint');
-        }
+        setPlayerBattleSprite(lead.id);
         setDialogue(`Your ${lead.name.toUpperCase()} is standing ready! Press [SPACE] or [SEARCH TALL GRASS] to hunt wild Pokémon.`);
       } else {
         setDialogue("The tall grass rustles quietly. Press [SPACE] or [SEARCH TALL GRASS] to hunt wild Pokémon!");
@@ -3463,15 +3492,7 @@
         document.getElementById('player-name').textContent = lead.name.toUpperCase();
         document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
         updateHpBar('player', lead.current_hp, lead.max_hp);
-        
-        const playerSprite = document.getElementById('player-sprite');
-        playerSprite.style.display = 'block';
-        playerSprite.style.opacity = '1';
-        playerSprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${lead.id}.png`;
-        playerSprite.onerror = () => {
-          playerSprite.src = `/sprites/${lead.id}.png`;
-        };
-        playerSprite.classList.remove('faint');
+        setPlayerBattleSprite(lead.id);
       }
 
       setDialogue(`A wild ${wild.name.toUpperCase()} appeared! What will ${lead ? lead.name.toUpperCase() : 'you'} do?`);
@@ -3519,12 +3540,7 @@
             await api('/party/select', 'POST', { pokemon_id: healthy.id });
             await updateHeaderPlayer();
             lead = playerData.party[0];
-            const playerSprite = document.getElementById('player-sprite');
-            if (playerSprite) {
-              playerSprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${lead.id}.png`;
-              playerSprite.onerror = () => { playerSprite.src = `/sprites/${lead.id}.png`; };
-              playerSprite.classList.remove('faint');
-            }
+            setPlayerBattleSprite(lead.id);
             document.getElementById('player-name').textContent = lead.name.toUpperCase();
             document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
             updateHpBar('player', lead.current_hp, lead.max_hp);
@@ -3961,12 +3977,7 @@
         document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
         updateHpBar('player', lead.current_hp, lead.max_hp);
 
-        const playerSprite = document.getElementById('player-sprite');
-        playerSprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${lead.id}.png`;
-        playerSprite.onerror = () => {
-          playerSprite.src = `/sprites/${lead.id}.png`;
-        };
-        playerSprite.classList.remove('faint');
+        setPlayerBattleSprite(lead.id);
 
         setDialogue(`${battle.leader_name.toUpperCase()}: "${battle.log[0]}"`);
         showMainActionsMenu();
