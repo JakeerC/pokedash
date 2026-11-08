@@ -934,6 +934,295 @@
     }
 
     /* ========================================= */
+    /* POKÉMON PLAYING CARDS CATALOG PANE        */
+    /* ========================================= */
+    .cards-search-toolbar {
+      background: #0f1d15;
+      border: 2px solid #284430;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .cards-filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .cards-pagination-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0c1811;
+      border: 1px solid #223b2b;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 8px;
+      color: #94a3b8;
+    }
+    .cards-catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    /* THE POKÉMON PLAYING CARD */
+    .pkmn-playing-card {
+      position: relative;
+      background: #142219;
+      border-radius: 12px;
+      padding: 12px;
+      border: 3px solid #facc15;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
+      user-select: none;
+      overflow: hidden;
+    }
+    .pkmn-playing-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 14px 28px rgba(0,0,0,0.85), 0 0 16px rgba(250, 204, 21, 0.35);
+      border-color: #fef08a !important;
+      z-index: 5;
+    }
+    .pkmn-playing-card.unowned {
+      opacity: 0.7;
+      filter: saturate(0.75);
+    }
+    .pkmn-playing-card.unowned:hover {
+      opacity: 0.95;
+      filter: saturate(1);
+    }
+
+    /* Foil Shimmer effect for High Rarity Cards */
+    .pkmn-playing-card.foil::before {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: -100%;
+      width: 300%;
+      height: 300%;
+      background: linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.03) 40%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.03) 60%, rgba(255,255,255,0) 100%);
+      transform: rotate(25deg);
+      pointer-events: none;
+      transition: transform 0.6s ease;
+    }
+    .pkmn-playing-card.foil:hover::before {
+      transform: rotate(25deg) translate(30%, 30%);
+    }
+
+    /* Card Header Bar */
+    .card-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid rgba(255,255,255,0.12);
+      padding-bottom: 6px;
+    }
+    .card-title-col {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow: hidden;
+    }
+    .card-name-txt {
+      font-size: 11px;
+      font-weight: bold;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 0 #000;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-hp-badge {
+      font-size: 10px;
+      font-weight: bold;
+      color: #f87171;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0,0,0,0.5);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(248, 113, 113, 0.4);
+      flex-shrink: 0;
+    }
+    .card-dex-tag {
+      font-size: 8px;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+
+    /* Card Artwork Frame */
+    .card-artwork-frame {
+      position: relative;
+      background: radial-gradient(circle, #233829 0%, #0c1710 100%);
+      border: 2px solid #2e4a36;
+      border-radius: 8px;
+      padding: 10px 8px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+    }
+    .card-pokemon-img {
+      width: 135px;
+      height: 135px;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.7));
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .pkmn-playing-card:hover .card-pokemon-img {
+      transform: scale(1.1) translateY(-4px);
+    }
+    .card-status-stamp {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      font-size: 7px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+    .card-status-stamp.owned {
+      background: rgba(34, 197, 94, 0.9);
+      color: #052e16;
+      box-shadow: 0 0 6px #22c55e;
+    }
+    .card-status-stamp.unowned {
+      background: rgba(71, 85, 105, 0.85);
+      color: #cbd5e1;
+    }
+    .card-meta-ribbon {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 7.5px;
+      color: #94a3b8;
+      margin-top: 6px;
+      padding-top: 4px;
+      border-top: 1px dashed rgba(255,255,255,0.15);
+    }
+
+    /* Card Types Row */
+    .card-types-row {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+    }
+    .card-type-chip {
+      font-size: 7.5px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #fff;
+      font-weight: bold;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    /* Card Stats Box (like RPG playing card attributes) */
+    .card-stats-box {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .card-bst-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8px;
+      color: #facc15;
+      font-weight: bold;
+      border-bottom: 1px solid rgba(250, 204, 21, 0.25);
+      padding-bottom: 3px;
+    }
+    .card-stat-mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 10px;
+    }
+    .card-stat-mini-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 7.5px;
+    }
+    .card-stat-mini-name {
+      color: #94a3b8;
+    }
+    .card-stat-mini-val {
+      font-weight: bold;
+      color: #f8fafc;
+    }
+
+    /* Ability Box */
+    .card-ability-box {
+      background: rgba(15, 29, 21, 0.7);
+      border: 1px solid #233b2b;
+      border-radius: 5px;
+      padding: 6px 8px;
+      font-size: 7.5px;
+      line-height: 1.4;
+      color: #cbd5e1;
+    }
+    .card-ability-title {
+      color: #facc15;
+      font-weight: bold;
+      margin-bottom: 2px;
+      font-size: 7px;
+    }
+
+    /* Card Action Footer */
+    .card-actions-footer {
+      display: flex;
+      gap: 6px;
+      margin-top: auto;
+    }
+    .card-btn {
+      flex: 1;
+      font-family: var(--pixel-font);
+      font-size: 7.5px;
+      padding: 6px 4px;
+      border-radius: 4px;
+      border: 1px solid #2d4a36;
+      background: #1e3325;
+      color: #f8fafc;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.15s;
+    }
+    .card-btn:hover {
+      background: #284430;
+      border-color: #facc15;
+      color: #facc15;
+    }
+    .card-btn.lead-btn {
+      background: #15803d;
+      border-color: #166534;
+    }
+    .card-btn.lead-btn:hover {
+      background: #16a34a;
+      border-color: #22c55e;
+    }
+
+    /* ========================================= */
     /* 6. TRAINER CARD PANE                      */
     /* ========================================= */
     .trainer-passport {
@@ -1584,8 +1873,9 @@
           <button class="nav-tab" data-tab="arena"><svg class="pixel-icon"><use href="#px-arena"></use></svg> ARENA FIGHTS</button>
           <button class="nav-tab" data-tab="center"><svg class="pixel-icon"><use href="#px-center"></use></svg> POKÉ CENTER</button>
           <button class="nav-tab" data-tab="mart"><svg class="pixel-icon"><use href="#px-mart"></use></svg> POKÉ MART</button>
+          <button class="nav-tab" data-tab="cards"><svg class="pixel-icon"><use href="#px-card"></use></svg> POKÉ CARDS</button>
           <button class="nav-tab" data-tab="dex"><svg class="pixel-icon"><use href="#px-dex"></use></svg> POKÉDEX</button>
-          <button class="nav-tab" data-tab="trainer"><svg class="pixel-icon"><use href="#px-card"></use></svg> TRAINER CARD</button>
+          <button class="nav-tab" data-tab="trainer"><svg class="pixel-icon"><use href="#px-trainer"></use></svg> TRAINER CARD</button>
           <button class="nav-tab" data-tab="ranks"><svg class="pixel-icon"><use href="#px-trophy"></use></svg> RANKS</button>
         </div>
 
@@ -1732,7 +2022,125 @@
             </div>
           </div>
 
-          <!-- 5. POKÉDEX PANE -->
+          <!-- 5. POKÉMON PLAYING CARDS CATALOG PANE -->
+          <div id="pane-cards" class="location-pane">
+            <div class="cards-search-toolbar">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #284430; padding-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <svg class="pixel-icon pixel-icon-md"><use href="#px-card"></use></svg>
+                  <div>
+                    <div style="font-size: 11px; color: #facc15; font-weight: bold; letter-spacing: 0.5px;">POKÉMON PLAYING CARDS</div>
+                    <div style="font-size: 7.5px; color: #94a3b8;">OFFICIAL NATIONAL TCG STATS CATALOG • ALL 1025 SPECIES</div>
+                  </div>
+                </div>
+                <div id="cards-stats-summary" style="font-size: 8px; color: #86efac; font-weight: bold;">
+                  1025 POKÉMON AVAILABLE
+                </div>
+              </div>
+
+              <!-- Search and Filter Controls -->
+              <div class="cards-filter-row">
+                <input type="text" id="cards-filter-search" class="pokedex-search-input" style="flex: 2; min-width: 160px;" placeholder="Search name or # (e.g. Charizard, 25)..." />
+                <select id="cards-filter-gen" class="pokedex-select">
+                  <option value="">Gens I-IX (All)</option>
+                  <option value="1">Gen I (#1-151)</option>
+                  <option value="2">Gen II (#152-251)</option>
+                  <option value="3">Gen III (#252-386)</option>
+                  <option value="4">Gen IV (#387-493)</option>
+                  <option value="5">Gen V (#494-649)</option>
+                  <option value="6">Gen VI (#650-721)</option>
+                  <option value="7">Gen VII (#722-809)</option>
+                  <option value="8">Gen VIII (#810-905)</option>
+                  <option value="9">Gen IX (#906-1025)</option>
+                </select>
+                <select id="cards-filter-type" class="pokedex-select">
+                  <option value="">All Types</option>
+                  <option value="Normal">Normal</option>
+                  <option value="Fire">Fire</option>
+                  <option value="Water">Water</option>
+                  <option value="Grass">Grass</option>
+                  <option value="Electric">Electric</option>
+                  <option value="Ice">Ice</option>
+                  <option value="Fighting">Fighting</option>
+                  <option value="Poison">Poison</option>
+                  <option value="Ground">Ground</option>
+                  <option value="Flying">Flying</option>
+                  <option value="Psychic">Psychic</option>
+                  <option value="Bug">Bug</option>
+                  <option value="Rock">Rock</option>
+                  <option value="Ghost">Ghost</option>
+                  <option value="Dragon">Dragon</option>
+                  <option value="Steel">Steel</option>
+                  <option value="Dark">Dark</option>
+                  <option value="Fairy">Fairy</option>
+                </select>
+                <select id="cards-filter-rarity" class="pokedex-select">
+                  <option value="">All Rarities</option>
+                  <option value="Common">Common</option>
+                  <option value="Uncommon">Uncommon</option>
+                  <option value="Rare">Rare</option>
+                  <option value="UltraRare">Ultra Rare</option>
+                  <option value="Epic">Epic</option>
+                  <option value="Legendary">Legendary</option>
+                  <option value="Mythical">Mythical</option>
+                </select>
+                <select id="cards-filter-ownership" class="pokedex-select">
+                  <option value="">All Collection</option>
+                  <option value="owned">Caught Only</option>
+                  <option value="unowned">Unowned Only</option>
+                </select>
+                <select id="cards-filter-sort" class="pokedex-select">
+                  <option value="id">Sort: # Low &rarr; High</option>
+                  <option value="id_desc">Sort: # High &rarr; Low</option>
+                  <option value="bst">Sort: Highest Base Stats (BST)</option>
+                  <option value="atk">Sort: Highest Attack</option>
+                  <option value="def">Sort: Highest Defense</option>
+                  <option value="spe">Sort: Fastest Speed</option>
+                  <option value="hp">Sort: Highest HP</option>
+                  <option value="rarity">Sort: Rarity Rank</option>
+                  <option value="name">Sort: Name (A-Z)</option>
+                </select>
+                <button id="cards-btn-reset" class="retro-btn btn-sm" style="font-size: 8px; padding: 6px 10px; cursor: pointer;">RESET</button>
+              </div>
+
+              <!-- Pagination Controls Bar -->
+              <div class="cards-pagination-bar">
+                <button id="cards-btn-prev" class="retro-btn btn-sm" style="font-size: 8px; padding: 4px 10px;" disabled>
+                  <svg class="pixel-icon"><use href="#px-arrow-left"></use></svg> PREV
+                </button>
+                <span id="cards-page-indicator">PAGE 1 / 43 (1 - 24 OF 1025)</span>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span>PER PAGE:</span>
+                  <select id="cards-filter-limit" class="pokedex-select" style="padding: 2px 4px; font-size: 8px;">
+                    <option value="12">12</option>
+                    <option value="24" selected>24</option>
+                    <option value="48">48</option>
+                  </select>
+                  <button id="cards-btn-next" class="retro-btn btn-sm" style="font-size: 8px; padding: 4px 10px;">
+                    NEXT <svg class="pixel-icon"><use href="#px-arrow-right"></use></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cards Grid -->
+            <div class="cards-catalog-grid" id="cards-catalog-grid">
+              <!-- Rendered Playing Cards -->
+            </div>
+
+            <!-- Bottom Pagination Bar -->
+            <div class="cards-pagination-bar" style="margin-top: 16px;">
+              <button id="cards-btn-prev-btm" class="retro-btn btn-sm" style="font-size: 8px; padding: 4px 10px;" disabled>
+                <svg class="pixel-icon"><use href="#px-arrow-left"></use></svg> PREV
+              </button>
+              <span id="cards-page-indicator-btm">PAGE 1 / 43</span>
+              <button id="cards-btn-next-btm" class="retro-btn btn-sm" style="font-size: 8px; padding: 4px 10px;">
+                NEXT <svg class="pixel-icon"><use href="#px-arrow-right"></use></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- 6. POKÉDEX PANE -->
           <div id="pane-dex" class="location-pane">
             <div class="pokedex-retro-nav">
               <input type="text" id="dex-filter-search" class="pokedex-search-input" placeholder="Search name/#..." />
@@ -2542,6 +2950,7 @@
         if (target === 'arena') loadArenaDivisions();
         if (target === 'center') loadPokemonCenter();
         if (target === 'mart') loadPokeMart();
+        if (target === 'cards') loadPokemonCards(1);
         if (target === 'dex') loadPokedex();
         if (target === 'trainer') loadTrainerCard();
         if (target === 'ranks') loadLeaderboards();
@@ -3460,6 +3869,271 @@
     });
 
     // ============================================================
+    // POKÉMON PLAYING CARDS CATALOG & REAL-TIME SEARCH
+    // ============================================================
+    let cardsCurrentPage = 1;
+    let cardsTotalPages = 1;
+    let cardsLimit = 24;
+    let cardsTotalItems = 0;
+    let cardsSearchDebounce = null;
+
+    function renderPlayingCard(item) {
+      const p = item.pokemon;
+      const owned = item.owned;
+      const count = item.count || 0;
+      const gen = item.generation || 1;
+      const primaryType = (p.types && p.types[0]) ? p.types[0] : 'Normal';
+      const typeColor = TYPE_COLORS[primaryType] || '#a8b2c1';
+      const isFoil = ['Legendary', 'Mythical', 'Epic', 'UltraRare'].includes(p.rarity);
+
+      const stats = p.stats || { HP: 45, Atk: 49, Def: 49, SpA: 65, SpD: 65, Spe: 45, Total: 318 };
+      const bst = stats.Total || (stats.HP + stats.Atk + stats.Def + stats.SpA + stats.SpD + stats.Spe);
+
+      const typesHtml = (p.types || []).map(t => {
+        const col = TYPE_COLORS[t] || '#666';
+        return `<span class="card-type-chip" style="background:${col};">${t.toUpperCase()}</span>`;
+      }).join('');
+
+      const abilitiesTxt = (p.abilities && p.abilities.length > 0) ? p.abilities.join(', ') : 'None';
+
+      const cryUrl = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${p.id}.ogg`;
+      const artworkUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png`;
+      const showdownUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${p.id}.gif`;
+      const spriteFallback = `/sprites/${p.id}.png`;
+
+      return `
+        <div class="pkmn-playing-card ${isFoil ? 'foil' : ''} ${!owned ? 'unowned' : ''}" style="border-color: ${typeColor}; background: radial-gradient(circle at top right, ${typeColor}22 0%, #142219 75%);" onclick="showPokemonDetailModal(${p.id})">
+          <!-- Card Header Bar -->
+          <div class="card-header-bar">
+            <div class="card-title-col">
+              <span class="card-dex-tag">NO. ${String(p.id).padStart(3, '0')}</span>
+              <span class="card-name-txt" title="${p.name.toUpperCase()}">${p.name.toUpperCase()}</span>
+            </div>
+            <div class="card-hp-badge" style="border-color: ${typeColor};">
+              <span style="font-size:7px; color:#fca5a5;">HP</span>
+              <span style="color:#fff;">${stats.HP}</span>
+              <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:${typeColor}; box-shadow:0 0 4px ${typeColor};"></span>
+            </div>
+          </div>
+
+          <!-- Card Artwork Frame -->
+          <div class="card-artwork-frame" style="background: radial-gradient(circle, ${typeColor}28 0%, #0d1712 100%); border-color: ${typeColor}55;">
+            <span class="card-status-stamp ${owned ? 'owned' : 'unowned'}">
+              ${owned ? `★ OWNED (${count})` : 'NOT CAUGHT'}
+            </span>
+            <img class="card-pokemon-img"
+                 src="${artworkUrl}"
+                 alt="${p.name}"
+                 loading="lazy"
+                 onerror="this.onerror=null; this.src='${showdownUrl}'; this.onerror=() => this.src='${spriteFallback}';" />
+            <div class="card-meta-ribbon">
+              <span>GEN ${gen} • ${p.rarity.toUpperCase()}</span>
+              <div class="card-types-row">${typesHtml}</div>
+            </div>
+          </div>
+
+          <!-- Card Stats Box (like RPG playing card attributes) -->
+          <div class="card-stats-box">
+            <div class="card-bst-banner">
+              <span>BASE ATTRIBUTES</span>
+              <span style="color:${typeColor};">BST: ${bst}</span>
+            </div>
+            <div class="card-stat-mini-grid">
+              <div class="card-stat-mini-row">
+                <span class="card-stat-mini-name">HP</span>
+                <span class="card-stat-mini-val" style="color:#4ade80;">${stats.HP}</span>
+              </div>
+              <div class="card-stat-mini-row">
+                <span class="card-stat-mini-name">ATK</span>
+                <span class="card-stat-mini-val" style="color:#f87171;">${stats.Atk}</span>
+              </div>
+              <div class="card-stat-mini-row">
+                <span class="card-stat-mini-name">DEF</span>
+                <span class="card-stat-mini-val" style="color:#60a5fa;">${stats.Def}</span>
+              </div>
+              <div class="card-stat-mini-row">
+                <span class="card-stat-mini-name">SP.ATK</span>
+                <span class="card-stat-mini-val" style="color:#c084fc;">${stats.SpA}</span>
+              </div>
+              <div class="card-stat-mini-row">
+                <span class="card-stat-mini-name">SP.DEF</span>
+                <span class="card-stat-mini-val" style="color:#38bdf8;">${stats.SpD}</span>
+              </div>
+              <div class="card-stat-mini-row">
+                <span class="card-stat-mini-name">SPEED</span>
+                <span class="card-stat-mini-val" style="color:#facc15;">${stats.Spe}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ability Box -->
+          <div class="card-ability-box">
+            <div class="card-ability-title">ABILITY</div>
+            <div style="font-size:7px; color:#cbd5e1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${abilitiesTxt}</div>
+          </div>
+
+          <!-- Interactive Action Buttons -->
+          <div class="card-actions-footer" onclick="event.stopPropagation();">
+            <button class="card-btn" onclick="playCryUrl('${cryUrl}')">
+              ${pIcon('cry')} CRY
+            </button>
+            ${owned ? `
+              <button class="card-btn lead-btn" onclick="setPartyLeader(${p.id})">
+                ${pIcon('crown')} LEAD
+              </button>
+            ` : `
+              <button class="card-btn" onclick="showPokemonDetailModal(${p.id})">
+                ${pIcon('star')} VIEW
+              </button>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    async function loadPokemonCards(page = 1) {
+      cardsCurrentPage = page;
+      const search = (document.getElementById('cards-filter-search')?.value || '').trim();
+      const gen = document.getElementById('cards-filter-gen')?.value || '';
+      const type = document.getElementById('cards-filter-type')?.value || '';
+      const rarity = document.getElementById('cards-filter-rarity')?.value || '';
+      const ownership = document.getElementById('cards-filter-ownership')?.value || '';
+      const sort = document.getElementById('cards-filter-sort')?.value || 'id';
+      cardsLimit = parseInt(document.getElementById('cards-filter-limit')?.value || '24', 10);
+
+      const grid = document.getElementById('cards-catalog-grid');
+      if (grid) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 48px; color: #86efac; font-size: 9px; line-height: 2;">
+            <svg class="pixel-icon pixel-icon-md"><use href="#px-card"></use></svg><br>
+            SHUFFLING & DEALING PLAYING CARDS...
+          </div>
+        `;
+      }
+
+      let params = new URLSearchParams();
+      if (search) params.append('search', search);
+      if (gen) params.append('gen', gen);
+      if (type) params.append('type', type);
+      if (rarity) params.append('rarity', rarity);
+      if (sort) params.append('sort', sort);
+      if (ownership === 'owned') params.append('owned', 'true');
+      if (ownership === 'unowned') params.append('owned', 'false');
+      params.append('page', cardsCurrentPage.toString());
+      params.append('limit', cardsLimit.toString());
+
+      try {
+        const data = await api(`/catalog?${params.toString()}`);
+        cardsTotalItems = data.total || 0;
+        cardsTotalPages = data.total_pages || 1;
+        cardsCurrentPage = data.page || 1;
+
+        const startIdx = cardsTotalItems === 0 ? 0 : (cardsCurrentPage - 1) * cardsLimit + 1;
+        const endIdx = Math.min(cardsTotalItems, cardsCurrentPage * cardsLimit);
+        const pageText = `PAGE ${cardsCurrentPage} / ${cardsTotalPages} (${startIdx} - ${endIdx} OF ${cardsTotalItems})`;
+
+        const summaryEl = document.getElementById('cards-stats-summary');
+        if (summaryEl) summaryEl.textContent = `${cardsTotalItems} POKÉMON FOUND`;
+
+        const indTop = document.getElementById('cards-page-indicator');
+        if (indTop) indTop.textContent = pageText;
+
+        const indBtm = document.getElementById('cards-page-indicator-btm');
+        if (indBtm) indBtm.textContent = `PAGE ${cardsCurrentPage} OF ${cardsTotalPages}`;
+
+        const prevBtns = [document.getElementById('cards-btn-prev'), document.getElementById('cards-btn-prev-btm')];
+        const nextBtns = [document.getElementById('cards-btn-next'), document.getElementById('cards-btn-next-btm')];
+        prevBtns.forEach(b => { if (b) b.disabled = cardsCurrentPage <= 1; });
+        nextBtns.forEach(b => { if (b) b.disabled = cardsCurrentPage >= cardsTotalPages; });
+
+        if (!data.items || data.items.length === 0) {
+          if (grid) {
+            grid.innerHTML = `
+              <div style="grid-column: 1 / -1; text-align: center; padding: 48px 16px; color: #94a3b8; font-size: 8.5px; line-height: 2;">
+                NO POKÉMON MATCH YOUR SEARCH FILTERS.<br>
+                TRY CLEARING FILTERS OR SEARCHING BY ANOTHER NAME/NUMBER.
+              </div>
+            `;
+          }
+          return;
+        }
+
+        if (grid) {
+          grid.innerHTML = data.items.map(item => renderPlayingCard(item)).join('');
+        }
+      } catch (err) {
+        if (grid) {
+          grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #f87171; font-size: 8px;">
+              ERROR LOADING CARDS: ${err.message}
+            </div>
+          `;
+        }
+      }
+    }
+
+    function initCardsCatalogListeners() {
+      const searchInput = document.getElementById('cards-filter-search');
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          if (cardsSearchDebounce) clearTimeout(cardsSearchDebounce);
+          cardsSearchDebounce = setTimeout(() => {
+            loadPokemonCards(1);
+          }, 250);
+        });
+      }
+
+      const dropdowns = [
+        'cards-filter-gen',
+        'cards-filter-type',
+        'cards-filter-rarity',
+        'cards-filter-ownership',
+        'cards-filter-sort',
+        'cards-filter-limit'
+      ];
+      dropdowns.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('change', () => loadPokemonCards(1));
+      });
+
+      const prevHandler = () => {
+        if (cardsCurrentPage > 1) {
+          SFX.blip();
+          loadPokemonCards(cardsCurrentPage - 1);
+          document.querySelector('.screen-content')?.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      };
+      const nextHandler = () => {
+        if (cardsCurrentPage < cardsTotalPages) {
+          SFX.blip();
+          loadPokemonCards(cardsCurrentPage + 1);
+          document.querySelector('.screen-content')?.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      };
+
+      document.getElementById('cards-btn-prev')?.addEventListener('click', prevHandler);
+      document.getElementById('cards-btn-prev-btm')?.addEventListener('click', prevHandler);
+      document.getElementById('cards-btn-next')?.addEventListener('click', nextHandler);
+      document.getElementById('cards-btn-next-btm')?.addEventListener('click', nextHandler);
+
+      document.getElementById('cards-btn-reset')?.addEventListener('click', () => {
+        SFX.cancel();
+        if (searchInput) searchInput.value = '';
+        dropdowns.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            if (id === 'cards-filter-limit') el.value = '24';
+            else if (id === 'cards-filter-sort') el.value = 'id';
+            else el.value = '';
+          }
+        });
+        loadPokemonCards(1);
+      });
+    }
+
+    window.loadPokemonCards = loadPokemonCards;
+
+    // ============================================================
     // 6. TRAINER CARD & BADGES
     // ============================================================
     async function loadTrainerCard() {
@@ -3895,6 +4569,7 @@
     // ============================================================
     window.addEventListener('DOMContentLoaded', async () => {
       initAuthHandlers();
+      initCardsCatalogListeners();
       await checkAuthFromUrl();
       updateAuthUI();
 

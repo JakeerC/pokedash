@@ -162,6 +162,7 @@ pub struct PokedexQuery {
     pub r#type: Option<String>,
     pub rarity: Option<String>,
     pub sort: Option<String>,
+    pub owned: Option<bool>,
     pub page: Option<usize>,
     pub limit: Option<usize>,
 }
@@ -813,6 +814,13 @@ async fn get_catalog(
         let target = r.trim().to_lowercase();
         catalog.retain(|p| p.rarity.to_lowercase() == target);
     }
+    if let Some(owned_only) = query.owned {
+        if owned_only {
+            catalog.retain(|p| owned_map.get(&p.id).copied().unwrap_or(0) > 0);
+        } else {
+            catalog.retain(|p| owned_map.get(&p.id).copied().unwrap_or(0) == 0);
+        }
+    }
 
     let sort_mode = query.sort.as_deref().unwrap_or("id");
     match sort_mode {
@@ -830,6 +838,11 @@ async fn get_catalog(
             catalog.sort_by(|a, b| rarity_rank(&b.rarity).cmp(&rarity_rank(&a.rarity)));
         }
         "bst" => catalog.sort_by(|a, b| b.stats.total.cmp(&a.stats.total)),
+        "atk" => catalog.sort_by(|a, b| b.stats.atk.cmp(&a.stats.atk)),
+        "def" => catalog.sort_by(|a, b| b.stats.def.cmp(&a.stats.def)),
+        "spe" => catalog.sort_by(|a, b| b.stats.spe.cmp(&a.stats.spe)),
+        "hp" => catalog.sort_by(|a, b| b.stats.hp.cmp(&a.stats.hp)),
+        "name" => catalog.sort_by(|a, b| a.name.to_lowercase().cmp(&b.name.to_lowercase())),
         _ => catalog.sort_by_key(|p| p.id),
     }
 
@@ -845,8 +858,10 @@ async fn get_catalog(
         .take(limit)
         .map(|p| {
             let owned_count = owned_map.get(&p.id).copied().unwrap_or(0);
+            let gen = get_generation(p.id);
             json!({
                 "pokemon": p,
+                "generation": gen,
                 "owned": owned_count > 0,
                 "count": owned_count,
             })
