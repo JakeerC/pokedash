@@ -586,128 +586,221 @@
       min-height: 0;
     }
 
-    /* Central Clean Battlefield (THE ARENA) */
+    /* Central Clean Battlefield (THE ARENA - Modern Anime 3D Style) */
     .battle-arena-canvas {
-      background: #132219 radial-gradient(circle at 50% 35%, #1e3828 0%, #0d1a12 75%);
-      border: 2px solid #2e4d37;
-      border-radius: 8px;
       position: relative;
       flex: 1;
       width: 100%;
-      min-height: 260px;
+      height: 100%;
+      min-height: 440px;
       overflow: hidden;
-      box-shadow: inset 0 0 30px rgba(0,0,0,0.8), 0 4px 15px rgba(0,0,0,0.5);
+      border-radius: 14px;
+      border: 1.5px solid rgba(45, 212, 191, 0.45);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), inset 0 0 80px rgba(0, 0, 0, 0.35);
       box-sizing: border-box;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.12) 0%, transparent 60%, rgba(10, 20, 15, 0.4) 100%),
+                  url('/backgrounds/arena_forest.jpg') center bottom / cover no-repeat;
+      transition: background 0.5s ease;
+      image-rendering: auto !important;
+    }
+    .battle-arena-canvas * {
+      image-rendering: auto !important;
+    }
+    .battle-arena-canvas.arena-theme-stadium {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, transparent 60%, rgba(10, 20, 15, 0.45) 100%),
+                  url('/backgrounds/arena_stadium.jpg') center bottom / cover no-repeat;
     }
 
-    /* Pokémon Status Boxes (Classic GBA Overlay inside Arena) */
+    /* Ambient Floating Foliage & Atmosphere in Arena */
+    .arena-foliage-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 6;
+    }
+    .ambient-mote {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: rgba(254, 240, 138, 0.75);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(250, 204, 21, 0.8);
+      animation: float-mote 6s infinite ease-in-out;
+    }
+    .ambient-mote:nth-child(1) { top: 25%; left: 35%; animation-duration: 5.5s; animation-delay: 0s; }
+    .ambient-mote:nth-child(2) { top: 45%; left: 55%; animation-duration: 7s; animation-delay: 1.5s; width: 4px; height: 4px; }
+    .ambient-mote:nth-child(3) { top: 35%; left: 70%; animation-duration: 6.2s; animation-delay: 3s; width: 6px; height: 6px; }
+    @keyframes float-mote {
+      0%, 100% { transform: translate(0, 0) scale(0.8); opacity: 0.3; }
+      50% { transform: translate(15px, -20px) scale(1.2); opacity: 0.9; }
+    }
+
+    /* Modern Glassmorphic Pokémon Status Cards */
     .pokemon-status-box {
-      background: rgba(15, 29, 20, 0.92);
-      border: 2px solid #233e2b;
-      border-radius: 8px;
-      padding: clamp(8px, 1.2vh, 12px) 14px;
-      width: clamp(260px, 20vw, 320px);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      background: linear-gradient(135deg, rgba(8, 38, 44, 0.86) 0%, rgba(12, 52, 60, 0.78) 100%);
+      border: 1.5px solid rgba(45, 212, 191, 0.55);
+      border-radius: 12px;
+      padding: 10px 14px;
+      width: clamp(230px, 20vw, 290px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55), 0 0 18px rgba(20, 184, 166, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.2);
       color: #f8fafc;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       box-sizing: border-box;
       position: absolute;
-      backdrop-filter: blur(4px);
-      z-index: 10;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 20;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
     }
     .enemy-status-box {
-      top: clamp(12px, 2vh, 20px);
-      left: clamp(14px, 2vw, 24px);
-      border-left: 4px solid #ef4444;
+      top: clamp(14px, 2.5vh, 24px);
+      left: clamp(16px, 2.5vw, 28px);
+      border-left: 2px solid rgba(45, 212, 191, 0.7);
     }
     .player-status-box {
-      bottom: clamp(12px, 2vh, 20px);
-      right: clamp(14px, 2vw, 24px);
-      border-left: 4px solid #38bdf8;
+      bottom: clamp(16px, 2.5vh, 28px);
+      right: clamp(195px, 17vw, 225px);
+      border-left: 2px solid rgba(45, 212, 191, 0.7);
     }
     .status-name-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 5px;
-      font-size: 11px;
-      font-weight: bold;
+      font-size: 13.5px;
+      font-weight: 800;
       letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #ffffff;
     }
     .status-name-tag {
       display: flex;
       align-items: center;
       gap: 6px;
-      color: #facc15;
+      color: #ffffff;
+    }
+    .gender-icon {
+      font-size: 13px;
+      font-weight: 900;
+      display: inline-block;
+      line-height: 1;
+    }
+    .gender-icon.male {
+      color: #38bdf8;
+      text-shadow: 0 0 8px rgba(56, 189, 248, 0.75);
+    }
+    .gender-icon.female {
+      color: #f472b6;
+      text-shadow: 0 0 8px rgba(244, 114, 182, 0.75);
     }
     .status-level {
-      color: #86efac;
-      font-size: 9.5px;
-      font-weight: bold;
-      background: #15291b;
-      padding: 2px 6px;
-      border-radius: 4px;
-      border: 1px solid #22432d;
+      color: #5eead4;
+      font-size: 11.5px;
+      font-weight: 800;
+      background: rgba(15, 23, 42, 0.65);
+      padding: 2px 7px;
+      border-radius: 6px;
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      letter-spacing: 0.5px;
     }
 
     /* Health Track & Gauge */
     .hp-bar-container {
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: #09120c;
-      padding: 4px 8px;
-      border-radius: 4px;
-      border: 1px solid #1a3323;
+      gap: 7px;
+      background: rgba(10, 18, 22, 0.75);
+      padding: 3px 8px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 4px;
     }
     .hp-label {
-      font-size: 9px;
-      color: #fbbf24;
-      font-weight: bold;
-      font-family: var(--pixel-font);
+      font-size: 10px;
+      color: #5eead4;
+      font-weight: 900;
+      letter-spacing: 0.5px;
     }
     .hp-track {
       flex: 1;
-      height: 8px;
-      background: #1c2b20;
-      border-radius: 3px;
+      height: 9px;
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 9999px;
       overflow: hidden;
-      border: 1px solid #000;
+      border: 1px solid rgba(0, 0, 0, 0.6);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.85);
     }
     .hp-fill {
       height: 100%;
       width: 100%;
-      background: var(--hp-green);
+      background: linear-gradient(90deg, #10b981 0%, #34d399 50%, #4ade80 100%);
+      border-radius: 9999px;
+      box-shadow: 0 0 10px rgba(52, 211, 153, 0.8);
       transition: width 0.4s ease, background 0.4s ease;
-      box-shadow: 0 0 6px currentColor;
     }
     .hp-text-nums {
       font-size: 9px;
       color: #cbd5e1;
-      font-weight: bold;
-      font-family: var(--pixel-font);
+      font-weight: 700;
       white-space: nowrap;
+    }
+
+    /* EXP Track & Gauge (Player Card) */
+    .exp-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(10, 18, 22, 0.75);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .exp-label {
+      font-size: 9px;
+      color: #facc15;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+    .exp-track {
+      flex: 1;
+      height: 6px;
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 9999px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.6);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.85);
+    }
+    .exp-fill {
+      height: 100%;
+      width: 65%;
+      background: linear-gradient(90deg, #d97706 0%, #f59e0b 50%, #facc15 100%);
+      border-radius: 9999px;
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.7);
+      transition: width 0.4s ease;
     }
 
     /* Battle Environment Pill Badge (Top-Right inside Arena) */
     .battle-env-badge {
       position: absolute;
-      top: clamp(12px, 2vh, 20px);
-      right: clamp(14px, 2vw, 24px);
-      z-index: 10;
-      background: rgba(16, 31, 22, 0.88);
-      border: 1px solid #22432d;
-      border-radius: 6px;
-      padding: 5px 12px;
-      font-size: 8px;
-      color: #86efac;
+      top: clamp(14px, 2.5vh, 24px);
+      right: clamp(16px, 2.5vw, 28px);
+      z-index: 20;
+      background: linear-gradient(135deg, rgba(8, 38, 44, 0.82) 0%, rgba(12, 52, 60, 0.74) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(45, 212, 191, 0.5);
+      border-radius: 9999px;
+      padding: 5px 14px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #5eead4;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
       letter-spacing: 0.5px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-      font-weight: bold;
-      backdrop-filter: blur(4px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.45);
     }
     .env-badge-pulse {
       width: 6px;
@@ -722,70 +815,97 @@
     .battle-background-decor {
       position: absolute;
       top: 0; left: 0; right: 0; height: 100%;
-      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.015), rgba(255,255,255,0.015) 1px, transparent 1px, transparent 10px);
       pointer-events: none;
     }
 
-    /* Upper Field: Enemy Pokémon Platform on Upper-Right */
+    /* Upper Field: Enemy Pokémon Platform on Midground Trail */
     .battle-upper-field {
       position: absolute;
-      top: clamp(24px, 5vh, 50px);
-      right: clamp(40px, 6vw, 120px);
+      top: clamp(40%, 46vh, 52%);
+      left: clamp(54%, 58vw, 62%);
+      transform: translate(-50%, -50%);
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 5;
+      z-index: 8;
     }
-    /* Lower Field: Player Pokémon Platform on Lower-Left */
+    /* Lower Field: Player Pokémon Platform on Foreground Trail */
     .battle-lower-field {
       position: absolute;
-      bottom: clamp(20px, 4vh, 48px);
-      left: clamp(40px, 6vw, 120px);
+      bottom: clamp(14%, 20vh, 26%);
+      left: clamp(30%, 35vw, 40%);
+      transform: translate(-50%, 0);
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 5;
+      z-index: 12;
     }
 
-    /* Platforms & Sprites with Responsive Dynamic Sizing */
+    /* Platforms & Realistic Ground Contact Shadows */
     .battle-platform {
-      width: clamp(200px, 24vw, 340px);
-      height: clamp(48px, 6vh, 76px);
-      background: radial-gradient(ellipse at center, #355e43 0%, #1e3a28 65%, transparent 75%);
-      border-radius: 50%;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+    .pokemon-ground-shadow {
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      height: 32px;
+      background: radial-gradient(ellipse at center, rgba(12, 24, 18, 0.72) 0%, rgba(12, 24, 18, 0.28) 55%, transparent 75%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .enemy-platform .pokemon-ground-shadow {
+      width: 105px;
+      height: 24px;
+    }
+    /* Ambient Sparkle Aura around wild enemy */
+    .enemy-platform::after {
+      content: '';
+      position: absolute;
+      top: -15px; left: 50%;
+      transform: translateX(-50%);
+      width: 130px; height: 130px;
+      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(94, 234, 212, 0.15) 35%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: pulse-sparkle 3s infinite ease-in-out;
+      z-index: 1;
+    }
+    @keyframes pulse-sparkle {
+      0%, 100% { opacity: 0.35; transform: translateX(-50%) scale(0.95); }
+      50% { opacity: 0.8; transform: translateX(-50%) scale(1.1); filter: brightness(1.2); }
+    }
+
     .pokemon-battle-sprite {
-      max-width: clamp(140px, 20vw, 260px);
-      max-height: clamp(140px, 26vh, 260px);
+      position: relative;
+      z-index: 2;
       width: auto;
       height: auto;
-      min-width: 90px;
-      min-height: 90px;
       object-fit: contain;
-      image-rendering: -webkit-optimize-contrast;
-      image-rendering: auto;
-      image-rendering: smooth;
+      image-rendering: auto !important;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
       transform: translateZ(0);
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,0.85)) contrast(106%) brightness(102%) saturate(104%);
-      position: absolute;
-      bottom: clamp(8px, 1.5vh, 20px);
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,0.55));
       transition: transform 0.2s, max-width 0.25s, max-height 0.25s;
     }
-      image-rendering: auto;
-      image-rendering: smooth;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      transform: translateZ(0);
-      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.75)) contrast(106%) brightness(102%) saturate(104%);
-      position: absolute;
-      bottom: 8px;
-      transition: transform 0.2s;
+    .player-platform .pokemon-battle-sprite {
+      max-width: clamp(160px, 20vw, 240px);
+      max-height: clamp(160px, 24vh, 240px);
+      min-width: 120px;
+      min-height: 120px;
+    }
+    .enemy-platform .pokemon-battle-sprite {
+      max-width: clamp(110px, 15vw, 170px);
+      max-height: clamp(110px, 18vh, 170px);
+      min-width: 80px;
+      min-height: 80px;
     }
     .pokemon-battle-sprite.shake {
       animation: sprite-hit 0.35s ease-in-out;
@@ -818,16 +938,19 @@
       100% { transform: translateY(50px); opacity: 0; }
     }
 
-    /* Poké Ball Throw Animation */
+    /* Poké Ball Throw Animation (Dynamic 3D Arc) */
     .battle-pokeball-throw {
       position: absolute;
-      width: 26px;
-      height: 26px;
-      background: radial-gradient(circle at 50% 40%, #ff3b30 0%, #d32f2f 45%, #1e1e1e 46%, #1e1e1e 54%, #ffffff 55%, #f0f0f0 100%);
+      width: 32px;
+      height: 32px;
+      background: radial-gradient(circle at 40% 35%, #ffffff 0%, #ff3b30 45%, #b91c1c 55%, #1e1e1e 56%, #ffffff 60%, #e2e8f0 100%);
       border-radius: 50%;
       border: 2px solid #111;
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.8), 0 8px 16px rgba(0,0,0,0.5);
       z-index: 50;
       display: none;
+      pointer-events: none;
+    }
     }
 
     /* ========================================= */
@@ -1240,187 +1363,211 @@
     }
 
     /* ========================================= */
-    /* BOTTOM COMBAT CONSOLE DOCK (STANDARDIZED) */
+    /* MODERN ARENA COMBAT HUD & ACTION CONTROLS */
     /* ========================================= */
     .battle-bottom-dock {
-      display: grid;
-      grid-template-columns: 1.25fr 1fr;
-      gap: 10px;
-      width: 100%;
-      height: 145px;
-      min-height: 145px;
-      max-height: 145px;
-      flex-shrink: 0;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 22;
       box-sizing: border-box;
-    }
-    @media (max-width: 768px) {
-      .battle-bottom-dock {
-        grid-template-columns: 1fr;
-        height: auto;
-        min-height: 200px;
-        max-height: none;
-      }
     }
 
-    /* Left Column: Dialogue & Narrative Log */
-    .battle-dock-left {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      min-height: 100%;
-      max-height: 100%;
-      box-sizing: border-box;
+    /* Floating Cinematic Dialogue Banner */
+    .modern-dialogue-banner {
+      position: absolute;
+      bottom: clamp(16px, 2.5vh, 28px);
+      left: clamp(16px, 2.5vw, 28px);
+      max-width: clamp(280px, 34vw, 520px);
+      pointer-events: auto;
+      z-index: 24;
     }
     .dialogue-text-area {
-      background: #0f1d14;
-      border: 2px solid #233e2b;
-      border-radius: 8px;
-      padding: 18px 22px;
-      font-size: 11.5px;
-      line-height: 1.7;
-      color: #f8fafc;
+      background: linear-gradient(135deg, rgba(8, 32, 38, 0.88) 0%, rgba(12, 44, 52, 0.82) 100%);
+      border: 1.5px solid rgba(45, 212, 191, 0.5);
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #f1f5f9;
+      font-weight: 600;
       display: flex;
       align-items: center;
-      height: 100%;
-      min-height: 100%;
-      max-height: 100%;
+      min-height: 48px;
       box-sizing: border-box;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 16px rgba(20, 184, 166, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.15);
       position: relative;
-      font-family: var(--pixel-font);
-      letter-spacing: 0.5px;
-      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif !important;
+      letter-spacing: 0.3px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
     .dialogue-arrow {
       position: absolute;
       bottom: 8px;
       right: 12px;
-      color: #ef4444;
+      color: #5eead4;
       font-size: 13px;
       animation: blink-arrow 0.6s infinite alternate;
     }
     @keyframes blink-arrow { from { opacity: 0.2; } to { opacity: 1; } }
 
-    /* Right Column: Action Controls Container Only (RIGHT BOTTOM) */
-    .battle-dock-right {
+    /* Right Column: Action Controls Container (Bottom-Right inside Arena) */
+    .battle-dock-right, .battle-action-controls-box {
+      position: absolute;
+      bottom: clamp(16px, 2.5vh, 28px);
+      right: clamp(16px, 2.5vw, 28px);
       display: flex;
       flex-direction: column;
-      height: 100%;
-      min-height: 100%;
-      max-height: 100%;
+      align-items: flex-end;
+      pointer-events: auto;
+      z-index: 30;
       box-sizing: border-box;
-      position: relative;
-    }
-    .battle-action-controls-box {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      min-height: 100%;
-      max-height: 100%;
-      box-sizing: border-box;
-      position: relative;
     }
 
-    /* 4 Tactile In-Battle Action Buttons (2x2 Grid) */
-    .battle-actions-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      gap: 6px;
-      width: 100%;
-      height: 100%;
-      min-height: 100%;
-      max-height: 100%;
+    /* Modern Vertical Action Ribbon Buttons Stack */
+    .battle-actions-grid, .modern-actions-vertical {
+      display: grid !important;
+      grid-template-columns: 1fr;
+      grid-auto-rows: clamp(40px, 4.8vh, 46px);
+      gap: 7px;
+      width: clamp(160px, 14vw, 180px);
       box-sizing: border-box;
     }
-    .action-menu-btn {
-      border: 2px solid;
-      border-radius: 6px;
-      font-family: var(--pixel-font);
-      font-size: 11px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 0 10px;
-      transition: all 0.12s ease;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      box-shadow: 0 3px 0 rgba(0,0,0,0.6);
-      text-transform: uppercase;
-      height: 100%;
-      box-sizing: border-box;
+    .battle-actions-grid[style*="display: none"] {
+      display: none !important;
     }
+
+    .action-menu-btn, .modern-action-btn {
+      position: relative;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      padding: 0 14px 0 24px !important;
+      border-radius: 9px !important;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+      font-size: 13.5px !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.8px !important;
+      color: #ffffff !important;
+      cursor: pointer !important;
+      overflow: hidden;
+      border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+      transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      text-transform: uppercase !important;
+      height: 100% !important;
+      box-sizing: border-box !important;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    }
+    .action-menu-btn:hover, .action-menu-btn.key-pressed,
+    .modern-action-btn:hover, .modern-action-btn.key-pressed {
+      transform: translateX(-6px) scale(1.02) !important;
+      filter: brightness(1.18) !important;
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    }
+    .action-menu-btn:active, .modern-action-btn:active {
+      transform: translateX(-2px) scale(0.98) !important;
+    }
+
+    /* 1. FIGHT BUTTON */
     .btn-action-fight {
-      background: linear-gradient(180deg, #7f1d1d 0%, #450a0a 100%);
-      border-color: #ef4444;
-      color: #fef2f2;
+      background: linear-gradient(135deg, #b91c1c 0%, #991b1b 50%, #7f1d1d 100%) !important;
+      border-color: rgba(254, 202, 202, 0.45) !important;
     }
     .btn-action-fight:hover, .btn-action-fight.key-pressed {
-      background: #ef4444 !important;
-      color: #fff !important;
-      transform: translateY(2px);
-      box-shadow: 0 1px 0 rgba(0,0,0,0.6);
+      box-shadow: 0 6px 22px rgba(220, 38, 38, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
     }
-    .btn-action-bag {
-      background: linear-gradient(180deg, #78350f 0%, #451a03 100%);
-      border-color: #f59e0b;
-      color: #fffbeb;
-    }
-    .btn-action-bag:hover, .btn-action-bag.key-pressed {
-      background: #f59e0b !important;
-      color: #000 !important;
-      transform: translateY(2px);
-      box-shadow: 0 1px 0 rgba(0,0,0,0.6);
-    }
-    .btn-action-pkmn {
-      background: linear-gradient(180deg, #14532d 0%, #052e16 100%);
-      border-color: #22c55e;
-      color: #f0fdf4;
-    }
-    .btn-action-pkmn:hover, .btn-action-pkmn.key-pressed {
-      background: #22c55e !important;
-      color: #000 !important;
-      transform: translateY(2px);
-      box-shadow: 0 1px 0 rgba(0,0,0,0.6);
-    }
-    .btn-action-run {
-      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-      border-color: #06b6d4;
-      color: #f0fdfa;
-    }
-    .btn-action-run:hover, .btn-action-run.key-pressed {
-      background: #06b6d4 !important;
-      color: #000 !important;
-      transform: translateY(2px);
-      box-shadow: 0 1px 0 rgba(0,0,0,0.6);
-    }
-    .k-hint {
-      font-size: 10px;
-      color: #facc15;
-      font-weight: bold;
+    .btn-chevron-tag {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 10px solid #38bdf8;
+      filter: drop-shadow(1px 0 2px rgba(0,0,0,0.4));
     }
 
-    /* Moves Grid (Submenu) */
-    .moves-grid {
+    /* 2. BAG BUTTON */
+    .btn-action-bag {
+      background: linear-gradient(135deg, #b45309 0%, #92400e 50%, #78350f 100%) !important;
+      border-color: rgba(254, 240, 138, 0.45) !important;
+    }
+    .btn-action-bag:hover, .btn-action-bag.key-pressed {
+      box-shadow: 0 6px 22px rgba(217, 119, 6, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+    }
+
+    /* 3. POKÉMON BUTTON */
+    .btn-action-pkmn {
+      background: linear-gradient(135deg, #15803d 0%, #166534 50%, #14532d 100%) !important;
+      border-color: rgba(187, 247, 208, 0.45) !important;
+    }
+    .btn-action-pkmn:hover, .btn-action-pkmn.key-pressed {
+      box-shadow: 0 6px 22px rgba(34, 197, 94, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+    }
+
+    /* 4. RUN BUTTON */
+    .btn-action-run {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #075985 100%) !important;
+      border-color: rgba(186, 230, 253, 0.45) !important;
+    }
+    .btn-action-run:hover, .btn-action-run.key-pressed {
+      box-shadow: 0 6px 22px rgba(2, 132, 199, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+    }
+
+    /* Semi-transparent watermark icons on button right edges */
+    .btn-watermark-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 28px;
+      height: 28px;
+      opacity: 0.22;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .action-menu-btn:hover .btn-watermark-icon,
+    .modern-action-btn:hover .btn-watermark-icon {
+      opacity: 0.45;
+      transform: translateY(-50%) scale(1.1);
+    }
+    .btn-k-hint {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 700;
+      margin-left: auto;
+      margin-right: 28px;
+    }
+
+    /* Modern Moves Selection Drawer */
+    .moves-grid, .modern-moves-panel {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr 28px;
-      gap: 5px;
-      width: 100%;
-      height: 100%;
-      min-height: 100%;
-      max-height: 100%;
+      grid-auto-rows: 44px;
+      gap: 7px;
+      width: clamp(280px, 24vw, 360px);
+      background: linear-gradient(135deg, rgba(8, 38, 44, 0.94) 0%, rgba(12, 52, 60, 0.9) 100%);
+      border: 1.5px solid rgba(45, 212, 191, 0.6);
+      border-radius: 14px;
+      padding: 10px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), 0 0 20px rgba(20, 184, 166, 0.35);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 35;
       box-sizing: border-box;
     }
     .move-btn {
-      background: #15291b;
-      border: 1.5px solid #2e523a;
-      border-radius: 5px;
-      font-family: var(--pixel-font);
-      font-size: 9px;
-      padding: 4px 8px;
+      background: rgba(15, 30, 24, 0.85);
+      border: 1.5px solid rgba(45, 212, 191, 0.35);
+      border-radius: 8px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 10px;
       cursor: pointer;
       display: flex;
       flex-direction: row;
@@ -1428,127 +1575,120 @@
       justify-content: space-between;
       gap: 6px;
       color: #f8fafc;
-      font-weight: bold;
-      transition: all 0.12s;
+      transition: all 0.15s ease;
       box-sizing: border-box;
       min-height: 0;
       height: 100%;
     }
     .move-btn:hover, .move-btn.key-pressed {
-      background: #234530 !important;
-      border-color: #4ade80 !important;
+      background: rgba(20, 184, 166, 0.35) !important;
+      border-color: #5eead4 !important;
       color: #fff !important;
-      transform: translateY(1px);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(20, 184, 166, 0.4);
     }
     .move-type-badge {
-      font-size: 7.5px;
-      padding: 2px 5px;
-      border-radius: 3px;
+      font-size: 8.5px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
       color: #fff;
+      text-transform: uppercase;
     }
     .move-back-btn {
       grid-column: 1 / -1 !important;
-      height: 28px !important;
-      min-height: 28px !important;
-      max-height: 28px !important;
+      height: 32px !important;
+      min-height: 32px !important;
+      max-height: 32px !important;
       justify-content: center !important;
-      background: #1e293b !important;
-      border-color: #475569 !important;
+      background: rgba(30, 41, 59, 0.85) !important;
+      border-color: rgba(148, 163, 184, 0.45) !important;
       color: #cbd5e1 !important;
-      font-size: 8.5px !important;
+      font-size: 10px !important;
     }
     .move-back-btn:hover {
-      background: #334155 !important;
+      background: rgba(51, 65, 85, 0.95) !important;
       border-color: #94a3b8 !important;
       color: #fff !important;
     }
 
-    /* Scrollable Poké Balls Bag Grid */
-    .bag-grid-scrollable {
+    /* Scrollable Modern Poké Balls Bag Drawer */
+    .bag-grid-scrollable, .modern-bag-panel {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       grid-auto-rows: 44px;
-      gap: 5px;
-      width: 100%;
-      height: 100%;
-      min-height: 100%;
-      max-height: 100%;
+      gap: 6px;
+      width: clamp(260px, 22vw, 320px);
+      max-height: 220px;
+      background: linear-gradient(135deg, rgba(8, 38, 44, 0.94) 0%, rgba(12, 52, 60, 0.9) 100%);
+      border: 1.5px solid rgba(45, 212, 191, 0.6);
+      border-radius: 14px;
+      padding: 10px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), 0 0 20px rgba(20, 184, 166, 0.35);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 35;
       overflow-y: auto;
       box-sizing: border-box;
-      padding-right: 2px;
     }
 
-    /* Out-of-Battle Hunt Trigger Controls (RIGHT BOTTOM) */
-    .hunt-trigger-controls {
-      display: grid;
-      grid-template-columns: 2.4fr 1fr;
-      gap: 6px;
+    /* Out-of-Battle Modern Exploration Controls */
+    .hunt-trigger-controls, .modern-hunt-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      width: clamp(160px, 14vw, 180px);
+      box-sizing: border-box;
+    }
+    .btn-hunt-active, .btn-modern-hunt {
       width: 100%;
-      height: 100%;
-      min-height: 100%;
-      max-height: 100%;
-      box-sizing: border-box;
-    }
-    .btn-hunt-active {
-      height: 100%;
-      padding: 0 14px;
-      font-size: 10.5px;
-      background: linear-gradient(180deg, #15803d 0%, #14532d 100%) !important;
-      border: 2px solid #22c55e !important;
+      height: clamp(40px, 4.8vh, 46px);
+      padding: 0 10px;
+      font-size: 11px;
+      background: linear-gradient(135deg, #15803d 0%, #166534 50%, #14532d 100%) !important;
+      border: 1.5px solid rgba(74, 222, 128, 0.5) !important;
       color: #fff !important;
-      border-radius: 6px;
-      box-shadow: 0 3px 0 #052e16, 0 0 15px rgba(34, 197, 94, 0.3);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-family: var(--pixel-font);
-      font-weight: bold;
-      transition: all 0.12s;
-      box-sizing: border-box;
-    }
-    .btn-hunt-active:hover {
-      background: #22c55e !important;
-      color: #000 !important;
-      transform: translateY(2px);
-      box-shadow: 0 1px 0 #052e16;
-    }
-    .btn-cry-active {
-      height: 100%;
-      padding: 0 8px;
-      font-size: 9.5px;
-      background: linear-gradient(180deg, #334155 0%, #1e293b 100%) !important;
-      border: 2px solid #64748b !important;
-      color: #cbd5e1 !important;
-      border-radius: 6px;
-      box-shadow: 0 3px 0 #0f172a;
+      border-radius: 9px;
+      box-shadow: 0 4px 16px rgba(22, 101, 52, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      font-family: var(--pixel-font);
-      font-weight: bold;
-      transition: all 0.12s;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      font-weight: 800;
+      transition: all 0.16s ease;
+      box-sizing: border-box;
+      letter-spacing: 0.5px;
+    }
+    .btn-hunt-active:hover, .btn-modern-hunt:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(34, 197, 94, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      filter: brightness(1.15);
+    }
+    .btn-cry-active, .btn-modern-cry {
+      width: 100%;
+      height: 34px;
+      padding: 0 10px;
+      font-size: 11px;
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+      border: 1.5px solid rgba(56, 189, 248, 0.5) !important;
+      color: #fff !important;
+      border-radius: 9px;
+      box-shadow: 0 4px 14px rgba(3, 105, 161, 0.5);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      font-weight: 800;
+      transition: all 0.16s ease;
       box-sizing: border-box;
     }
-    .btn-cry-active:hover {
-      background: #475569 !important;
-      border-color: #94a3b8 !important;
-      color: #fff !important;
-      transform: translateY(2px);
-    }
-      gap: 5px;
-      font-family: var(--pixel-font);
-      font-weight: bold;
-      transition: all 0.12s;
-    }
-    .btn-cry-active:hover {
-      background: #64748b !important;
-      color: #fff !important;
-      transform: translateY(2px);
-      box-shadow: 0 1px 0 #0f172a;
+    .btn-cry-active:hover, .btn-modern-cry:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.15);
     }
 
     /* ========================================= */
@@ -3353,14 +3493,21 @@
         <!-- Screen Content Container (Spans 100% of available space) -->
         <div class="screen-content">
 
-          <!-- 1. TALL GRASS & WILD BATTLE PANE -->
+          <!-- 1. TALL GRASS & WILD BATTLE PANE (MODERN ARENA) -->
           <div id="pane-hunt" class="location-pane active">
             
             <div class="battle-stage-wrapper">
               
-              <!-- Central Battle Arena Canvas (THE ARENA) -->
-              <div id="battle-active-view" class="battle-arena-canvas">
+              <!-- Central Clean Battlefield (THE ARENA) -->
+              <div id="battle-active-view" class="battle-arena-canvas arena-theme-forest">
                 <div class="battle-background-decor"></div>
+
+                <!-- Ambient Atmosphere Layer -->
+                <div class="arena-foliage-layer">
+                  <div class="ambient-mote"></div>
+                  <div class="ambient-mote"></div>
+                  <div class="ambient-mote"></div>
+                </div>
 
                 <!-- Ball Throw Sprite -->
                 <div id="ball-throw-anim" class="battle-pokeball-throw"></div>
@@ -3368,19 +3515,19 @@
                 <!-- Elemental Attack FX Layer -->
                 <div id="battle-fx-layer" class="battle-fx-layer"></div>
 
-                <!-- Top-Left: Wild Enemy / Area Status Box (Inside Arena) -->
+                <!-- Top-Left: Modern Opponent Status Box (Inside Arena) -->
                 <div class="pokemon-status-box enemy-status-box" id="enemy-status-box">
                   <div class="status-name-row">
                     <span class="status-name-tag">
-                      <svg class="pixel-icon"><use href="#px-pkmn"></use></svg>
                       <span id="enemy-name">TALL GRASS</span>
+                      <span id="enemy-gender-icon" class="gender-icon male" style="display:none;">♂</span>
                     </span>
                     <span class="status-level" id="enemy-level-tag">ZONE 1</span>
                   </div>
                   <div class="hp-bar-container">
                     <span class="hp-label">HP</span>
                     <div class="hp-track">
-                      <div id="enemy-hp-fill" class="hp-fill" style="width: 100%; background: #22c55e;"></div>
+                      <div id="enemy-hp-fill" class="hp-fill" style="width: 100%;"></div>
                     </div>
                     <span class="hp-text-nums" id="enemy-hp-nums">PEACEFUL</span>
                   </div>
@@ -3393,25 +3540,34 @@
                   <span id="battle-env-label">ROUTE 1 • TALL GRASS</span>
                 </div>
 
-                <!-- Upper Field: Enemy Pokémon Platform & Sprite on Upper-Right -->
+                <!-- Upper Field: Enemy Pokémon Platform & Sprite on Midground Trail -->
                 <div class="battle-upper-field">
                   <div class="battle-platform enemy-platform">
+                    <div class="pokemon-ground-shadow"></div>
                     <img id="enemy-sprite" class="pokemon-battle-sprite" src="" alt="Wild Enemy" />
                   </div>
                 </div>
 
-                <!-- Lower Field: Player Pokémon Platform & Sprite on Lower-Left -->
+                <!-- Lower Field: Player Pokémon Platform & Sprite on Foreground Trail -->
                 <div class="battle-lower-field">
                   <div class="battle-platform player-platform">
+                    <div class="pokemon-ground-shadow"></div>
                     <img id="player-sprite" class="pokemon-battle-sprite" src="" alt="Player Pokemon" />
                   </div>
                 </div>
 
-                <!-- Bottom-Right: Player Status Box (Inside Arena, Classic Pokémon Layout) -->
+                <!-- Floating Modern Dialogue Banner (Bottom-Left) -->
+                <div class="modern-dialogue-banner" id="dialogue-banner">
+                  <div class="dialogue-text-area" id="dialogue-text">
+                    The tall grass rustles quietly. Press [SEARCH TALL GRASS] to hunt wild Pokémon!
+                    <span class="dialogue-arrow"><svg class="pixel-icon pixel-icon-no-margin" style="width:10px; height:10px;"><use href="#px-arrow-down"></use></svg></span>
+                  </div>
+                </div>
+
+                <!-- Bottom-Right: Modern Player Status Box -->
                 <div class="pokemon-status-box player-status-box" id="player-status-box">
                   <div class="status-name-row">
                     <span class="status-name-tag">
-                      <svg class="pixel-icon"><use href="#px-trainer"></use></svg>
                       <span id="player-name">PIKACHU</span>
                     </span>
                     <span class="status-level" id="player-level-tag">Lv. 5</span>
@@ -3423,54 +3579,64 @@
                     </div>
                     <span class="hp-text-nums" id="player-hp-nums">25 / 25 HP</span>
                   </div>
-                </div>
-              </div>
-
-              <!-- Bottom Combat Console Dock (Fixed 116px Height) -->
-              <div class="battle-bottom-dock" id="battle-bottom-dock">
-                
-                <!-- Left: Dialogue & Narrative Log -->
-                <div class="battle-dock-left">
-                  <div class="dialogue-text-area" id="dialogue-text">
-                    The tall grass rustles quietly. Press [SEARCH TALL GRASS] to hunt wild Pokémon!
-                    <span class="dialogue-arrow"><svg class="pixel-icon pixel-icon-no-margin" style="width:10px; height:10px;"><use href="#px-arrow-down"></use></svg></span>
+                  <div class="exp-bar-container">
+                    <span class="exp-label">EXP</span>
+                    <div class="exp-track">
+                      <div id="player-exp-fill" class="exp-fill" style="width: 50%;"></div>
+                    </div>
                   </div>
                 </div>
 
-                <!-- Right: Action Controls (Right Bottom) -->
-                <div class="battle-dock-right">
+                <!-- Bottom-Right: Modern Vertical Action Controls Overlay -->
+                <div class="battle-dock-right" id="battle-bottom-dock">
                   <div class="battle-action-controls-box">
                     
-                    <!-- In-Battle: 4 Tactile Action Buttons (2x2 Grid) -->
-                    <div class="battle-actions-grid" id="main-actions-grid">
-                      <button class="action-menu-btn btn-action-fight" id="btn-menu-fight"><span class="k-hint">[1]</span> <svg class="pixel-icon"><use href="#px-fight"></use></svg> FIGHT</button>
-                      <button class="action-menu-btn btn-action-bag" id="btn-menu-bag"><span class="k-hint">[2]</span> <svg class="pixel-icon"><use href="#px-bag"></use></svg> BAG</button>
-                      <button class="action-menu-btn btn-action-pkmn" id="btn-menu-pkmn"><span class="k-hint">[3]</span> <svg class="pixel-icon"><use href="#px-pkmn"></use></svg> PKMN</button>
-                      <button class="action-menu-btn btn-action-run" id="btn-menu-run"><span class="k-hint">[4]</span> <svg class="pixel-icon"><use href="#px-run"></use></svg> RUN</button>
+                    <!-- 4 Vertically Stacked Modern Action Ribbon Buttons -->
+                    <div class="battle-actions-grid modern-actions-vertical" id="main-actions-grid">
+                      <button class="action-menu-btn modern-action-btn btn-action-fight" id="btn-menu-fight">
+                        <span class="btn-chevron-tag"></span>
+                        <span>FIGHT</span>
+                        <span class="btn-k-hint">[1]</span>
+                        <svg class="btn-watermark-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19.7 4.3a1 1 0 0 0-1.4 0L14 8.6 9.7 4.3a1 1 0 0 0-1.4 1.4L12.6 10l-4.3 4.3a1 1 0 0 0 0 1.4l1.4 1.4a1 1 0 0 0 1.4 0L15.4 13l4.3 4.3a1 1 0 0 0 1.4-1.4L16.8 11.6l4.3-4.3a1 1 0 0 0 0-1.4z"/></svg>
+                      </button>
+                      <button class="action-menu-btn modern-action-btn btn-action-bag" id="btn-menu-bag">
+                        <span>BAG</span>
+                        <span class="btn-k-hint">[2]</span>
+                        <svg class="btn-watermark-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8h-3V6a4 4 0 0 0-8 0v2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-9-2a2 2 0 0 1 4 0v2h-4V6zm9 14H5V10h14v10z"/></svg>
+                      </button>
+                      <button class="action-menu-btn modern-action-btn btn-action-pkmn" id="btn-menu-pkmn">
+                        <span>POKÉMON</span>
+                        <span class="btn-k-hint">[3]</span>
+                        <svg class="btn-watermark-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 2c4 0 7.3 3 7.9 7h-4.1a4 4 0 0 0-7.6 0H4.1C4.7 7 8 4 12 4zm0 16a8 8 0 0 1-7.9-7h4.1a4 4 0 0 0 7.6 0h4.1a8 8 0 0 1-7.9 7zm0-6a2 2 0 1 1 2-2 2 2 0 0 1-2 2z"/></svg>
+                      </button>
+                      <button class="action-menu-btn modern-action-btn btn-action-run" id="btn-menu-run">
+                        <span>RUN</span>
+                        <span class="btn-k-hint">[4]</span>
+                        <svg class="btn-watermark-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23l2.1.4 2-7.4 3 3V23h2v-5.2l-2.6-3.1.8-3.9C15.5 12.3 17.6 13 20 13v-2c-2.1 0-3.9-.8-5-2.2l-.9-1.5c-.4-.6-1-1-1.7-1-.3 0-.6.1-.9.2L7 8.5V13h2V9.8l.8-.9z"/></svg>
+                      </button>
                     </div>
 
-                    <!-- Submenu: Moves Grid -->
-                    <div class="moves-grid" id="moves-selection-grid" style="display: none;">
+                    <!-- Submenu: Modern Moves Drawer -->
+                    <div class="moves-grid modern-moves-panel" id="moves-selection-grid" style="display: none;">
                       <!-- Dynamic 4 moves -->
                     </div>
 
-                    <!-- Submenu: Poké Balls Grid -->
-                    <div class="bag-grid-scrollable" id="bag-selection-grid" style="display: none;">
+                    <!-- Submenu: Modern Poké Balls Bag Drawer -->
+                    <div class="bag-grid-scrollable modern-bag-panel" id="bag-selection-grid" style="display: none;">
                       <!-- Dynamic balls in bag -->
                     </div>
 
-                    <!-- Out-of-Battle Hunt Controls (RIGHT BOTTOM) -->
-                    <div class="hunt-trigger-controls" id="hunt-trigger-box">
-                      <button id="btn-hunt-grass" class="btn-arena-challenge btn-hunt-active">
+                    <!-- Out-of-Battle Modern Exploration Controls -->
+                    <div class="hunt-trigger-controls modern-hunt-panel" id="hunt-trigger-box">
+                      <button id="btn-hunt-grass" class="btn-hunt-active btn-modern-hunt">
                         <span class="k-hint" style="color:#facc15;">[SPACE]</span> <svg class="pixel-icon"><use href="#px-grass"></use></svg> SEARCH TALL GRASS (+5 XP)
                       </button>
-                      <button id="btn-play-cry" class="btn-arena-challenge btn-cry-active" title="Play Cry [C]">
+                      <button id="btn-play-cry" class="btn-cry-active btn-modern-cry" title="Play Cry [C]">
                         <span class="k-hint" style="color:#facc15;">[C]</span> <svg class="pixel-icon"><use href="#px-cry"></use></svg> CRY
                       </button>
                     </div>
 
                   </div>
-
                 </div>
 
               </div>
@@ -4986,7 +5152,9 @@
         const pane = document.getElementById(`pane-${target}`);
         if (pane) pane.classList.add('active');
 
-        if (target === 'hunt') fetchWildBattle();
+        if (target === 'hunt') {
+          if (!isArenaMode) fetchWildBattle();
+        }
         if (target === 'arena') loadArenaDivisions();
         if (target === 'center') loadPokemonCenter();
         if (target === 'mart') loadPokeMart();
@@ -5040,8 +5208,24 @@
     }
 
     // ============================================================
-    // PLAYER STATUS UPDATE
+    // PLAYER STATUS & EXP BAR UPDATE
     // ============================================================
+    function updateExpBar() {
+      const fill = document.getElementById('player-exp-fill');
+      if (!fill) return;
+      if (!playerData) {
+        fill.style.width = '50%';
+        return;
+      }
+      const xp = Number(playerData.xp) || 0;
+      const lvl = Math.max(1, Math.floor(Math.cbrt(xp)));
+      const prevXp = Math.pow(lvl - 1, 3);
+      const nextXp = Math.pow(lvl, 3);
+      const range = Math.max(1, nextXp - prevXp);
+      const pct = Math.max(8, Math.min(100, Math.round(((xp - prevXp) / range) * 100)));
+      fill.style.width = `${pct}%`;
+    }
+
     async function updateHeaderPlayer() {
       try {
         const data = await api('/player');
@@ -5077,6 +5261,7 @@
           setBadges.textContent = `${(data.player.badges || []).length} / 10`;
         }
 
+        updateExpBar();
         return data;
       } catch (e) {
         return null;
@@ -5124,6 +5309,15 @@
       document.getElementById('enemy-hp-fill').style.width = '0%';
       document.getElementById('enemy-hp-nums').textContent = 'PEACEFUL';
       
+      const genderEl = document.getElementById('enemy-gender-icon');
+      if (genderEl) genderEl.style.display = 'none';
+
+      const arenaCanvas = document.getElementById('battle-active-view');
+      if (arenaCanvas) {
+        arenaCanvas.classList.remove('arena-theme-stadium');
+        arenaCanvas.classList.add('arena-theme-forest');
+      }
+
       const envLabel = document.getElementById('battle-env-label');
       if (envLabel) envLabel.textContent = 'ROUTE 1 • TALL GRASS';
 
@@ -5145,22 +5339,38 @@
         setDialogue("The tall grass rustles quietly. Press [SPACE] or [SEARCH TALL GRASS] to hunt wild Pokémon!");
       }
 
+      updateExpBar();
       document.getElementById('moves-selection-grid').style.display = 'none';
       document.getElementById('bag-selection-grid').style.display = 'none';
       document.getElementById('main-actions-grid').style.display = 'none';
       const huntBox = document.getElementById('hunt-trigger-box');
-      if (huntBox) huntBox.style.display = 'grid';
+      if (huntBox) huntBox.style.display = 'flex';
     }
 
     function renderWildBattle(data) {
       const wild = data.encounter.pokemon;
       const lead = data.player_lead;
 
+      // Set Theme to Forest Clearing
+      const arenaCanvas = document.getElementById('battle-active-view');
+      if (arenaCanvas) {
+        arenaCanvas.classList.remove('arena-theme-stadium');
+        arenaCanvas.classList.add('arena-theme-forest');
+      }
+
       // Enemy
       document.getElementById('enemy-name').textContent = wild.name.toUpperCase();
       document.getElementById('enemy-level-tag').textContent = `Lv. ${data.encounter.level}`;
       updateHpBar('enemy', data.encounter.current_hp, data.encounter.max_hp);
       
+      const genderEl = document.getElementById('enemy-gender-icon');
+      if (genderEl) {
+        const isMale = (wild.id + (data.encounter.level || 1)) % 2 === 0;
+        genderEl.textContent = isMale ? '♂' : '♀';
+        genderEl.className = 'gender-icon ' + (isMale ? 'male' : 'female');
+        genderEl.style.display = 'inline-block';
+      }
+
       const envLabel = document.getElementById('battle-env-label');
       if (envLabel) envLabel.textContent = isArenaMode ? 'CHAMPION ARENA' : 'WILD ENCOUNTER';
 
@@ -5180,6 +5390,7 @@
         setPlayerBattleSprite(lead.id);
       }
 
+      updateExpBar();
       setDialogue(`A wild ${wild.name.toUpperCase()} appeared! What will ${lead ? lead.name.toUpperCase() : 'you'} do?`);
       showMainActionsMenu();
     }
@@ -5187,13 +5398,22 @@
     function updateHpBar(target, current, max) {
       const pct = Math.max(0, Math.min(100, Math.round((current / max) * 100)));
       const fill = document.getElementById(`${target}-hp-fill`);
+      if (!fill) return;
       fill.style.width = `${pct}%`;
       
-      if (pct > 50) fill.style.background = 'var(--hp-green)';
-      else if (pct > 20) fill.style.background = 'var(--hp-yellow)';
-      else fill.style.background = 'var(--hp-red)';
+      if (pct > 50) {
+        fill.style.background = 'linear-gradient(90deg, #10b981 0%, #34d399 50%, #4ade80 100%)';
+        fill.style.boxShadow = '0 0 10px rgba(52, 211, 153, 0.8)';
+      } else if (pct > 20) {
+        fill.style.background = 'linear-gradient(90deg, #d97706 0%, #f59e0b 50%, #facc15 100%)';
+        fill.style.boxShadow = '0 0 10px rgba(245, 158, 11, 0.8)';
+      } else {
+        fill.style.background = 'linear-gradient(90deg, #dc2626 0%, #ef4444 50%, #f87171 100%)';
+        fill.style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.8)';
+      }
 
-      document.getElementById(`${target}-hp-nums`).textContent = `${current} / ${max} HP`;
+      const numEl = document.getElementById(`${target}-hp-nums`);
+      if (numEl) numEl.textContent = `${current} / ${max} HP`;
     }
 
     function showMainActionsMenu() {
@@ -5324,12 +5544,43 @@
                   SFX.victory();
                   await updateHeaderPlayer();
                   battleTurnBusy = false;
+                  if (isArenaMode) {
+                    isArenaMode = false;
+                    currentArenaBattle = null;
+                    const arenaCanvas = document.getElementById('battle-active-view');
+                    if (arenaCanvas) {
+                      arenaCanvas.classList.remove('arena-theme-stadium');
+                      arenaCanvas.classList.add('arena-theme-forest');
+                    }
+                  }
                   showMainActionsMenu();
-                  if (!isArenaMode) showSearchTallGrassState();
-                }, 1600);
+                  showSearchTallGrassState();
+                }, 2200);
               } else {
                 // Next enemy in arena
                 setTimeout(() => {
+                  if (isArenaMode && currentArenaBattle) {
+                    currentArenaBattle.current_enemy_index++;
+                    const nextEnemy = currentArenaBattle.enemy_team[currentArenaBattle.current_enemy_index];
+                    if (nextEnemy) {
+                      document.getElementById('enemy-name').textContent = nextEnemy.name.toUpperCase();
+                      document.getElementById('enemy-level-tag').textContent = `Lv. ${nextEnemy.level}`;
+                      updateHpBar('enemy', nextEnemy.current_hp, nextEnemy.max_hp);
+                      const enemySprite = document.getElementById('enemy-sprite');
+                      enemySprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${nextEnemy.id}.gif`;
+                      enemySprite.onerror = () => {
+                        enemySprite.src = `/sprites/${nextEnemy.id}.png`;
+                      };
+                      enemySprite.classList.remove('faint');
+                      const genderEl = document.getElementById('enemy-gender-icon');
+                      if (genderEl) {
+                        const isMale = (nextEnemy.id + (nextEnemy.level || 1)) % 2 === 0;
+                        genderEl.textContent = isMale ? '♂' : '♀';
+                        genderEl.className = 'gender-icon ' + (isMale ? 'male' : 'female');
+                        genderEl.style.display = 'inline-block';
+                      }
+                    }
+                  }
                   battleTurnBusy = false;
                   showMainActionsMenu();
                 }, 1400);
@@ -5361,6 +5612,15 @@
                     playerSprite.classList.add('faint');
                     setDialogue(`${document.getElementById('player-name').textContent} fainted! All your Pokémon were defeated. Visit the Pokémon Center.`);
                     battleTurnBusy = false;
+                    if (isArenaMode) {
+                      isArenaMode = false;
+                      currentArenaBattle = null;
+                      const arenaCanvas = document.getElementById('battle-active-view');
+                      if (arenaCanvas) {
+                        arenaCanvas.classList.remove('arena-theme-stadium');
+                        arenaCanvas.classList.add('arena-theme-forest');
+                      }
+                    }
                     showMainActionsMenu();
                     await updateHeaderPlayer();
                   }, 800);
@@ -5398,6 +5658,10 @@
     // BAG button clicked -> Show Poké Balls (In battle or inventory view)
     document.getElementById('btn-menu-bag').addEventListener('click', async () => {
       SFX.blip();
+      if (isArenaMode) {
+        setDialogue("You cannot use Poké Balls on another Trainer's Pokémon!");
+        return;
+      }
       try {
         const storeData = await api('/store');
         const odds = (currentWild && currentWild.ball_odds) ? currentWild.ball_odds : {};
@@ -5468,14 +5732,16 @@
       setDialogue(`Threw a ${ballId.replace('_', ' ').toUpperCase()}!`);
       const animBall = document.getElementById('ball-throw-anim');
       animBall.style.display = 'block';
-      animBall.style.bottom = '40px';
-      animBall.style.left = '80px';
+      animBall.style.bottom = '18%';
+      animBall.style.left = '24%';
+      animBall.style.transform = 'scale(0.8) rotate(0deg)';
 
-      // Ball throw arc
-      animBall.style.transition = 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+      // Ball throw arc towards midground enemy Pokémon
+      animBall.style.transition = 'all 0.65s cubic-bezier(0.22, 1, 0.36, 1)';
       setTimeout(() => {
-        animBall.style.bottom = '220px';
-        animBall.style.left = '220px';
+        animBall.style.bottom = '46%';
+        animBall.style.left = '58%';
+        animBall.style.transform = 'scale(1.1) rotate(720deg)';
       }, 50);
 
       try {
@@ -5533,6 +5799,10 @@
     // RUN button clicked -> Flee
     document.getElementById('btn-menu-run').addEventListener('click', async () => {
       SFX.cancel();
+      if (isArenaMode) {
+        setDialogue("You cannot flee from a Gym Leader battle!");
+        return;
+      }
       if (!currentWild) {
         setDialogue("Nothing to run from!");
         return;
@@ -5665,8 +5935,22 @@
         currentArenaBattle = battle;
         isArenaMode = true;
 
-        // Switch to Tall Grass / Battle Screen view
-        document.querySelector('[data-tab="hunt"]').click();
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.location-pane').forEach(p => p.classList.remove('active'));
+        const huntTab = document.querySelector('[data-tab="hunt"]');
+        if (huntTab) huntTab.classList.add('active');
+        const huntPane = document.getElementById('pane-hunt');
+        if (huntPane) huntPane.classList.add('active');
+
+        // Switch to Stadium Arena Theme
+        const arenaCanvas = document.getElementById('battle-active-view');
+        if (arenaCanvas) {
+          arenaCanvas.classList.remove('arena-theme-forest');
+          arenaCanvas.classList.add('arena-theme-stadium');
+        }
+
+        const envLabel = document.getElementById('battle-env-label');
+        if (envLabel) envLabel.textContent = `${battle.leader_name.toUpperCase()} • CHAMPION ARENA`;
 
         // Render Enemy Leader Pokémon
         const enemy = battle.enemy_team[battle.current_enemy_index];
@@ -5675,6 +5959,14 @@
         document.getElementById('enemy-name').textContent = enemy.name.toUpperCase();
         document.getElementById('enemy-level-tag').textContent = `Lv. ${enemy.level}`;
         updateHpBar('enemy', enemy.current_hp, enemy.max_hp);
+
+        const genderEl = document.getElementById('enemy-gender-icon');
+        if (genderEl) {
+          const isMale = (enemy.id + (enemy.level || 1)) % 2 === 0;
+          genderEl.textContent = isMale ? '♂' : '♀';
+          genderEl.className = 'gender-icon ' + (isMale ? 'male' : 'female');
+          genderEl.style.display = 'inline-block';
+        }
 
         const enemySprite = document.getElementById('enemy-sprite');
         enemySprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${enemy.id}.gif`;
@@ -5687,10 +5979,10 @@
         document.getElementById('player-name').textContent = lead.name.toUpperCase();
         document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
         updateHpBar('player', lead.current_hp, lead.max_hp);
-
         setPlayerBattleSprite(lead.id);
 
-        setDialogue(`${battle.leader_name.toUpperCase()}: "${battle.log[0]}"`);
+        updateExpBar();
+        setDialogue((battle.log && battle.log[0]) ? battle.log[0] : `${battle.leader_name.toUpperCase()} challenged you to a battle!`);
         showMainActionsMenu();
 
       } catch (e) {}
