@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>POKÉDASH ADVANCE - Retro Pokémon Battle & Adventure</title>
   
+  <!-- Preload Battle Arena Backgrounds (High-Resolution Anime 3D Perspectives) -->
+  <link rel="preload" href="/backgrounds/arena_meadow.jpg" as="image">
+  <link rel="preload" href="/backgrounds/arena_forest.jpg" as="image">
+  <link rel="preload" href="/backgrounds/arena_autumn.jpg" as="image">
+  <link rel="preload" href="/backgrounds/arena_coast.jpg" as="image">
+  <link rel="preload" href="/backgrounds/arena_mountain.jpg" as="image">
+  
   <!-- Inlined Authentic Player 2 Font -->
   <style>
     @font-face {
@@ -599,16 +606,34 @@
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), inset 0 0 80px rgba(0, 0, 0, 0.35);
       box-sizing: border-box;
       background: linear-gradient(180deg, rgba(15, 23, 42, 0.12) 0%, transparent 60%, rgba(10, 20, 15, 0.4) 100%),
-                  url('/backgrounds/arena_forest.jpg') center bottom / cover no-repeat;
+                  url('/backgrounds/arena_meadow.jpg') center bottom / cover no-repeat;
       transition: background 0.5s ease;
       image-rendering: auto !important;
     }
     .battle-arena-canvas * {
       image-rendering: auto !important;
     }
+    .battle-arena-canvas.arena-theme-meadow {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.12) 0%, transparent 60%, rgba(10, 20, 15, 0.4) 100%),
+                  url('/backgrounds/arena_meadow.jpg') center bottom / cover no-repeat;
+    }
+    .battle-arena-canvas.arena-theme-forest {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.12) 0%, transparent 60%, rgba(10, 20, 15, 0.4) 100%),
+                  url('/backgrounds/arena_forest.jpg') center bottom / cover no-repeat;
+    }
+    .battle-arena-canvas.arena-theme-autumn,
+    .battle-arena-canvas.arena-theme-grove {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.12) 0%, transparent 60%, rgba(10, 20, 15, 0.4) 100%),
+                  url('/backgrounds/arena_autumn.jpg') center bottom / cover no-repeat;
+    }
+    .battle-arena-canvas.arena-theme-coast {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.12) 0%, transparent 60%, rgba(10, 20, 15, 0.4) 100%),
+                  url('/backgrounds/arena_coast.jpg') center bottom / cover no-repeat;
+    }
+    .battle-arena-canvas.arena-theme-mountain,
     .battle-arena-canvas.arena-theme-stadium {
-      background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, transparent 60%, rgba(10, 20, 15, 0.45) 100%),
-                  url('/backgrounds/arena_stadium.jpg') center bottom / cover no-repeat;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.18) 0%, transparent 60%, rgba(10, 20, 15, 0.45) 100%),
+                  url('/backgrounds/arena_mountain.jpg') center bottom / cover no-repeat;
     }
 
     /* Ambient Floating Foliage & Atmosphere in Arena */
@@ -801,6 +826,18 @@
       gap: 7px;
       letter-spacing: 0.5px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+    .battle-env-badge:hover {
+      background: linear-gradient(135deg, rgba(12, 58, 68, 0.95) 0%, rgba(18, 78, 90, 0.88) 100%);
+      border-color: rgba(45, 212, 191, 0.85);
+      box-shadow: 0 4px 20px rgba(45, 212, 191, 0.35);
+      transform: translateY(-1px);
+    }
+    .battle-env-badge:active {
+      transform: translateY(1px);
     }
     .env-badge-pulse {
       width: 6px;
@@ -3499,7 +3536,7 @@
             <div class="battle-stage-wrapper">
               
               <!-- Central Clean Battlefield (THE ARENA) -->
-              <div id="battle-active-view" class="battle-arena-canvas arena-theme-forest">
+              <div id="battle-active-view" class="battle-arena-canvas arena-theme-meadow">
                 <div class="battle-background-decor"></div>
 
                 <!-- Ambient Atmosphere Layer -->
@@ -3534,9 +3571,9 @@
                 </div>
 
                 <!-- Top-Right: Route / Battle Environment Pill Badge (Inside Arena) -->
-                <div class="battle-env-badge" id="battle-env-badge">
+                <div class="battle-env-badge" id="battle-env-badge" title="Click to randomize battlefield background">
                   <span class="env-badge-pulse"></span>
-                  <svg class="pixel-icon"><use href="#px-grass"></use></svg>
+                  <svg class="pixel-icon" id="battle-env-icon"><use href="#px-grass"></use></svg>
                   <span id="battle-env-label">ROUTE 1 • TALL GRASS</span>
                 </div>
 
@@ -5269,6 +5306,146 @@
     }
 
     // ============================================================
+    // BATTLE ARENA BACKGROUND & RANDOMIZATION SYSTEM (5 ANIME ENVIRONMENTS)
+    // ============================================================
+    const BATTLE_ARENA_THEMES = [
+      {
+        id: 'meadow',
+        className: 'arena-theme-meadow',
+        name: 'Sunlit Meadow',
+        envTitle: 'SUNLIT MEADOW',
+        peacefulLabel: 'ROUTE 1 • SUNLIT MEADOW',
+        wildLabel: 'SUNLIT MEADOW • WILD',
+        icon: 'px-grass',
+        file: 'arena_meadow.jpg'
+      },
+      {
+        id: 'forest',
+        className: 'arena-theme-forest',
+        name: 'Viridian Forest',
+        envTitle: 'VIRIDIAN FOREST',
+        peacefulLabel: 'ROUTE 2 • VIRIDIAN FOREST',
+        wildLabel: 'VIRIDIAN FOREST • WILD',
+        icon: 'px-grass',
+        file: 'arena_forest.jpg'
+      },
+      {
+        id: 'autumn',
+        className: 'arena-theme-autumn',
+        name: 'Autumn Grove',
+        envTitle: 'AUTUMN GROVE',
+        peacefulLabel: 'ROUTE 37 • AUTUMN GROVE',
+        wildLabel: 'AUTUMN GROVE • WILD',
+        icon: 'px-grass',
+        file: 'arena_autumn.jpg'
+      },
+      {
+        id: 'coast',
+        className: 'arena-theme-coast',
+        name: 'Azure Coast',
+        envTitle: 'AZURE COAST',
+        peacefulLabel: 'ROUTE 19 • AZURE COAST',
+        wildLabel: 'AZURE COAST • WILD',
+        icon: 'px-badge-cascade',
+        file: 'arena_coast.jpg'
+      },
+      {
+        id: 'mountain',
+        className: 'arena-theme-mountain',
+        name: 'Mountain Peaks',
+        envTitle: 'INDIGO PEAKS',
+        peacefulLabel: 'MT. MOON • ALPINE PEAKS',
+        wildLabel: 'INDIGO PEAKS • WILD',
+        icon: 'px-badge-boulder',
+        file: 'arena_mountain.jpg'
+      }
+    ];
+
+    const STADIUM_THEME = {
+      id: 'stadium',
+      className: 'arena-theme-stadium',
+      name: 'Champion Arena',
+      envTitle: 'CHAMPION ARENA',
+      peacefulLabel: 'INDIGO PLATEAU • SUMMIT',
+      wildLabel: 'CHAMPION ARENA',
+      icon: 'px-arena',
+      file: 'arena_mountain.jpg'
+    };
+
+    let currentBattleTheme = BATTLE_ARENA_THEMES[0];
+
+    function setBattleArenaTheme(themeOrId, customLabel = null) {
+      const arenaCanvas = document.getElementById('battle-active-view');
+      if (!arenaCanvas) return;
+
+      let theme = themeOrId;
+      if (typeof themeOrId === 'string') {
+        if (themeOrId === 'stadium') {
+          theme = STADIUM_THEME;
+        } else {
+          theme = BATTLE_ARENA_THEMES.find(t => t.id === themeOrId || (themeOrId === 'grove' && t.id === 'autumn')) || BATTLE_ARENA_THEMES[0];
+        }
+      }
+
+      currentBattleTheme = theme;
+
+      // Clear any previous theme classes and apply the active one
+      BATTLE_ARENA_THEMES.forEach(t => arenaCanvas.classList.remove(t.className));
+      arenaCanvas.classList.remove(STADIUM_THEME.className);
+      arenaCanvas.classList.add(theme.className);
+
+      // Explicitly set background style to guarantee resolution across both /sprites/backgrounds and /backgrounds
+      const isStadium = (theme.id === 'stadium' || isArenaMode);
+      const gradient = isStadium
+        ? 'linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, transparent 60%, rgba(10, 20, 15, 0.45) 100%)'
+        : 'linear-gradient(180deg, rgba(15, 23, 42, 0.12) 0%, transparent 60%, rgba(10, 20, 15, 0.4) 100%)';
+      arenaCanvas.style.backgroundImage = `${gradient}, url('/sprites/backgrounds/${theme.file}'), url('/backgrounds/${theme.file}')`;
+      arenaCanvas.style.backgroundPosition = 'center bottom';
+      arenaCanvas.style.backgroundSize = 'cover';
+      arenaCanvas.style.backgroundRepeat = 'no-repeat';
+
+      // Update environment badge label and icon
+      const envLabel = document.getElementById('battle-env-label');
+      if (envLabel) {
+        if (customLabel) {
+          envLabel.textContent = customLabel;
+        } else if (isArenaMode && currentArenaBattle) {
+          envLabel.textContent = `${currentArenaBattle.leader_name.toUpperCase()} • CHAMPION ARENA`;
+        } else if (currentWild && currentWild.encounter) {
+          envLabel.textContent = theme.wildLabel;
+        } else {
+          envLabel.textContent = theme.peacefulLabel;
+        }
+      }
+
+      const envIcon = document.getElementById('battle-env-icon');
+      if (envIcon) {
+        const iconId = (isArenaMode || theme.id === 'stadium') ? 'px-arena' : theme.icon;
+        envIcon.innerHTML = `<use href="#${iconId}"></use>`;
+      }
+    }
+
+    function randomizeBattleArenaTheme() {
+      const pool = BATTLE_ARENA_THEMES;
+      const candidates = pool.filter(t => t.id !== currentBattleTheme.id);
+      const chosen = candidates.length > 0
+        ? candidates[Math.floor(Math.random() * candidates.length)]
+        : pool[Math.floor(Math.random() * pool.length)];
+      setBattleArenaTheme(chosen);
+      return chosen;
+    }
+
+    function initBattleEnvBadge() {
+      const badge = document.getElementById('battle-env-badge');
+      if (badge) {
+        badge.addEventListener('click', () => {
+          SFX.blip();
+          randomizeBattleArenaTheme();
+        });
+      }
+    }
+
+    // ============================================================
     // 1. WILD BATTLE & FIGHT SYSTEM
     // ============================================================
     async function fetchWildBattle() {
@@ -5278,6 +5455,7 @@
         if (data && data.has_wild && data.encounter) {
           isArenaMode = false;
           currentWild = data;
+          randomizeBattleArenaTheme();
           renderWildBattle(data);
         } else {
           showSearchTallGrassState();
@@ -5312,14 +5490,7 @@
       const genderEl = document.getElementById('enemy-gender-icon');
       if (genderEl) genderEl.style.display = 'none';
 
-      const arenaCanvas = document.getElementById('battle-active-view');
-      if (arenaCanvas) {
-        arenaCanvas.classList.remove('arena-theme-stadium');
-        arenaCanvas.classList.add('arena-theme-forest');
-      }
-
-      const envLabel = document.getElementById('battle-env-label');
-      if (envLabel) envLabel.textContent = 'ROUTE 1 • TALL GRASS';
+      setBattleArenaTheme(currentBattleTheme);
 
       const enemySprite = document.getElementById('enemy-sprite');
       if (enemySprite) {
@@ -5351,11 +5522,11 @@
       const wild = data.encounter.pokemon;
       const lead = data.player_lead;
 
-      // Set Theme to Forest Clearing
-      const arenaCanvas = document.getElementById('battle-active-view');
-      if (arenaCanvas) {
-        arenaCanvas.classList.remove('arena-theme-stadium');
-        arenaCanvas.classList.add('arena-theme-forest');
+      // Apply arena theme
+      if (isArenaMode) {
+        setBattleArenaTheme('stadium');
+      } else {
+        setBattleArenaTheme(currentBattleTheme);
       }
 
       // Enemy
@@ -5370,9 +5541,6 @@
         genderEl.className = 'gender-icon ' + (isMale ? 'male' : 'female');
         genderEl.style.display = 'inline-block';
       }
-
-      const envLabel = document.getElementById('battle-env-label');
-      if (envLabel) envLabel.textContent = isArenaMode ? 'CHAMPION ARENA' : 'WILD ENCOUNTER';
 
       const enemySprite = document.getElementById('enemy-sprite');
       enemySprite.style.opacity = '1';
@@ -5547,11 +5715,7 @@
                   if (isArenaMode) {
                     isArenaMode = false;
                     currentArenaBattle = null;
-                    const arenaCanvas = document.getElementById('battle-active-view');
-                    if (arenaCanvas) {
-                      arenaCanvas.classList.remove('arena-theme-stadium');
-                      arenaCanvas.classList.add('arena-theme-forest');
-                    }
+                    randomizeBattleArenaTheme();
                   }
                   showMainActionsMenu();
                   showSearchTallGrassState();
@@ -5615,11 +5779,7 @@
                     if (isArenaMode) {
                       isArenaMode = false;
                       currentArenaBattle = null;
-                      const arenaCanvas = document.getElementById('battle-active-view');
-                      if (arenaCanvas) {
-                        arenaCanvas.classList.remove('arena-theme-stadium');
-                        arenaCanvas.classList.add('arena-theme-forest');
-                      }
+                      randomizeBattleArenaTheme();
                     }
                     showMainActionsMenu();
                     await updateHeaderPlayer();
@@ -5861,7 +6021,8 @@
       if (huntBusy) return;
       huntBusy = true;
       SFX.confirm();
-      setDialogue("Searching through tall grass...");
+      randomizeBattleArenaTheme();
+      setDialogue(`Searching through ${currentBattleTheme.name.toLowerCase()}...`);
       try {
         const encounter = await api('/hunt', 'POST');
         isArenaMode = false;
@@ -5943,14 +6104,7 @@
         if (huntPane) huntPane.classList.add('active');
 
         // Switch to Stadium Arena Theme
-        const arenaCanvas = document.getElementById('battle-active-view');
-        if (arenaCanvas) {
-          arenaCanvas.classList.remove('arena-theme-forest');
-          arenaCanvas.classList.add('arena-theme-stadium');
-        }
-
-        const envLabel = document.getElementById('battle-env-label');
-        if (envLabel) envLabel.textContent = `${battle.leader_name.toUpperCase()} • CHAMPION ARENA`;
+        setBattleArenaTheme('stadium', `${battle.leader_name.toUpperCase()} • CHAMPION ARENA`);
 
         // Render Enemy Leader Pokémon
         const enemy = battle.enemy_team[battle.current_enemy_index];
@@ -7296,6 +7450,8 @@
     // INITIALIZATION
     // ============================================================
     window.addEventListener('DOMContentLoaded', async () => {
+      initBattleEnvBadge();
+      randomizeBattleArenaTheme();
       initAuthHandlers();
       initCardsCatalogListeners();
       await checkAuthFromUrl();
