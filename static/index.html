@@ -2681,6 +2681,106 @@
       box-sizing: border-box;
       overflow: hidden;
     }
+
+    /* PLAYFUL RETRO POKÉBALL LOADER */
+    .retro-loader-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      height: 100%;
+      min-height: 380px;
+      gap: 20px;
+      text-align: center;
+      position: relative;
+    }
+    .retro-pokeball-spinner {
+      width: 64px;
+      height: 64px;
+      position: relative;
+      background: linear-gradient(180deg, #ef4444 0%, #ef4444 48%, #111827 48%, #111827 52%, #f8fafc 52%, #f8fafc 100%);
+      border: 4px solid #111827;
+      border-radius: 50%;
+      box-shadow: 0 0 24px rgba(239, 68, 68, 0.4), 0 10px 20px rgba(0,0,0,0.6);
+      animation: pokeballWobble 0.75s ease-in-out infinite alternate;
+      image-rendering: pixelated;
+    }
+    .retro-pokeball-spinner::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      background: #f8fafc;
+      border: 4px solid #111827;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 2px #fff, 0 0 12px rgba(250, 204, 21, 0.8);
+      animation: pokeballButtonPulse 1s ease-in-out infinite alternate;
+    }
+    @keyframes pokeballWobble {
+      0% { transform: rotate(-18deg) scale(0.96); }
+      50% { transform: rotate(0deg) scale(1.05) translateY(-6px); }
+      100% { transform: rotate(18deg) scale(0.96); }
+    }
+    @keyframes pokeballButtonPulse {
+      0% { background: #f8fafc; box-shadow: 0 0 4px #facc15; }
+      100% { background: #fef08a; box-shadow: 0 0 16px #facc15, 0 0 24px #eab308; }
+    }
+    .retro-loader-title {
+      font-family: var(--pixel-font);
+      font-size: 11px;
+      color: #facc15;
+      letter-spacing: 1.5px;
+      text-shadow: 1px 1px 0 #000, 0 0 8px rgba(250, 204, 21, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .retro-loader-sub {
+      font-size: 8px;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+      max-width: 320px;
+      line-height: 1.6;
+    }
+    .retro-loader-dots span {
+      display: inline-block;
+      animation: retroDotBounce 1.2s infinite ease-in-out;
+    }
+    .retro-loader-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .retro-loader-dots span:nth-child(3) { animation-delay: 0.4s; }
+    /* HUNTING GRASS RUSTLE & RETRO TRANSITION */
+    @keyframes grassRustle {
+      0% { transform: scale(1) rotate(0deg); }
+      20% { transform: scale(1.08) rotate(-4deg) translateY(-2px); }
+      40% { transform: scale(0.96) rotate(4deg) translateY(2px); }
+      60% { transform: scale(1.05) rotate(-3deg) translateY(-1px); }
+      80% { transform: scale(0.98) rotate(2deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+    .hunting-active #arena-canvas {
+      animation: grassRustle 0.65s ease-in-out infinite;
+    }
+    .hunting-active #btn-hunt-grass {
+      animation: pokeballWobble 0.6s ease-in-out infinite alternate;
+      border-color: #facc15 !important;
+      color: #facc15 !important;
+    }
+    .retro-loader-radar {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border: 1px dashed rgba(34, 197, 94, 0.25);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: radarSpin 4s linear infinite;
+    }
+    @keyframes radarSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
     .modal-close-corner {
       position: absolute;
       top: 12px;
@@ -7019,7 +7119,14 @@
       if (huntBusy) return;
       huntBusy = true;
       SFX.confirm();
-      setDialogue(`Searching through ${currentBattleTheme.name.toLowerCase()}...`);
+      document.body.classList.add('hunting-active');
+      const huntPhrases = [
+        `Searching through ${currentBattleTheme.name.toLowerCase()}...`,
+        "Rustling tall grass... Something is stirring!",
+        "Listening closely for wild footsteps...",
+        "A shadow darts between the blades of grass!"
+      ];
+      setDialogue(huntPhrases[Math.floor(Math.random() * huntPhrases.length)]);
       try {
         const encounter = await api('/hunt', 'POST');
         isArenaMode = false;
@@ -7039,6 +7146,7 @@
         }
       } finally {
         huntBusy = false;
+        document.body.classList.remove('hunting-active');
       }
     });
 
@@ -7321,11 +7429,37 @@
     // ============================================================
     async function showPokemonDetailModal(id) {
       SFX.blip();
+      const modal = document.getElementById('retro-modal');
+      const body = document.getElementById('modal-body-content');
+
+      // Instant playful loader feedback while data is retrieved
+      const funFacts = [
+        "Calibrating Silph Co. Pokédex optics...",
+        "Scanning high-frequency cellular frequencies...",
+        "Querying regional Pokédex database...",
+        "Tracing wild elemental energy signatures...",
+        "Decoding species combat statistics...",
+        "Analyzing IV genetics & nature traits...",
+        "Tuning procedural retro audio cry synth..."
+      ];
+      const randomFact = funFacts[Math.floor(Math.random() * funFacts.length)];
+
+      body.innerHTML = `
+        <div class="retro-loader-box">
+          <div class="retro-loader-radar"></div>
+          <div class="retro-pokeball-spinner"></div>
+          <div class="retro-loader-title">
+            <span>SYNCING POKÉDEX #${String(id).padStart(3, '0')}</span>
+            <span class="retro-loader-dots"><span>.</span><span>.</span><span>.</span></span>
+          </div>
+          <div class="retro-loader-sub">${randomFact}</div>
+        </div>
+      `;
+      modal.classList.add('open');
+
       try {
         const data = await api(`/pokemon/${id}`);
         const p = data.pokemon;
-        const modal = document.getElementById('retro-modal');
-        const body = document.getElementById('modal-body-content');
 
         const stats = p.stats || p.base_stats || { HP: 45, Atk: 49, Def: 49, SpA: 65, SpD: 65, Spe: 45, Total: 318 };
         const hpVal = stats.HP !== undefined ? stats.HP : (stats.hp !== undefined ? stats.hp : 45);
