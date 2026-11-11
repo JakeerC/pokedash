@@ -5,3 +5,4 @@ pokedash_daemon.log
 .agents/skills
 skills-lock.json
 .playwright-mcp/
+static/sprites/*-*.png
