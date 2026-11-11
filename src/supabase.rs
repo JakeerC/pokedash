@@ -750,13 +750,29 @@ impl SupabaseClient {
     }
 
     pub async fn load_all_pokemon(&self) -> Result<Vec<PokemonDbRow>, Box<dyn std::error::Error + Send + Sync>> {
-        let url = format!("{}/rest/v1/pokemon?select=*&order=id.asc", self.config.url);
-        let resp = self.client.get(&url).send().await?;
-        if !resp.status().is_success() {
-            let err = resp.text().await.unwrap_or_default();
-            return Err(format!("Supabase load_all_pokemon error: {}", err).into());
+        let mut all_rows = Vec::new();
+        let mut offset = 0;
+        let limit = 1000;
+
+        loop {
+            let url = format!(
+                "{}/rest/v1/pokemon?select=*&order=id.asc&limit={}&offset={}",
+                self.config.url, limit, offset
+            );
+            let resp = self.client.get(&url).send().await?;
+            if !resp.status().is_success() {
+                let err = resp.text().await.unwrap_or_default();
+                return Err(format!("Supabase load_all_pokemon error: {}", err).into());
+            }
+            let batch: Vec<PokemonDbRow> = resp.json().await?;
+            let batch_len = batch.len();
+            all_rows.extend(batch);
+            if batch_len < limit {
+                break;
+            }
+            offset += limit;
         }
-        let list: Vec<PokemonDbRow> = resp.json().await?;
-        Ok(list)
+
+        Ok(all_rows)
     }
 }
