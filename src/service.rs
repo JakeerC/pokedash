@@ -5,7 +5,7 @@ use rand::Rng;
 
 use crate::models::{
     ActiveArenaBattle, ArenaDivision, BattleActionResult, BattleMove, BattlePokemon,
-    BuyResult, CatchAttemptResult, CaughtPokemon, LeaderboardEntry, PlayerData,
+    BuyResult, CatchAttemptResult, CaughtPokemon, ItemUseResult, LeaderboardEntry, PlayerData,
     SellResult, StoreItemInfo, WildPokemonEncounter,
 };
 use crate::game::{
@@ -944,10 +944,153 @@ impl GameService {
             ),
         })
     }
+
+    pub fn use_item(&self, username: &str, item_id: &str, target_idx: usize) -> Result<ItemUseResult, String> {
+        let mut player = self.storage.load_player(username);
+        let canonical_id = canonicalize_ball(item_id).unwrap_or(item_id);
+        
+        let owned = player.balls.get(canonical_id).copied().unwrap_or(0);
+        if owned == 0 {
+            return Err(format!("You don't have any '{}' in your bag!", item_id));
+        }
+
+        if player.party.is_empty() {
+            return Err("Your party is empty!".to_string());
+        }
+
+        let idx = if target_idx < player.party.len() { target_idx } else { 0 };
+        let mut healed_amount = 0u32;
+        let mut new_level = None;
+        let mut evolved_into = None;
+        let message;
+
+        match canonical_id {
+            "potion" | "super_potion" | "hyper_potion" | "max_potion" | "full_restore" => {
+                let target = &mut player.party[idx];
+                if target.current_hp >= target.max_hp {
+                    return Err(format!("{} is already at full HP!", target.name));
+                }
+                let heal_value = match canonical_id {
+                    "potion" => 30,
+                    "super_potion" => 70,
+                    "hyper_potion" => 150,
+                    _ => target.max_hp,
+                };
+                let prev_hp = target.current_hp;
+                target.current_hp = (target.current_hp + heal_value).min(target.max_hp);
+                healed_amount = target.current_hp - prev_hp;
+                message = format!("Used {} on {}! Restored {} HP! (HP: {}/{})", 
+                    canonical_id.replace('_', " ").to_uppercase(),
+                    target.name,
+                    healed_amount,
+                    target.current_hp,
+                    target.max_hp
+                );
+            }
+            "antidote" | "burn_heal" | "paralyze_heal" | "awakening" => {
+                let target = &player.party[idx];
+                message = format!("Used {} on {}! Condition fully cured!", 
+                    canonical_id.replace('_', " ").to_uppercase(),
+                    target.name
+                );
+            }
+            "exp_crystal_s" | "exp_crystal_m" => {
+                let xp_gain = if canonical_id == "exp_crystal_s" { 250 } else { 1000 };
+                player.xp += xp_gain;
+                let target = &player.party[idx];
+                message = format!("Used {} on {}! Granted +{} XP!", 
+                    canonical_id.replace('_', " ").to_uppercase(),
+                    target.name,
+                    xp_gain
+                );
+            }
+            "rare_candy" => {
+                let target = &mut player.party[idx];
+                target.level += 1;
+                new_level = Some(target.level);
+                target.stats.hp = (target.stats.hp as f64 * 1.05).round() as u32;
+                target.stats.atk = (target.stats.atk as f64 * 1.05).round() as u32;
+                target.stats.def = (target.stats.def as f64 * 1.05).round() as u32;
+                target.stats.spa = (target.stats.spa as f64 * 1.05).round() as u32;
+                target.stats.spd = (target.stats.spd as f64 * 1.05).round() as u32;
+                target.stats.spe = (target.stats.spe as f64 * 1.05).round() as u32;
+                target.max_hp = 20 + target.level * 5 + (target.stats.hp / 3);
+                target.current_hp = target.max_hp;
+                message = format!("Rare Candy raised {}'s level to Lv. {}! All stats boosted!", 
+                    target.name,
+                    target.level
+                );
+            }
+            "thunder_stone" | "fire_stone" | "water_stone" | "leaf_stone" | "moon_stone" | "ice_stone" => {
+                let target = &player.party[idx];
+                let evolved_id = match (canonical_id, target.id) {
+                    ("thunder_stone", 25) => Some(26), // Pikachu -> Raichu
+                    ("thunder_stone", 133) => Some(135), // Eevee -> Jolteon
+                    ("fire_stone", 37) => Some(38), // Vulpix -> Ninetales
+                    ("fire_stone", 58) => Some(59), // Growlithe -> Arcanine
+                    ("fire_stone", 133) => Some(136), // Eevee -> Flareon
+                    ("water_stone", 61) => Some(62), // Poliwhirl -> Poliwrath
+                    ("water_stone", 90) => Some(91), // Shellder -> Cloyster
+                    ("water_stone", 120) => Some(121), // Staryu -> Starmie
+                    ("water_stone", 133) => Some(134), // Eevee -> Vaporeon
+                    ("leaf_stone", 44) => Some(45), // Gloom -> Vileplume
+                    ("leaf_stone", 70) => Some(71), // Weepinbell -> Victreebel
+                    ("leaf_stone", 102) => Some(103), // Exeggcute -> Exeggutor
+                    ("moon_stone", 30) => Some(31), // Nidorina -> Nidoqueen
+                    ("moon_stone", 33) => Some(34), // Nidorino -> Nidoking
+                    ("moon_stone", 35) => Some(36), // Clefairy -> Clefable
+                    ("moon_stone", 39) => Some(40), // Jigglypuff -> Wigglytuff
+                    _ => None,
+                };
+                if let Some(new_id) = evolved_id {
+                    let prev_name = target.name.clone();
+                    let current_lvl = target.level;
+                    if let Some(base_pkmn) = self.storage.pokemon_catalog.get(&new_id).cloned() {
+                        let evolved = create_battle_pokemon(&base_pkmn, current_lvl);
+                        let evolved_name = evolved.name.clone();
+                        evolved_into = Some(evolved_name.clone());
+                        player.party[idx] = evolved;
+                        message = format!("What?! {} is evolving! Congratulations! Your Pokémon evolved into {}!", 
+                            prev_name, evolved_name
+                        );
+                    } else {
+                        return Err("Evolution data could not be loaded.".to_string());
+                    }
+                } else {
+                    return Err(format!("The {} had no effect on {}!", canonical_id.replace('_', " "), target.name));
+                }
+            }
+            _ => {
+                return Err(format!("Item '{}' cannot be used right now.", canonical_id));
+            }
+        }
+
+        // Decrement item count
+        if let Some(entry) = player.balls.get_mut(canonical_id) {
+            if *entry > 0 {
+                *entry -= 1;
+            }
+        }
+        let remaining = player.balls.get(canonical_id).copied().unwrap_or(0);
+
+        self.storage.save_player(&player).map_err(|e| e.to_string())?;
+
+        Ok(ItemUseResult {
+            success: true,
+            message,
+            item: canonical_id.to_string(),
+            items_remaining: remaining,
+            healed_amount,
+            new_level,
+            evolved_into,
+            party: player.party,
+        })
+    }
 }
 
 #[cfg(test)]
 mod tests {
+    use super::*;
     use crate::models::{BattleMove, BattlePokemon, PlayerData, PokemonStats};
 
     #[test]
@@ -1000,5 +1143,48 @@ mod tests {
         assert_eq!(player.party[0].id, 1, "Bulbasaur should now be the lead");
         assert_eq!(player.party[0].current_hp, 25);
         assert_eq!(player.party[1].id, 25, "Fainted Pikachu should be in position 1");
+    }
+
+    #[test]
+    fn test_store_items_and_catalog() {
+        use crate::game::{STORE_BALLS, canonicalize_ball, get_ball_spec};
+        assert!(STORE_BALLS.len() >= 25);
+        assert_eq!(canonicalize_ball("potion"), Some("potion"));
+        assert_eq!(canonicalize_ball("rare_candy"), Some("rare_candy"));
+        assert_eq!(canonicalize_ball("thunder_stone"), Some("thunder_stone"));
+        let pot = get_ball_spec("potion").expect("potion spec");
+        assert_eq!(pot.category, "medicine");
+        let candy = get_ball_spec("rare_candy").expect("rare candy spec");
+        assert_eq!(candy.category, "crystals");
+    }
+
+    #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+    async fn test_item_usage_mechanics() {
+        let storage = Arc::new(Storage::new().await.expect("Failed to initialize Storage"));
+        let service = GameService::new(storage);
+        let username = "TestTrainerItemUse";
+
+        // Create player with damaged Pokémon
+        let mut player = PlayerData::default();
+        player.username = username.to_string();
+        player.party[0].current_hp = 5;
+        player.party[0].max_hp = 20;
+        player.party[0].level = 5;
+        player.balls.insert("potion".to_string(), 1);
+        player.balls.insert("rare_candy".to_string(), 1);
+        service.storage.save_player(&player).expect("save player");
+
+        // Test Potion
+        let heal_res = service.use_item(username, "potion", 0).expect("use potion");
+        assert!(heal_res.success);
+        assert_eq!(heal_res.party[0].current_hp, 20); // 5 + 30 capped at max_hp 20
+        assert_eq!(heal_res.healed_amount, 15);
+        assert_eq!(heal_res.items_remaining, 0);
+
+        // Test Rare Candy
+        let candy_res = service.use_item(username, "rare_candy", 0).expect("use rare candy");
+        assert!(candy_res.success);
+        assert_eq!(candy_res.new_level, Some(6));
+        assert_eq!(candy_res.party[0].level, 6);
     }
 }

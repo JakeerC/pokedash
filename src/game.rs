@@ -100,6 +100,28 @@ pub const STORE_BALLS: &[BallSpec] = &[
     BallSpec { id: "eclipse_ball", name: "Eclipse Ball", alias: "eclipse", price: 650, unlock_level: 18, category: "mystic", description: "4.5x on Dark & Ghost types" },
     BallSpec { id: "astral_aura_ball", name: "Astral Aura Ball", alias: "astral", price: 1500, unlock_level: 20, category: "mystic", description: "5.0x on Legendary & Mythical Pokémon" },
     BallSpec { id: "master_ball", name: "Master Ball", alias: "mb", price: 50000, unlock_level: 25, category: "master", description: "Guaranteed 100% catch rate" },
+
+    // --- MEDICINE & HEALING ITEMS ---
+    BallSpec { id: "potion", name: "Potion", alias: "pot", price: 100, unlock_level: 1, category: "medicine", description: "Restores 30 HP to Pokémon" },
+    BallSpec { id: "super_potion", name: "Super Potion", alias: "spot", price: 250, unlock_level: 4, category: "medicine", description: "Restores 70 HP to injured Pokémon" },
+    BallSpec { id: "hyper_potion", name: "Hyper Potion", alias: "hpot", price: 500, unlock_level: 8, category: "medicine", description: "Restores 150 HP to Pokémon" },
+    BallSpec { id: "max_potion", name: "Max Potion", alias: "mpot", price: 1000, unlock_level: 12, category: "medicine", description: "Fully restores all HP of a Pokémon" },
+    BallSpec { id: "full_restore", name: "Full Restore", alias: "fr", price: 2000, unlock_level: 15, category: "medicine", description: "Fully restores HP and all status conditions" },
+    BallSpec { id: "antidote", name: "Antidote", alias: "anti", price: 100, unlock_level: 1, category: "medicine", description: "Heals Pokémon from poison" },
+    BallSpec { id: "burn_heal", name: "Burn Heal", alias: "bheal", price: 150, unlock_level: 2, category: "medicine", description: "Heals Pokémon from a burn" },
+    BallSpec { id: "paralyze_heal", name: "Parlyz Heal", alias: "parlyz", price: 150, unlock_level: 2, category: "medicine", description: "Cures Pokémon of paralysis" },
+    BallSpec { id: "awakening", name: "Awakening", alias: "awake", price: 150, unlock_level: 2, category: "medicine", description: "Wakes a sleeping Pokémon right up" },
+
+    // --- STONES & EXP CRYSTALS ---
+    BallSpec { id: "fire_stone", name: "Fire Stone", alias: "fstone", price: 3000, unlock_level: 5, category: "stones", description: "Stone that evolves certain Fire-type species" },
+    BallSpec { id: "water_stone", name: "Water Stone", alias: "wstone", price: 3000, unlock_level: 5, category: "stones", description: "Stone that evolves certain Water-type species" },
+    BallSpec { id: "thunder_stone", name: "Thunder Stone", alias: "tstone", price: 3000, unlock_level: 5, category: "stones", description: "Stone that evolves certain Electric-type species" },
+    BallSpec { id: "leaf_stone", name: "Leaf Stone", alias: "lstone", price: 3000, unlock_level: 5, category: "stones", description: "Stone that evolves certain Grass-type species" },
+    BallSpec { id: "moon_stone", name: "Moon Stone", alias: "mstone", price: 4000, unlock_level: 8, category: "stones", description: "Cosmic stone that evolves celestial species" },
+    BallSpec { id: "ice_stone", name: "Ice Stone", alias: "istone", price: 3500, unlock_level: 7, category: "stones", description: "Glacial stone that evolves ice-adapted species" },
+    BallSpec { id: "exp_crystal_s", name: "Exp Candy S", alias: "exps", price: 500, unlock_level: 3, category: "crystals", description: "Grants active Pokémon +250 Experience Points" },
+    BallSpec { id: "exp_crystal_m", name: "Exp Candy M", alias: "expm", price: 1800, unlock_level: 7, category: "crystals", description: "Grants active Pokémon +1,000 Experience Points" },
+    BallSpec { id: "rare_candy", name: "Rare Candy", alias: "rc", price: 5000, unlock_level: 10, category: "crystals", description: "Energy crystal that instantly raises Level by +1!" },
 ];
 
 pub fn canonicalize_ball(name_or_alias: &str) -> Option<&'static str> {

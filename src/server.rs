@@ -16,7 +16,7 @@ use crate::game::{
     calculate_catch_chance, get_generation, get_level_discount, get_level_xp_range,
     get_player_level,
 };
-use crate::models::{AuthResponse, BuyResult, CatchAttemptResult, CaughtPokemon};
+use crate::models::{AuthResponse, BuyResult, CatchAttemptResult, CaughtPokemon, ItemUseResult};
 use crate::service::GameService;
 
 #[derive(Clone)]
@@ -215,7 +215,8 @@ pub fn create_router(state: AppState) -> Router {
         .route("/store/buy", post(post_store_buy))
         .route("/store/sell", post(post_store_sell))
         .route("/store/sell-all", post(post_store_sell_all))
-        .route("/store/sell-dupes", post(post_store_sell_dupes));
+        .route("/store/sell-dupes", post(post_store_sell_dupes))
+        .route("/item/use", post(post_use_item));
 
     Router::new()
         .nest("/api", api_routes)
@@ -224,6 +225,9 @@ pub fn create_router(state: AppState) -> Router {
         .nest_service("/fonts", ServeDir::new("static/fonts"))
         .nest_service("/backgrounds", ServeDir::new("static/backgrounds"))
         .nest_service("/pokeballs", ServeDir::new("static/pokeballs"))
+        .nest_service("/badges", ServeDir::new("static/badges"))
+        .nest_service("/items", ServeDir::new("static/items"))
+        .nest_service("/ui", ServeDir::new("static/ui"))
         .nest_service("/static", ServeDir::new("static"))
         .fallback(serve_frontend)
         .layer(cors)
@@ -977,6 +981,27 @@ async fn post_store_buy(
     Json(payload): Json<BuyPayload>,
 ) -> Result<Json<BuyResult>, (StatusCode, Json<serde_json::Value>)> {
     match state.service.buy(&trainer.username, &payload.item, payload.amount) {
+        Ok(result) => Ok(Json(result)),
+        Err(e) => Err((
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": e })),
+        )),
+    }
+}
+
+#[derive(Deserialize)]
+struct UseItemPayload {
+    item: String,
+    #[serde(default)]
+    target_index: usize,
+}
+
+async fn post_use_item(
+    trainer: AuthenticatedTrainer,
+    State(state): State<AppState>,
+    Json(payload): Json<UseItemPayload>,
+) -> Result<Json<ItemUseResult>, (StatusCode, Json<serde_json::Value>)> {
+    match state.service.use_item(&trainer.username, &payload.item, payload.target_index) {
         Ok(result) => Ok(Json(result)),
         Err(e) => Err((
             StatusCode::BAD_REQUEST,

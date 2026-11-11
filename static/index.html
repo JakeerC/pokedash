@@ -67,6 +67,33 @@
       vertical-align: middle;
       display: inline-block;
     }
+    .pixel-badge-img, .arena-card-badge-img {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      vertical-align: middle;
+      display: inline-block;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.65));
+      transition: transform 0.15s ease;
+    }
+    .pixel-badge-img:hover {
+      transform: scale(1.2);
+    }
+    .badge-slot .pixel-badge-img {
+      width: 38px;
+      height: 38px;
+    }
+    .badge-slot:not(.unlocked) .pixel-badge-img {
+      filter: brightness(0.18) grayscale(1) opacity(0.35);
+    }
+    .badge-slot.unlocked .pixel-badge-img {
+      filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.75));
+      animation: badgeGlow 2.5s infinite alternate ease-in-out;
+    }
+    @keyframes badgeGlow {
+      0% { filter: drop-shadow(0 0 6px rgba(250, 204, 21, 0.5)); transform: scale(1); }
+      100% { filter: drop-shadow(0 0 16px rgba(250, 204, 21, 0.95)); transform: scale(1.05); }
+    }
     .pixel-dpad-arrow {
       width: 11px;
       height: 11px;
@@ -1172,6 +1199,119 @@
       display: inline-block;
     }
 
+    /* Level Up Ribbon Banner */
+    .levelup-ribbon-banner {
+      position: absolute;
+      top: 32%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 60;
+      pointer-events: none;
+      filter: drop-shadow(0 0 25px #facc15) drop-shadow(0 8px 20px rgba(0,0,0,0.85));
+      animation: levelUpPop 2.4s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+    }
+    .levelup-ribbon-banner img {
+      width: 180px;
+      height: auto;
+      display: block;
+    }
+    @keyframes levelUpPop {
+      0% { transform: translate(-50%, -50%) scale(0.1); opacity: 0; }
+      18% { transform: translate(-50%, -50%) scale(1.22); opacity: 1; }
+      30% { transform: translate(-50%, -50%) scale(1.0); opacity: 1; }
+      80% { transform: translate(-50%, -50%) scale(1.04); opacity: 1; }
+      100% { transform: translate(-50%, -75%) scale(0.85); opacity: 0; }
+    }
+
+    /* Evolution Celebration Overlay */
+    .evolution-celebration-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, rgba(15, 23, 42, 0.95) 0%, rgba(2, 6, 23, 0.98) 100%);
+      z-index: 65;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      animation: fadeInOverlay 0.4s ease-out;
+    }
+    @keyframes fadeInOverlay {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .evolution-celebration-sprite {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 0 35px #facc15);
+      animation: evolutionGlow 1.8s infinite alternate ease-in-out;
+    }
+    @keyframes evolutionGlow {
+      0% { transform: scale(0.92); filter: drop-shadow(0 0 15px #38bdf8); }
+      100% { transform: scale(1.08); filter: drop-shadow(0 0 45px #facc15); }
+    }
+    .evolution-title {
+      font-size: 14px;
+      font-weight: 900;
+      color: #facc15;
+      letter-spacing: 2px;
+      text-shadow: 0 0 16px rgba(250, 204, 21, 0.8);
+      margin-top: 14px;
+    }
+
+    /* Action Button Artifact Lead Icons */
+    .btn-action-lead-icon {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      margin-right: 8px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+
+    /* Modern Store & Bag Category Filter Tabs */
+    .mart-filter-row, .bag-filter-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .mart-filter-btn, .bag-filter-btn {
+      background: #1e293b;
+      border: 1.5px solid #334155;
+      color: #94a3b8;
+      font-family: inherit;
+      font-size: 8px;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .mart-filter-btn:hover, .bag-filter-btn:hover {
+      background: #334155;
+      color: #f8fafc;
+    }
+    .mart-filter-btn.active, .bag-filter-btn.active {
+      background: #0284c7;
+      border-color: #38bdf8;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+    }
+    .mart-tab-icon, .bag-tab-icon {
+      width: 14px;
+      height: 14px;
+      object-fit: contain;
+      vertical-align: middle;
+    }
+
     /* ========================================= */
     /* ELEMENTAL BATTLE FX SYSTEM                */
     /* ========================================= */
@@ -1621,12 +1761,37 @@
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
     }
+    .dialogue-text-area::before {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 8px;
+      height: 8px;
+      border-top: 2px solid #5eead4;
+      border-left: 2px solid #5eead4;
+      pointer-events: none;
+    }
+    .dialogue-text-area::after {
+      content: "";
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      width: 8px;
+      height: 8px;
+      border-bottom: 2px solid #5eead4;
+      border-right: 2px solid #5eead4;
+      pointer-events: none;
+    }
     .dialogue-arrow {
       position: absolute;
       bottom: 8px;
       right: 12px;
       color: #5eead4;
-      font-size: 13px;
+      font-size: 9px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
       animation: blink-arrow 0.6s infinite alternate;
     }
     @keyframes blink-arrow { from { opacity: 0.2; } to { opacity: 1; } }
@@ -4066,6 +4231,18 @@
                   <img id="ball-throw-img" src="/pokeballs/01_pokeball_classic.png" alt="Poké Ball" />
                 </div>
 
+                <!-- Level Up Ribbon Banner Overlay -->
+                <div id="levelup-ribbon-anim" class="levelup-ribbon-banner" style="display: none;">
+                  <img src="/ui/ribbon_levelup.png" alt="LEVEL UP!" />
+                </div>
+
+                <!-- Evolution Celebration Overlay -->
+                <div id="evolution-celebration-anim" class="evolution-celebration-overlay" style="display: none;">
+                  <div class="evolution-title">★ WHAT?! POKÉMON IS EVOLVING! ★</div>
+                  <img id="evolution-celebration-sprite" class="evolution-celebration-sprite" src="" alt="Evolving Pokémon" />
+                  <div class="evolution-title" id="evolution-title-text" style="color:#67e8f9; font-size:12px; margin-top:8px;"></div>
+                </div>
+
                 <!-- Elemental Attack FX Layer -->
                 <div id="battle-fx-layer" class="battle-fx-layer"></div>
 
@@ -4136,7 +4313,7 @@
                 <div class="modern-dialogue-banner" id="dialogue-banner">
                   <div class="dialogue-text-area" id="dialogue-text">
                     The tall grass rustles quietly. Press [SEARCH TALL GRASS] to hunt wild Pokémon!
-                    <span class="dialogue-arrow"><svg class="pixel-icon pixel-icon-no-margin" style="width:10px; height:10px;"><use href="#px-arrow-down"></use></svg></span>
+                    <span class="dialogue-arrow"><span style="font-size:7.5px; opacity:0.85; letter-spacing:0.5px; margin-right:3px;">next page</span><svg class="pixel-icon pixel-icon-no-margin" style="width:7px; height:7px;"><use href="#px-arrow-right"></use></svg></span>
                   </div>
                 </div>
 
@@ -4171,24 +4348,24 @@
                     <div class="battle-actions-grid modern-actions-vertical" id="main-actions-grid">
                       <button class="action-menu-btn modern-action-btn btn-action-fight" id="btn-menu-fight">
                         <span class="btn-chevron-tag"></span>
+                        <img src="/ui/icon_fight_sword.png" class="btn-action-lead-icon" alt="Fight" />
                         <span>FIGHT</span>
                         <span class="btn-k-hint">[1]</span>
-                        <svg class="btn-watermark-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19.7 4.3a1 1 0 0 0-1.4 0L14 8.6 9.7 4.3a1 1 0 0 0-1.4 1.4L12.6 10l-4.3 4.3a1 1 0 0 0 0 1.4l1.4 1.4a1 1 0 0 0 1.4 0L15.4 13l4.3 4.3a1 1 0 0 0 1.4-1.4L16.8 11.6l4.3-4.3a1 1 0 0 0 0-1.4z"/></svg>
                       </button>
                       <button class="action-menu-btn modern-action-btn btn-action-bag" id="btn-menu-bag">
+                        <img src="/ui/icon_bag_pack.png" class="btn-action-lead-icon" alt="Bag" />
                         <span>BAG</span>
                         <span class="btn-k-hint">[2]</span>
-                        <svg class="btn-watermark-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 8h-3V6a4 4 0 0 0-8 0v2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-9-2a2 2 0 0 1 4 0v2h-4V6zm9 14H5V10h14v10z"/></svg>
                       </button>
                       <button class="action-menu-btn modern-action-btn btn-action-pkmn" id="btn-menu-pkmn">
+                        <img src="/ui/icon_pkmn_ball.png" class="btn-action-lead-icon" alt="Pokémon" />
                         <span>POKÉMON</span>
                         <span class="btn-k-hint">[3]</span>
-                        <svg class="btn-watermark-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 2c4 0 7.3 3 7.9 7h-4.1a4 4 0 0 0-7.6 0H4.1C4.7 7 8 4 12 4zm0 16a8 8 0 0 1-7.9-7h4.1a4 4 0 0 0 7.6 0h4.1a8 8 0 0 1-7.9 7zm0-6a2 2 0 1 1 2-2 2 2 0 0 1-2 2z"/></svg>
                       </button>
                       <button class="action-menu-btn modern-action-btn btn-action-run" id="btn-menu-run">
+                        <img src="/ui/icon_run_shoe.png" class="btn-action-lead-icon" alt="Run" />
                         <span>RUN</span>
                         <span class="btn-k-hint">[4]</span>
-                        <svg class="btn-watermark-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23l2.1.4 2-7.4 3 3V23h2v-5.2l-2.6-3.1.8-3.9C15.5 12.3 17.6 13 20 13v-2c-2.1 0-3.9-.8-5-2.2l-.9-1.5c-.4-.6-1-1-1.7-1-.3 0-.6.1-.9.2L7 8.5V13h2V9.8l.8-.9z"/></svg>
                       </button>
                     </div>
 
@@ -4263,6 +4440,14 @@
               <button id="btn-mart-selldupes" class="btn-arena-challenge" style="background: #15803d; border-color: #166534;">
                 <svg class="pixel-icon"><use href="#px-coin"></use></svg> SELL DUPES
               </button>
+            </div>
+
+            <!-- Poké Mart Category Filter Tabs -->
+            <div class="mart-filter-row" id="mart-category-tabs">
+              <button class="mart-filter-btn active" data-cat="all">ALL ITEMS</button>
+              <button class="mart-filter-btn" data-cat="balls"><img src="/pokeballs/01_pokeball_classic.png" class="mart-tab-icon" /> POKÉ BALLS</button>
+              <button class="mart-filter-btn" data-cat="medicine"><img src="/items/potion.png" class="mart-tab-icon" /> MEDICINE</button>
+              <button class="mart-filter-btn" data-cat="stones"><img src="/items/fire_stone.png" class="mart-tab-icon" /> STONES & CANDY</button>
             </div>
 
             <div class="mart-balls-grid" id="mart-balls-grid">
@@ -4841,31 +5026,41 @@
       'viridian': 'px-badge-earth',
       'indigo': 'px-badge-dragon',
       'battle_tower': 'px-badge-champion',
-      'boulder': 'px-badge-boulder',
-      'cascade': 'px-badge-cascade',
-      'thunder': 'px-badge-thunder',
-      'rainbow': 'px-badge-rainbow',
-      'marsh': 'px-badge-marsh',
-      'soul': 'px-badge-soul',
-      'volcano': 'px-badge-volcano',
-      'earth': 'px-badge-earth',
-      'dragon': 'px-badge-dragon',
-      'champion': 'px-badge-champion',
-      'Boulder Badge': 'px-badge-boulder',
-      'Cascade Badge': 'px-badge-cascade',
-      'Thunder Badge': 'px-badge-thunder',
-      'Rainbow Badge': 'px-badge-rainbow',
-      'Marsh Badge': 'px-badge-marsh',
-      'Soul Badge': 'px-badge-soul',
-      'Volcano Badge': 'px-badge-volcano',
-      'Earth Badge': 'px-badge-earth',
-      'Dragon Crest': 'px-badge-dragon',
-      'Master Trophy': 'px-badge-champion'
+      'boulder': 'boulder',
+      'cascade': 'cascade',
+      'thunder': 'thunder',
+      'rainbow': 'rainbow',
+      'marsh': 'marsh',
+      'soul': 'soul',
+      'volcano': 'volcano',
+      'earth': 'earth',
+      'dragon': 'dragon',
+      'champion': 'champion',
+      'pewter': 'boulder',
+      'cerulean': 'cascade',
+      'vermilion': 'thunder',
+      'celadon': 'rainbow',
+      'saffron': 'marsh',
+      'fuchsia': 'soul',
+      'cinnabar': 'volcano',
+      'viridian': 'earth',
+      'indigo': 'dragon',
+      'battle_tower': 'champion',
+      'Boulder Badge': 'boulder',
+      'Cascade Badge': 'cascade',
+      'Thunder Badge': 'thunder',
+      'Rainbow Badge': 'rainbow',
+      'Marsh Badge': 'marsh',
+      'Soul Badge': 'soul',
+      'Volcano Badge': 'volcano',
+      'Earth Badge': 'earth',
+      'Dragon Crest': 'dragon',
+      'Master Trophy': 'champion'
     };
 
-    function renderBadgeIcon(key, cls = 'pixel-badge-icon') {
-      const iconId = BADGE_MAP[key] || 'px-trophy';
-      return `<svg class="${cls}" shape-rendering="crispEdges"><use href="#${iconId}"></use></svg>`;
+    function renderBadgeIcon(key, cls = 'pixel-badge-img') {
+      const iconKey = BADGE_MAP[key] || String(key || 'champion').toLowerCase().trim();
+      return `<img class="${cls}" src="/badges/${iconKey}.png" alt="${key}" onerror="this.onerror=null; this.src='/badges/champion.png';" />`;
     }
 
 
@@ -5952,7 +6147,7 @@
           i++;
           dialogueTimeout = setTimeout(type, 18);
         } else {
-          el.innerHTML += '<span class="dialogue-arrow"><svg class="pixel-icon pixel-icon-no-margin" style="width:10px; height:10px;"><use href="#px-arrow-down"></use></svg></span>';
+          el.innerHTML += '<span class="dialogue-arrow"><span style="font-size:7.5px; opacity:0.85; letter-spacing:0.5px; margin-right:3px;">next page</span><svg class="pixel-icon pixel-icon-no-margin" style="width:7px; height:7px;"><use href="#px-arrow-right"></use></svg></span>';
         }
       }
       type();
@@ -6672,6 +6867,9 @@
               if (res.battle_ended) {
                 setTimeout(async () => {
                   SFX.victory();
+                  if (res.leveled_up) {
+                    triggerLevelUpBanner();
+                  }
                   await updateHeaderPlayer();
                   battleTurnBusy = false;
                   if (isArenaMode) {
@@ -6830,79 +7028,227 @@
       return `/pokeballs/${clean}.png`;
     }
 
-    // BAG button clicked -> Show Poké Balls (In battle or inventory view)
-    document.getElementById('btn-menu-bag').addEventListener('click', async () => {
-      SFX.blip();
-      if (isArenaMode) {
-        setDialogue("You cannot use Poké Balls on another Trainer's Pokémon!");
-        return;
+    const ITEM_IMAGE_MAP = {
+      'potion': '/items/potion.png',
+      'super_potion': '/items/super_potion.png',
+      'hyper_potion': '/items/hyper_potion.png',
+      'max_potion': '/items/max_potion.png',
+      'full_restore': '/items/full_restore.png',
+      'antidote': '/items/antidote.png',
+      'burn_heal': '/items/burn_heal.png',
+      'paralyze_heal': '/items/paralyze_heal.png',
+      'awakening': '/items/awakening.png',
+      'elixir': '/items/elixir.png',
+      'max_elixir': '/items/max_elixir.png',
+      'max_repel': '/items/max_repel.png',
+      'fire_stone': '/items/fire_stone.png',
+      'water_stone': '/items/water_stone.png',
+      'thunder_stone': '/items/thunder_stone.png',
+      'leaf_stone': '/items/leaf_stone.png',
+      'moon_stone': '/items/moon_stone.png',
+      'ice_stone': '/items/ice_stone.png',
+      'dawn_stone': '/items/dawn_stone.png',
+      'sun_stone': '/items/sun_stone.png',
+      'exp_crystal_s': '/items/exp_crystal_s.png',
+      'exp_crystal_m': '/items/exp_crystal_m.png',
+      'rare_candy': '/items/rare_candy.png',
+      'fire_orb': '/items/fire_orb.png',
+      'water_orb': '/items/water_orb.png',
+      'grass_orb': '/items/grass_orb.png'
+    };
+
+    function getItemImageUrl(itemId) {
+      if (!itemId) return '/pokeballs/01_pokeball_classic.png';
+      const clean = String(itemId).toLowerCase().trim().replace(/-/g, '_');
+      if (ITEM_IMAGE_MAP[clean]) {
+        return ITEM_IMAGE_MAP[clean];
       }
+      return getBallImageUrl(clean);
+    }
+
+    function triggerLevelUpBanner() {
+      const banner = document.getElementById('levelup-ribbon-anim');
+      if (!banner) return;
+      banner.style.display = 'block';
+      SFX.levelUp();
+      setTimeout(() => {
+        banner.style.display = 'none';
+      }, 2500);
+    }
+
+    function triggerEvolutionCelebration(speciesId, speciesName) {
+      const overlay = document.getElementById('evolution-celebration-anim');
+      const sprite = document.getElementById('evolution-celebration-sprite');
+      const title = document.getElementById('evolution-title-text');
+      if (!overlay || !sprite) return;
+      
+      sprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${speciesId}.gif`;
+      sprite.onerror = () => { sprite.src = `/sprites/${speciesId}.png`; };
+      if (title) title.textContent = `YOUR POKÉMON EVOLVED INTO ${speciesName.toUpperCase()}!`;
+      
+      overlay.style.display = 'flex';
+      SFX.victory();
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, 3500);
+    }
+
+    async function useBagItem(itemId, targetIdx = 0) {
+      SFX.confirm();
       try {
-        const storeData = await api('/store');
-        const odds = (currentWild && currentWild.ball_odds) ? currentWild.ball_odds : {};
-        const grid = document.getElementById('bag-selection-grid');
-        grid.innerHTML = '';
+        const res = await api('/item/use', 'POST', { item: itemId, target_index: targetIdx });
+        setDialogue(res.message);
+        
+        if (res.healed_amount > 0) {
+          SFX.heal();
+          const pSprite = document.getElementById('player-sprite');
+          if (pSprite) {
+            pSprite.style.filter = 'drop-shadow(0 0 25px #22c55e) brightness(1.5)';
+            setTimeout(() => { pSprite.style.filter = ''; }, 600);
+          }
+        }
+        
+        if (res.new_level) {
+          triggerLevelUpBanner();
+        }
+        
+        if (res.evolved_into) {
+          const newMon = res.party[targetIdx];
+          triggerEvolutionCelebration(newMon.id, res.evolved_into);
+        }
+        
+        await updateHeaderPlayer();
+        loadBagSelection(currentBagCategory || 'all');
+      } catch (err) {
+        setDialogue(err.message || 'Cannot use item now!');
+        SFX.blip();
+      }
+    }
 
-        let hasAny = false;
-        let ballSlot = 1;
-        (storeData.items || []).forEach(item => {
-          if (item.owned > 0) {
-            hasAny = true;
-            const btn = document.createElement('button');
-            btn.className = 'move-btn bag-ball-btn';
-            const catchPct = (currentWild && odds[item.id] !== undefined) ? `${odds[item.id]}%` : '--';
-            const ballSrc = getBallImageUrl(item.id);
+    let currentBagCategory = 'all';
 
-            btn.innerHTML = `
-              <div style="display:flex; align-items:center; gap:10px;">
-                <img class="bag-ball-thumb" src="${ballSrc}" alt="${item.name}" onerror="this.src='/pokeballs/01_pokeball_classic.png'" />
-                <span style="display:flex; flex-direction:column; text-align:left;">
-                  <span style="font-size:10px; font-weight:bold; color:#f8fafc;"><span class="k-hint">[${ballSlot}]</span> ${item.name.toUpperCase()}</span>
-                  <span style="font-size:7.5px; color:#94a3b8; max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.description || ''}</span>
-                </span>
-              </div>
-              <div style="display:flex; flex-direction:column; align-items:flex-end;">
-                <span style="font-size:8.5px; color:var(--neon-yellow); font-weight:bold;">×${item.owned}</span>
-                <span style="font-size:8px; color:var(--neon-green); font-weight:bold;">${currentWild ? `ODDS: ${catchPct}` : 'BAG'}</span>
-              </div>
-            `;
-            if (currentWild) {
+    async function loadBagSelection(cat = 'all') {
+      currentBagCategory = cat;
+      const storeData = await api('/store');
+      const odds = (currentWild && currentWild.ball_odds) ? currentWild.ball_odds : {};
+      const grid = document.getElementById('bag-selection-grid');
+      grid.innerHTML = '';
+
+      // Category filter tabs
+      const filterBar = document.createElement('div');
+      filterBar.className = 'bag-filter-row';
+      filterBar.style.gridColumn = '1 / -1';
+      filterBar.innerHTML = `
+        <button class="bag-filter-btn ${cat === 'all' ? 'active' : ''}" onclick="loadBagSelection('all')">ALL</button>
+        <button class="bag-filter-btn ${cat === 'balls' ? 'active' : ''}" onclick="loadBagSelection('balls')">
+          <img src="/pokeballs/01_pokeball_classic.png" class="bag-tab-icon" /> BALLS
+        </button>
+        <button class="bag-filter-btn ${cat === 'medicine' ? 'active' : ''}" onclick="loadBagSelection('medicine')">
+          <img src="/items/potion.png" class="bag-tab-icon" /> MEDICINE
+        </button>
+        <button class="bag-filter-btn ${cat === 'stones' ? 'active' : ''}" onclick="loadBagSelection('stones')">
+          <img src="/items/fire_stone.png" class="bag-tab-icon" /> STONES/CANDY
+        </button>
+      `;
+      grid.appendChild(filterBar);
+
+      let hasAny = false;
+      let slotNum = 1;
+      (storeData.items || []).forEach(item => {
+        if (item.owned > 0) {
+          const isBall = ['balls', 'special', 'elemental', 'mystic', 'master'].includes(item.category);
+          const isMed = item.category === 'medicine';
+          const isStone = ['stones', 'crystals'].includes(item.category);
+
+          if (cat === 'balls' && !isBall) return;
+          if (cat === 'medicine' && !isMed) return;
+          if (cat === 'stones' && !isStone) return;
+
+          hasAny = true;
+          const btn = document.createElement('button');
+          btn.className = 'move-btn bag-ball-btn';
+          const catchPct = (currentWild && odds[item.id] !== undefined) ? `${odds[item.id]}%` : null;
+          const itemSrc = getItemImageUrl(item.id);
+
+          btn.innerHTML = `
+            <div style="display:flex; align-items:center; gap:10px;">
+              <img class="bag-ball-thumb" src="${itemSrc}" alt="${item.name}" onerror="this.src='/pokeballs/01_pokeball_classic.png'" />
+              <span style="display:flex; flex-direction:column; text-align:left;">
+                <span style="font-size:10px; font-weight:bold; color:#f8fafc;"><span class="k-hint">[${slotNum}]</span> ${item.name.toUpperCase()}</span>
+                <span style="font-size:7.5px; color:#94a3b8; max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.description || ''}</span>
+              </span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end;">
+              <span style="font-size:8.5px; color:var(--neon-yellow); font-weight:bold;">×${item.owned}</span>
+              <span style="font-size:8px; color:var(--neon-green); font-weight:bold;">${isBall && catchPct ? `ODDS: ${catchPct}` : (isBall ? 'BALL' : 'USE')}</span>
+            </div>
+          `;
+
+          if (isBall) {
+            if (isArenaMode) {
+              btn.style.opacity = '0.5';
+              btn.onclick = () => {
+                SFX.cancel();
+                setDialogue("Cannot catch Trainer Pokémon in Arena fights!");
+              };
+            } else if (currentWild) {
               btn.onclick = () => throwBall(item.id);
             } else {
               btn.onclick = () => {
                 SFX.blip();
-                setDialogue(`You have ${item.owned}x ${item.name.toUpperCase()} in your bag. Press [SPACE] or [SEARCH TALL GRASS] to hunt wild Pokémon!`);
+                setDialogue(`You have ${item.owned}x ${item.name.toUpperCase()} in your bag.`);
               };
             }
-            grid.appendChild(btn);
-            ballSlot++;
+          } else {
+            // Medicine or Stone item -> Use
+            btn.onclick = () => useBagItem(item.id, 0);
           }
-        });
 
-        // Add Back / Return button
-        const backBtn = document.createElement('button');
-        backBtn.className = 'move-btn move-back-btn';
-        backBtn.style.gridColumn = '1 / -1';
-        backBtn.innerHTML = `
-          <span><span class="k-hint">[B]</span> <svg class="pixel-icon"><use href="#px-arrow-left"></use></svg> BACK TO ACTIONS</span>
-        `;
-        backBtn.onclick = () => {
-          SFX.cancel();
-          showMainActionsMenu();
-        };
-        grid.appendChild(backBtn);
-
-        document.getElementById('main-actions-grid').style.display = 'none';
-        document.getElementById('moves-selection-grid').style.display = 'none';
-        document.getElementById('bag-selection-grid').style.display = 'grid';
-
-        if (!hasAny) {
-          setDialogue("Your bag has no Poké Balls! Visit the Poké Mart to restock.");
-        } else if (currentWild) {
-          setDialogue("Choose a Poké Ball to throw at the wild Pokémon:");
-        } else {
-          setDialogue("Viewing Poké Balls in your bag. Press [B] or BACK TO ACTIONS to close.");
+          grid.appendChild(btn);
+          slotNum++;
         }
+      });
+
+      if (!hasAny) {
+        const emptyMsg = document.createElement('div');
+        emptyMsg.style.gridColumn = '1 / -1';
+        emptyMsg.style.textAlign = 'center';
+        emptyMsg.style.padding = '18px';
+        emptyMsg.style.fontSize = '8.5px';
+        emptyMsg.style.color = '#94a3b8';
+        emptyMsg.textContent = 'NO ITEMS IN THIS CATEGORY. VISIT POKÉ MART TO STOCK UP!';
+        grid.appendChild(emptyMsg);
+      }
+
+      // Add Back / Return button
+      const backBtn = document.createElement('button');
+      backBtn.className = 'move-btn move-back-btn';
+      backBtn.style.gridColumn = '1 / -1';
+      backBtn.innerHTML = `
+        <span><span class="k-hint">[B]</span> <svg class="pixel-icon"><use href="#px-arrow-left"></use></svg> BACK TO ACTIONS</span>
+      `;
+      backBtn.onclick = () => {
+        SFX.cancel();
+        showMainActionsMenu();
+      };
+      grid.appendChild(backBtn);
+
+      document.getElementById('main-actions-grid').style.display = 'none';
+      document.getElementById('moves-selection-grid').style.display = 'none';
+      document.getElementById('bag-selection-grid').style.display = 'grid';
+
+      if (currentWild) {
+        setDialogue("Select an item from your Bag (Poké Balls, Potions, Candies):");
+      } else {
+        setDialogue("Viewing items in your Bag. Click USE to apply, or [B] to return.");
+      }
+    }
+
+    // BAG button clicked -> Show Poké Balls & Items (In battle or inventory view)
+    document.getElementById('btn-menu-bag').addEventListener('click', async () => {
+      SFX.blip();
+      try {
+        await loadBagSelection('all');
       } catch (e) {
         setDialogue("Could not open bag: " + (e.message || "Unknown error"));
       }
@@ -6988,6 +7334,9 @@
                         if (res.success) {
                           // SUCCESS: Stars burst, click sound & victory
                           SFX.victory();
+                          if (res.leveled_up) {
+                            triggerLevelUpBanner();
+                          }
                           animBall.style.boxShadow = '0 0 35px #facc15';
                           animBall.style.filter = 'drop-shadow(0 0 20px #facc15)';
                           
@@ -7314,17 +7663,40 @@
     // ============================================================
     // 4. POKÉ MART STORE
     // ============================================================
-    async function loadPokeMart() {
+    let currentMartCategory = 'all';
+
+    async function loadPokeMart(category = currentMartCategory) {
+      currentMartCategory = category;
       try {
         const data = await api('/store');
         const grid = document.getElementById('mart-balls-grid');
         grid.innerHTML = '';
 
-        data.items.forEach(ball => {
+        // Update active class on filter buttons
+        document.querySelectorAll('#mart-category-tabs .mart-filter-btn').forEach(btn => {
+          if (btn.getAttribute('data-cat') === category) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+
+        const filtered = data.items.filter(item => {
+          if (category === 'all') return true;
+          const isBall = ['balls', 'special', 'elemental', 'mystic', 'master'].includes(item.category);
+          const isMed = item.category === 'medicine';
+          const isStone = ['stones', 'crystals'].includes(item.category);
+          if (category === 'balls') return isBall;
+          if (category === 'medicine') return isMed;
+          if (category === 'stones') return isStone;
+          return true;
+        });
+
+        filtered.forEach(ball => {
           const item = document.createElement('div');
           item.className = 'mart-ball-item';
           const unlocked = data.level >= ball.unlock_level;
-          const ballImg = getBallImageUrl(ball.id);
+          const ballImg = getItemImageUrl(ball.id);
 
           item.innerHTML = `
             <div class="mart-ball-top">
@@ -7344,6 +7716,14 @@
         });
       } catch (e) {}
     }
+
+    // Attach click listeners to Poke Mart category tabs
+    document.querySelectorAll('#mart-category-tabs .mart-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        SFX.blip();
+        loadPokeMart(btn.getAttribute('data-cat'));
+      });
+    });
 
     async function buyMartBall(ballId) {
       SFX.confirm();
@@ -7423,6 +7803,16 @@
     document.getElementById('dex-filter-search').addEventListener('input', () => loadPokedex());
     document.getElementById('dex-filter-gen').addEventListener('change', () => loadPokedex());
     document.getElementById('dex-filter-ownership').addEventListener('change', () => loadPokedex());
+
+    function renderTypeChip(t, extraStyle = '') {
+      const typeLower = String(t || '').toLowerCase().trim();
+      const col = TYPE_COLORS[t] || '#666';
+      const typeIcons = ['fire', 'water', 'grass', 'electric', 'psychic', 'ghost', 'fighting'];
+      const iconImg = typeIcons.includes(typeLower)
+        ? `<img src="/ui/badge_type_${typeLower}.png" style="width:13px; height:13px; object-fit:contain; vertical-align:middle; margin-right:3px; flex-shrink:0;" alt="${t}" />`
+        : '';
+      return `<span class="card-type-chip" style="background:${col}; display:inline-flex; align-items:center; ${extraStyle}">${iconImg}${t.toUpperCase()}</span>`;
+    }
 
     // ============================================================
     // RETRO DETAIL MODAL: SPLIT CARD & LIVE STADIUM SHOWCASE
@@ -7555,7 +7945,7 @@
                     </button>
                   </div>
                   <div class="stadium-stage-badges">
-                    ${p.types.map(t => `<span class="card-type-chip" style="background:${TYPE_COLORS[t] || '#555'}; font-size:8px; padding:3px 8px;">${t.toUpperCase()}</span>`).join(' ')}
+                    ${p.types.map(t => renderTypeChip(t, 'font-size:8px; padding:3px 8px;')).join(' ')}
                     <span class="stadium-rarity-badge">${p.rarity.toUpperCase()}</span>
                     <span class="stadium-gen-badge">GEN ${data.generation}</span>
                     <span class="stadium-owned-badge ${data.owned_count > 0 ? 'owned' : ''}">
@@ -7692,10 +8082,7 @@
       const speVal = stats.Spe !== undefined ? stats.Spe : (stats.speed !== undefined ? stats.speed : 45);
       const bst = stats.Total || stats.total || (hpVal + atkVal + defVal + spaVal + spdVal + speVal);
 
-      const typesHtml = (p.types || []).map(t => {
-        const col = TYPE_COLORS[t] || '#666';
-        return `<span class="card-type-chip" style="background:${col};">${t.toUpperCase()}</span>`;
-      }).join('');
+      const typesHtml = (p.types || []).map(t => renderTypeChip(t)).join(' ');
 
       const abilitiesTxt = (p.abilities && p.abilities.length > 0) ? p.abilities.join(', ') : 'None';
 
@@ -8017,9 +8404,10 @@
           arenaData.divisions.forEach(d => {
             const slot = document.createElement('div');
             slot.className = `badge-slot ${d.completed ? 'unlocked' : ''}`;
+            slot.title = `${d.badge} - ${d.completed ? 'CLAIMED' : 'CHALLENGE LEADER TO UNLOCK'}`;
             slot.innerHTML = `
-              <div>${renderBadgeIcon(d.badge_icon || d.id, 'pixel-badge-icon')}</div>
-              <div style="font-size:6px; margin-top:2px;">${d.badge.split(' ')[0]}</div>
+              <div>${renderBadgeIcon(d.badge_icon || d.id, 'pixel-badge-img')}</div>
+              <div style="font-size:7px; margin-top:4px; font-weight:bold; color:${d.completed ? '#facc15' : '#64748b'};">${d.badge.replace(' Badge', '').replace(' Crest', '').replace(' Trophy', '')}</div>
             `;
             grid.appendChild(slot);
           });

@@ -191,10 +191,13 @@ impl Default for PlayerData {
         balls.insert("nest_ball".to_string(), 0);
         balls.insert("repeat_ball".to_string(), 0);
         balls.insert("quick_ball".to_string(), 0);
+        balls.insert("potion".to_string(), 5);
+        balls.insert("super_potion".to_string(), 2);
+        balls.insert("rare_candy".to_string(), 2);
 
         Self {
             username: whoami(),
-            currency: 0,
+            currency: 1000,
             xp: 0,
             balls,
             last_hunt_time: 0.0,
@@ -312,6 +315,18 @@ pub struct BuyResult {
     pub new_balance: u64,
     pub new_owned_count: u32,
     pub message: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ItemUseResult {
+    pub success: bool,
+    pub message: String,
+    pub item: String,
+    pub items_remaining: u32,
+    pub healed_amount: u32,
+    pub new_level: Option<u32>,
+    pub evolved_into: Option<String>,
+    pub party: Vec<BattlePokemon>,
 }
 
 // Arena Models
