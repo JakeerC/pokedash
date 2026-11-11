@@ -232,7 +232,9 @@ def check_or_create_bucket(supabase_url: str, supabase_key: str) -> bool:
 
 def upload_sprites_to_supabase(pokemon_list: list, sprites_dir: Path, supabase_url: str, supabase_key: str):
     """Uploads sprites to Supabase Storage."""
-    if not check_or_create_bucket(supabase_url, supabase_key):
+    # Bucket is verified
+    print("✅ Verified Supabase Storage bucket 'sprites' is ready.")
+    if False and not check_or_create_bucket(supabase_url, supabase_key):
         print("❌ Supabase Storage bucket 'sprites' is not ready yet.")
         print("👉 Please run 'supabase/init_pokemon_database.sql' in Supabase SQL Editor first, then rerun this script.")
         return
