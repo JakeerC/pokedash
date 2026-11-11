@@ -805,13 +805,19 @@
       transition: width 0.4s ease;
     }
 
-    /* Battle Environment Pill Badge (Top-Right inside Arena) */
-    .battle-env-badge {
+    /* Battle Environment Pill Badge Container & Dropdown (Top-Right inside Arena) */
+    .battle-env-container {
       position: absolute;
       top: clamp(14px, 2.5vh, 24px);
       right: clamp(16px, 2.5vw, 28px);
-      z-index: 20;
-      background: linear-gradient(135deg, rgba(8, 38, 44, 0.82) 0%, rgba(12, 52, 60, 0.74) 100%);
+      z-index: 35;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .battle-env-badge {
+      position: relative;
+      background: linear-gradient(135deg, rgba(8, 38, 44, 0.85) 0%, rgba(12, 52, 60, 0.78) 100%);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1.5px solid rgba(45, 212, 191, 0.5);
@@ -829,15 +835,162 @@
       cursor: pointer;
       user-select: none;
       transition: all 0.2s ease;
+      outline: none;
     }
-    .battle-env-badge:hover {
+    .battle-env-badge:hover,
+    .battle-env-badge.picker-open {
       background: linear-gradient(135deg, rgba(12, 58, 68, 0.95) 0%, rgba(18, 78, 90, 0.88) 100%);
-      border-color: rgba(45, 212, 191, 0.85);
+      border-color: rgba(45, 212, 191, 0.9);
       box-shadow: 0 4px 20px rgba(45, 212, 191, 0.35);
       transform: translateY(-1px);
     }
     .battle-env-badge:active {
       transform: translateY(1px);
+    }
+    .scenery-picker-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      width: 250px;
+      background: linear-gradient(135deg, rgba(8, 28, 32, 0.96) 0%, rgba(12, 42, 48, 0.94) 100%);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(45, 212, 191, 0.55);
+      border-radius: 12px;
+      padding: 8px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7), 0 0 20px rgba(45, 212, 191, 0.2);
+      z-index: 40;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      animation: dropdown-pop 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes dropdown-pop {
+      from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .scenery-picker-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 8px 6px;
+      border-bottom: 1px solid rgba(45, 212, 191, 0.2);
+      margin-bottom: 4px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    }
+    .scenery-picker-title {
+      font-size: 10px;
+      font-weight: 800;
+      color: #5eead4;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .scenery-picker-k-hint {
+      font-size: 8.5px;
+      font-family: monospace;
+      color: #facc15;
+      background: rgba(250, 204, 21, 0.12);
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+    .scenery-picker-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+    .scenery-picker-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: rgba(14, 48, 54, 0.45);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      color: #cbd5e1;
+    }
+    .scenery-picker-item:hover {
+      background: rgba(45, 212, 191, 0.18);
+      border-color: rgba(45, 212, 191, 0.6);
+      color: #fff;
+      transform: translateX(-2px);
+    }
+    .scenery-picker-item.active {
+      background: rgba(45, 212, 191, 0.22);
+      border-color: #2dd4bf;
+      color: #fff;
+      box-shadow: 0 0 12px rgba(45, 212, 191, 0.25);
+    }
+    .scenery-item-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .scenery-item-info {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+    .scenery-item-name {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      color: #f8fafc;
+    }
+    .scenery-picker-item.active .scenery-item-name {
+      color: #5eead4;
+    }
+    .scenery-item-route {
+      font-size: 8.5px;
+      color: #94a3b8;
+    }
+    .scenery-item-num {
+      font-family: monospace;
+      font-size: 8px;
+      color: #94a3b8;
+      padding: 1px 4px;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+    .scenery-picker-item.active .scenery-item-num {
+      color: #2dd4bf;
+      font-weight: bold;
+    }
+    .scenery-picker-footer {
+      display: flex;
+      gap: 6px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(45, 212, 191, 0.2);
+      margin-top: 4px;
+    }
+    .scenery-footer-btn {
+      flex: 1;
+      background: rgba(14, 48, 54, 0.6);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 8.5px;
+      font-weight: bold;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      color: #5eead4;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+    .scenery-footer-btn:hover {
+      background: rgba(45, 212, 191, 0.2);
+      border-color: #2dd4bf;
+      color: #fff;
     }
     .env-badge-pulse {
       width: 6px;
@@ -3579,6 +3732,25 @@
       font-size: 7.5px;
       color: #64748b;
     }
+    .retro-settings-select {
+      background: #172e20;
+      border: 1.5px solid #2d4f39;
+      color: #5eead4;
+      padding: 6px 12px;
+      font-size: 8.5px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      font-weight: 800;
+      border-radius: 6px;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.15s ease;
+    }
+    .retro-settings-select:hover, .retro-settings-select:focus {
+      border-color: #2dd4bf;
+      color: #fff;
+      background: #1e3d2c;
+      box-shadow: 0 0 10px rgba(45, 212, 191, 0.3);
+    }
     .settings-keys-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -3768,10 +3940,32 @@
                 </div>
 
                 <!-- Top-Right: Route / Battle Environment Pill Badge (Inside Arena) -->
-                <div class="battle-env-badge" id="battle-env-badge" title="Click to randomize battlefield background">
-                  <span class="env-badge-pulse"></span>
-                  <svg class="pixel-icon" id="battle-env-icon"><use href="#px-grass"></use></svg>
-                  <span id="battle-env-label">ROUTE 1 • TALL GRASS</span>
+                <div class="battle-env-container" id="battle-env-container">
+                  <div class="battle-env-badge" id="battle-env-badge" title="Click to choose scenery [V]" role="button" tabindex="0">
+                    <span class="env-badge-pulse"></span>
+                    <svg class="pixel-icon" id="battle-env-icon"><use href="#px-grass"></use></svg>
+                    <span id="battle-env-label">ROUTE 1 • SUNLIT MEADOW</span>
+                    <svg class="pixel-icon pixel-icon-no-margin" style="width:8px; height:8px; opacity:0.8; margin-left:3px;"><use href="#px-arrow-down"></use></svg>
+                  </div>
+                  
+                  <!-- Interactive Scenery Selector Dropdown -->
+                  <div class="scenery-picker-dropdown" id="scenery-picker-dropdown" style="display:none;">
+                    <div class="scenery-picker-header">
+                      <span class="scenery-picker-title">
+                        <svg class="pixel-icon"><use href="#px-grass"></use></svg> CHOOSE SCENERY
+                      </span>
+                      <span class="scenery-picker-k-hint">[V]</span>
+                    </div>
+                    <div class="scenery-picker-list" id="scenery-picker-list"></div>
+                    <div class="scenery-picker-footer">
+                      <button class="scenery-footer-btn" id="btn-scenery-cycle" type="button" title="Cycle to next scenery [V]">
+                        <svg class="pixel-icon"><use href="#px-arrow-right"></use></svg> NEXT [V]
+                      </button>
+                      <button class="scenery-footer-btn" id="btn-scenery-random" type="button" title="Pick random scenery">
+                        <svg class="pixel-icon"><use href="#px-star"></use></svg> SHUFFLE
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <!-- Upper Field: Enemy Pokémon Platform & Sprite on Midground Trail -->
@@ -4274,6 +4468,21 @@
               <button id="toggle-scanlines" class="retro-pill-btn"><svg class="pixel-icon"><use href="#px-crt"></use></svg> CRT OFF</button>
             </div>
 
+            <!-- SCENERY -->
+            <div class="settings-control-row">
+              <div class="settings-control-text">
+                <div class="settings-control-name">BATTLEFIELD SCENERY</div>
+                <div class="settings-control-hint">Select your favorite arena environment & route backdrop [V]</div>
+              </div>
+              <select id="settings-scenery-select" class="retro-settings-select">
+                <option value="meadow">SUNLIT MEADOW (ROUTE 1)</option>
+                <option value="forest">VIRIDIAN FOREST (ROUTE 2)</option>
+                <option value="autumn">AUTUMN GROVE (ROUTE 37)</option>
+                <option value="coast">AZURE COAST (ROUTE 19)</option>
+                <option value="mountain">INDIGO PEAKS (MT. MOON)</option>
+              </select>
+            </div>
+
             <!-- LAYOUT -->
             <div class="settings-control-row">
               <div class="settings-control-text">
@@ -4318,6 +4527,7 @@
             <div class="settings-key-item"><kbd>C</kbd> <span>Play Pokémon Cry</span></div>
             <div class="settings-key-item"><kbd>Q / E</kbd> <span>Switch Location Tabs</span></div>
             <div class="settings-key-item"><kbd>L</kbd> <span>Toggle Layout Mode</span></div>
+            <div class="settings-key-item"><kbd>V</kbd> <span>Change Scenery Menu</span></div>
             <div class="settings-key-item"><kbd>S</kbd> <span>Open Settings Menu</span></div>
             <div class="settings-key-item"><kbd>ESC</kbd> <span>Close Menu / Cancel</span></div>
           </div>
@@ -5744,6 +5954,7 @@
         envTitle: 'SUNLIT MEADOW',
         peacefulLabel: 'ROUTE 1 • SUNLIT MEADOW',
         wildLabel: 'SUNLIT MEADOW • WILD',
+        subtitle: 'Route 1 • Lush Grassland',
         icon: 'px-grass',
         file: 'arena_meadow.jpg'
       },
@@ -5754,6 +5965,7 @@
         envTitle: 'VIRIDIAN FOREST',
         peacefulLabel: 'ROUTE 2 • VIRIDIAN FOREST',
         wildLabel: 'VIRIDIAN FOREST • WILD',
+        subtitle: 'Route 2 • Ancient Canopy',
         icon: 'px-grass',
         file: 'arena_forest.jpg'
       },
@@ -5764,7 +5976,8 @@
         envTitle: 'AUTUMN GROVE',
         peacefulLabel: 'ROUTE 37 • AUTUMN GROVE',
         wildLabel: 'AUTUMN GROVE • WILD',
-        icon: 'px-grass',
+        subtitle: 'Route 37 • Golden Foliage',
+        icon: 'px-badge-rainbow',
         file: 'arena_autumn.jpg'
       },
       {
@@ -5774,16 +5987,18 @@
         envTitle: 'AZURE COAST',
         peacefulLabel: 'ROUTE 19 • AZURE COAST',
         wildLabel: 'AZURE COAST • WILD',
+        subtitle: 'Route 19 • Ocean Shoreline',
         icon: 'px-badge-cascade',
         file: 'arena_coast.jpg'
       },
       {
         id: 'mountain',
         className: 'arena-theme-mountain',
-        name: 'Mountain Peaks',
+        name: 'Indigo Peaks',
         envTitle: 'INDIGO PEAKS',
         peacefulLabel: 'MT. MOON • ALPINE PEAKS',
         wildLabel: 'INDIGO PEAKS • WILD',
+        subtitle: 'Mt. Moon • Summit Ridge',
         icon: 'px-badge-boulder',
         file: 'arena_mountain.jpg'
       }
@@ -5799,6 +6014,22 @@
       icon: 'px-arena',
       file: 'arena_mountain.jpg'
     };
+
+    const STORAGE_SCENERY_KEY = 'pokedash_scenery_id';
+
+    function getUserSavedSceneryId() {
+      try {
+        return localStorage.getItem(STORAGE_SCENERY_KEY) || 'meadow';
+      } catch (e) {
+        return 'meadow';
+      }
+    }
+
+    function saveUserSceneryId(id) {
+      try {
+        localStorage.setItem(STORAGE_SCENERY_KEY, id);
+      } catch (e) {}
+    }
 
     let currentBattleTheme = BATTLE_ARENA_THEMES[0];
 
@@ -5853,24 +6084,179 @@
       }
     }
 
-    function randomizeBattleArenaTheme() {
+    function loadSavedBattleArenaTheme() {
+      const savedId = getUserSavedSceneryId();
+      setUserBattleArenaTheme(savedId, { save: false, playSound: false, showDialogue: false });
+    }
+
+    function restoreUserBattleArenaTheme() {
+      const savedId = getUserSavedSceneryId();
+      setUserBattleArenaTheme(savedId, { save: false, playSound: false, showDialogue: false });
+    }
+
+    function setUserBattleArenaTheme(themeOrId, options = {}) {
+      const { save = true, playSound = false, showDialogue = false } = options;
+      let theme = themeOrId;
+      if (typeof themeOrId === 'string') {
+        theme = BATTLE_ARENA_THEMES.find(t => t.id === themeOrId || (themeOrId === 'grove' && t.id === 'autumn')) || BATTLE_ARENA_THEMES[0];
+      }
+      if (!theme) theme = BATTLE_ARENA_THEMES[0];
+
+      currentBattleTheme = theme;
+      if (save) {
+        saveUserSceneryId(theme.id);
+      }
+
+      setBattleArenaTheme(theme);
+      updateSceneryDropdownUI();
+
+      const settingsSelect = document.getElementById('settings-scenery-select');
+      if (settingsSelect && settingsSelect.value !== theme.id) {
+        settingsSelect.value = theme.id;
+      }
+
+      if (playSound && typeof SFX !== 'undefined' && SFX.confirm) {
+        SFX.confirm();
+      }
+
+      if (showDialogue) {
+        setDialogue(`Battlefield scenery changed to ${theme.name} (${theme.subtitle || theme.peacefulLabel})!`);
+      }
+    }
+
+    function cycleToNextScenery(save = true) {
+      const pool = BATTLE_ARENA_THEMES;
+      const currentIdx = pool.findIndex(t => t.id === currentBattleTheme.id);
+      const nextIdx = (currentIdx + 1) % pool.length;
+      const nextTheme = pool[nextIdx];
+      setUserBattleArenaTheme(nextTheme, { save, playSound: true, showDialogue: true });
+      return nextTheme;
+    }
+
+    function randomizeBattleArenaTheme(save = true) {
       const pool = BATTLE_ARENA_THEMES;
       const candidates = pool.filter(t => t.id !== currentBattleTheme.id);
       const chosen = candidates.length > 0
         ? candidates[Math.floor(Math.random() * candidates.length)]
         : pool[Math.floor(Math.random() * pool.length)];
-      setBattleArenaTheme(chosen);
+      setUserBattleArenaTheme(chosen, { save, playSound: true, showDialogue: true });
       return chosen;
+    }
+
+    function isSceneryPickerOpen() {
+      const dropdown = document.getElementById('scenery-picker-dropdown');
+      return dropdown && dropdown.style.display !== 'none';
+    }
+
+    function openSceneryPicker() {
+      const dropdown = document.getElementById('scenery-picker-dropdown');
+      const badge = document.getElementById('battle-env-badge');
+      if (!dropdown) return;
+      renderSceneryPicker();
+      dropdown.style.display = 'flex';
+      if (badge) badge.classList.add('picker-open');
+    }
+
+    function closeSceneryPicker() {
+      const dropdown = document.getElementById('scenery-picker-dropdown');
+      const badge = document.getElementById('battle-env-badge');
+      if (dropdown) dropdown.style.display = 'none';
+      if (badge) badge.classList.remove('picker-open');
+    }
+
+    function toggleSceneryPicker() {
+      if (isSceneryPickerOpen()) {
+        closeSceneryPicker();
+        if (typeof SFX !== 'undefined' && SFX.cancel) SFX.cancel();
+      } else {
+        openSceneryPicker();
+        if (typeof SFX !== 'undefined' && SFX.blip) SFX.blip();
+      }
+    }
+
+    function renderSceneryPicker() {
+      const list = document.getElementById('scenery-picker-list');
+      if (!list) return;
+      list.innerHTML = BATTLE_ARENA_THEMES.map((t, idx) => {
+        const isActive = (currentBattleTheme && currentBattleTheme.id === t.id);
+        return `
+          <div class="scenery-picker-item ${isActive ? 'active' : ''}" data-scenery-id="${t.id}" title="${t.name}">
+            <div class="scenery-item-left">
+              <svg class="pixel-icon" style="width:14px; height:14px;"><use href="#${t.icon}"></use></svg>
+              <div class="scenery-item-info">
+                <span class="scenery-item-name">${t.name.toUpperCase()}</span>
+                <span class="scenery-item-route">${t.subtitle || t.peacefulLabel}</span>
+              </div>
+            </div>
+            <span class="scenery-item-num">[${idx + 1}]</span>
+          </div>
+        `;
+      }).join('');
+
+      // Add click listeners to items
+      list.querySelectorAll('.scenery-picker-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const sid = item.dataset.sceneryId;
+          setUserBattleArenaTheme(sid, { save: true, playSound: true, showDialogue: true });
+          closeSceneryPicker();
+        });
+      });
+    }
+
+    function updateSceneryDropdownUI() {
+      const list = document.getElementById('scenery-picker-list');
+      if (!list) return;
+      list.querySelectorAll('.scenery-picker-item').forEach(item => {
+        const sid = item.dataset.sceneryId;
+        if (sid === currentBattleTheme.id) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
     }
 
     function initBattleEnvBadge() {
       const badge = document.getElementById('battle-env-badge');
+      const cycleBtn = document.getElementById('btn-scenery-cycle');
+      const randomBtn = document.getElementById('btn-scenery-random');
+      const settingsSelect = document.getElementById('settings-scenery-select');
+
       if (badge) {
-        badge.addEventListener('click', () => {
-          SFX.blip();
-          randomizeBattleArenaTheme();
+        badge.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleSceneryPicker();
         });
       }
+
+      if (cycleBtn) {
+        cycleBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          cycleToNextScenery(true);
+        });
+      }
+
+      if (randomBtn) {
+        randomBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          randomizeBattleArenaTheme(true);
+        });
+      }
+
+      if (settingsSelect) {
+        settingsSelect.addEventListener('change', (e) => {
+          setUserBattleArenaTheme(e.target.value, { save: true, playSound: true, showDialogue: true });
+        });
+      }
+
+      // Close when clicking outside
+      document.addEventListener('click', (e) => {
+        const container = document.getElementById('battle-env-container');
+        if (container && !container.contains(e.target)) {
+          closeSceneryPicker();
+        }
+      });
     }
 
     // ============================================================
@@ -5883,7 +6269,7 @@
         if (data && data.has_wild && data.encounter) {
           isArenaMode = false;
           currentWild = data;
-          randomizeBattleArenaTheme();
+          restoreUserBattleArenaTheme();
           renderWildBattle(data);
         } else {
           showSearchTallGrassState();
@@ -6143,7 +6529,7 @@
                   if (isArenaMode) {
                     isArenaMode = false;
                     currentArenaBattle = null;
-                    randomizeBattleArenaTheme();
+                    restoreUserBattleArenaTheme();
                   }
                   showMainActionsMenu();
                   showSearchTallGrassState();
@@ -6207,7 +6593,7 @@
                     if (isArenaMode) {
                       isArenaMode = false;
                       currentArenaBattle = null;
-                      randomizeBattleArenaTheme();
+                      restoreUserBattleArenaTheme();
                     }
                     showMainActionsMenu();
                     await updateHeaderPlayer();
@@ -6449,7 +6835,6 @@
       if (huntBusy) return;
       huntBusy = true;
       SFX.confirm();
-      randomizeBattleArenaTheme();
       setDialogue(`Searching through ${currentBattleTheme.name.toLowerCase()}...`);
       try {
         const encounter = await api('/hunt', 'POST');
@@ -7663,6 +8048,7 @@
       // Quick actions
       if (lower === 'c') elements.push(document.getElementById('btn-play-cry'));
       if (lower === 'h') elements.push(document.getElementById('btn-nurse-heal'));
+      if (lower === 'v') elements.push(document.getElementById('battle-env-badge'));
 
       return elements.filter(Boolean);
     }
@@ -7695,6 +8081,11 @@
       // 1. ESC / Back / Cancel / X
       if (key === 'Escape' || lower === 'x' || key === 'Backspace') {
         e.preventDefault();
+        if (isSceneryPickerOpen()) {
+          closeSceneryPicker();
+          if (typeof SFX !== 'undefined' && SFX.cancel) SFX.cancel();
+          return;
+        }
         const settingsModal = document.getElementById('settings-modal');
         if (settingsModal && settingsModal.classList.contains('open')) {
           closeSettingsModal();
@@ -7708,6 +8099,31 @@
         }
         showMainActionsMenu();
         SFX.cancel();
+        return;
+      }
+
+      // Scenery Picker Dropdown hotkeys when open
+      if (isSceneryPickerOpen()) {
+        if (['1', '2', '3', '4', '5'].includes(key)) {
+          e.preventDefault();
+          const idx = parseInt(key, 10) - 1;
+          if (BATTLE_ARENA_THEMES[idx]) {
+            setUserBattleArenaTheme(BATTLE_ARENA_THEMES[idx].id, { save: true, playSound: true, showDialogue: true });
+            closeSceneryPicker();
+          }
+          return;
+        }
+        if (lower === 'v') {
+          e.preventDefault();
+          cycleToNextScenery(true);
+          return;
+        }
+      }
+
+      // V key: Toggle Scenery Picker
+      if (lower === 'v') {
+        e.preventDefault();
+        toggleSceneryPicker();
         return;
       }
 
@@ -7879,7 +8295,7 @@
     // ============================================================
     window.addEventListener('DOMContentLoaded', async () => {
       initBattleEnvBadge();
-      randomizeBattleArenaTheme();
+      loadSavedBattleArenaTheme();
       initAuthHandlers();
       initCardsCatalogListeners();
       await checkAuthFromUrl();
