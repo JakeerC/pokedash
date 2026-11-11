@@ -307,7 +307,7 @@ impl GameService {
             abilities: encounter.pokemon.abilities.clone(),
             moves: encounter.moves.clone(),
             rarity: encounter.pokemon.rarity.clone(),
-            sprite_url: encounter.pokemon.sprite_url.clone().unwrap_or_else(|| format!("/sprites/{}.png", encounter.pokemon.id)),
+            sprite_url: format!("/sprites/{}.png", encounter.pokemon.id),
         };
 
         let mut logs = Vec::new();
@@ -1160,7 +1160,7 @@ mod tests {
 
     #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
     async fn test_item_usage_mechanics() {
-        let storage = Arc::new(Storage::new().await.expect("Failed to initialize Storage"));
+        let storage = Arc::new(Storage::new().expect("Failed to initialize Storage"));
         let service = GameService::new(storage);
         let username = "TestTrainerItemUse";
 

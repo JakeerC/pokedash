@@ -738,7 +738,7 @@ impl SupabaseClient {
                 lead_pokemon_name: lead.map(|l| l.name.clone()),
                 lead_pokemon_level: lead.map(|l| l.level),
                 lead_pokemon_sprite: lead.map(|l| {
-                    if !l.sprite_url.is_empty() {
+                    if !l.sprite_url.is_empty() && !l.sprite_url.starts_with("http") {
                         l.sprite_url.clone()
                     } else {
                         format!("/sprites/{}.png", l.id)
@@ -749,6 +749,7 @@ impl SupabaseClient {
         Ok(entries)
     }
 
+    #[allow(dead_code)]
     pub async fn load_all_pokemon(&self) -> Result<Vec<PokemonDbRow>, Box<dyn std::error::Error + Send + Sync>> {
         let mut all_rows = Vec::new();
         let mut offset = 0;

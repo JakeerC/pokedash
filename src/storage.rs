@@ -32,7 +32,7 @@ pub struct Storage {
 }
 
 impl Storage {
-    pub async fn new() -> Result<Self, Box<dyn std::error::Error + Send + Sync>> {
+    pub fn new() -> Result<Self, Box<dyn std::error::Error + Send + Sync>> {
         let home = std::env::var("HOME")
             .map(PathBuf::from)
             .unwrap_or_else(|_| PathBuf::from("."));
@@ -72,7 +72,7 @@ impl Storage {
                     stats: raw.stats,
                     rarity: raw.rarity,
                     rarity_score: raw.rarity_score,
-                    sprite_url: None,
+                    sprite_url: Some(format!("/sprites/{}.png", id)),
                 };
                 rarity_pools
                     .entry(p.rarity.to_lowercase())
@@ -102,33 +102,7 @@ impl Storage {
             }
         };
 
-        // If Supabase is available, attempt to load live Pokémon catalog from public.pokemon
-        if let Some(ref sb) = supabase {
-            match sb.load_all_pokemon().await {
-                Ok(db_rows) if !db_rows.is_empty() => {
-                    println!("📦 Loaded {} Pokémon from Supabase 'pokemon' table", db_rows.len());
-                    pokemon_catalog.clear();
-                    pokemon_list.clear();
-                    rarity_pools.clear();
-                    for row in db_rows {
-                        let p: Pokemon = row.into();
-                        rarity_pools
-                            .entry(p.rarity.to_lowercase())
-                            .or_default()
-                            .push(p.id);
-                        pokemon_catalog.insert(p.id, p.clone());
-                        pokemon_list.push(p);
-                    }
-                    pokemon_list.sort_by_key(|p| p.id);
-                }
-                Ok(_) => {
-                    println!("ℹ️ Supabase 'pokemon' table is empty. Using local pokemon_data.json.");
-                }
-                Err(e) => {
-                    println!("ℹ️ Supabase 'pokemon' table not available ({}), using local pokemon_data.json", e);
-                }
-            }
-        }
+        println!("📦 Loaded {} Pokémon from local static data file", pokemon_list.len());
 
         Ok(Self {
             save_dir,
@@ -496,6 +470,14 @@ impl Storage {
             modified = true;
         }
 
+        // Revert any party member sprite_url that points to remote Supabase to local static sprite
+        for member in &mut player.party {
+            if member.sprite_url.is_empty() || member.sprite_url.starts_with("http") {
+                member.sprite_url = format!("/sprites/{}.png", member.id);
+                modified = true;
+            }
+        }
+
         // Ensure player has starter Poké Balls
         let total_balls: u32 = player.balls.values().sum();
         if total_balls == 0 {
@@ -759,7 +741,7 @@ impl Storage {
                 lead_pokemon_name: lead.map(|l| l.name.clone()),
                 lead_pokemon_level: lead.map(|l| l.level),
                 lead_pokemon_sprite: lead.map(|l| {
-                    if !l.sprite_url.is_empty() {
+                    if !l.sprite_url.is_empty() && !l.sprite_url.starts_with("http") {
                         l.sprite_url.clone()
                     } else {
                         format!("/sprites/{}.png", l.id)
