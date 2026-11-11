@@ -30,6 +30,49 @@ pub struct Pokemon {
     pub rarity: String,
     #[serde(default)]
     pub rarity_score: f64,
+    #[serde(default)]
+    pub sprite_url: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PokemonDbRow {
+    pub id: u32,
+    pub name: String,
+    pub types: Vec<String>,
+    pub abilities: Vec<String>,
+    pub hp: u32,
+    pub atk: u32,
+    pub def: u32,
+    pub sp_a: u32,
+    pub sp_d: u32,
+    pub spe: u32,
+    pub total: u32,
+    pub rarity: String,
+    pub rarity_score: f64,
+    pub sprite_url: String,
+}
+
+impl From<PokemonDbRow> for Pokemon {
+    fn from(row: PokemonDbRow) -> Self {
+        Self {
+            id: row.id,
+            name: row.name,
+            types: row.types,
+            abilities: row.abilities,
+            stats: PokemonStats {
+                hp: row.hp,
+                atk: row.atk,
+                def: row.def,
+                spa: row.sp_a,
+                spd: row.sp_d,
+                spe: row.spe,
+                total: row.total,
+            },
+            rarity: row.rarity,
+            rarity_score: row.rarity_score,
+            sprite_url: Some(row.sprite_url),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
