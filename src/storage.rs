@@ -1,11 +1,12 @@
 use std::collections::HashMap;
 use std::fs;
 use std::path::PathBuf;
+use std::sync::{Arc, RwLock};
 use serde::Deserialize;
 
 use crate::game::{create_battle_pokemon, get_player_level};
 use crate::models::{
-    ActiveArenaBattle, AuthUser, CaughtPokemon, LeaderboardEntry, PlayerData, Pokemon,
+    ActiveArenaBattle, AuthResponse, AuthUser, CaughtPokemon, GuestSession, LeaderboardEntry, PlayerData, Pokemon,
     PokemonStats, WildPokemonEncounter,
 };
 use crate::supabase::{SupabaseClient, SupabaseConfig};
@@ -27,6 +28,7 @@ pub struct Storage {
     pub pokemon_list: Vec<Pokemon>,
     pub rarity_pools: HashMap<String, Vec<u32>>,
     pub supabase: Option<SupabaseClient>,
+    pub guest_sessions: Arc<RwLock<HashMap<String, GuestSession>>>,
 }
 
 impl Storage {
@@ -82,9 +84,13 @@ impl Storage {
 
         pokemon_list.sort_by_key(|p| p.id);
 
+        // Load guest sessions
+        let guest_sessions_map = Self::load_guest_sessions(&save_dir);
+        let guest_sessions = Arc::new(RwLock::new(guest_sessions_map));
+
         // Initialize Supabase client
         let supabase_config = SupabaseConfig::from_env_or_default();
-        let supabase = match SupabaseClient::new(supabase_config) {
+        let supabase = match SupabaseClient::new(supabase_config, guest_sessions.clone()) {
             Ok(client) => {
                 println!("🔌 Connected to Supabase DB at {}", client.config.url);
                 Some(client)
@@ -101,6 +107,7 @@ impl Storage {
             pokemon_list,
             rarity_pools,
             supabase,
+            guest_sessions,
         })
     }
 
@@ -164,9 +171,30 @@ impl Storage {
         named
     }
 
-    fn block_on<F: std::future::Future>(f: F) -> F::Output {
+    fn block_on<F: std::future::Future>(f: F) -> F::Output
+    where
+        F: Send,
+        F::Output: Send,
+    {
         match tokio::runtime::Handle::try_current() {
-            Ok(handle) => tokio::task::block_in_place(|| handle.block_on(f)),
+            Ok(handle) => match handle.runtime_flavor() {
+                tokio::runtime::RuntimeFlavor::MultiThread => {
+                    tokio::task::block_in_place(|| handle.block_on(f))
+                }
+                _ => {
+                    std::thread::scope(|s| {
+                        s.spawn(|| {
+                            let rt = tokio::runtime::Builder::new_current_thread()
+                                .enable_all()
+                                .build()
+                                .expect("Failed to build tokio runtime");
+                            rt.block_on(f)
+                        })
+                        .join()
+                        .expect("Blocking scoped helper thread panicked")
+                    })
+                }
+            },
             Err(_) => {
                 let rt = tokio::runtime::Builder::new_current_thread()
                     .enable_all()
@@ -177,13 +205,194 @@ impl Storage {
         }
     }
 
-    #[allow(dead_code)]
+    fn load_guest_sessions(save_dir: &std::path::Path) -> HashMap<String, GuestSession> {
+        let file_path = save_dir.join("guest_sessions.json");
+        if file_path.exists() {
+            if let Ok(content) = fs::read_to_string(&file_path) {
+                if let Ok(sessions) = serde_json::from_str::<HashMap<String, GuestSession>>(&content) {
+                    return sessions;
+                }
+            }
+        }
+        HashMap::new()
+    }
+
+    pub fn save_guest_sessions_to_file(&self) {
+        let file_path = self.save_dir.join("guest_sessions.json");
+        let sessions = self.guest_sessions.read().unwrap();
+        if let Ok(json) = serde_json::to_string_pretty(&*sessions) {
+            let _ = fs::write(file_path, json);
+        }
+    }
+
     pub fn verify_token(&self, token: &str) -> Result<AuthUser, Box<dyn std::error::Error + Send + Sync>> {
+        if token.starts_with("guest_") {
+            let sessions = self.guest_sessions.read().unwrap();
+            if let Some(session) = sessions.get(token) {
+                return Ok(session.user.clone());
+            }
+            return Err("Guest session expired or not found. Please log in as a guest again.".into());
+        }
+
         let supabase = self
             .supabase
             .as_ref()
             .ok_or("Supabase client is not configured")?;
         Self::block_on(supabase.verify_token(token))
+    }
+
+    pub async fn create_guest_session(
+        &self,
+        character_req: Option<&str>,
+    ) -> Result<AuthResponse, Box<dyn std::error::Error + Send + Sync>> {
+        use rand::Rng;
+
+        let char_list = crate::models::get_pokemon_characters();
+
+        // 1. Pick character base name
+        let base_name = if let Some(req) = character_req {
+            let sanitized: String = req
+                .chars()
+                .filter(|c| c.is_alphanumeric() || *c == '_' || *c == '-')
+                .collect();
+            if sanitized.len() >= 2 && sanitized.len() <= 20 {
+                sanitized
+            } else {
+                let idx = rand::thread_rng().gen_range(0..char_list.len());
+                char_list[idx].username.clone()
+            }
+        } else {
+            let idx = rand::thread_rng().gen_range(0..char_list.len());
+            char_list[idx].username.clone()
+        };
+
+        // 2. Determine unique username:
+        // Try candidate base_name. If taken by an existing account, append random 3 digits (e.g. Ash_482).
+        let mut final_username = base_name.clone();
+        let mut attempts = 0;
+
+        loop {
+            let taken = if let Some(supabase) = &self.supabase {
+                supabase.is_username_taken(&final_username).await.unwrap_or(false)
+            } else {
+                let safe = Self::safe_username(&final_username);
+                self.save_dir.join(format!("player_{}.json", safe)).exists()
+            };
+
+            if !taken || attempts >= 10 {
+                break;
+            }
+            attempts += 1;
+            let rand_num = rand::thread_rng().gen_range(100..999);
+            final_username = format!("{}_{}", base_name, rand_num);
+        }
+
+        // 3. Generate secure random token
+        let token_rand: String = (0..24)
+            .map(|_| {
+                let bytes = b"abcdefghijklmnopqrstuvwxyz0123456789";
+                let idx = rand::thread_rng().gen_range(0..bytes.len());
+                bytes[idx] as char
+            })
+            .collect();
+        let token = format!("guest_{}_{}", final_username.to_lowercase(), token_rand);
+
+        let user_id = format!("guest_{}", &token_rand[..8]);
+        let user_email = format!("{}@guest.pokedash.local", final_username.to_lowercase());
+
+        let auth_user = AuthUser {
+            id: user_id,
+            email: user_email,
+            username: final_username.clone(),
+        };
+
+        let now_sec = chrono::Utc::now().timestamp() as u64;
+        let session = GuestSession {
+            token: token.clone(),
+            user: auth_user.clone(),
+            created_at: now_sec,
+        };
+
+        // 4. Store in memory
+        {
+            let mut sessions = self.guest_sessions.write().unwrap();
+            sessions.insert(token.clone(), session);
+        }
+
+        // 5. Save sessions to disk
+        self.save_guest_sessions_to_file();
+
+        // 6. Resolve signature starter Pokémon for this character
+        let starter_id = if let Some(char_info) = char_list.iter().find(|c| c.username.eq_ignore_ascii_case(&base_name)) {
+            char_info.starter_id
+        } else if let Some(proto) = self.pokemon_catalog.values().find(|p| p.name.eq_ignore_ascii_case(&base_name)) {
+            proto.id
+        } else {
+            25 // Default to Pikachu
+        };
+
+        let starter_proto = self.pokemon_catalog.get(&starter_id).cloned().unwrap_or_else(|| {
+            self.pokemon_catalog.get(&25).cloned().expect("Pikachu (#25) must exist")
+        });
+
+        // 7. Ensure player profile and signature starter exist in Supabase DB / local file
+        let existing = if let Some(supabase) = &self.supabase {
+            supabase.load_player(&final_username).await.unwrap_or(None)
+        } else {
+            None
+        };
+
+        if existing.is_none() {
+            let battle_starter = create_battle_pokemon(&starter_proto, 5);
+            let mut def_player = PlayerData::default();
+            def_player.username = final_username.clone();
+            def_player.active_pokemon_id = Some(starter_proto.id);
+            def_player.party = vec![battle_starter];
+            def_player.stats.lifetime_unique_pids = vec![starter_proto.id];
+            def_player.stats.total_lifetime_caught = 1;
+            *def_player.stats.lifetime_rarity.entry(starter_proto.rarity.to_lowercase()).or_default() += 1;
+
+            let now_f64 = std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap_or_default()
+                .as_secs_f64();
+
+            let caught_entry = CaughtPokemon {
+                id: starter_proto.id,
+                name: starter_proto.name.clone(),
+                types: starter_proto.types.clone(),
+                abilities: starter_proto.abilities.clone(),
+                stats: starter_proto.stats.clone(),
+                rarity: starter_proto.rarity.clone(),
+                rarity_score: starter_proto.rarity_score,
+                caught_at: now_f64,
+                ball_used: Some("poke_ball".to_string()),
+            };
+
+            // Save to Supabase Cloud DB
+            if let Some(supabase) = &self.supabase {
+                if let Err(e) = supabase.save_player(&def_player).await {
+                    eprintln!("[Supabase] Failed to save guest player: {}", e);
+                }
+                if let Err(e) = supabase.save_pokedex(&final_username, &[caught_entry.clone()]).await {
+                    eprintln!("[Supabase] Failed to save guest pokedex: {}", e);
+                }
+            }
+
+            // Save to local storage cache
+            let _ = self.save_player_to_file(&def_player);
+            let _ = self.save_pokedex_to_file(&final_username, &[caught_entry]);
+        }
+
+        Ok(AuthResponse {
+            token,
+            user: auth_user,
+            requires_verification: false,
+            message: Some(format!(
+                "Trainer Passport issued to Guest {} with partner {}! Adventure awaits!",
+                final_username, starter_proto.name
+            )),
+        })
     }
 
     pub fn load_player(&self, username: &str) -> PlayerData {

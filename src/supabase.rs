@@ -6,7 +6,7 @@ use std::time::{Duration, Instant};
 
 use crate::game::get_player_level;
 use crate::models::{
-    ActiveArenaBattle, AuthResponse, AuthUser, CaughtPokemon, LeaderboardEntry, PlayerData,
+    ActiveArenaBattle, AuthResponse, AuthUser, CaughtPokemon, GuestSession, LeaderboardEntry, PlayerData,
     WildPokemonEncounter,
 };
 
@@ -64,6 +64,7 @@ pub struct SupabaseClient {
     client: reqwest::Client,
     pub config: SupabaseConfig,
     token_cache: Arc<RwLock<HashMap<String, (AuthUser, Instant)>>>,
+    pub guest_sessions: Arc<RwLock<HashMap<String, GuestSession>>>,
 }
 
 #[allow(dead_code)]
@@ -86,7 +87,10 @@ struct SupabaseTokenResponse {
 }
 
 impl SupabaseClient {
-    pub fn new(config: SupabaseConfig) -> Result<Self, Box<dyn std::error::Error + Send + Sync>> {
+    pub fn new(
+        config: SupabaseConfig,
+        guest_sessions: Arc<RwLock<HashMap<String, GuestSession>>>,
+    ) -> Result<Self, Box<dyn std::error::Error + Send + Sync>> {
         let mut headers = HeaderMap::new();
 
         let mut key_val = HeaderValue::from_str(&config.anon_key)?;
@@ -109,6 +113,7 @@ impl SupabaseClient {
             client,
             config,
             token_cache: Arc::new(RwLock::new(HashMap::new())),
+            guest_sessions,
         })
     }
 
@@ -360,7 +365,16 @@ impl SupabaseClient {
         &self,
         token: &str,
     ) -> Result<AuthUser, Box<dyn std::error::Error + Send + Sync>> {
-        // 1. Check in-memory cache (TTL: 10 minutes)
+        // 1. Check guest sessions
+        if token.starts_with("guest_") {
+            let sessions = self.guest_sessions.read().unwrap();
+            if let Some(session) = sessions.get(token) {
+                return Ok(session.user.clone());
+            }
+            return Err("Guest session expired or not found. Please log in as a guest again.".into());
+        }
+
+        // 2. Check in-memory cache (TTL: 10 minutes)
         {
             let cache = self.token_cache.read().unwrap();
             if let Some((user, timestamp)) = cache.get(token) {

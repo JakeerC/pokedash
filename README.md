@@ -8,11 +8,12 @@ Inspired by [PokéCatch](https://pokecatch.ritikkumar.dev/) and powered by [Poke
 
 ## 🌟 Key Features
 
-- **Email-Based Trainer Passport Authentication**:
-  - **Email as Primary Identity**: Secure authentication powered by Supabase GoTrue Auth (`/auth/v1`).
+- **Email & Instant Guest Authentication**:
+  - **Guest Pass (No Credentials Required)**: Instantly jump into adventure without entering an email or password. Pick from 40 iconic Pokémon characters (Ash, Red, Blue, Misty, Brock, Cynthia, Steven, Lance, Dawn, Gary, etc.) or click for a random surprise character.
+  - **Email as Primary Identity**: Secure persistent authentication powered by Supabase GoTrue Auth (`/auth/v1`).
   - **Unique Trainer Names (`playerName`)**: Globally unique, case-insensitive trainer handles enforced at both database (`lower(username)`) and application levels.
   - **Friction-Free Verification**: Supports 6-digit confirmation codes as well as 1-click email confirmation links (`#access_token=...`) that automatically log you in.
-  - **Strict Gameplay Gating**: Unauthenticated gameplay is completely restricted. All game actions require valid Bearer JWT session tokens, and the frontend locks controls until signed in.
+  - **Strict Gameplay Gating**: Unauthenticated gameplay is completely restricted. All game actions require valid Bearer session tokens (whether email or guest), and the frontend locks controls until signed in.
 
 - **Real-Time Multiplayer Leaderboard**:
   - **Global Ranks**: Competitively ranks all trainers globally based on total experience points (`xp DESC`).
@@ -180,6 +181,8 @@ PokéDash uses **Supabase PostgreSQL** as its primary cloud database, providing 
 - `GET /api/leaderboard` — Real-time top 50 global multiplayer rankings.
 
 ### Authentication Routes
+- `POST /api/auth/guest` — Instant guest login with optional Pokémon character name (no credentials required).
+- `GET /api/auth/guest-characters` — List of 40 available Pokémon characters with titles and badges.
 - `POST /api/auth/signup` — Register with email, password, and unique trainer name.
 - `POST /api/auth/login` — Sign in with email and password to receive Bearer JWT.
 - `POST /api/auth/verify` — Confirm email code to activate account.

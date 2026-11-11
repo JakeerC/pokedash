@@ -2960,7 +2960,7 @@
       border-radius: 12px;
       padding: 24px 28px;
       width: 100%;
-      max-width: 440px;
+      max-width: 480px;
       box-shadow: 0 0 40px rgba(250, 204, 21, 0.3), 0 20px 40px rgba(0,0,0,0.9);
       display: flex;
       flex-direction: column;
@@ -3018,7 +3018,7 @@
     }
     .auth-tabs {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: repeat(4, 1fr);
       gap: 4px;
       background: #090e17;
       padding: 3px;
@@ -3029,17 +3029,29 @@
       border: none;
       color: #94a3b8;
       font-family: var(--pixel-font);
-      font-size: 9px;
-      padding: 8px 4px;
+      font-size: 8px;
+      padding: 8px 3px;
       border-radius: 4px;
       cursor: pointer;
       transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
     }
     .auth-tab.active {
       background: #facc15;
       color: #000;
       font-weight: bold;
       box-shadow: 0 2px 6px rgba(250, 204, 21, 0.4);
+    }
+    .auth-tab-guest {
+      color: #38bdf8;
+    }
+    .auth-tab-guest.active {
+      background: #0ea5e9;
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(14, 165, 233, 0.4);
     }
     .auth-form {
       display: none;
@@ -3078,6 +3090,191 @@
       font-size: 7px;
       color: #64748b;
       margin-top: 2px;
+    }
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 4px 0;
+      color: #64748b;
+      font-size: 7px;
+    }
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #1e293b;
+    }
+    .auth-divider span {
+      padding: 0 8px;
+    }
+    .auth-btn-guest {
+      background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+      border: 2px solid #075985;
+      color: #f0f9ff;
+      font-family: var(--pixel-font);
+      font-size: 9px;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 3px 0 #075985;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.1s;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .auth-btn-guest:hover {
+      background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+    }
+    .auth-btn-guest:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #075985;
+    }
+    .guest-banner {
+      background: #0b1523;
+      border: 1px solid #0284c7;
+      border-radius: 6px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .guest-banner-title {
+      font-size: 8px;
+      color: #38bdf8;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .guest-banner-sub {
+      font-size: 7px;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+    .guest-btn-surprise {
+      background: linear-gradient(180deg, #059669 0%, #047857 100%);
+      border: 2px solid #065f46;
+      color: #fff;
+      font-family: var(--pixel-font);
+      font-size: 9px;
+      font-weight: bold;
+      padding: 11px;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #065f46;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.1s;
+    }
+    .guest-btn-surprise:hover {
+      background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+    }
+    .guest-btn-surprise:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #065f46;
+    }
+    .guest-search-input {
+      background: #080c14;
+      border: 1px solid #233549;
+      border-radius: 4px;
+      padding: 7px 10px;
+      color: #fff;
+      font-family: var(--pixel-font);
+      font-size: 8px;
+      outline: none;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 6px;
+    }
+    .guest-search-input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 6px rgba(56, 189, 248, 0.4);
+    }
+    .guest-roster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 6px;
+      max-height: 160px;
+      overflow-y: auto;
+      padding: 4px;
+      background: #080c14;
+      border: 2px solid #233549;
+      border-radius: 6px;
+    }
+    .guest-card {
+      background: #111a24;
+      border: 1px solid #334155;
+      border-radius: 4px;
+      padding: 6px 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.15s;
+      text-align: left;
+    }
+    .guest-card:hover {
+      border-color: #38bdf8;
+      background: #172535;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(56, 189, 248, 0.3);
+    }
+    .guest-card:active {
+      transform: translateY(1px);
+    }
+    .guest-card-icon {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .guest-card-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .guest-card-name {
+      font-size: 8px;
+      color: #f8fafc;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .guest-card:hover .guest-card-name {
+      color: #38bdf8;
+    }
+    .guest-card-meta {
+      font-size: 6px;
+      color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .guest-card-starter {
+      font-size: 6px;
+      color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .guest-card-starter span {
+      color: #facc15;
+      font-weight: bold;
+    }
+    .guest-card-badge {
+      font-size: 6px;
+      color: #facc15;
+      text-transform: uppercase;
     }
     .auth-btn-submit {
       background: linear-gradient(180deg, #facc15 0%, #ca8a04 100%);
@@ -4144,13 +4341,16 @@
       </div>
 
       <div class="auth-banner">
-        AUTHENTICATION REQUIRED &bull; EMAIL-BASED TRAINER PASSPORT
+        AUTHENTICATION &bull; TRAINER PASSPORT OR INSTANT GUEST PASS
       </div>
 
       <div class="auth-tabs">
         <button type="button" class="auth-tab active" data-auth-mode="login">SIGN IN</button>
         <button type="button" class="auth-tab" data-auth-mode="signup">REGISTER</button>
-        <button type="button" class="auth-tab" data-auth-mode="verify">CONFIRM CODE</button>
+        <button type="button" class="auth-tab auth-tab-guest" data-auth-mode="guest">
+          <svg class="pixel-icon"><use href="#px-trainer"></use></svg> GUEST
+        </button>
+        <button type="button" class="auth-tab" data-auth-mode="verify">CONFIRM</button>
       </div>
 
       <!-- SIGN IN FORM -->
@@ -4166,8 +4366,52 @@
         <button type="submit" class="auth-btn-submit" id="btn-submit-login">
           SIGN IN TO ADVENTURE
         </button>
+        <div class="auth-divider"><span>OR QUICK PLAY</span></div>
+        <button type="button" class="auth-btn-guest" id="btn-quick-guest-login">
+          <svg class="pixel-icon pixel-icon-md"><use href="#px-trainer"></use></svg>
+          PLAY AS GUEST (NO PASSWORD)
+        </button>
         <div style="text-align: center; margin-top: 10px;">
           <a href="#" id="link-goto-signup" style="color: #60a5fa; font-size: 8px; text-decoration: underline;">NEW TRAINER? REGISTER PASSPORT &raquo;</a>
+        </div>
+      </form>
+
+      <!-- GUEST PASS FORM -->
+      <form id="form-guest" class="auth-form">
+        <div class="guest-banner">
+          <div class="guest-banner-title">
+            <svg class="pixel-icon pixel-icon-md"><use href="#px-trainer"></use></svg>
+            GUEST PASS &bull; NO CREDENTIALS REQUIRED
+          </div>
+          <div class="guest-banner-sub">
+            Jump straight into Kanto! Play as an iconic Pokémon character or roll a random guest trainer.
+          </div>
+        </div>
+
+        <button type="button" class="guest-btn-surprise" id="btn-guest-random">
+          <svg class="pixel-icon pixel-icon-md"><use href="#px-star"></use></svg>
+          INSTANT ADVENTURE (RANDOM CHARACTER)
+        </button>
+
+        <div class="guest-roster-header">
+          <span class="guest-roster-label">CHOOSE YOUR POKÉMON CHARACTER:</span>
+        </div>
+
+        <input type="text" id="guest-search-input" class="guest-search-input" placeholder="SEARCH CHARACTER (ASH, RED, CYNTHIA)..." autocomplete="off">
+
+        <div class="guest-roster-grid" id="guest-roster-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <div class="auth-field" style="margin-top: 4px;">
+          <label>OR ENTER CUSTOM CHARACTER NAME</label>
+          <div style="display: flex; gap: 6px;">
+            <input type="text" id="guest-custom-name" placeholder="E.G. ASH / RED / BROCK" maxlength="20" minlength="2" autocomplete="off" style="flex: 1;">
+            <button type="button" class="retro-btn" id="btn-guest-custom-submit" style="padding: 8px 12px; font-size: 8px; white-space: nowrap; background: #0284c7; color: #fff; border: 2px solid #38bdf8; cursor: pointer;">
+              PLAY NOW &raquo;
+            </button>
+          </div>
+          <div class="auth-hint">Progress saves automatically in this browser.</div>
         </div>
       </form>
 
@@ -4812,10 +5056,15 @@
       const emailEl = document.getElementById('settings-user-email');
 
       if (token && user) {
+        const isGuest = token.startsWith('guest_');
         if (logoutBtn) logoutBtn.style.display = 'inline-block';
         if (authModal) authModal.classList.add('hidden');
-        if (nameEl) nameEl.textContent = (user.username || 'TRAINER').toUpperCase();
-        if (emailEl) emailEl.textContent = user.email || 'AUTHENTICATED PASSPORT';
+        if (nameEl) {
+          nameEl.textContent = (isGuest ? '[GUEST] ' : '') + (user.username || 'TRAINER').toUpperCase();
+        }
+        if (emailEl) {
+          emailEl.textContent = isGuest ? 'GUEST ACCOUNT (UNREGISTERED)' : (user.email || 'AUTHENTICATED PASSPORT');
+        }
       } else {
         if (logoutBtn) logoutBtn.style.display = 'none';
         if (authModal) authModal.classList.remove('hidden');
@@ -4840,6 +5089,10 @@
         if (el) el.focus();
       } else if (mode === 'verify') {
         const el = document.getElementById('verify-token');
+        if (el) el.focus();
+      } else if (mode === 'guest') {
+        renderGuestRoster();
+        const el = document.getElementById('guest-search-input');
         if (el) el.focus();
       }
     }
@@ -4888,6 +5141,127 @@
         console.warn('Could not parse auth hash', e);
       }
       return false;
+    }
+
+    // ============================================================
+    // GUEST CHARACTERS & AUTH
+    // ============================================================
+    let guestCharacters = [
+      { name: 'Ash Ketchum', username: 'Ash', title: 'Pallet Town Hero', region: 'Kanto', badge: 'px-crown', starter_id: 25, starter_name: 'Pikachu' },
+      { name: 'Red', username: 'Red', title: 'Legendary Champion', region: 'Kanto', badge: 'px-badge-champion', starter_id: 6, starter_name: 'Charizard' },
+      { name: 'Blue', username: 'Blue', title: 'Rival Champion', region: 'Kanto', badge: 'px-trophy', starter_id: 9, starter_name: 'Blastoise' },
+      { name: 'Misty', username: 'Misty', title: 'Cerulean Gym Leader', region: 'Kanto', badge: 'px-badge-cascade', starter_id: 121, starter_name: 'Starmie' },
+      { name: 'Brock', username: 'Brock', title: 'Pewter Gym Leader', region: 'Kanto', badge: 'px-badge-boulder', starter_id: 95, starter_name: 'Onix' },
+      { name: 'Cynthia', username: 'Cynthia', title: 'Sinnoh Champion', region: 'Sinnoh', badge: 'px-badge-champion', starter_id: 445, starter_name: 'Garchomp' },
+      { name: 'Steven Stone', username: 'Steven', title: 'Hoenn Champion', region: 'Hoenn', badge: 'px-badge-champion', starter_id: 376, starter_name: 'Metagross' },
+      { name: 'Lance', username: 'Lance', title: 'Dragon Master', region: 'Indigo', badge: 'px-badge-dragon', starter_id: 149, starter_name: 'Dragonite' },
+      { name: 'Dawn', username: 'Dawn', title: 'Twinleaf Coordinator', region: 'Sinnoh', badge: 'px-star', starter_id: 393, starter_name: 'Piplup' },
+      { name: 'Gary Oak', username: 'Gary', title: 'Pokémon Researcher', region: 'Kanto', badge: 'px-card', starter_id: 197, starter_name: 'Umbreon' },
+      { name: 'Prof. Oak', username: 'Prof_Oak', title: 'Pokémon Professor', region: 'Kanto', badge: 'px-card', starter_id: 149, starter_name: 'Dragonite' },
+      { name: 'Erika', username: 'Erika', title: 'Celadon Gym Leader', region: 'Kanto', badge: 'px-badge-rainbow', starter_id: 45, starter_name: 'Vileplume' },
+      { name: 'Sabrina', username: 'Sabrina', title: 'Psychic Master', region: 'Kanto', badge: 'px-badge-marsh', starter_id: 65, starter_name: 'Alakazam' },
+      { name: 'Blaine', username: 'Blaine', title: 'Quiz Master', region: 'Kanto', badge: 'px-badge-volcano', starter_id: 59, starter_name: 'Arcanine' },
+      { name: 'Giovanni', username: 'Giovanni', title: 'Viridian Gym Leader', region: 'Kanto', badge: 'px-badge-earth', starter_id: 34, starter_name: 'Nidoking' },
+      { name: 'May', username: 'May', title: 'Hoenn Coordinator', region: 'Hoenn', badge: 'px-star', starter_id: 257, starter_name: 'Blaziken' },
+      { name: 'Brendan', username: 'Brendan', title: 'Littleroot Trainer', region: 'Hoenn', badge: 'px-trainer', starter_id: 254, starter_name: 'Sceptile' },
+      { name: 'Lucas', username: 'Lucas', title: 'Sinnoh Researcher', region: 'Sinnoh', badge: 'px-trainer', starter_id: 389, starter_name: 'Torterra' },
+      { name: 'N', username: 'N', title: 'Hero of Ideals', region: 'Unova', badge: 'px-crown', starter_id: 571, starter_name: 'Zoroark' },
+      { name: 'Iris', username: 'Iris', title: 'Unova Champion', region: 'Unova', badge: 'px-badge-dragon', starter_id: 612, starter_name: 'Haxorus' },
+      { name: 'Alder', username: 'Alder', title: 'Unova Champion', region: 'Unova', badge: 'px-trophy', starter_id: 637, starter_name: 'Volcarona' },
+      { name: 'Serena', username: 'Serena', title: 'Kalos Queen', region: 'Kalos', badge: 'px-star', starter_id: 700, starter_name: 'Sylveon' },
+      { name: 'Calem', username: 'Calem', title: 'Vaniville Trainer', region: 'Kalos', badge: 'px-trainer', starter_id: 658, starter_name: 'Greninja' },
+      { name: 'Diantha', username: 'Diantha', title: 'Kalos Champion', region: 'Kalos', badge: 'px-badge-champion', starter_id: 282, starter_name: 'Gardevoir' },
+      { name: 'Prof. Kukui', username: 'Prof_Kukui', title: 'Alola Professor', region: 'Alola', badge: 'px-card', starter_id: 727, starter_name: 'Incineroar' },
+      { name: 'Gladion', username: 'Gladion', title: 'Silvally Partner', region: 'Alola', badge: 'px-trophy', starter_id: 773, starter_name: 'Silvally' },
+      { name: 'Lillie', username: 'Lillie', title: 'Aether Trainer', region: 'Alola', badge: 'px-star', starter_id: 37, starter_name: 'Vulpix' },
+      { name: 'Leon', username: 'Leon', title: 'Undefeated Champion', region: 'Galar', badge: 'px-badge-champion', starter_id: 6, starter_name: 'Charizard' },
+      { name: 'Hop', username: 'Hop', title: 'Postwick Rival', region: 'Galar', badge: 'px-trainer', starter_id: 832, starter_name: 'Dubwool' },
+      { name: 'Marnie', username: 'Marnie', title: 'Spikemuth Leader', region: 'Galar', badge: 'px-star', starter_id: 877, starter_name: 'Morpeko' },
+      { name: 'Raihan', username: 'Raihan', title: 'Dragon Tamer', region: 'Galar', badge: 'px-badge-dragon', starter_id: 884, starter_name: 'Duraludon' },
+      { name: 'Bea', username: 'Bea', title: 'Karate Prodigy', region: 'Galar', badge: 'px-fight', starter_id: 68, starter_name: 'Machamp' },
+      { name: 'Allister', username: 'Allister', title: 'Silent Ghost Leader', region: 'Galar', badge: 'px-badge-soul', starter_id: 94, starter_name: 'Gengar' },
+      { name: 'Nemona', username: 'Nemona', title: 'Champion Rank Prodigy', region: 'Paldea', badge: 'px-badge-champion', starter_id: 923, starter_name: 'Pawmot' },
+      { name: 'Arven', username: 'Arven', title: 'Titan Hunter', region: 'Paldea', badge: 'px-heart', starter_id: 943, starter_name: 'Mabosstiff' },
+      { name: 'Penny', username: 'Penny', title: 'Team Star Leader', region: 'Paldea', badge: 'px-star', starter_id: 133, starter_name: 'Eevee' },
+      { name: 'Geeta', username: 'Geeta', title: 'Paldea League Chair', region: 'Paldea', badge: 'px-badge-champion', starter_id: 970, starter_name: 'Glimmora' },
+      { name: 'Iono', username: 'Iono', title: 'Electric Streamer', region: 'Paldea', badge: 'px-badge-thunder', starter_id: 939, starter_name: 'Bellibolt' },
+      { name: 'Larry', username: 'Larry', title: 'Salaryman Gym Leader', region: 'Paldea', badge: 'px-card', starter_id: 398, starter_name: 'Staraptor' },
+      { name: 'Silver', username: 'Silver', title: 'Johto Rival', region: 'Johto', badge: 'px-trophy', starter_id: 461, starter_name: 'Weavile' }
+    ];
+
+    function renderGuestRoster(filterText = '') {
+      const grid = document.getElementById('guest-roster-grid');
+      if (!grid) return;
+      const q = filterText.toLowerCase().trim();
+      const list = q
+        ? guestCharacters.filter(c =>
+            c.name.toLowerCase().includes(q) ||
+            c.username.toLowerCase().includes(q) ||
+            c.title.toLowerCase().includes(q) ||
+            c.region.toLowerCase().includes(q) ||
+            (c.starter_name && c.starter_name.toLowerCase().includes(q))
+          )
+        : guestCharacters;
+
+      if (list.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1 / -1; padding: 14px; text-align: center; color: #64748b; font-size: 8px;">NO MATCHING CHARACTERS. TRY CUSTOM NAME BELOW!</div>';
+        return;
+      }
+
+      grid.innerHTML = list.map(c => `
+        <div class="guest-card" data-username="${c.username}" title="Play as ${c.name} (${c.title}) • Partner: ${c.starter_name || 'Pikachu'}">
+          <div class="guest-card-icon">
+            <svg class="pixel-icon pixel-icon-md" style="color: #facc15;"><use href="#${c.badge || 'px-trainer'}"></use></svg>
+          </div>
+          <div class="guest-card-info">
+            <div class="guest-card-name">${c.name.toUpperCase()}</div>
+            <div class="guest-card-meta">${c.title.toUpperCase()}</div>
+            <div class="guest-card-starter">PARTNER: <span>${(c.starter_name || 'PIKACHU').toUpperCase()}</span></div>
+            <div class="guest-card-badge">${c.region.toUpperCase()}</div>
+          </div>
+        </div>
+      `).join('');
+
+      grid.querySelectorAll('.guest-card').forEach(card => {
+        card.addEventListener('click', () => {
+          SFX.blip();
+          loginAsGuest(card.dataset.username);
+        });
+      });
+    }
+
+    async function loginAsGuest(characterName = null) {
+      clearAuthMessage();
+      const surpriseBtn = document.getElementById('btn-guest-random');
+      const quickBtn = document.getElementById('btn-quick-guest-login');
+      const customBtn = document.getElementById('btn-guest-custom-submit');
+      if (surpriseBtn) { surpriseBtn.disabled = true; surpriseBtn.textContent = 'CONNECTING TO SILPH NET...'; }
+      if (quickBtn) { quickBtn.disabled = true; quickBtn.textContent = 'CONNECTING...'; }
+      if (customBtn) customBtn.disabled = true;
+
+      try {
+        const payload = characterName ? { character: characterName } : {};
+        const res = await api('/auth/guest', 'POST', payload);
+        setAuthSession(res.token, res.user);
+        SFX.catchSuccess();
+        updateAuthUI();
+        await updateHeaderPlayer();
+        fetchWildBattle();
+        setDialogue(`GUEST PASSPORT ISSUED! WELCOME, TRAINER ${res.user.username.toUpperCase()}! ADVENTURE AWAITS!`);
+      } catch (err) {
+        showAuthMessage((err.message || 'GUEST LOGIN FAILED').toUpperCase(), 'error');
+        SFX.blip();
+      } finally {
+        if (surpriseBtn) {
+          surpriseBtn.disabled = false;
+          surpriseBtn.innerHTML = '<svg class="pixel-icon pixel-icon-md"><use href="#px-star"></use></svg> INSTANT ADVENTURE (RANDOM CHARACTER)';
+        }
+        if (quickBtn) {
+          quickBtn.disabled = false;
+          quickBtn.innerHTML = '<svg class="pixel-icon pixel-icon-md"><use href="#px-trainer"></use></svg> PLAY AS GUEST (NO PASSWORD)';
+        }
+        if (customBtn) customBtn.disabled = false;
+      }
     }
 
     function initAuthHandlers() {
@@ -5116,6 +5490,60 @@
           }
         });
       }
+
+      // Guest UI Listeners
+      const randomBtn = document.getElementById('btn-guest-random');
+      if (randomBtn) {
+        randomBtn.addEventListener('click', () => {
+          loginAsGuest(null);
+        });
+      }
+
+      const quickGuestBtn = document.getElementById('btn-quick-guest-login');
+      if (quickGuestBtn) {
+        quickGuestBtn.addEventListener('click', () => {
+          loginAsGuest(null);
+        });
+      }
+
+      const searchInput = document.getElementById('guest-search-input');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          renderGuestRoster(e.target.value);
+        });
+      }
+
+      const customSubmitBtn = document.getElementById('btn-guest-custom-submit');
+      const customInput = document.getElementById('guest-custom-name');
+      if (customSubmitBtn && customInput) {
+        const submitCustom = () => {
+          const val = customInput.value.trim();
+          if (!val) {
+            showAuthMessage('PLEASE ENTER A POKÉMON CHARACTER NAME', 'error');
+            return;
+          }
+          loginAsGuest(val);
+        };
+        customSubmitBtn.addEventListener('click', submitCustom);
+        customInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            submitCustom();
+          }
+        });
+      }
+
+      // Initial render & background sync
+      renderGuestRoster();
+      fetch('/api/auth/guest-characters')
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+          if (data && data.characters && Array.isArray(data.characters) && data.characters.length > 0) {
+            guestCharacters = data.characters;
+            renderGuestRoster(searchInput ? searchInput.value : '');
+          }
+        })
+        .catch(() => {});
     }
 
     // ============================================================
@@ -6602,7 +7030,7 @@
             ${isParty ? `
               <div class="card-hp-badge" style="border-color:${typeColor};">
                 <span style="font-size:7px; color:#facc15;">Lv.${level}</span>
-                <span style="color:#fff; font-size:7.5px;">${partyIdx === 0 ? '👑 LEAD' : 'PARTY'}</span>
+                <span style="color:#fff; font-size:7.5px;">${partyIdx === 0 ? `${pIcon('crown')} LEAD` : 'PARTY'}</span>
               </div>
             ` : `
               <div class="card-hp-badge" style="border-color: ${typeColor};">

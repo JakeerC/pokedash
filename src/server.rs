@@ -60,7 +60,17 @@ where
         };
 
         let app_state = AppState::from_ref(state);
-        let user = if let Some(supabase) = &app_state.service.storage.supabase {
+        let user = if token.starts_with("guest_") {
+            app_state.service.storage.verify_token(token).map_err(|e| {
+                (
+                    StatusCode::UNAUTHORIZED,
+                    Json(json!({
+                        "error": format!("Invalid guest session: {}. Please sign in again.", e),
+                        "code": "guest_session_invalid"
+                    })),
+                )
+            })?
+        } else if let Some(supabase) = &app_state.service.storage.supabase {
             supabase.verify_token(token).await.map_err(|e| {
                 (
                     StatusCode::UNAUTHORIZED,
@@ -182,6 +192,8 @@ pub fn create_router(state: AppState) -> Router {
         .route("/auth/login", post(post_auth_login))
         .route("/auth/verify", post(post_auth_verify))
         .route("/auth/resend", post(post_auth_resend))
+        .route("/auth/guest", post(post_auth_guest))
+        .route("/auth/guest-characters", get(get_guest_characters))
         .route("/auth/me", get(get_auth_me))
         // Protected Game Endpoints (Strictly require AuthenticatedTrainer)
         .route("/player", get(get_player))
@@ -450,6 +462,27 @@ async fn post_auth_resend(
     }
 }
 
+async fn post_auth_guest(
+    State(state): State<AppState>,
+    Json(payload): Json<crate::models::GuestLoginPayload>,
+) -> Result<Json<AuthResponse>, (StatusCode, Json<serde_json::Value>)> {
+    let req_name = payload.character.as_deref().or(payload.username.as_deref());
+    match state.service.storage.create_guest_session(req_name).await {
+        Ok(res) => Ok(Json(res)),
+        Err(e) => Err((
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(json!({ "error": format!("Could not issue guest passport: {}", e) })),
+        )),
+    }
+}
+
+async fn get_guest_characters() -> Json<serde_json::Value> {
+    let characters = crate::models::get_pokemon_characters();
+    Json(json!({
+        "characters": characters
+    }))
+}
+
 async fn get_auth_me(
     trainer: AuthenticatedTrainer,
 ) -> Json<serde_json::Value> {
@@ -473,6 +506,7 @@ async fn get_status(State(state): State<AppState>) -> Json<serde_json::Value> {
         "version": "0.3.0",
         "auth": {
             "primary": "supabase_email",
+            "guest": true,
             "enabled": state.service.storage.supabase.is_some(),
         },
         "total_pokemon": 1025,
