@@ -223,6 +223,7 @@ pub fn create_router(state: AppState) -> Router {
         .nest_service("/sprites", ServeDir::new("static/sprites"))
         .nest_service("/fonts", ServeDir::new("static/fonts"))
         .nest_service("/backgrounds", ServeDir::new("static/backgrounds"))
+        .nest_service("/pokeballs", ServeDir::new("static/pokeballs"))
         .nest_service("/static", ServeDir::new("static"))
         .fallback(serve_frontend)
         .layer(cors)

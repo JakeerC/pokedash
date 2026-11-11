@@ -1131,16 +1131,45 @@
     /* Poké Ball Throw Animation (Dynamic 3D Arc) */
     .battle-pokeball-throw {
       position: absolute;
-      width: 32px;
-      height: 32px;
-      background: radial-gradient(circle at 40% 35%, #ffffff 0%, #ff3b30 45%, #b91c1c 55%, #1e1e1e 56%, #ffffff 60%, #e2e8f0 100%);
-      border-radius: 50%;
-      border: 2px solid #111;
-      box-shadow: 0 0 18px rgba(255, 255, 255, 0.8), 0 8px 16px rgba(0,0,0,0.5);
-      z-index: 50;
+      width: 48px;
+      height: 48px;
+      z-index: 55;
       display: none;
       pointer-events: none;
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 16px rgba(255, 255, 255, 0.6));
+      transform-origin: center center;
     }
+    .battle-pokeball-throw img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      image-rendering: auto;
+      display: block;
+    }
+    .pokeball-capture-burst {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 130px;
+      height: 130px;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 56;
+      border-radius: 50%;
+      box-shadow: 0 0 60px rgba(255, 255, 255, 0.95), inset 0 0 35px rgba(250, 204, 21, 0.9);
+      animation: captureRings 0.65s ease-out forwards;
+    }
+    @keyframes captureRings {
+      0% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; }
+    }
+    .header-pokeball-icon {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+      vertical-align: middle;
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+      display: inline-block;
     }
 
     /* ========================================= */
@@ -1806,10 +1835,10 @@
     .bag-grid-scrollable, .modern-bag-panel {
       display: grid;
       grid-template-columns: 1fr;
-      grid-auto-rows: 44px;
+      grid-auto-rows: 52px;
       gap: 6px;
-      width: clamp(260px, 22vw, 320px);
-      max-height: 220px;
+      width: clamp(280px, 24vw, 340px);
+      max-height: 240px;
       background: linear-gradient(135deg, rgba(8, 38, 44, 0.94) 0%, rgba(12, 52, 60, 0.9) 100%);
       border: 1.5px solid rgba(45, 212, 191, 0.6);
       border-radius: 14px;
@@ -1820,6 +1849,22 @@
       z-index: 35;
       overflow-y: auto;
       box-sizing: border-box;
+    }
+    .bag-ball-btn {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding: 6px 12px !important;
+      gap: 10px !important;
+      height: 52px !important;
+      box-sizing: border-box !important;
+    }
+    .bag-ball-thumb {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7));
+      flex-shrink: 0;
     }
 
     /* Out-of-Battle Modern Exploration Controls */
@@ -2054,7 +2099,8 @@
       width: 52px;
       height: 52px;
       object-fit: contain;
-      image-rendering: pixelated;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
+      flex-shrink: 0;
     }
 
     /* ========================================= */
@@ -3870,7 +3916,7 @@
 
           <div class="header-tools-row">
             <span class="header-tag" id="header-balls-tag" title="Poké Balls in Bag">
-              <svg class="pixel-icon"><use href="#px-pokeball"></use></svg> <span id="header-balls-val">0</span>
+              <img src="/pokeballs/01_pokeball_classic.png" class="header-pokeball-icon" alt="Poké Ball" /> <span id="header-balls-val">0</span>
             </span>
             <div class="header-gold" title="Poké Dollars">
               <svg class="pixel-icon"><use href="#px-coin"></use></svg> P$ <span id="header-gold-val">0</span>
@@ -3916,7 +3962,9 @@
                 </div>
 
                 <!-- Ball Throw Sprite -->
-                <div id="ball-throw-anim" class="battle-pokeball-throw"></div>
+                <div id="ball-throw-anim" class="battle-pokeball-throw">
+                  <img id="ball-throw-img" src="/pokeballs/01_pokeball_classic.png" alt="Poké Ball" />
+                </div>
 
                 <!-- Elemental Attack FX Layer -->
                 <div id="battle-fx-layer" class="battle-fx-layer"></div>
@@ -4428,7 +4476,7 @@
                 <span class="settings-stat-val" id="settings-gold-val">P$ 0</span>
               </div>
               <div class="settings-stat-pill">
-                <span class="settings-stat-label"><svg class="pixel-icon"><use href="#px-pokeball"></use></svg> POKÉ BALLS:</span>
+                <span class="settings-stat-label"><img src="/pokeballs/01_pokeball_classic.png" class="header-pokeball-icon" alt="Poké Ball" /> POKÉ BALLS:</span>
                 <span class="settings-stat-val" id="settings-balls-val">0</span>
               </div>
               <div class="settings-stat-pill">
@@ -6629,6 +6677,59 @@
       }
     }
 
+    // ============================================================
+    // POKÉ BALL ARTIFACTS & SPRITE COLLECTION SYSTEM
+    // ============================================================
+    const POKEBALL_IMAGE_MAP = {
+      'poke_ball': '/pokeballs/01_pokeball_classic.png',
+      'pokeball': '/pokeballs/01_pokeball_classic.png',
+      'classic': '/pokeballs/01_pokeball_classic.png',
+      'great_ball': '/pokeballs/02_great_ball.png',
+      'ultra_ball': '/pokeballs/03_ultra_ball.png',
+      'master_ball': '/pokeballs/04_master_ball.png',
+      'premier_ball': '/pokeballs/05_premier_ball.png',
+      'luxury_ball': '/pokeballs/06_luxury_ball.png',
+      'quick_ball': '/pokeballs/07_quick_ball.png',
+      'dusk_ball': '/pokeballs/08_dusk_ball.png',
+      'nest_ball': '/pokeballs/09_safari_nest_ball.png',
+      'safari_ball': '/pokeballs/09_safari_nest_ball.png',
+      'dive_ball': '/pokeballs/10_dive_ball.png',
+      'net_ball': '/pokeballs/11_water_droplet_ball.png',
+      'water_droplet_ball': '/pokeballs/11_water_droplet_ball.png',
+      'deep_current_ball': '/pokeballs/12_deep_current_ball.png',
+      'glacial_shard_ball': '/pokeballs/13_glacial_shard_ball.png',
+      'frost_mist_ball': '/pokeballs/14_frost_mist_ball.png',
+      'frozen_rime_ball': '/pokeballs/15_frozen_rime_ball.png',
+      'magma_molten_ball': '/pokeballs/16_magma_molten_ball.png',
+      'volcano_core_ball': '/pokeballs/17_volcano_core_ball.png',
+      'flare_burst_ball': '/pokeballs/18_flare_burst_ball.png',
+      'embers_cinder_ball': '/pokeballs/19_embers_cinder_ball.png',
+      'lava_horn_ball': '/pokeballs/20_lava_horn_ball.png',
+      'meteor_strike_ball': '/pokeballs/21_meteor_strike_ball.png',
+      'leaf_grove_ball': '/pokeballs/22_leaf_grove_ball.png',
+      'woodland_vine_ball': '/pokeballs/23_woodland_vine_ball.png',
+      'bramble_bush_ball': '/pokeballs/24_bramble_bush_ball.png',
+      'thorn_relic_ball': '/pokeballs/25_thorn_relic_ball.png',
+      'solar_bloom_ball': '/pokeballs/26_solar_bloom_ball.png',
+      'petal_lotus_ball': '/pokeballs/27_petal_lotus_ball.png',
+      'starlight_ball': '/pokeballs/28_starlight_ball.png',
+      'repeat_ball': '/pokeballs/28_starlight_ball.png',
+      'eclipse_ball': '/pokeballs/29_eclipse_ball.png',
+      'nebula_galaxy_ball': '/pokeballs/30_nebula_galaxy_ball.png',
+      'plasma_flux_ball': '/pokeballs/31_plasma_flux_ball.png',
+      'fast_ball': '/pokeballs/31_plasma_flux_ball.png',
+      'astral_aura_ball': '/pokeballs/32_astral_aura_ball.png'
+    };
+
+    function getBallImageUrl(ballId) {
+      if (!ballId) return '/pokeballs/01_pokeball_classic.png';
+      const clean = String(ballId).toLowerCase().trim().replace(/-/g, '_');
+      if (POKEBALL_IMAGE_MAP[clean]) {
+        return POKEBALL_IMAGE_MAP[clean];
+      }
+      return `/pokeballs/${clean}.png`;
+    }
+
     // BAG button clicked -> Show Poké Balls (In battle or inventory view)
     document.getElementById('btn-menu-bag').addEventListener('click', async () => {
       SFX.blip();
@@ -6648,12 +6749,22 @@
           if (item.owned > 0) {
             hasAny = true;
             const btn = document.createElement('button');
-            btn.className = 'move-btn';
+            btn.className = 'move-btn bag-ball-btn';
             const catchPct = (currentWild && odds[item.id] !== undefined) ? `${odds[item.id]}%` : '--';
+            const ballSrc = getBallImageUrl(item.id);
+
             btn.innerHTML = `
-              <span><span class="k-hint">[${ballSlot}]</span> ${item.name.toUpperCase()}</span>
-              <span style="font-size:8px; color:var(--neon-yellow);">QTY: ${item.owned}</span>
-              <span style="font-size:8px; color:var(--neon-green);">${currentWild ? `ODDS: ${catchPct}` : 'BAG'}</span>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <img class="bag-ball-thumb" src="${ballSrc}" alt="${item.name}" onerror="this.src='/pokeballs/01_pokeball_classic.png'" />
+                <span style="display:flex; flex-direction:column; text-align:left;">
+                  <span style="font-size:10px; font-weight:bold; color:#f8fafc;"><span class="k-hint">[${ballSlot}]</span> ${item.name.toUpperCase()}</span>
+                  <span style="font-size:7.5px; color:#94a3b8; max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.description || ''}</span>
+                </span>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                <span style="font-size:8.5px; color:var(--neon-yellow); font-weight:bold;">×${item.owned}</span>
+                <span style="font-size:8px; color:var(--neon-green); font-weight:bold;">${currentWild ? `ODDS: ${catchPct}` : 'BAG'}</span>
+              </div>
             `;
             if (currentWild) {
               btn.onclick = () => throwBall(item.id);
@@ -6703,62 +6814,135 @@
       battleTurnBusy = true;
       SFX.ballThrow();
 
-      setDialogue(`Threw a ${ballId.replace('_', ' ').toUpperCase()}!`);
+      const ballName = ballId.replace(/_/g, ' ').toUpperCase();
+      setDialogue(`Threw a ${ballName}!`);
+      
       const animBall = document.getElementById('ball-throw-anim');
-      animBall.style.display = 'block';
-      animBall.style.bottom = '18%';
-      animBall.style.left = '24%';
-      animBall.style.transform = 'scale(0.8) rotate(0deg)';
+      const ballImg = document.getElementById('ball-throw-img');
+      const enemySprite = document.getElementById('enemy-sprite');
 
-      // Ball throw arc towards midground enemy Pokémon
+      if (ballImg) {
+        ballImg.src = getBallImageUrl(ballId);
+      }
+
+      animBall.style.display = 'block';
+      animBall.style.bottom = '16%';
+      animBall.style.left = '22%';
+      animBall.style.transform = 'scale(0.55) rotate(0deg)';
+      animBall.style.opacity = '1';
+
+      // Ball throw 3D arc towards midground enemy Pokémon
       animBall.style.transition = 'all 0.65s cubic-bezier(0.22, 1, 0.36, 1)';
       setTimeout(() => {
         animBall.style.bottom = '46%';
-        animBall.style.left = '58%';
-        animBall.style.transform = 'scale(1.1) rotate(720deg)';
+        animBall.style.left = '56%';
+        animBall.style.transform = 'scale(1.05) rotate(720deg)';
       }, 50);
 
       try {
         const res = await api('/catch', 'POST', { ball: ballId });
 
         setTimeout(() => {
-          // Ball shakes
-          SFX.ballShake();
-          animBall.style.transform = 'rotate(-25deg)';
+          // Capture flash: enemy absorbed into ball
+          if (enemySprite) {
+            enemySprite.style.transition = 'all 0.35s ease-out';
+            enemySprite.style.transform = 'scale(0.15) translateY(-20px)';
+            enemySprite.style.opacity = '0.2';
+            enemySprite.style.filter = 'brightness(2) drop-shadow(0 0 15px #facc15)';
+          }
+
+          // Ball settles onto platform
+          animBall.style.transition = 'all 0.25s ease-out';
+          animBall.style.bottom = '42%';
+          animBall.style.transform = 'scale(1.0) rotate(0deg)';
+
+          // First Shake (Left)
           setTimeout(() => {
             SFX.ballShake();
-            animBall.style.transform = 'rotate(25deg)';
+            animBall.style.transition = 'transform 0.2s ease-in-out';
+            animBall.style.transform = 'scale(1.05) rotate(-24deg)';
+
+            // Return center
             setTimeout(() => {
-              SFX.ballShake();
-              animBall.style.transform = 'rotate(0deg)';
+              animBall.style.transform = 'scale(1.0) rotate(0deg)';
 
+              // Second Shake (Right)
               setTimeout(() => {
-                animBall.style.display = 'none';
-                if (res.success) {
-                  SFX.victory();
-                  document.getElementById('enemy-sprite').classList.add('faint');
-                  setDialogue(res.message);
-                  setTimeout(() => {
-                    updateHeaderPlayer();
-                    showSearchTallGrassState();
-                    battleTurnBusy = false;
-                  }, 2000);
-                } else {
-                  SFX.cancel();
-                  setDialogue(res.message);
-                  setTimeout(() => {
-                    showSearchTallGrassState();
-                    battleTurnBusy = false;
-                  }, 1800);
-                }
-              }, 400);
+                SFX.ballShake();
+                animBall.style.transform = 'scale(1.05) rotate(24deg)';
 
-            }, 300);
-          }, 300);
+                // Return center
+                setTimeout(() => {
+                  animBall.style.transform = 'scale(1.0) rotate(0deg)';
+
+                  // Third Shake (Left)
+                  setTimeout(() => {
+                    SFX.ballShake();
+                    animBall.style.transform = 'scale(1.05) rotate(-14deg)';
+
+                    // Settle & evaluate result
+                    setTimeout(() => {
+                      animBall.style.transform = 'scale(1.0) rotate(0deg)';
+
+                      setTimeout(() => {
+                        if (res.success) {
+                          // SUCCESS: Stars burst, click sound & victory
+                          SFX.victory();
+                          animBall.style.boxShadow = '0 0 35px #facc15';
+                          animBall.style.filter = 'drop-shadow(0 0 20px #facc15)';
+                          
+                          if (enemySprite) {
+                            enemySprite.classList.add('faint');
+                            enemySprite.style.display = 'none';
+                          }
+
+                          setDialogue(res.message);
+
+                          setTimeout(() => {
+                            animBall.style.display = 'none';
+                            updateHeaderPlayer();
+                            showSearchTallGrassState();
+                            battleTurnBusy = false;
+                          }, 1800);
+
+                        } else {
+                          // FAILED: Break free! Ball pops, enemy reappears
+                          SFX.cancel();
+                          animBall.style.display = 'none';
+
+                          if (enemySprite) {
+                            enemySprite.style.transition = 'all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28)';
+                            enemySprite.style.transform = 'scale(1.0) translateY(0)';
+                            enemySprite.style.opacity = '1';
+                            enemySprite.style.filter = 'none';
+                            enemySprite.classList.add('shake');
+                            setTimeout(() => enemySprite.classList.remove('shake'), 400);
+                          }
+
+                          setDialogue(res.message);
+                          setTimeout(() => {
+                            showSearchTallGrassState();
+                            battleTurnBusy = false;
+                          }, 1800);
+                        }
+                      }, 350);
+
+                    }, 250);
+                  }, 250);
+                }, 200);
+              }, 250);
+            }, 200);
+          }, 400);
+
         }, 650);
 
       } catch (e) {
         animBall.style.display = 'none';
+        if (enemySprite) {
+          enemySprite.style.transform = 'scale(1.0)';
+          enemySprite.style.opacity = '1';
+          enemySprite.style.filter = 'none';
+        }
         battleTurnBusy = false;
         showMainActionsMenu();
       }
@@ -7032,11 +7216,11 @@
           const item = document.createElement('div');
           item.className = 'mart-ball-item';
           const unlocked = data.level >= ball.unlock_level;
-          const ballImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${ball.id.replace('_', '-')}.png`;
+          const ballImg = getBallImageUrl(ball.id);
 
           item.innerHTML = `
             <div class="mart-ball-top">
-              <img class="mart-ball-img" src="${ballImg}" onerror="this.src='/sprites/1.png'" />
+              <img class="mart-ball-img" src="${ballImg}" onerror="this.src='/pokeballs/01_pokeball_classic.png'" alt="${ball.name}" />
               <div>
                 <div style="font-size:9px; font-weight:bold;">${ball.name.toUpperCase()}</div>
                 <div style="font-size:8px; color:#facc15;">P$ ${ball.discounted_price.toLocaleString()}</div>

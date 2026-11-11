@@ -81,7 +81,9 @@ pub struct BallSpec {
 
 pub const STORE_BALLS: &[BallSpec] = &[
     BallSpec { id: "poke_ball", name: "Poké Ball", alias: "pb", price: 50, unlock_level: 1, category: "balls", description: "Standard catch chance (1.0x)" },
+    BallSpec { id: "premier_ball", name: "Premier Ball", alias: "prb", price: 100, unlock_level: 2, category: "balls", description: "Commemorative ball (1.25x)" },
     BallSpec { id: "great_ball", name: "Great Ball", alias: "gb", price: 150, unlock_level: 3, category: "balls", description: "Improved catch rate (1.5x)" },
+    BallSpec { id: "luxury_ball", name: "Luxury Ball", alias: "lux", price: 200, unlock_level: 4, category: "special", description: "Luxurious design (1.6x)" },
     BallSpec { id: "ultra_ball", name: "Ultra Ball", alias: "ub", price: 300, unlock_level: 8, category: "balls", description: "High performance catch rate (2.0x)" },
     BallSpec { id: "net_ball", name: "Net Ball", alias: "net", price: 250, unlock_level: 5, category: "special", description: "3.0x on Water or Bug types" },
     BallSpec { id: "dive_ball", name: "Dive Ball", alias: "dive", price: 250, unlock_level: 5, category: "special", description: "3.5x on Water types" },
@@ -90,6 +92,13 @@ pub const STORE_BALLS: &[BallSpec] = &[
     BallSpec { id: "nest_ball", name: "Nest Ball", alias: "nest", price: 250, unlock_level: 10, category: "special", description: "2.0x if BST <= 400, 3.0x if BST <= 300" },
     BallSpec { id: "repeat_ball", name: "Repeat Ball", alias: "repeat", price: 250, unlock_level: 10, category: "special", description: "3.0x if species already caught before" },
     BallSpec { id: "quick_ball", name: "Quick Ball", alias: "quick", price: 400, unlock_level: 15, category: "special", description: "Flat 2.5x catch bonus" },
+    BallSpec { id: "glacial_shard_ball", name: "Glacial Shard Ball", alias: "ice", price: 350, unlock_level: 7, category: "elemental", description: "3.8x on Ice type Pokémon" },
+    BallSpec { id: "flare_burst_ball", name: "Flare Burst Ball", alias: "fire", price: 350, unlock_level: 7, category: "elemental", description: "3.8x on Fire type Pokémon" },
+    BallSpec { id: "leaf_grove_ball", name: "Leaf Grove Ball", alias: "leaf", price: 350, unlock_level: 7, category: "elemental", description: "3.8x on Grass type Pokémon" },
+    BallSpec { id: "plasma_flux_ball", name: "Plasma Flux Ball", alias: "plasma", price: 450, unlock_level: 12, category: "elemental", description: "4.2x on Electric & Steel types" },
+    BallSpec { id: "starlight_ball", name: "Starlight Ball", alias: "star", price: 550, unlock_level: 14, category: "mystic", description: "4.2x on Psychic & Fairy types" },
+    BallSpec { id: "eclipse_ball", name: "Eclipse Ball", alias: "eclipse", price: 650, unlock_level: 18, category: "mystic", description: "4.5x on Dark & Ghost types" },
+    BallSpec { id: "astral_aura_ball", name: "Astral Aura Ball", alias: "astral", price: 1500, unlock_level: 20, category: "mystic", description: "5.0x on Legendary & Mythical Pokémon" },
     BallSpec { id: "master_ball", name: "Master Ball", alias: "mb", price: 50000, unlock_level: 25, category: "master", description: "Guaranteed 100% catch rate" },
 ];
 
@@ -195,6 +204,61 @@ pub fn calculate_catch_chance(
         }
         "quick_ball" => {
             multiplier = 2.5;
+        }
+        "premier_ball" => {
+            multiplier = 1.25;
+        }
+        "luxury_ball" => {
+            multiplier = 1.6;
+        }
+        "glacial_shard_ball" | "frost_mist_ball" | "frozen_rime_ball" => {
+            if types_lower.iter().any(|t| t == "ice") {
+                multiplier = 3.8;
+            } else {
+                multiplier = 1.2;
+            }
+        }
+        "flare_burst_ball" | "magma_molten_ball" | "volcano_core_ball" | "embers_cinder_ball" | "lava_horn_ball" => {
+            if types_lower.iter().any(|t| t == "fire") {
+                multiplier = 3.8;
+            } else {
+                multiplier = 1.2;
+            }
+        }
+        "leaf_grove_ball" | "woodland_vine_ball" | "bramble_bush_ball" | "thorn_relic_ball" | "solar_bloom_ball" => {
+            if types_lower.iter().any(|t| t == "grass") {
+                multiplier = 3.8;
+            } else {
+                multiplier = 1.2;
+            }
+        }
+        "plasma_flux_ball" => {
+            if types_lower.iter().any(|t| t == "electric" || t == "steel") {
+                multiplier = 4.2;
+            } else {
+                multiplier = 1.5;
+            }
+        }
+        "starlight_ball" | "petal_lotus_ball" => {
+            if types_lower.iter().any(|t| t == "psychic" || t == "fairy") {
+                multiplier = 4.2;
+            } else {
+                multiplier = 1.5;
+            }
+        }
+        "eclipse_ball" => {
+            if types_lower.iter().any(|t| t == "dark" || t == "ghost") {
+                multiplier = 4.5;
+            } else {
+                multiplier = 1.5;
+            }
+        }
+        "astral_aura_ball" => {
+            if pokemon.rarity == "Legendary" || pokemon.rarity == "Mythical" || pokemon.rarity == "UltraRare" {
+                multiplier = 5.0;
+            } else {
+                multiplier = 2.5;
+            }
         }
         _ => {
             multiplier = 1.0;
