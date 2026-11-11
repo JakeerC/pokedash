@@ -412,7 +412,7 @@ pub fn create_battle_pokemon(p: &Pokemon, level: u32) -> BattlePokemon {
         abilities: p.abilities.clone(),
         moves,
         rarity: p.rarity.clone(),
-        sprite_url: format!("/sprites/{}.png", p.id),
+        sprite_url: p.sprite_url.clone().unwrap_or_else(|| format!("/sprites/{}.png", p.id)),
     }
 }
 

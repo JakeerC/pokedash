@@ -27,7 +27,7 @@ async fn test_pokemon_characters_list() {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn test_create_guest_session_random() {
-    let storage = Storage::new().expect("Failed to initialize Storage");
+    let storage = Storage::new().await.expect("Failed to initialize Storage");
 
     let auth_res = storage
         .create_guest_session(None)
@@ -48,7 +48,7 @@ async fn test_create_guest_session_random() {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn test_create_guest_session_with_pokemon_character() {
-    let storage = Storage::new().expect("Failed to initialize Storage");
+    let storage = Storage::new().await.expect("Failed to initialize Storage");
 
     let auth_res = storage
         .create_guest_session(Some("Cynthia"))
@@ -73,7 +73,7 @@ async fn test_create_guest_session_with_pokemon_character() {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn test_guest_auth_http_endpoints() {
-    let storage = Arc::new(Storage::new().expect("Failed to initialize Storage"));
+    let storage = Arc::new(Storage::new().await.expect("Failed to initialize Storage"));
     let service = GameService::new(storage.clone());
     let app = create_router(AppState { service });
 

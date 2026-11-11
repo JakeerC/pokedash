@@ -7,7 +7,7 @@ use std::time::{Duration, Instant};
 use crate::game::get_player_level;
 use crate::models::{
     ActiveArenaBattle, AuthResponse, AuthUser, CaughtPokemon, GuestSession, LeaderboardEntry, PlayerData,
-    WildPokemonEncounter,
+    PokemonDbRow, WildPokemonEncounter,
 };
 
 #[derive(Clone, Debug)]
@@ -747,5 +747,16 @@ impl SupabaseClient {
             });
         }
         Ok(entries)
+    }
+
+    pub async fn load_all_pokemon(&self) -> Result<Vec<PokemonDbRow>, Box<dyn std::error::Error + Send + Sync>> {
+        let url = format!("{}/rest/v1/pokemon?select=*&order=id.asc", self.config.url);
+        let resp = self.client.get(&url).send().await?;
+        if !resp.status().is_success() {
+            let err = resp.text().await.unwrap_or_default();
+            return Err(format!("Supabase load_all_pokemon error: {}", err).into());
+        }
+        let list: Vec<PokemonDbRow> = resp.json().await?;
+        Ok(list)
     }
 }

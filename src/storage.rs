@@ -32,7 +32,7 @@ pub struct Storage {
 }
 
 impl Storage {
-    pub fn new() -> Result<Self, Box<dyn std::error::Error + Send + Sync>> {
+    pub async fn new() -> Result<Self, Box<dyn std::error::Error + Send + Sync>> {
         let home = std::env::var("HOME")
             .map(PathBuf::from)
             .unwrap_or_else(|_| PathBuf::from("."));
@@ -72,6 +72,7 @@ impl Storage {
                     stats: raw.stats,
                     rarity: raw.rarity,
                     rarity_score: raw.rarity_score,
+                    sprite_url: None,
                 };
                 rarity_pools
                     .entry(p.rarity.to_lowercase())
@@ -100,6 +101,34 @@ impl Storage {
                 None
             }
         };
+
+        // If Supabase is available, attempt to load live Pokémon catalog from public.pokemon
+        if let Some(ref sb) = supabase {
+            match sb.load_all_pokemon().await {
+                Ok(db_rows) if !db_rows.is_empty() => {
+                    println!("📦 Loaded {} Pokémon from Supabase 'pokemon' table", db_rows.len());
+                    pokemon_catalog.clear();
+                    pokemon_list.clear();
+                    rarity_pools.clear();
+                    for row in db_rows {
+                        let p: Pokemon = row.into();
+                        rarity_pools
+                            .entry(p.rarity.to_lowercase())
+                            .or_default()
+                            .push(p.id);
+                        pokemon_catalog.insert(p.id, p.clone());
+                        pokemon_list.push(p);
+                    }
+                    pokemon_list.sort_by_key(|p| p.id);
+                }
+                Ok(_) => {
+                    println!("ℹ️ Supabase 'pokemon' table is empty. Using local pokemon_data.json.");
+                }
+                Err(e) => {
+                    println!("ℹ️ Supabase 'pokemon' table not available ({}), using local pokemon_data.json", e);
+                }
+            }
+        }
 
         Ok(Self {
             save_dir,

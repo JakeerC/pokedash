@@ -307,7 +307,7 @@ impl GameService {
             abilities: encounter.pokemon.abilities.clone(),
             moves: encounter.moves.clone(),
             rarity: encounter.pokemon.rarity.clone(),
-            sprite_url: format!("/sprites/{}.png", encounter.pokemon.id),
+            sprite_url: encounter.pokemon.sprite_url.clone().unwrap_or_else(|| format!("/sprites/{}.png", encounter.pokemon.id)),
         };
 
         let mut logs = Vec::new();
