@@ -163,12 +163,22 @@ Load Operation:
 4. If local file exists, automatically push/migrate local record to Supabase.
 ```
 
+### 5.1 Pokémon Catalog & Asset Storage
+- **Canonical Species Catalog (`public.pokemon`)**:
+  - All 1,025 base Pokémon species are stored in Supabase with structured relational columns (`id`, `name`, `types`, `abilities`, base stats, `rarity`, `rarity_score`, and cloud `sprite_url`).
+  - Indexed via `idx_pokemon_name` on `lower(name)` and `idx_pokemon_rarity`.
+  - At server startup, [`src/storage.rs`](src/storage.rs) queries `public.pokemon?select=*&order=id.asc`. If reachable and populated, the live database catalog initializes the in-memory engine; otherwise, it falls back to [`data/pokemon_data.json`](data/pokemon_data.json).
+- **Supabase Cloud Storage (`sprites` bucket)**:
+  - All 1,025 official sprites are stored in the public `sprites` bucket as `{id}-{name_slug}.png` (e.g. `1-bulbasaur.png`, `25-pikachu.png`, `122-mr-mime.png`).
+  - Served through Supabase's high-performance global CDN at `https://<project-ref>.supabase.co/storage/v1/object/public/sprites/{id}-{slug}.png`.
+  - Backward compatibility is maintained with numbered local paths (`/sprites/{id}.png`).
+
 ---
 
 ## 6. Key Performance Optimizations
 
 1. **In-Memory JWT Cache**: Token validation against Supabase Auth is cached in an `RwLock<HashMap>` for 10 minutes, avoiding redundant network round-trips on every gameplay action.
-2. **Pre-Loaded Pokémon Catalog**: All 1025 Pokémon definitions are parsed into memory at startup as a `HashMap<u32, Pokemon>` and indexed into `rarity_pools: HashMap<String, Vec<u32>>` for $O(1)$ random encounter generation.
+2. **Pre-Loaded Pokémon Catalog**: All 1025 Pokémon definitions are parsed into memory at startup as a `HashMap<u32, Pokemon>` (from Supabase `public.pokemon` or local fallback) and indexed into `rarity_pools: HashMap<String, Vec<u32>>` for $O(1)$ random encounter generation.
 3. **Database Indexing**: Case-insensitive unique indexing (`idx_players_lower_username`) and descending XP indexing (`idx_players_xp_desc`) provide $O(\log N)$ user lookups and instantaneous leaderboard queries.
 4. **Procedural Web Audio**: Sound effects use synthesized oscillators (`AudioContext`), minimizing network asset requests.
 5. **Optimized SVG Pixel Sprite Sheet**: All 37 retro icons are pre-compiled into a single SVG symbol container (`<symbol id="px-...">`), reducing DOM overhead and eliminating external image round-trips.

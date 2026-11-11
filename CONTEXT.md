@@ -207,21 +207,49 @@ CREATE TABLE IF NOT EXISTS public.pokedex (
 CREATE INDEX IF NOT EXISTS idx_pokedex_username ON public.pokedex (username);
 CREATE INDEX IF NOT EXISTS idx_pokedex_caught_at ON public.pokedex (caught_at);
 
--- 3. Active Wild Encounters
+-- 3. Base Pokémon Species Catalog
+CREATE TABLE IF NOT EXISTS public.pokemon (
+    id INT PRIMARY KEY,
+    name TEXT NOT NULL,
+    types TEXT[] NOT NULL DEFAULT '{}',
+    abilities TEXT[] NOT NULL DEFAULT '{}',
+    hp INT NOT NULL,
+    atk INT NOT NULL,
+    def INT NOT NULL,
+    sp_a INT NOT NULL,
+    sp_d INT NOT NULL,
+    spe INT NOT NULL,
+    total INT NOT NULL,
+    rarity TEXT NOT NULL,
+    rarity_score NUMERIC(6, 4) NOT NULL,
+    sprite_url TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_pokemon_name ON public.pokemon (lower(name));
+CREATE INDEX IF NOT EXISTS idx_pokemon_rarity ON public.pokemon (rarity);
+
+-- 4. Supabase Storage Bucket ('sprites')
+-- Stores all 1,025 base sprites: {id}-{name_slug}.png
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES ('sprites', 'sprites', true, 5242880, ARRAY['image/png', 'image/gif', 'image/jpeg', 'image/webp'])
+ON CONFLICT (id) DO UPDATE SET public = true;
+
+-- 5. Active Wild Encounters
 CREATE TABLE IF NOT EXISTS public.wild_encounters (
     username TEXT PRIMARY KEY,
     encounter JSONB,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- 4. Active Arena Battles
+-- 6. Active Arena Battles
 CREATE TABLE IF NOT EXISTS public.arena_battles (
     username TEXT PRIMARY KEY,
     battle JSONB,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- 5. Atomic RPC Pokédex Batch Save
+-- 7. Atomic RPC Pokédex Batch Save
 CREATE OR REPLACE FUNCTION public.save_pokedex(p_username text, p_entries jsonb)
 RETURNS void AS $$
 BEGIN

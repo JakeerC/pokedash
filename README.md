@@ -165,12 +165,14 @@ PokéDash uses **Supabase PostgreSQL** as its primary cloud database, providing 
 
 ### Tables & Key Indexes
 
-| Table | Description | Key Constraint / Index |
+| Table / Resource | Description | Key Constraint / Index |
 |---|---|---|
 | `players` | Stores player profile, level, currency, XP, Pokéball inventory, party Pokémon, and badges. | `PRIMARY KEY (username)`, `UNIQUE (lower(username))`, `INDEX (xp DESC)` |
 | `pokedex` | Stores every caught Pokémon instance with stats, IVs, rarity, catch timestamps, and ball used. | `PRIMARY KEY (entry_id)`, `INDEX (username)` |
+| `pokemon` | Canonical National Pokédex catalog with structured stats, types, abilities, and cloud sprite URLs. | `PRIMARY KEY (id)`, `INDEX (lower(name))`, `INDEX (rarity)` |
 | `wild_encounters` | Persists active wild Pokémon encounter state, remaining HP, and cooldowns. | `PRIMARY KEY (username)` |
 | `arena_battles` | Persists ongoing gym arena battles, active Pokémon, and combat logs. | `PRIMARY KEY (username)` |
+| `sprites` *(Storage)* | Public Supabase Storage bucket serving all 1,025 base sprites (`{id}-{name}.png`) via global CDN. | `Public CDN Bucket (5MB limit)` |
 
 ---
 
