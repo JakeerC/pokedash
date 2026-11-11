@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>POKÉDASH ADVANCE - Retro Pokémon Battle & Adventure</title>
   
+  <!-- App Favicon & Touch Icons -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  
   <!-- Preload Battle Arena Backgrounds (High-Resolution Anime 3D Perspectives) -->
   <link rel="preload" href="/backgrounds/arena_meadow.jpg" as="image">
   <link rel="preload" href="/backgrounds/arena_forest.jpg" as="image">
@@ -219,6 +224,18 @@
     .console-branding span {
       color: #facc15;
       font-style: italic;
+    }
+    .app-header-logo {
+      height: 26px;
+      width: auto;
+      object-fit: contain;
+      image-rendering: -webkit-optimize-contrast;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
+      vertical-align: middle;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .app-header-logo:hover {
+      transform: scale(1.15) rotate(-3deg);
     }
 
     .top-switches {
@@ -3480,6 +3497,25 @@
       line-height: 1.5;
       text-align: center;
     }
+    .auth-logo-showcase {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 16px 2px;
+      background: radial-gradient(circle at center, rgba(168, 85, 247, 0.18) 0%, transparent 72%);
+    }
+    .auth-hero-logo {
+      height: 72px;
+      width: auto;
+      max-width: 85%;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 16px rgba(250, 204, 21, 0.35));
+      animation: float-hero-logo 3.2s ease-in-out infinite;
+    }
+    @keyframes float-hero-logo {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-4px) rotate(1deg); }
+    }
     .auth-tabs {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -4176,6 +4212,7 @@
         <!-- Top Status Bar -->
         <div class="screen-header">
           <div class="console-branding">
+            <img src="/logo.png" class="app-header-logo" alt="PokéDash Logo" />
             POKÉDASH <span>ADVANCE</span>
           </div>
 
@@ -4604,7 +4641,10 @@
           <div id="pane-trainer" class="location-pane">
             <div class="trainer-passport">
               <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2d4a36; padding-bottom: 8px; margin-bottom: 12px;">
-                <div style="font-size: 11px; color: #facc15; font-weight: bold;">TRAINER PASSPORT</div>
+                <div style="font-size: 11px; color: #facc15; font-weight: bold; display: flex; align-items: center; gap: 8px;">
+                  <img src="/logo.png" style="height: 20px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));" alt="Logo" />
+                  TRAINER PASSPORT
+                </div>
                 <div style="font-size: 8px; color: #94a3b8;" id="card-id-no">IDNo. 40821</div>
               </div>
 
@@ -4885,6 +4925,10 @@
 
       <div class="auth-banner">
         AUTHENTICATION &bull; TRAINER PASSPORT OR INSTANT GUEST PASS
+      </div>
+
+      <div class="auth-logo-showcase">
+        <img src="/logo.png" class="auth-hero-logo" alt="PokéDash Advance Logo" />
       </div>
 
       <div class="auth-tabs">

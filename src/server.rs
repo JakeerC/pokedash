@@ -10,7 +10,7 @@ use serde::Deserialize;
 use serde_json::json;
 use std::collections::HashMap;
 use tower_http::cors::{Any, CorsLayer};
-use tower_http::services::ServeDir;
+use tower_http::services::{ServeDir, ServeFile};
 
 use crate::game::{
     calculate_catch_chance, get_generation, get_level_discount, get_level_xp_range,
@@ -221,6 +221,10 @@ pub fn create_router(state: AppState) -> Router {
     Router::new()
         .nest("/api", api_routes)
         .route("/keyboard", get(serve_keyboard))
+        .route_service("/favicon.ico", ServeFile::new("static/favicon.ico"))
+        .route_service("/favicon.png", ServeFile::new("static/favicon.png"))
+        .route_service("/apple-touch-icon.png", ServeFile::new("static/apple-touch-icon.png"))
+        .route_service("/logo.png", ServeFile::new("static/logo.png"))
         .nest_service("/sprites", ServeDir::new("static/sprites"))
         .nest_service("/fonts", ServeDir::new("static/fonts"))
         .nest_service("/backgrounds", ServeDir::new("static/backgrounds"))
