@@ -1184,6 +1184,244 @@ wwwwwwwww#..
 """
 }
 
+ICONS['px-settings'] = {
+    'width': 16, 'height': 16,
+    'palette': {
+        '.': None,
+        '#': '#0f172a',
+        's': '#475569',
+        'm': '#94a3b8',
+        'l': '#e2e8f0',
+        'd': '#1e293b'
+    },
+    'grid': """
+.....######.....
+....#smmmmd#....
+...#smd##dmd#...
+.###smd##dmd###.
+#smmmd####dmmmd#
+#sm############d#
+#sm##smmmmd##dmd#
+#sm##smd..d##dmd#
+#sm##smd..d##dmd#
+#sm##smd..d##dmd#
+#sm##dmmmmd##dmd#
+#sm############d#
+#smmmd####dmmmd#
+.###smd##dmd###.
+...#smd##dmd#...
+....#smmmmd#....
+"""
+}
+
+ICONS['px-gem'] = {
+    'width': 16, 'height': 16,
+    'palette': {
+        '.': None,
+        '#': '#064e3b',
+        'd': '#047857',
+        'm': '#10b981',
+        'l': '#6ee7b7',
+        'w': '#d1fae5'
+    },
+    'grid': """
+......######......
+....##llmmmm##....
+..##wllmmmmmdd##..
+.##wwllmmmmdddd##.
+#wwwwllmmmmdddddd#
+#wwwwllmmmmdddddd#
+.##wwllmmmmdddd##.
+..##wllmmmmdd##...
+...##llmmmmd##....
+....##llmmd##.....
+.....##lmd##......
+......##md##......
+.......####.......
+........##........
+..................
+..................
+"""
+}
+
+ICONS['px-shield'] = {
+    'width': 16, 'height': 16,
+    'palette': {
+        '.': None,
+        '#': '#0f172a',
+        's': '#334155',
+        'w': '#f8fafc',
+        'b': '#3b82f6',
+        'd': '#1d4ed8',
+        'y': '#facc15'
+    },
+    'grid': """
+.##############.
+#ywwwwwwwwwwwwy#
+#y#bbbb##dddd#y#
+#y#bbbb##dddd#y#
+#y#bbbb##dddd#y#
+#y#bbbb##dddd#y#
+.#y#bbb##ddd#y#.
+.#y#bbb##ddd#y#.
+..#y#bb##dd#y#..
+..#y#bb##dd#y#..
+...#y#b##d#y#...
+....#y####y#....
+.....#yyyy#.....
+......#yy#......
+.......##.......
+................
+"""
+}
+
+ICONS['px-mail'] = {
+    'width': 16, 'height': 16,
+    'palette': {
+        '.': None,
+        '#': '#0f172a',
+        'w': '#f8fafc',
+        'g': '#cbd5e1',
+        'd': '#94a3b8',
+        'r': '#ef4444'
+    },
+    'grid': """
+................
+.##############.
+.#wwwwwwwwwwww#.
+.#w#wwwwwwww#w#.
+.#wd#wwwwww#dw#.
+.#wgd#wwww#dgw#.
+.#wgdd#rr#ddgw#.
+.#wgd##rr##dgw#.
+.#wgdd#rr#ddgw#.
+.#wgd#wwww#dgw#.
+.#wd#wwwwww#dw#.
+.#w#wwwwwwww#w#.
+.#wwwwwwwwwwww#.
+.##############.
+................
+................
+"""
+}
+
+ICONS['px-cart'] = {
+    'width': 16, 'height': 16,
+    'palette': {
+        '.': None,
+        '#': '#1c1917',
+        'w': '#78350f',
+        'l': '#b45309',
+        'y': '#facc15',
+        'g': '#10b981',
+        'r': '#ef4444',
+        'm': '#94a3b8'
+    },
+    'grid': """
+......#y#g#r....
+.....#yy#gg#rr..
+....#yyy#ggg#rr.
+..################
+.#llllllllllllll#.
+.#lwwwwwwwwwwwwl#.
+.#llllllllllllll#.
+.#lwwwwwwwwwwwwl#.
+..################
+....#mmmm##mmmm#..
+...#m####mm####m#.
+...#m####mm####m#.
+....#mmmm##mmmm#..
+..................
+..................
+..................
+"""
+}
+
+ICONS['px-map'] = {
+    'width': 16, 'height': 16,
+    'palette': {
+        '.': None,
+        '#': '#451a03',
+        'p': '#fef3c7',
+        'd': '#fde68a',
+        'r': '#dc2626',
+        'k': '#78350f'
+    },
+    'grid': """
+...############.
+..#dddddddddddd#
+.#dddddddddddd#p
+#dddddddddddd#pp
+#dd#r#dddddd#ppp
+#d#rrr#ddkdd#ppp
+#dd#r#ddkddd#ppp
+#ddddddkdddd#ppp
+#ddddkdddddd#ppp
+#ddddkddd#r#ddpp
+#ddddd#r#rrr#ddp
+#dddd#rrr##r#dd#
+#ddddd#r#ddddd#.
+#dddddddddddd#..
+.############...
+................
+"""
+}
+
+ICONS['px-swords'] = {
+    'width': 16, 'height': 16,
+    'palette': {
+        '.': None,
+        '#': '#0f172a',
+        'w': '#f8fafc',
+        's': '#94a3b8',
+        'g': '#facc15',
+        'b': '#78350f'
+    },
+    'grid': """
+#w#..........#w#
+.#ws#......#sw#.
+..#ws#....#sw#..
+...#ws#..#sw#...
+....#ws##sw#....
+.....#w##w#.....
+......####......
+.....#gg##gg#...
+....#b#g##g#b#..
+...#b#......#b#.
+..#b#........#b#
+..##..........##
+................
+................
+................
+................
+"""
+}
+
+ICONS['px-plus'] = {
+    'width': 12, 'height': 12,
+    'palette': {
+        '.': None,
+        '#': '#064e3b',
+        'g': '#10b981',
+        'l': '#6ee7b7',
+        'w': '#ffffff'
+    },
+    'grid': """
+....####....
+..##gggg##..
+.#gg#ww#gg#.
+.#gg#ww#gg#.
+#gwwwwwwwwg#
+#gwwwwwwwwg#
+#gwwwwwwwwg#
+#gwwwwwwwwg#
+.#gg#ww#gg#.
+.#gg#ww#gg#.
+..##gggg##..
+....####....
+"""
+}
+
 if __name__ == '__main__':
     content = generate_all_symbols()
     print(f"Generated {len(ICONS)} pixel icon symbols!")

@@ -502,9 +502,16 @@
     body.no-scanlines .scanlines-overlay { display: none !important; }
 
     /* Screen UI layers explicitly above scanlines with active pointer events */
-    .screen-header, .screen-nav, .screen-content {
+    .screen-header, .screen-nav {
       position: relative;
       z-index: 10;
+    }
+    .screen-content {
+      position: static !important;
+      z-index: auto !important;
+      width: 100% !important;
+      height: 100% !important;
+      overflow: visible !important;
     }
     button, .nav-tab, .action-menu-btn, .move-btn, .retro-pill-btn, .d-pad-btn, .action-circle-btn, .dex-slot-card, .btn-arena-challenge, .btn-heal-all {
       cursor: pointer !important;
@@ -4146,6 +4153,1034 @@
       border-color: #4ade80 !important;
       box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
     }
+  
+/* ============================================================ */
+/* CLASH OF CLANS RETRO GAME LAYOUT DESIGN                      */
+/* ============================================================ */
+
+/* Hide old header & nav bar in full layout */
+body.layout-full .screen-header,
+body.layout-full .screen-nav {
+  display: none !important;
+}
+
+/* Ensure retro screen is relative and full view */
+.retro-screen {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+.screen-content {
+  position: static !important;
+  z-index: auto !important;
+  width: 100% !important;
+  height: 100% !important;
+  flex: 1 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+
+#pane-hunt {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 5 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+}
+
+#pane-hunt .battle-stage-wrapper {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.battle-arena-canvas {
+  border-radius: 0 !important;
+  border: none !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* 1. HUD Root Overlay */
+.coc-hud-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 35;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(6px, 1.4vw, 14px);
+  box-sizing: border-box;
+}
+
+.coc-hud-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 12px;
+}
+
+.coc-hud-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  gap: 12px;
+}
+
+/* Pointer Events Enabler for Widgets */
+.coc-corner,
+.coc-top-center,
+.coc-left-rail,
+.coc-hero-attack-btn,
+.coc-hero-shop-btn,
+.coc-facility-btn,
+.coc-sub-action-btn,
+.coc-rail-btn,
+.coc-status-pill,
+.coc-res-bar,
+.coc-tool-btn,
+.coc-trophy-badge,
+.coc-level-star {
+  pointer-events: auto;
+}
+
+/* ============================================================ */
+/* TOP-LEFT: TRAINER IDENTITY CREST & XP                        */
+/* ============================================================ */
+.coc-top-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 12-Point / Chunky Star Level Badge */
+.coc-level-star {
+  width: clamp(40px, 4.5vw, 48px);
+  height: clamp(40px, 4.5vw, 48px);
+  min-width: clamp(40px, 4.5vw, 48px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #38bdf8 0%, #2563eb 55%, #1e3a8a 100%);
+  border: 2.5px solid #0f172a;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.75), inset 0 2px 0 rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  z-index: 2;
+}
+.coc-level-star:hover {
+  transform: scale(1.08);
+}
+.coc-level-star:active {
+  transform: scale(0.95);
+}
+.coc-level-star::before {
+  content: '';
+  position: absolute;
+  top: -3px; left: -3px; right: -3px; bottom: -3px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(250, 204, 21, 0.85);
+  pointer-events: none;
+  animation: coc-star-spin 18s linear infinite;
+}
+@keyframes coc-star-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.coc-level-num {
+  font-family: inherit;
+  font-size: clamp(12px, 1.4vw, 15px);
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: -1px -1px 0 #0f172a, 1px -1px 0 #0f172a, -1px 1px 0 #0f172a, 1px 1px 0 #0f172a, 0 2px 4px rgba(0,0,0,0.9);
+}
+
+.coc-profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.coc-trainer-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.coc-trainer-name {
+  font-size: clamp(9px, 1.1vw, 11px);
+  font-weight: 900;
+  color: #f8fafc;
+  letter-spacing: 0.5px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 2px 4px rgba(0,0,0,0.8);
+}
+.coc-trainer-tag {
+  font-size: 7px;
+  font-weight: bold;
+  background: #1e3a8a;
+  color: #93c5fd;
+  border: 1px solid #3b82f6;
+  border-radius: 4px;
+  padding: 1px 4px;
+  text-shadow: none;
+}
+
+/* Glossy 3D XP Progress Bar */
+.coc-xp-bar-wrap {
+  width: clamp(140px, 16vw, 185px);
+  height: clamp(16px, 1.8vh, 19px);
+  background: #09130e;
+  border: 2px solid #0f172a;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.8), 0 2px 5px rgba(0,0,0,0.5);
+}
+.coc-xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 50%, #1d4ed8 100%);
+  border-radius: 10px;
+  transition: width 0.35s ease;
+}
+.coc-bar-gloss {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.05) 100%);
+  border-radius: 10px 10px 0 0;
+  pointer-events: none;
+}
+.coc-xp-bar-text {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7.5px;
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  pointer-events: none;
+}
+
+/* Trophy Badge Row */
+.coc-trophy-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(180deg, #78350f 0%, #451a03 100%);
+  border: 1.5px solid #d97706;
+  border-radius: 10px;
+  padding: 2px 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6), inset 0 1px 0 rgba(250, 204, 21, 0.4);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: fit-content;
+}
+.coc-trophy-badge:hover {
+  border-color: #facc15;
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+  transform: translateY(-1px);
+}
+.coc-trophy-badge:active {
+  transform: translateY(1px);
+}
+.coc-trophy-val {
+  font-size: 8.5px;
+  font-weight: 900;
+  color: #fde047;
+  text-shadow: 0 1px 2px #000;
+}
+.coc-league-tag {
+  font-size: 6.5px;
+  font-weight: bold;
+  background: #facc15;
+  color: #451a03;
+  padding: 1px 4px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================================ */
+/* TOP-CENTER: STATUS & VITAL PILLS (CAMP / ZONE)               */
+/* ============================================================ */
+.coc-top-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.coc-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border: 2px solid #334155;
+  border-radius: 16px;
+  padding: 3px 6px 3px 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.7), inset 0 1.5px 0 rgba(255,255,255,0.25);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.coc-status-pill:hover {
+  border-color: #64748b;
+  transform: translateY(-1px);
+}
+.coc-status-pill:active {
+  transform: translateY(1px);
+}
+
+.coc-pill-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.coc-pill-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.coc-pill-content {
+  display: flex;
+  flex-direction: column;
+}
+.coc-pill-label {
+  font-size: 6px;
+  font-weight: bold;
+  color: #94a3b8;
+  letter-spacing: 0.5px;
+}
+.coc-pill-val {
+  font-size: 8px;
+  font-weight: 900;
+  color: #f8fafc;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px #000;
+  white-space: nowrap;
+}
+.coc-pill-val.party-wounded {
+  color: #f87171 !important;
+  animation: coc-wounded-pulse 1.5s infinite;
+}
+@keyframes coc-wounded-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.coc-pill-action-btn {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #4ade80 0%, #16a34a 100%);
+  border: 1.5px solid #0f172a;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.5);
+  transition: transform 0.1s ease;
+  line-height: 1;
+  padding: 0;
+}
+.coc-pill-action-btn:hover {
+  transform: scale(1.15);
+}
+.coc-pill-action-btn:active {
+  transform: scale(0.9);
+}
+
+/* ============================================================ */
+/* TOP-RIGHT: 3D LAYERED RESOURCE PILL STACK                   */
+/* ============================================================ */
+.coc-top-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.coc-resource-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+.coc-res-cap-label {
+  font-size: 6.5px;
+  font-weight: bold;
+  color: #cbd5e1;
+  letter-spacing: 0.5px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  padding-right: 6px;
+}
+
+.coc-res-bar {
+  display: flex;
+  align-items: center;
+  height: clamp(20px, 2.2vh, 24px);
+  width: clamp(140px, 15vw, 180px);
+  background: #09110d;
+  border: 2px solid #0f172a;
+  border-radius: 14px;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.8), 0 3px 6px rgba(0,0,0,0.5);
+  cursor: pointer;
+}
+.coc-res-track {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.coc-res-fill {
+  height: 100%;
+  border-radius: 12px;
+  transition: width 0.35s ease;
+}
+
+/* Gold Liquid */
+.coc-res-gold .coc-res-fill {
+  background: linear-gradient(180deg, #fde047 0%, #eab308 50%, #a16207 100%);
+}
+/* Balls Liquid */
+.coc-res-balls .coc-res-fill {
+  background: linear-gradient(180deg, #f87171 0%, #ef4444 50%, #991b1b 100%);
+}
+/* Badges/Gems Liquid */
+.coc-res-gems .coc-res-fill {
+  background: linear-gradient(180deg, #34d399 0%, #10b981 50%, #047857 100%);
+}
+
+.coc-res-val {
+  position: absolute;
+  left: 10px;
+  right: 48px;
+  text-align: right;
+  font-size: clamp(8px, 1vw, 9.5px);
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 1px 3px rgba(0,0,0,0.9);
+  pointer-events: none;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.coc-res-icon-cap {
+  position: absolute;
+  right: 20px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  pointer-events: none;
+}
+.coc-res-icon-cap svg {
+  width: 16px;
+  height: 16px;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6));
+}
+.coc-res-img-icon {
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6));
+}
+
+.coc-res-plus-btn {
+  position: absolute;
+  right: -3px;
+  width: clamp(18px, 2vh, 21px);
+  height: clamp(18px, 2vh, 21px);
+  border-radius: 50%;
+  background: linear-gradient(180deg, #4ade80 0%, #16a34a 100%);
+  border: 2px solid #0f172a;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.6);
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
+  line-height: 1;
+  padding: 0;
+  z-index: 4;
+}
+.coc-res-plus-btn:hover {
+  transform: scale(1.18);
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.6);
+}
+.coc-res-plus-btn:active {
+  transform: scale(0.9);
+}
+
+/* Tools Mini Tray */
+.coc-tools-tray {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+}
+.coc-tool-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border: 1.5px solid #334155;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: all 0.15s ease;
+  padding: 0;
+}
+.coc-tool-btn:hover {
+  background: #334155;
+  color: #ffffff;
+  border-color: #64748b;
+  transform: translateY(-1px);
+}
+.coc-tool-btn:active {
+  transform: translateY(1px);
+}
+.coc-tool-btn.active {
+  background: #facc15;
+  color: #111827;
+  border-color: #ca8a04;
+}
+.coc-tool-btn svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ============================================================ */
+/* LEFT-EDGE RAIL: QUICK FLOATING UTILITY DRAWERS               */
+/* ============================================================ */
+.coc-left-rail {
+  position: absolute;
+  left: clamp(6px, 1.4vw, 14px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  z-index: 36;
+}
+
+.coc-rail-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: clamp(42px, 4.4vw, 48px);
+  height: clamp(40px, 4.2vw, 46px);
+  background: linear-gradient(180deg, #334155 0%, #1e293b 50%, #0f172a 100%);
+  border: 2px solid #0f172a;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6), inset 0 1.5px 0 rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  padding: 0;
+}
+.coc-rail-btn:hover {
+  transform: scale(1.08) translateX(2px);
+  border-color: #64748b;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.7), inset 0 1.5px 0 rgba(255,255,255,0.5);
+}
+.coc-rail-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+.coc-rail-btn.active {
+  background: linear-gradient(180deg, #facc15 0%, #eab308 50%, #ca8a04 100%);
+  border-color: #78350f;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
+}
+.coc-rail-btn.active .coc-rail-label {
+  color: #451a03 !important;
+}
+
+.coc-rail-btn svg {
+  width: 16px;
+  height: 16px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
+}
+
+.coc-rail-label {
+  font-size: 6px;
+  font-weight: 900;
+  color: #f8fafc;
+  letter-spacing: 0.3px;
+  margin-top: 1px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.coc-rail-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ef4444;
+  border: 1.5px solid #ffffff;
+  color: #ffffff;
+  font-size: 8px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.6);
+  animation: coc-badge-bounce 2s infinite ease-in-out;
+}
+@keyframes coc-badge-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* ============================================================ */
+/* BOTTOM-LEFT: THE CLASH "ATTACK!" HERO BUTTON -> HUNT!        */
+/* ============================================================ */
+.coc-bottom-left {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  position: relative;
+}
+
+/* Reposition dialogue banner cleanly above the hero button */
+.modern-dialogue-banner {
+  bottom: clamp(78px, 11vh, 98px) !important;
+  left: clamp(6px, 1.4vw, 14px) !important;
+  max-width: clamp(260px, 32vw, 440px) !important;
+  z-index: 34 !important;
+}
+
+/* Massive CoC Hero Hunt Button */
+.coc-hero-attack-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: clamp(52px, 6.5vh, 64px);
+  padding: 0 clamp(12px, 1.8vw, 20px) 0 clamp(8px, 1.2vw, 12px);
+  background: linear-gradient(180deg, #fb923c 0%, #f97316 45%, #ea580c 75%, #c2410c 100%);
+  border: 3px solid #7c2d12;
+  border-radius: 14px;
+  box-shadow: 0 6px 0 #431407, 0 10px 20px rgba(0, 0, 0, 0.75), inset 0 2px 0 rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: all 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: visible;
+}
+.coc-hero-attack-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, #fdba74 0%, #fb923c 45%, #ea580c 75%, #c2410c 100%);
+  box-shadow: 0 8px 0 #431407, 0 14px 24px rgba(0, 0, 0, 0.85), inset 0 2px 0 rgba(255, 255, 255, 0.6);
+}
+.coc-hero-attack-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #431407, 0 4px 10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.coc-hero-icon-plate {
+  width: clamp(34px, 4vw, 40px);
+  height: clamp(34px, 4vw, 40px);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #fef08a 0%, #facc15 100%);
+  border: 2px solid #78350f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.7);
+}
+.coc-hero-icon {
+  width: 22px;
+  height: 22px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
+}
+
+.coc-hero-text-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.coc-hero-action-title {
+  font-size: clamp(14px, 1.8vw, 18px);
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 1px;
+  line-height: 1.1;
+  text-shadow: -1.5px -1.5px 0 #431407, 1.5px -1.5px 0 #431407, -1.5px 1.5px 0 #431407, 1.5px 1.5px 0 #431407, 0 3px 6px rgba(0,0,0,0.9);
+}
+.coc-hero-action-sub {
+  font-size: 7px;
+  font-weight: 900;
+  color: #fed7aa;
+  letter-spacing: 0.5px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+.coc-k-badge {
+  color: #fef08a;
+  background: rgba(0,0,0,0.4);
+  padding: 0 3px;
+  border-radius: 3px;
+}
+
+/* Secondary Action Button (e.g. Cry) */
+.coc-sub-action-btn {
+  height: clamp(36px, 4.4vh, 42px);
+  padding: 0 10px;
+  background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+  border: 2px solid #0f172a;
+  border-radius: 10px;
+  color: #f8fafc;
+  font-size: 8px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 4px 0 #020617, 0 6px 12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+.coc-sub-action-btn:hover {
+  background: #475569;
+  transform: translateY(-1px);
+}
+.coc-sub-action-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #020617;
+}
+
+/* ============================================================ */
+/* BOTTOM-RIGHT: THE CLASH "SHOP" HERO BUTTON & FACILITIES     */
+/* ============================================================ */
+.coc-bottom-right {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.coc-facility-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: clamp(44px, 4.8vw, 52px);
+  height: clamp(44px, 4.8vw, 52px);
+  background: linear-gradient(180deg, #334155 0%, #1e293b 60%, #0f172a 100%);
+  border: 2.5px solid #0f172a;
+  border-radius: 12px;
+  box-shadow: 0 5px 0 #020617, 0 8px 16px rgba(0,0,0,0.7), inset 0 1.5px 0 rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: all 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 0;
+}
+.coc-facility-btn:hover {
+  transform: translateY(-2px);
+  border-color: #64748b;
+  box-shadow: 0 7px 0 #020617, 0 12px 20px rgba(0,0,0,0.8);
+}
+.coc-facility-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #020617;
+}
+.coc-facility-btn svg {
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
+}
+.coc-fac-label {
+  font-size: 6px;
+  font-weight: 900;
+  color: #f8fafc;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+/* Massive CoC Hero Shop Button */
+.coc-hero-shop-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: clamp(52px, 6.5vh, 64px);
+  padding: 0 clamp(12px, 1.8vw, 20px) 0 clamp(8px, 1.2vw, 12px);
+  background: linear-gradient(180deg, #475569 0%, #334155 45%, #1e293b 80%, #0f172a 100%);
+  border: 3px solid #0f172a;
+  border-radius: 14px;
+  box-shadow: 0 6px 0 #020617, 0 10px 20px rgba(0, 0, 0, 0.8), inset 0 2px 0 rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: all 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+.coc-hero-shop-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, #64748b 0%, #475569 45%, #334155 80%, #1e293b 100%);
+  box-shadow: 0 8px 0 #020617, 0 14px 24px rgba(0, 0, 0, 0.9), inset 0 2px 0 rgba(255, 255, 255, 0.5);
+}
+.coc-hero-shop-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #020617, 0 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+.coc-shop-icon-plate {
+  width: clamp(34px, 4vw, 40px);
+  height: clamp(34px, 4vw, 40px);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #93c5fd 0%, #3b82f6 100%);
+  border: 2px solid #1e3a8a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.7);
+}
+.coc-shop-icon {
+  width: 22px;
+  height: 22px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
+}
+
+.coc-shop-text-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.coc-shop-title {
+  font-size: clamp(14px, 1.8vw, 18px);
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 1px;
+  line-height: 1.1;
+  text-shadow: -1.5px -1.5px 0 #0f172a, 1.5px -1.5px 0 #0f172a, -1.5px 1.5px 0 #0f172a, 1.5px 1.5px 0 #0f172a, 0 3px 6px rgba(0,0,0,0.9);
+}
+.coc-shop-sub {
+  font-size: 7px;
+  font-weight: 900;
+  color: #93c5fd;
+  letter-spacing: 0.5px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+/* ============================================================ */
+/* CLASH OF CLANS FLOATING MODAL WINDOWS FOR FACILITIES        */
+/* ============================================================ */
+/* Ensure non-hunt panes are hidden by default */
+.location-pane:not(#pane-hunt) {
+  display: none !important;
+}
+
+/* When a non-hunt pane is active, present it as a floating CoC arcade dialog above backdrop! */
+.location-pane:not(#pane-hunt).active {
+  display: block !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: min(95vw, 1340px) !important;
+  height: min(88vh, 850px) !important;
+  background: #0e1e14 !important;
+  border: 3.5px solid #facc15 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.95), 0 0 30px rgba(250, 204, 21, 0.35) !important;
+  padding: 20px 24px !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  z-index: 60 !important;
+  pointer-events: auto !important;
+  color: #f8fafc !important;
+  animation: coc-modal-pop 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+@keyframes coc-modal-pop {
+  0% { transform: translate(-50%, -46%) scale(0.92); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* Universal CoC Modal Close Button */
+.coc-modal-close-corner {
+  position: absolute !important;
+  top: 14px !important;
+  right: 18px !important;
+  width: 32px !important;
+  height: 32px !important;
+  background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%) !important;
+  border: 2px solid #7f1d1d !important;
+  border-radius: 8px !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 3px 0 #450a0a, 0 4px 10px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.5) !important;
+  transition: all 0.12s ease !important;
+  z-index: 75 !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+}
+.coc-modal-close-corner:hover {
+  transform: scale(1.1) !important;
+  background: linear-gradient(180deg, #f87171 0%, #dc2626 100%) !important;
+  box-shadow: 0 4px 0 #450a0a, 0 0 12px rgba(239, 68, 68, 0.6) !important;
+}
+.coc-modal-close-corner:active {
+  transform: scale(0.95) translateY(2px) !important;
+  box-shadow: 0 1px 0 #450a0a !important;
+}
+
+/* Semi-transparent backdrop when modal pane is open (z-index 50: below active pane at 60, above HUD at 35 and Hunt at 5) */
+.coc-modal-backdrop-layer {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: rgba(4, 10, 7, 0.72) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  z-index: 50 !important;
+  display: none !important;
+  pointer-events: auto !important;
+}
+.coc-modal-backdrop-layer.open {
+  display: block !important;
+}
+
+/* ============================================================ */
+/* SILPH CO. ACTIVITY & CATCH LOG DRAWER MODAL                 */
+/* ============================================================ */
+#coc-mail-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90vw, 580px);
+  max-height: min(80vh, 600px);
+  background: #0f1d14;
+  border: 3px solid #facc15;
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.9), 0 0 20px rgba(250, 204, 21, 0.4);
+  z-index: 65;
+  display: none;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+  animation: coc-modal-pop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+#coc-mail-modal.open {
+  display: flex;
+}
+.coc-mail-header {
+  padding: 12px 16px;
+  background: #14281b;
+  border-bottom: 2px solid #284430;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.coc-mail-title {
+  font-size: 11px;
+  font-weight: 900;
+  color: #facc15;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.5px;
+}
+.coc-mail-body {
+  padding: 14px 16px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.coc-log-entry {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #122116;
+  border: 1px solid #223c28;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.coc-log-icon {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border-radius: 50%;
+  background: #1e3a24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.coc-log-content {
+  flex: 1;
+}
+.coc-log-time {
+  font-size: 6.5px;
+  color: #86efac;
+}
+.coc-log-msg {
+  font-size: 8px;
+  color: #e2e8f0;
+  line-height: 1.4;
+}
+
+/* Responsive Scaling for Narrower Viewports */
+@media (max-width: 768px) {
+  .coc-top-center {
+    display: none !important;
+  }
+  .coc-res-bar {
+    width: 120px !important;
+  }
+  .coc-xp-bar-wrap {
+    width: 110px !important;
+  }
+  .coc-hero-attack-btn,
+  .coc-hero-shop-btn {
+    height: 48px !important;
+    padding: 0 10px !important;
+  }
+  .coc-hero-action-title,
+  .coc-shop-title {
+    font-size: 13px !important;
+  }
+}
+
   </style>
 </head>
 <body class="no-scanlines">
@@ -4153,8 +5188,6 @@
   <div style="display: none;" id="pixel-icons-container">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 <defs>
-<symbol id="px-trophy" viewBox="0 0 16 16"><rect x="3" y="1" width="10" height="1" fill="#78350f"/><rect x="2" y="2" width="12" height="1" fill="#facc15"/><rect x="1" y="3" width="14" height="2" fill="#facc15"/><rect x="0" y="3" width="2" height="3" fill="#ca8a04"/><rect x="14" y="3" width="2" height="3" fill="#ca8a04"/><rect x="2" y="5" width="12" height="2" fill="#eab308"/><rect x="4" y="7" width="8" height="2" fill="#ca8a04"/><rect x="6" y="9" width="4" height="2" fill="#a16207"/><rect x="5" y="11" width="6" height="2" fill="#eab308"/><rect x="4" y="13" width="8" height="2" fill="#78350f"/></symbol>
-<symbol id="px-lock" viewBox="0 0 16 16"><rect x="5" y="1" width="6" height="1" fill="#0f172a"/><rect x="4" y="2" width="2" height="4" fill="#0f172a"/><rect x="10" y="2" width="2" height="4" fill="#0f172a"/><rect x="3" y="6" width="10" height="9" fill="#facc15"/><rect x="2" y="6" width="1" height="9" fill="#0f172a"/><rect x="13" y="6" width="1" height="9" fill="#0f172a"/><rect x="3" y="15" width="10" height="1" fill="#0f172a"/><rect x="7" y="9" width="2" height="3" fill="#78350f"/></symbol>
 <symbol id="px-grass" viewBox="0 0 16 16"><rect x="3" y="1" width="1" height="1" fill="#0a2318"/><rect x="10" y="1" width="1" height="1" fill="#0a2318"/><rect x="2" y="2" width="1" height="1" fill="#0a2318"/><rect x="3" y="2" width="1" height="1" fill="#86efac"/><rect x="4" y="2" width="1" height="1" fill="#0a2318"/><rect x="9" y="2" width="1" height="1" fill="#0a2318"/><rect x="10" y="2" width="1" height="1" fill="#86efac"/><rect x="11" y="2" width="1" height="1" fill="#0a2318"/><rect x="14" y="2" width="1" height="1" fill="#0a2318"/><rect x="2" y="3" width="1" height="1" fill="#0a2318"/><rect x="3" y="3" width="1" height="1" fill="#22c55e"/><rect x="4" y="3" width="1" height="1" fill="#86efac"/><rect x="5" y="3" width="1" height="1" fill="#0a2318"/><rect x="8" y="3" width="1" height="1" fill="#0a2318"/><rect x="9" y="3" width="1" height="1" fill="#22c55e"/><rect x="10" y="3" width="1" height="1" fill="#86efac"/><rect x="11" y="3" width="1" height="1" fill="#0a2318"/><rect x="13" y="3" width="1" height="1" fill="#0a2318"/><rect x="14" y="3" width="1" height="1" fill="#86efac"/><rect x="15" y="3" width="1" height="1" fill="#0a2318"/><rect x="2" y="4" width="1" height="1" fill="#0a2318"/><rect x="3" y="4" width="2" height="1" fill="#22c55e"/><rect x="5" y="4" width="1" height="1" fill="#0a2318"/><rect x="8" y="4" width="1" height="1" fill="#0a2318"/><rect x="9" y="4" width="2" height="1" fill="#22c55e"/><rect x="11" y="4" width="1" height="1" fill="#0a2318"/><rect x="13" y="4" width="1" height="1" fill="#0a2318"/><rect x="14" y="4" width="1" height="1" fill="#22c55e"/><rect x="15" y="4" width="1" height="1" fill="#0a2318"/><rect x="1" y="5" width="1" height="1" fill="#0a2318"/><rect x="2" y="5" width="1" height="1" fill="#15803d"/><rect x="3" y="5" width="2" height="1" fill="#22c55e"/><rect x="5" y="5" width="1" height="1" fill="#0a2318"/><rect x="8" y="5" width="1" height="1" fill="#0a2318"/><rect x="9" y="5" width="3" height="1" fill="#22c55e"/><rect x="12" y="5" width="1" height="1" fill="#0a2318"/><rect x="13" y="5" width="2" height="1" fill="#22c55e"/><rect x="15" y="5" width="1" height="1" fill="#0a2318"/><rect x="1" y="6" width="1" height="1" fill="#0a2318"/><rect x="2" y="6" width="1" height="1" fill="#15803d"/><rect x="3" y="6" width="2" height="1" fill="#22c55e"/><rect x="5" y="6" width="1" height="1" fill="#0a2318"/><rect x="8" y="6" width="1" height="1" fill="#0a2318"/><rect x="9" y="6" width="1" height="1" fill="#15803d"/><rect x="10" y="6" width="4" height="1" fill="#22c55e"/><rect x="14" y="6" width="1" height="1" fill="#15803d"/><rect x="15" y="6" width="1" height="1" fill="#0a2318"/><rect x="1" y="7" width="1" height="1" fill="#0a2318"/><rect x="2" y="7" width="1" height="1" fill="#15803d"/><rect x="3" y="7" width="3" height="1" fill="#22c55e"/><rect x="6" y="7" width="2" height="1" fill="#0a2318"/><rect x="8" y="7" width="1" height="1" fill="#15803d"/><rect x="9" y="7" width="5" height="1" fill="#22c55e"/><rect x="14" y="7" width="2" height="1" fill="#0a2318"/><rect x="1" y="8" width="1" height="1" fill="#0a2318"/><rect x="2" y="8" width="1" height="1" fill="#15803d"/><rect x="3" y="8" width="4" height="1" fill="#22c55e"/><rect x="7" y="8" width="1" height="1" fill="#15803d"/><rect x="8" y="8" width="6" height="1" fill="#22c55e"/><rect x="14" y="8" width="1" height="1" fill="#15803d"/><rect x="15" y="8" width="1" height="1" fill="#0a2318"/><rect x="1" y="9" width="2" height="1" fill="#0a2318"/><rect x="3" y="9" width="1" height="1" fill="#15803d"/><rect x="4" y="9" width="10" height="1" fill="#22c55e"/><rect x="14" y="9" width="1" height="1" fill="#15803d"/><rect x="15" y="9" width="1" height="1" fill="#0a2318"/><rect x="1" y="10" width="2" height="1" fill="#0a2318"/><rect x="3" y="10" width="1" height="1" fill="#15803d"/><rect x="4" y="10" width="7" height="1" fill="#22c55e"/><rect x="11" y="10" width="1" height="1" fill="#15803d"/><rect x="12" y="10" width="2" height="1" fill="#22c55e"/><rect x="14" y="10" width="1" height="1" fill="#15803d"/><rect x="15" y="10" width="1" height="1" fill="#0a2318"/><rect x="2" y="11" width="2" height="1" fill="#0a2318"/><rect x="4" y="11" width="2" height="1" fill="#15803d"/><rect x="6" y="11" width="4" height="1" fill="#22c55e"/><rect x="10" y="11" width="4" height="1" fill="#15803d"/><rect x="14" y="11" width="2" height="1" fill="#0a2318"/><rect x="3" y="12" width="3" height="1" fill="#0a2318"/><rect x="6" y="12" width="7" height="1" fill="#15803d"/><rect x="13" y="12" width="2" height="1" fill="#0a2318"/><rect x="5" y="13" width="9" height="1" fill="#0a2318"/></symbol>
 <symbol id="px-arena" viewBox="0 0 16 16"><rect x="5" y="1" width="6" height="1" fill="#0f172a"/><rect x="3" y="2" width="2" height="1" fill="#0f172a"/><rect x="5" y="2" width="6" height="1" fill="#facc15"/><rect x="11" y="2" width="2" height="1" fill="#0f172a"/><rect x="2" y="3" width="1" height="1" fill="#0f172a"/><rect x="3" y="3" width="8" height="1" fill="#facc15"/><rect x="11" y="3" width="2" height="1" fill="#ca8a04"/><rect x="13" y="3" width="1" height="1" fill="#0f172a"/><rect x="1" y="4" width="14" height="1" fill="#0f172a"/><rect x="1" y="5" width="1" height="1" fill="#0f172a"/><rect x="2" y="5" width="12" height="1" fill="#cbd5e1"/><rect x="14" y="5" width="1" height="1" fill="#0f172a"/><rect x="1" y="6" width="1" height="1" fill="#0f172a"/><rect x="2" y="6" width="1" height="1" fill="#cbd5e1"/><rect x="3" y="6" width="1" height="1" fill="#94a3b8"/><rect x="4" y="6" width="1" height="1" fill="#0f172a"/><rect x="5" y="6" width="2" height="1" fill="#1e293b"/><rect x="7" y="6" width="1" height="1" fill="#0f172a"/><rect x="8" y="6" width="1" height="1" fill="#cbd5e1"/><rect x="9" y="6" width="1" height="1" fill="#94a3b8"/><rect x="10" y="6" width="1" height="1" fill="#0f172a"/><rect x="11" y="6" width="2" height="1" fill="#1e293b"/><rect x="13" y="6" width="1" height="1" fill="#0f172a"/><rect x="14" y="6" width="1" height="1" fill="#cbd5e1"/><rect x="15" y="6" width="1" height="1" fill="#0f172a"/><rect x="1" y="7" width="1" height="1" fill="#0f172a"/><rect x="2" y="7" width="1" height="1" fill="#cbd5e1"/><rect x="3" y="7" width="1" height="1" fill="#94a3b8"/><rect x="4" y="7" width="1" height="1" fill="#0f172a"/><rect x="5" y="7" width="2" height="1" fill="#1e293b"/><rect x="7" y="7" width="1" height="1" fill="#0f172a"/><rect x="8" y="7" width="1" height="1" fill="#cbd5e1"/><rect x="9" y="7" width="1" height="1" fill="#94a3b8"/><rect x="10" y="7" width="1" height="1" fill="#0f172a"/><rect x="11" y="7" width="2" height="1" fill="#1e293b"/><rect x="13" y="7" width="1" height="1" fill="#0f172a"/><rect x="14" y="7" width="1" height="1" fill="#cbd5e1"/><rect x="15" y="7" width="1" height="1" fill="#0f172a"/><rect x="1" y="8" width="1" height="1" fill="#0f172a"/><rect x="2" y="8" width="1" height="1" fill="#cbd5e1"/><rect x="3" y="8" width="1" height="1" fill="#94a3b8"/><rect x="4" y="8" width="1" height="1" fill="#0f172a"/><rect x="5" y="8" width="2" height="1" fill="#1e293b"/><rect x="7" y="8" width="1" height="1" fill="#0f172a"/><rect x="8" y="8" width="1" height="1" fill="#cbd5e1"/><rect x="9" y="8" width="1" height="1" fill="#94a3b8"/><rect x="10" y="8" width="1" height="1" fill="#0f172a"/><rect x="11" y="8" width="2" height="1" fill="#1e293b"/><rect x="13" y="8" width="1" height="1" fill="#0f172a"/><rect x="14" y="8" width="1" height="1" fill="#cbd5e1"/><rect x="15" y="8" width="1" height="1" fill="#0f172a"/><rect x="1" y="9" width="1" height="1" fill="#0f172a"/><rect x="2" y="9" width="12" height="1" fill="#cbd5e1"/><rect x="14" y="9" width="1" height="1" fill="#0f172a"/><rect x="1" y="10" width="1" height="1" fill="#0f172a"/><rect x="2" y="10" width="1" height="1" fill="#cbd5e1"/><rect x="3" y="10" width="1" height="1" fill="#94a3b8"/><rect x="4" y="10" width="10" height="1" fill="#0f172a"/><rect x="14" y="10" width="1" height="1" fill="#cbd5e1"/><rect x="15" y="10" width="1" height="1" fill="#0f172a"/><rect x="1" y="11" width="1" height="1" fill="#0f172a"/><rect x="2" y="11" width="1" height="1" fill="#cbd5e1"/><rect x="3" y="11" width="1" height="1" fill="#94a3b8"/><rect x="4" y="11" width="1" height="1" fill="#0f172a"/><rect x="5" y="11" width="8" height="1" fill="#1e293b"/><rect x="13" y="11" width="1" height="1" fill="#0f172a"/><rect x="14" y="11" width="1" height="1" fill="#cbd5e1"/><rect x="15" y="11" width="1" height="1" fill="#0f172a"/><rect x="1" y="12" width="3" height="1" fill="#0f172a"/><rect x="4" y="12" width="10" height="1" fill="#1e293b"/><rect x="14" y="12" width="3" height="1" fill="#0f172a"/><rect x="1" y="13" width="14" height="1" fill="#0f172a"/></symbol>
 <symbol id="px-center" viewBox="0 0 16 16"><rect x="4" y="1" width="8" height="1" fill="#1e293b"/><rect x="3" y="2" width="1" height="1" fill="#1e293b"/><rect x="4" y="2" width="8" height="1" fill="#ef4444"/><rect x="12" y="2" width="1" height="1" fill="#1e293b"/><rect x="2" y="3" width="1" height="1" fill="#1e293b"/><rect x="3" y="3" width="8" height="1" fill="#ef4444"/><rect x="11" y="3" width="2" height="1" fill="#b91c1c"/><rect x="13" y="3" width="1" height="1" fill="#1e293b"/><rect x="1" y="4" width="14" height="1" fill="#1e293b"/><rect x="1" y="5" width="1" height="1" fill="#1e293b"/><rect x="2" y="5" width="12" height="1" fill="#f8fafc"/><rect x="14" y="5" width="1" height="1" fill="#1e293b"/><rect x="1" y="6" width="1" height="1" fill="#1e293b"/><rect x="2" y="6" width="2" height="1" fill="#f8fafc"/><rect x="4" y="6" width="1" height="1" fill="#e2e8f0"/><rect x="5" y="6" width="1" height="1" fill="#1e293b"/><rect x="6" y="6" width="2" height="1" fill="#ef4444"/><rect x="8" y="6" width="1" height="1" fill="#1e293b"/><rect x="9" y="6" width="1" height="1" fill="#f8fafc"/><rect x="10" y="6" width="1" height="1" fill="#e2e8f0"/><rect x="11" y="6" width="3" height="1" fill="#f8fafc"/><rect x="14" y="6" width="1" height="1" fill="#1e293b"/><rect x="1" y="7" width="1" height="1" fill="#1e293b"/><rect x="2" y="7" width="2" height="1" fill="#f8fafc"/><rect x="4" y="7" width="1" height="1" fill="#e2e8f0"/><rect x="5" y="7" width="1" height="1" fill="#1e293b"/><rect x="6" y="7" width="2" height="1" fill="#ef4444"/><rect x="8" y="7" width="1" height="1" fill="#1e293b"/><rect x="9" y="7" width="1" height="1" fill="#f8fafc"/><rect x="10" y="7" width="1" height="1" fill="#e2e8f0"/><rect x="11" y="7" width="3" height="1" fill="#f8fafc"/><rect x="14" y="7" width="1" height="1" fill="#1e293b"/><rect x="1" y="8" width="1" height="1" fill="#1e293b"/><rect x="2" y="8" width="1" height="1" fill="#f8fafc"/><rect x="3" y="8" width="6" height="1" fill="#1e293b"/><rect x="9" y="8" width="5" height="1" fill="#f8fafc"/><rect x="14" y="8" width="1" height="1" fill="#1e293b"/><rect x="1" y="9" width="1" height="1" fill="#1e293b"/><rect x="2" y="9" width="2" height="1" fill="#f8fafc"/><rect x="4" y="9" width="1" height="1" fill="#e2e8f0"/><rect x="5" y="9" width="1" height="1" fill="#1e293b"/><rect x="6" y="9" width="2" height="1" fill="#ef4444"/><rect x="8" y="9" width="1" height="1" fill="#1e293b"/><rect x="9" y="9" width="1" height="1" fill="#f8fafc"/><rect x="10" y="9" width="1" height="1" fill="#e2e8f0"/><rect x="11" y="9" width="3" height="1" fill="#f8fafc"/><rect x="14" y="9" width="1" height="1" fill="#1e293b"/><rect x="1" y="10" width="1" height="1" fill="#1e293b"/><rect x="2" y="10" width="2" height="1" fill="#f8fafc"/><rect x="4" y="10" width="1" height="1" fill="#e2e8f0"/><rect x="5" y="10" width="1" height="1" fill="#1e293b"/><rect x="6" y="10" width="2" height="1" fill="#ef4444"/><rect x="8" y="10" width="1" height="1" fill="#1e293b"/><rect x="9" y="10" width="1" height="1" fill="#f8fafc"/><rect x="10" y="10" width="1" height="1" fill="#e2e8f0"/><rect x="11" y="10" width="3" height="1" fill="#f8fafc"/><rect x="14" y="10" width="1" height="1" fill="#1e293b"/><rect x="1" y="11" width="1" height="1" fill="#1e293b"/><rect x="2" y="11" width="12" height="1" fill="#f8fafc"/><rect x="14" y="11" width="1" height="1" fill="#1e293b"/><rect x="1" y="12" width="1" height="1" fill="#1e293b"/><rect x="2" y="12" width="2" height="1" fill="#f8fafc"/><rect x="4" y="12" width="1" height="1" fill="#e2e8f0"/><rect x="5" y="12" width="8" height="1" fill="#1e293b"/><rect x="13" y="12" width="1" height="1" fill="#f8fafc"/><rect x="14" y="12" width="1" height="1" fill="#1e293b"/><rect x="1" y="13" width="3" height="1" fill="#1e293b"/><rect x="4" y="13" width="2" height="1" fill="#38bdf8"/><rect x="6" y="13" width="1" height="1" fill="#0284c7"/><rect x="7" y="13" width="4" height="1" fill="#1e293b"/><rect x="11" y="13" width="2" height="1" fill="#38bdf8"/><rect x="13" y="13" width="1" height="1" fill="#0284c7"/><rect x="14" y="13" width="2" height="1" fill="#1e293b"/><rect x="3" y="14" width="1" height="1" fill="#1e293b"/><rect x="4" y="14" width="2" height="1" fill="#38bdf8"/><rect x="6" y="14" width="1" height="1" fill="#0284c7"/><rect x="7" y="14" width="1" height="1" fill="#1e293b"/><rect x="10" y="14" width="1" height="1" fill="#1e293b"/><rect x="11" y="14" width="2" height="1" fill="#38bdf8"/><rect x="13" y="14" width="1" height="1" fill="#0284c7"/><rect x="14" y="14" width="1" height="1" fill="#1e293b"/><rect x="3" y="15" width="5" height="1" fill="#1e293b"/><rect x="10" y="15" width="5" height="1" fill="#1e293b"/></symbol>
@@ -4192,7 +5225,14 @@
 <symbol id="px-arrow-up" viewBox="0 0 12 12"><rect x="5" y="1" width="2" height="1" fill="#1e293b"/><rect x="4" y="2" width="1" height="1" fill="#1e293b"/><rect x="5" y="2" width="2" height="1" fill="#f8fafc"/><rect x="7" y="2" width="1" height="1" fill="#1e293b"/><rect x="3" y="3" width="1" height="1" fill="#1e293b"/><rect x="4" y="3" width="4" height="1" fill="#f8fafc"/><rect x="8" y="3" width="1" height="1" fill="#1e293b"/><rect x="2" y="4" width="1" height="1" fill="#1e293b"/><rect x="3" y="4" width="6" height="1" fill="#f8fafc"/><rect x="9" y="4" width="1" height="1" fill="#1e293b"/><rect x="1" y="5" width="1" height="1" fill="#1e293b"/><rect x="2" y="5" width="8" height="1" fill="#f8fafc"/><rect x="10" y="5" width="1" height="1" fill="#1e293b"/><rect x="0" y="6" width="1" height="1" fill="#1e293b"/><rect x="1" y="6" width="10" height="1" fill="#f8fafc"/><rect x="11" y="6" width="1" height="1" fill="#1e293b"/><rect x="0" y="7" width="5" height="1" fill="#1e293b"/><rect x="5" y="7" width="2" height="1" fill="#f8fafc"/><rect x="7" y="7" width="5" height="1" fill="#1e293b"/><rect x="4" y="8" width="1" height="1" fill="#1e293b"/><rect x="5" y="8" width="2" height="1" fill="#f8fafc"/><rect x="7" y="8" width="1" height="1" fill="#1e293b"/><rect x="4" y="9" width="1" height="1" fill="#1e293b"/><rect x="5" y="9" width="2" height="1" fill="#f8fafc"/><rect x="7" y="9" width="1" height="1" fill="#1e293b"/><rect x="4" y="10" width="4" height="1" fill="#1e293b"/></symbol>
 <symbol id="px-arrow-left" viewBox="0 0 12 12"><rect x="6" y="1" width="1" height="1" fill="#1e293b"/><rect x="5" y="2" width="2" height="1" fill="#1e293b"/><rect x="4" y="3" width="1" height="1" fill="#1e293b"/><rect x="5" y="3" width="1" height="1" fill="#f8fafc"/><rect x="6" y="3" width="1" height="1" fill="#1e293b"/><rect x="3" y="4" width="1" height="1" fill="#1e293b"/><rect x="4" y="4" width="2" height="1" fill="#f8fafc"/><rect x="6" y="4" width="6" height="1" fill="#1e293b"/><rect x="2" y="5" width="1" height="1" fill="#1e293b"/><rect x="3" y="5" width="9" height="1" fill="#f8fafc"/><rect x="1" y="6" width="1" height="1" fill="#1e293b"/><rect x="2" y="6" width="10" height="1" fill="#f8fafc"/><rect x="2" y="7" width="1" height="1" fill="#1e293b"/><rect x="3" y="7" width="9" height="1" fill="#f8fafc"/><rect x="3" y="8" width="1" height="1" fill="#1e293b"/><rect x="4" y="8" width="2" height="1" fill="#f8fafc"/><rect x="6" y="8" width="6" height="1" fill="#1e293b"/><rect x="4" y="9" width="1" height="1" fill="#1e293b"/><rect x="5" y="9" width="1" height="1" fill="#f8fafc"/><rect x="6" y="9" width="1" height="1" fill="#1e293b"/><rect x="5" y="10" width="2" height="1" fill="#1e293b"/><rect x="6" y="11" width="1" height="1" fill="#1e293b"/></symbol>
 <symbol id="px-arrow-right" viewBox="0 0 12 12"><rect x="5" y="1" width="1" height="1" fill="#1e293b"/><rect x="5" y="2" width="2" height="1" fill="#1e293b"/><rect x="5" y="3" width="1" height="1" fill="#1e293b"/><rect x="6" y="3" width="1" height="1" fill="#f8fafc"/><rect x="7" y="3" width="1" height="1" fill="#1e293b"/><rect x="0" y="4" width="6" height="1" fill="#1e293b"/><rect x="6" y="4" width="2" height="1" fill="#f8fafc"/><rect x="8" y="4" width="1" height="1" fill="#1e293b"/><rect x="0" y="5" width="9" height="1" fill="#f8fafc"/><rect x="9" y="5" width="1" height="1" fill="#1e293b"/><rect x="0" y="6" width="10" height="1" fill="#f8fafc"/><rect x="10" y="6" width="1" height="1" fill="#1e293b"/><rect x="0" y="7" width="9" height="1" fill="#f8fafc"/><rect x="9" y="7" width="1" height="1" fill="#1e293b"/><rect x="0" y="8" width="6" height="1" fill="#1e293b"/><rect x="6" y="8" width="2" height="1" fill="#f8fafc"/><rect x="8" y="8" width="1" height="1" fill="#1e293b"/><rect x="5" y="9" width="1" height="1" fill="#1e293b"/><rect x="6" y="9" width="1" height="1" fill="#f8fafc"/><rect x="7" y="9" width="1" height="1" fill="#1e293b"/><rect x="5" y="10" width="2" height="1" fill="#1e293b"/><rect x="5" y="11" width="1" height="1" fill="#1e293b"/></symbol>
-<symbol id="px-settings" viewBox="0 0 16 16"><rect x="6" y="1" width="4" height="2" fill="#94a3b8"/><rect x="6" y="13" width="4" height="2" fill="#94a3b8"/><rect x="1" y="6" width="2" height="4" fill="#94a3b8"/><rect x="13" y="6" width="2" height="4" fill="#94a3b8"/><rect x="2" y="2" width="3" height="3" fill="#64748b"/><rect x="11" y="2" width="3" height="3" fill="#64748b"/><rect x="2" y="11" width="3" height="3" fill="#64748b"/><rect x="11" y="11" width="3" height="3" fill="#64748b"/><rect x="4" y="4" width="8" height="8" fill="#cbd5e1"/><rect x="3" y="5" width="10" height="6" fill="#cbd5e1"/><rect x="5" y="3" width="6" height="10" fill="#cbd5e1"/><rect x="6" y="6" width="4" height="4" fill="#0f172a"/></symbol>
+<symbol id="px-settings" viewBox="0 0 16 16"><rect x="5" y="0" width="6" height="1" fill="#0f172a"/><rect x="4" y="1" width="1" height="1" fill="#0f172a"/><rect x="5" y="1" width="1" height="1" fill="#475569"/><rect x="6" y="1" width="4" height="1" fill="#94a3b8"/><rect x="10" y="1" width="1" height="1" fill="#1e293b"/><rect x="11" y="1" width="1" height="1" fill="#0f172a"/><rect x="3" y="2" width="1" height="1" fill="#0f172a"/><rect x="4" y="2" width="1" height="1" fill="#475569"/><rect x="5" y="2" width="1" height="1" fill="#94a3b8"/><rect x="6" y="2" width="1" height="1" fill="#1e293b"/><rect x="7" y="2" width="2" height="1" fill="#0f172a"/><rect x="9" y="2" width="1" height="1" fill="#1e293b"/><rect x="10" y="2" width="1" height="1" fill="#94a3b8"/><rect x="11" y="2" width="1" height="1" fill="#1e293b"/><rect x="12" y="2" width="1" height="1" fill="#0f172a"/><rect x="1" y="3" width="3" height="1" fill="#0f172a"/><rect x="4" y="3" width="1" height="1" fill="#475569"/><rect x="5" y="3" width="1" height="1" fill="#94a3b8"/><rect x="6" y="3" width="1" height="1" fill="#1e293b"/><rect x="7" y="3" width="2" height="1" fill="#0f172a"/><rect x="9" y="3" width="1" height="1" fill="#1e293b"/><rect x="10" y="3" width="1" height="1" fill="#94a3b8"/><rect x="11" y="3" width="1" height="1" fill="#1e293b"/><rect x="12" y="3" width="3" height="1" fill="#0f172a"/><rect x="0" y="4" width="1" height="1" fill="#0f172a"/><rect x="1" y="4" width="1" height="1" fill="#475569"/><rect x="2" y="4" width="3" height="1" fill="#94a3b8"/><rect x="5" y="4" width="1" height="1" fill="#1e293b"/><rect x="6" y="4" width="4" height="1" fill="#0f172a"/><rect x="10" y="4" width="1" height="1" fill="#1e293b"/><rect x="11" y="4" width="3" height="1" fill="#94a3b8"/><rect x="14" y="4" width="1" height="1" fill="#1e293b"/><rect x="15" y="4" width="1" height="1" fill="#0f172a"/><rect x="0" y="5" width="1" height="1" fill="#0f172a"/><rect x="1" y="5" width="1" height="1" fill="#475569"/><rect x="2" y="5" width="1" height="1" fill="#94a3b8"/><rect x="3" y="5" width="12" height="1" fill="#0f172a"/><rect x="15" y="5" width="1" height="1" fill="#1e293b"/><rect x="16" y="5" width="1" height="1" fill="#0f172a"/><rect x="0" y="6" width="1" height="1" fill="#0f172a"/><rect x="1" y="6" width="1" height="1" fill="#475569"/><rect x="2" y="6" width="1" height="1" fill="#94a3b8"/><rect x="3" y="6" width="2" height="1" fill="#0f172a"/><rect x="5" y="6" width="1" height="1" fill="#475569"/><rect x="6" y="6" width="4" height="1" fill="#94a3b8"/><rect x="10" y="6" width="1" height="1" fill="#1e293b"/><rect x="11" y="6" width="2" height="1" fill="#0f172a"/><rect x="13" y="6" width="1" height="1" fill="#1e293b"/><rect x="14" y="6" width="1" height="1" fill="#94a3b8"/><rect x="15" y="6" width="1" height="1" fill="#1e293b"/><rect x="16" y="6" width="1" height="1" fill="#0f172a"/><rect x="0" y="7" width="1" height="1" fill="#0f172a"/><rect x="1" y="7" width="1" height="1" fill="#475569"/><rect x="2" y="7" width="1" height="1" fill="#94a3b8"/><rect x="3" y="7" width="2" height="1" fill="#0f172a"/><rect x="5" y="7" width="1" height="1" fill="#475569"/><rect x="6" y="7" width="1" height="1" fill="#94a3b8"/><rect x="7" y="7" width="1" height="1" fill="#1e293b"/><rect x="10" y="7" width="1" height="1" fill="#1e293b"/><rect x="11" y="7" width="2" height="1" fill="#0f172a"/><rect x="13" y="7" width="1" height="1" fill="#1e293b"/><rect x="14" y="7" width="1" height="1" fill="#94a3b8"/><rect x="15" y="7" width="1" height="1" fill="#1e293b"/><rect x="16" y="7" width="1" height="1" fill="#0f172a"/><rect x="0" y="8" width="1" height="1" fill="#0f172a"/><rect x="1" y="8" width="1" height="1" fill="#475569"/><rect x="2" y="8" width="1" height="1" fill="#94a3b8"/><rect x="3" y="8" width="2" height="1" fill="#0f172a"/><rect x="5" y="8" width="1" height="1" fill="#475569"/><rect x="6" y="8" width="1" height="1" fill="#94a3b8"/><rect x="7" y="8" width="1" height="1" fill="#1e293b"/><rect x="10" y="8" width="1" height="1" fill="#1e293b"/><rect x="11" y="8" width="2" height="1" fill="#0f172a"/><rect x="13" y="8" width="1" height="1" fill="#1e293b"/><rect x="14" y="8" width="1" height="1" fill="#94a3b8"/><rect x="15" y="8" width="1" height="1" fill="#1e293b"/><rect x="16" y="8" width="1" height="1" fill="#0f172a"/><rect x="0" y="9" width="1" height="1" fill="#0f172a"/><rect x="1" y="9" width="1" height="1" fill="#475569"/><rect x="2" y="9" width="1" height="1" fill="#94a3b8"/><rect x="3" y="9" width="2" height="1" fill="#0f172a"/><rect x="5" y="9" width="1" height="1" fill="#475569"/><rect x="6" y="9" width="1" height="1" fill="#94a3b8"/><rect x="7" y="9" width="1" height="1" fill="#1e293b"/><rect x="10" y="9" width="1" height="1" fill="#1e293b"/><rect x="11" y="9" width="2" height="1" fill="#0f172a"/><rect x="13" y="9" width="1" height="1" fill="#1e293b"/><rect x="14" y="9" width="1" height="1" fill="#94a3b8"/><rect x="15" y="9" width="1" height="1" fill="#1e293b"/><rect x="16" y="9" width="1" height="1" fill="#0f172a"/><rect x="0" y="10" width="1" height="1" fill="#0f172a"/><rect x="1" y="10" width="1" height="1" fill="#475569"/><rect x="2" y="10" width="1" height="1" fill="#94a3b8"/><rect x="3" y="10" width="2" height="1" fill="#0f172a"/><rect x="5" y="10" width="1" height="1" fill="#1e293b"/><rect x="6" y="10" width="4" height="1" fill="#94a3b8"/><rect x="10" y="10" width="1" height="1" fill="#1e293b"/><rect x="11" y="10" width="2" height="1" fill="#0f172a"/><rect x="13" y="10" width="1" height="1" fill="#1e293b"/><rect x="14" y="10" width="1" height="1" fill="#94a3b8"/><rect x="15" y="10" width="1" height="1" fill="#1e293b"/><rect x="16" y="10" width="1" height="1" fill="#0f172a"/><rect x="0" y="11" width="1" height="1" fill="#0f172a"/><rect x="1" y="11" width="1" height="1" fill="#475569"/><rect x="2" y="11" width="1" height="1" fill="#94a3b8"/><rect x="3" y="11" width="12" height="1" fill="#0f172a"/><rect x="15" y="11" width="1" height="1" fill="#1e293b"/><rect x="16" y="11" width="1" height="1" fill="#0f172a"/><rect x="0" y="12" width="1" height="1" fill="#0f172a"/><rect x="1" y="12" width="1" height="1" fill="#475569"/><rect x="2" y="12" width="3" height="1" fill="#94a3b8"/><rect x="5" y="12" width="1" height="1" fill="#1e293b"/><rect x="6" y="12" width="4" height="1" fill="#0f172a"/><rect x="10" y="12" width="1" height="1" fill="#1e293b"/><rect x="11" y="12" width="3" height="1" fill="#94a3b8"/><rect x="14" y="12" width="1" height="1" fill="#1e293b"/><rect x="15" y="12" width="1" height="1" fill="#0f172a"/><rect x="1" y="13" width="3" height="1" fill="#0f172a"/><rect x="4" y="13" width="1" height="1" fill="#475569"/><rect x="5" y="13" width="1" height="1" fill="#94a3b8"/><rect x="6" y="13" width="1" height="1" fill="#1e293b"/><rect x="7" y="13" width="2" height="1" fill="#0f172a"/><rect x="9" y="13" width="1" height="1" fill="#1e293b"/><rect x="10" y="13" width="1" height="1" fill="#94a3b8"/><rect x="11" y="13" width="1" height="1" fill="#1e293b"/><rect x="12" y="13" width="3" height="1" fill="#0f172a"/><rect x="3" y="14" width="1" height="1" fill="#0f172a"/><rect x="4" y="14" width="1" height="1" fill="#475569"/><rect x="5" y="14" width="1" height="1" fill="#94a3b8"/><rect x="6" y="14" width="1" height="1" fill="#1e293b"/><rect x="7" y="14" width="2" height="1" fill="#0f172a"/><rect x="9" y="14" width="1" height="1" fill="#1e293b"/><rect x="10" y="14" width="1" height="1" fill="#94a3b8"/><rect x="11" y="14" width="1" height="1" fill="#1e293b"/><rect x="12" y="14" width="1" height="1" fill="#0f172a"/><rect x="4" y="15" width="1" height="1" fill="#0f172a"/><rect x="5" y="15" width="1" height="1" fill="#475569"/><rect x="6" y="15" width="4" height="1" fill="#94a3b8"/><rect x="10" y="15" width="1" height="1" fill="#1e293b"/><rect x="11" y="15" width="1" height="1" fill="#0f172a"/></symbol>
+<symbol id="px-gem" viewBox="0 0 16 16"><rect x="6" y="0" width="6" height="1" fill="#064e3b"/><rect x="4" y="1" width="2" height="1" fill="#064e3b"/><rect x="6" y="1" width="2" height="1" fill="#6ee7b7"/><rect x="8" y="1" width="4" height="1" fill="#10b981"/><rect x="12" y="1" width="2" height="1" fill="#064e3b"/><rect x="2" y="2" width="2" height="1" fill="#064e3b"/><rect x="4" y="2" width="1" height="1" fill="#d1fae5"/><rect x="5" y="2" width="2" height="1" fill="#6ee7b7"/><rect x="7" y="2" width="5" height="1" fill="#10b981"/><rect x="12" y="2" width="2" height="1" fill="#047857"/><rect x="14" y="2" width="2" height="1" fill="#064e3b"/><rect x="1" y="3" width="2" height="1" fill="#064e3b"/><rect x="3" y="3" width="2" height="1" fill="#d1fae5"/><rect x="5" y="3" width="2" height="1" fill="#6ee7b7"/><rect x="7" y="3" width="4" height="1" fill="#10b981"/><rect x="11" y="3" width="4" height="1" fill="#047857"/><rect x="15" y="3" width="2" height="1" fill="#064e3b"/><rect x="0" y="4" width="1" height="1" fill="#064e3b"/><rect x="1" y="4" width="4" height="1" fill="#d1fae5"/><rect x="5" y="4" width="2" height="1" fill="#6ee7b7"/><rect x="7" y="4" width="4" height="1" fill="#10b981"/><rect x="11" y="4" width="6" height="1" fill="#047857"/><rect x="17" y="4" width="1" height="1" fill="#064e3b"/><rect x="0" y="5" width="1" height="1" fill="#064e3b"/><rect x="1" y="5" width="4" height="1" fill="#d1fae5"/><rect x="5" y="5" width="2" height="1" fill="#6ee7b7"/><rect x="7" y="5" width="4" height="1" fill="#10b981"/><rect x="11" y="5" width="6" height="1" fill="#047857"/><rect x="17" y="5" width="1" height="1" fill="#064e3b"/><rect x="1" y="6" width="2" height="1" fill="#064e3b"/><rect x="3" y="6" width="2" height="1" fill="#d1fae5"/><rect x="5" y="6" width="2" height="1" fill="#6ee7b7"/><rect x="7" y="6" width="4" height="1" fill="#10b981"/><rect x="11" y="6" width="4" height="1" fill="#047857"/><rect x="15" y="6" width="2" height="1" fill="#064e3b"/><rect x="2" y="7" width="2" height="1" fill="#064e3b"/><rect x="4" y="7" width="1" height="1" fill="#d1fae5"/><rect x="5" y="7" width="2" height="1" fill="#6ee7b7"/><rect x="7" y="7" width="4" height="1" fill="#10b981"/><rect x="11" y="7" width="2" height="1" fill="#047857"/><rect x="13" y="7" width="2" height="1" fill="#064e3b"/><rect x="3" y="8" width="2" height="1" fill="#064e3b"/><rect x="5" y="8" width="2" height="1" fill="#6ee7b7"/><rect x="7" y="8" width="4" height="1" fill="#10b981"/><rect x="11" y="8" width="1" height="1" fill="#047857"/><rect x="12" y="8" width="2" height="1" fill="#064e3b"/><rect x="4" y="9" width="2" height="1" fill="#064e3b"/><rect x="6" y="9" width="2" height="1" fill="#6ee7b7"/><rect x="8" y="9" width="2" height="1" fill="#10b981"/><rect x="10" y="9" width="1" height="1" fill="#047857"/><rect x="11" y="9" width="2" height="1" fill="#064e3b"/><rect x="5" y="10" width="2" height="1" fill="#064e3b"/><rect x="7" y="10" width="1" height="1" fill="#6ee7b7"/><rect x="8" y="10" width="1" height="1" fill="#10b981"/><rect x="9" y="10" width="1" height="1" fill="#047857"/><rect x="10" y="10" width="2" height="1" fill="#064e3b"/><rect x="6" y="11" width="2" height="1" fill="#064e3b"/><rect x="8" y="11" width="1" height="1" fill="#10b981"/><rect x="9" y="11" width="1" height="1" fill="#047857"/><rect x="10" y="11" width="2" height="1" fill="#064e3b"/><rect x="7" y="12" width="4" height="1" fill="#064e3b"/><rect x="8" y="13" width="2" height="1" fill="#064e3b"/></symbol>
+<symbol id="px-shield" viewBox="0 0 16 16"><rect x="1" y="0" width="14" height="1" fill="#0f172a"/><rect x="0" y="1" width="1" height="1" fill="#0f172a"/><rect x="1" y="1" width="1" height="1" fill="#facc15"/><rect x="2" y="1" width="12" height="1" fill="#f8fafc"/><rect x="14" y="1" width="1" height="1" fill="#facc15"/><rect x="15" y="1" width="1" height="1" fill="#0f172a"/><rect x="0" y="2" width="1" height="1" fill="#0f172a"/><rect x="1" y="2" width="1" height="1" fill="#facc15"/><rect x="2" y="2" width="1" height="1" fill="#0f172a"/><rect x="3" y="2" width="4" height="1" fill="#3b82f6"/><rect x="7" y="2" width="2" height="1" fill="#0f172a"/><rect x="9" y="2" width="4" height="1" fill="#1d4ed8"/><rect x="13" y="2" width="1" height="1" fill="#0f172a"/><rect x="14" y="2" width="1" height="1" fill="#facc15"/><rect x="15" y="2" width="1" height="1" fill="#0f172a"/><rect x="0" y="3" width="1" height="1" fill="#0f172a"/><rect x="1" y="3" width="1" height="1" fill="#facc15"/><rect x="2" y="3" width="1" height="1" fill="#0f172a"/><rect x="3" y="3" width="4" height="1" fill="#3b82f6"/><rect x="7" y="3" width="2" height="1" fill="#0f172a"/><rect x="9" y="3" width="4" height="1" fill="#1d4ed8"/><rect x="13" y="3" width="1" height="1" fill="#0f172a"/><rect x="14" y="3" width="1" height="1" fill="#facc15"/><rect x="15" y="3" width="1" height="1" fill="#0f172a"/><rect x="0" y="4" width="1" height="1" fill="#0f172a"/><rect x="1" y="4" width="1" height="1" fill="#facc15"/><rect x="2" y="4" width="1" height="1" fill="#0f172a"/><rect x="3" y="4" width="4" height="1" fill="#3b82f6"/><rect x="7" y="4" width="2" height="1" fill="#0f172a"/><rect x="9" y="4" width="4" height="1" fill="#1d4ed8"/><rect x="13" y="4" width="1" height="1" fill="#0f172a"/><rect x="14" y="4" width="1" height="1" fill="#facc15"/><rect x="15" y="4" width="1" height="1" fill="#0f172a"/><rect x="0" y="5" width="1" height="1" fill="#0f172a"/><rect x="1" y="5" width="1" height="1" fill="#facc15"/><rect x="2" y="5" width="1" height="1" fill="#0f172a"/><rect x="3" y="5" width="4" height="1" fill="#3b82f6"/><rect x="7" y="5" width="2" height="1" fill="#0f172a"/><rect x="9" y="5" width="4" height="1" fill="#1d4ed8"/><rect x="13" y="5" width="1" height="1" fill="#0f172a"/><rect x="14" y="5" width="1" height="1" fill="#facc15"/><rect x="15" y="5" width="1" height="1" fill="#0f172a"/><rect x="1" y="6" width="1" height="1" fill="#0f172a"/><rect x="2" y="6" width="1" height="1" fill="#facc15"/><rect x="3" y="6" width="1" height="1" fill="#0f172a"/><rect x="4" y="6" width="3" height="1" fill="#3b82f6"/><rect x="7" y="6" width="2" height="1" fill="#0f172a"/><rect x="9" y="6" width="3" height="1" fill="#1d4ed8"/><rect x="12" y="6" width="1" height="1" fill="#0f172a"/><rect x="13" y="6" width="1" height="1" fill="#facc15"/><rect x="14" y="6" width="1" height="1" fill="#0f172a"/><rect x="1" y="7" width="1" height="1" fill="#0f172a"/><rect x="2" y="7" width="1" height="1" fill="#facc15"/><rect x="3" y="7" width="1" height="1" fill="#0f172a"/><rect x="4" y="7" width="3" height="1" fill="#3b82f6"/><rect x="7" y="7" width="2" height="1" fill="#0f172a"/><rect x="9" y="7" width="3" height="1" fill="#1d4ed8"/><rect x="12" y="7" width="1" height="1" fill="#0f172a"/><rect x="13" y="7" width="1" height="1" fill="#facc15"/><rect x="14" y="7" width="1" height="1" fill="#0f172a"/><rect x="2" y="8" width="1" height="1" fill="#0f172a"/><rect x="3" y="8" width="1" height="1" fill="#facc15"/><rect x="4" y="8" width="1" height="1" fill="#0f172a"/><rect x="5" y="8" width="2" height="1" fill="#3b82f6"/><rect x="7" y="8" width="2" height="1" fill="#0f172a"/><rect x="9" y="8" width="2" height="1" fill="#1d4ed8"/><rect x="11" y="8" width="1" height="1" fill="#0f172a"/><rect x="12" y="8" width="1" height="1" fill="#facc15"/><rect x="13" y="8" width="1" height="1" fill="#0f172a"/><rect x="2" y="9" width="1" height="1" fill="#0f172a"/><rect x="3" y="9" width="1" height="1" fill="#facc15"/><rect x="4" y="9" width="1" height="1" fill="#0f172a"/><rect x="5" y="9" width="2" height="1" fill="#3b82f6"/><rect x="7" y="9" width="2" height="1" fill="#0f172a"/><rect x="9" y="9" width="2" height="1" fill="#1d4ed8"/><rect x="11" y="9" width="1" height="1" fill="#0f172a"/><rect x="12" y="9" width="1" height="1" fill="#facc15"/><rect x="13" y="9" width="1" height="1" fill="#0f172a"/><rect x="3" y="10" width="1" height="1" fill="#0f172a"/><rect x="4" y="10" width="1" height="1" fill="#facc15"/><rect x="5" y="10" width="1" height="1" fill="#0f172a"/><rect x="6" y="10" width="1" height="1" fill="#3b82f6"/><rect x="7" y="10" width="2" height="1" fill="#0f172a"/><rect x="9" y="10" width="1" height="1" fill="#1d4ed8"/><rect x="10" y="10" width="1" height="1" fill="#0f172a"/><rect x="11" y="10" width="1" height="1" fill="#facc15"/><rect x="12" y="10" width="1" height="1" fill="#0f172a"/><rect x="4" y="11" width="1" height="1" fill="#0f172a"/><rect x="5" y="11" width="1" height="1" fill="#facc15"/><rect x="6" y="11" width="4" height="1" fill="#0f172a"/><rect x="10" y="11" width="1" height="1" fill="#facc15"/><rect x="11" y="11" width="1" height="1" fill="#0f172a"/><rect x="5" y="12" width="1" height="1" fill="#0f172a"/><rect x="6" y="12" width="4" height="1" fill="#facc15"/><rect x="10" y="12" width="1" height="1" fill="#0f172a"/><rect x="6" y="13" width="1" height="1" fill="#0f172a"/><rect x="7" y="13" width="2" height="1" fill="#facc15"/><rect x="9" y="13" width="1" height="1" fill="#0f172a"/><rect x="7" y="14" width="2" height="1" fill="#0f172a"/></symbol>
+<symbol id="px-mail" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="1" fill="#0f172a"/><rect x="1" y="2" width="1" height="1" fill="#0f172a"/><rect x="2" y="2" width="12" height="1" fill="#f8fafc"/><rect x="14" y="2" width="1" height="1" fill="#0f172a"/><rect x="1" y="3" width="1" height="1" fill="#0f172a"/><rect x="2" y="3" width="1" height="1" fill="#f8fafc"/><rect x="3" y="3" width="1" height="1" fill="#0f172a"/><rect x="4" y="3" width="8" height="1" fill="#f8fafc"/><rect x="12" y="3" width="1" height="1" fill="#0f172a"/><rect x="13" y="3" width="1" height="1" fill="#f8fafc"/><rect x="14" y="3" width="1" height="1" fill="#0f172a"/><rect x="1" y="4" width="1" height="1" fill="#0f172a"/><rect x="2" y="4" width="1" height="1" fill="#f8fafc"/><rect x="3" y="4" width="1" height="1" fill="#94a3b8"/><rect x="4" y="4" width="1" height="1" fill="#0f172a"/><rect x="5" y="4" width="6" height="1" fill="#f8fafc"/><rect x="11" y="4" width="1" height="1" fill="#0f172a"/><rect x="12" y="4" width="1" height="1" fill="#94a3b8"/><rect x="13" y="4" width="1" height="1" fill="#f8fafc"/><rect x="14" y="4" width="1" height="1" fill="#0f172a"/><rect x="1" y="5" width="1" height="1" fill="#0f172a"/><rect x="2" y="5" width="1" height="1" fill="#f8fafc"/><rect x="3" y="5" width="1" height="1" fill="#cbd5e1"/><rect x="4" y="5" width="1" height="1" fill="#94a3b8"/><rect x="5" y="5" width="1" height="1" fill="#0f172a"/><rect x="6" y="5" width="4" height="1" fill="#f8fafc"/><rect x="10" y="5" width="1" height="1" fill="#0f172a"/><rect x="11" y="5" width="1" height="1" fill="#94a3b8"/><rect x="12" y="5" width="1" height="1" fill="#cbd5e1"/><rect x="13" y="5" width="1" height="1" fill="#f8fafc"/><rect x="14" y="5" width="1" height="1" fill="#0f172a"/><rect x="1" y="6" width="1" height="1" fill="#0f172a"/><rect x="2" y="6" width="1" height="1" fill="#f8fafc"/><rect x="3" y="6" width="1" height="1" fill="#cbd5e1"/><rect x="4" y="6" width="2" height="1" fill="#94a3b8"/><rect x="6" y="6" width="1" height="1" fill="#0f172a"/><rect x="7" y="6" width="2" height="1" fill="#ef4444"/><rect x="9" y="6" width="1" height="1" fill="#0f172a"/><rect x="10" y="6" width="2" height="1" fill="#94a3b8"/><rect x="12" y="6" width="1" height="1" fill="#cbd5e1"/><rect x="13" y="6" width="1" height="1" fill="#f8fafc"/><rect x="14" y="6" width="1" height="1" fill="#0f172a"/><rect x="1" y="7" width="1" height="1" fill="#0f172a"/><rect x="2" y="7" width="1" height="1" fill="#f8fafc"/><rect x="3" y="7" width="1" height="1" fill="#cbd5e1"/><rect x="4" y="7" width="1" height="1" fill="#94a3b8"/><rect x="5" y="7" width="2" height="1" fill="#0f172a"/><rect x="7" y="7" width="2" height="1" fill="#ef4444"/><rect x="9" y="7" width="2" height="1" fill="#0f172a"/><rect x="11" y="7" width="1" height="1" fill="#94a3b8"/><rect x="12" y="7" width="1" height="1" fill="#cbd5e1"/><rect x="13" y="7" width="1" height="1" fill="#f8fafc"/><rect x="14" y="7" width="1" height="1" fill="#0f172a"/><rect x="1" y="8" width="1" height="1" fill="#0f172a"/><rect x="2" y="8" width="1" height="1" fill="#f8fafc"/><rect x="3" y="8" width="1" height="1" fill="#cbd5e1"/><rect x="4" y="8" width="2" height="1" fill="#94a3b8"/><rect x="6" y="8" width="1" height="1" fill="#0f172a"/><rect x="7" y="8" width="2" height="1" fill="#ef4444"/><rect x="9" y="8" width="1" height="1" fill="#0f172a"/><rect x="10" y="8" width="2" height="1" fill="#94a3b8"/><rect x="12" y="8" width="1" height="1" fill="#cbd5e1"/><rect x="13" y="8" width="1" height="1" fill="#f8fafc"/><rect x="14" y="8" width="1" height="1" fill="#0f172a"/><rect x="1" y="9" width="1" height="1" fill="#0f172a"/><rect x="2" y="9" width="1" height="1" fill="#f8fafc"/><rect x="3" y="9" width="1" height="1" fill="#cbd5e1"/><rect x="4" y="9" width="1" height="1" fill="#94a3b8"/><rect x="5" y="9" width="1" height="1" fill="#0f172a"/><rect x="6" y="9" width="4" height="1" fill="#f8fafc"/><rect x="10" y="9" width="1" height="1" fill="#0f172a"/><rect x="11" y="9" width="1" height="1" fill="#94a3b8"/><rect x="12" y="9" width="1" height="1" fill="#cbd5e1"/><rect x="13" y="9" width="1" height="1" fill="#f8fafc"/><rect x="14" y="9" width="1" height="1" fill="#0f172a"/><rect x="1" y="10" width="1" height="1" fill="#0f172a"/><rect x="2" y="10" width="1" height="1" fill="#f8fafc"/><rect x="3" y="10" width="1" height="1" fill="#94a3b8"/><rect x="4" y="10" width="1" height="1" fill="#0f172a"/><rect x="5" y="10" width="6" height="1" fill="#f8fafc"/><rect x="11" y="10" width="1" height="1" fill="#0f172a"/><rect x="12" y="10" width="1" height="1" fill="#94a3b8"/><rect x="13" y="10" width="1" height="1" fill="#f8fafc"/><rect x="14" y="10" width="1" height="1" fill="#0f172a"/><rect x="1" y="11" width="1" height="1" fill="#0f172a"/><rect x="2" y="11" width="1" height="1" fill="#f8fafc"/><rect x="3" y="11" width="1" height="1" fill="#0f172a"/><rect x="4" y="11" width="8" height="1" fill="#f8fafc"/><rect x="12" y="11" width="1" height="1" fill="#0f172a"/><rect x="13" y="11" width="1" height="1" fill="#f8fafc"/><rect x="14" y="11" width="1" height="1" fill="#0f172a"/><rect x="1" y="12" width="1" height="1" fill="#0f172a"/><rect x="2" y="12" width="12" height="1" fill="#f8fafc"/><rect x="14" y="12" width="1" height="1" fill="#0f172a"/><rect x="1" y="13" width="14" height="1" fill="#0f172a"/></symbol>
+<symbol id="px-cart" viewBox="0 0 16 16"><rect x="6" y="0" width="1" height="1" fill="#1c1917"/><rect x="7" y="0" width="1" height="1" fill="#facc15"/><rect x="8" y="0" width="1" height="1" fill="#1c1917"/><rect x="9" y="0" width="1" height="1" fill="#10b981"/><rect x="10" y="0" width="1" height="1" fill="#1c1917"/><rect x="11" y="0" width="1" height="1" fill="#ef4444"/><rect x="5" y="1" width="1" height="1" fill="#1c1917"/><rect x="6" y="1" width="2" height="1" fill="#facc15"/><rect x="8" y="1" width="1" height="1" fill="#1c1917"/><rect x="9" y="1" width="2" height="1" fill="#10b981"/><rect x="11" y="1" width="1" height="1" fill="#1c1917"/><rect x="12" y="1" width="2" height="1" fill="#ef4444"/><rect x="4" y="2" width="1" height="1" fill="#1c1917"/><rect x="5" y="2" width="3" height="1" fill="#facc15"/><rect x="8" y="2" width="1" height="1" fill="#1c1917"/><rect x="9" y="2" width="3" height="1" fill="#10b981"/><rect x="12" y="2" width="1" height="1" fill="#1c1917"/><rect x="13" y="2" width="2" height="1" fill="#ef4444"/><rect x="2" y="3" width="16" height="1" fill="#1c1917"/><rect x="1" y="4" width="1" height="1" fill="#1c1917"/><rect x="2" y="4" width="14" height="1" fill="#b45309"/><rect x="16" y="4" width="1" height="1" fill="#1c1917"/><rect x="1" y="5" width="1" height="1" fill="#1c1917"/><rect x="2" y="5" width="1" height="1" fill="#b45309"/><rect x="3" y="5" width="12" height="1" fill="#78350f"/><rect x="15" y="5" width="1" height="1" fill="#b45309"/><rect x="16" y="5" width="1" height="1" fill="#1c1917"/><rect x="1" y="6" width="1" height="1" fill="#1c1917"/><rect x="2" y="6" width="14" height="1" fill="#b45309"/><rect x="16" y="6" width="1" height="1" fill="#1c1917"/><rect x="1" y="7" width="1" height="1" fill="#1c1917"/><rect x="2" y="7" width="1" height="1" fill="#b45309"/><rect x="3" y="7" width="12" height="1" fill="#78350f"/><rect x="15" y="7" width="1" height="1" fill="#b45309"/><rect x="16" y="7" width="1" height="1" fill="#1c1917"/><rect x="2" y="8" width="16" height="1" fill="#1c1917"/><rect x="4" y="9" width="1" height="1" fill="#1c1917"/><rect x="5" y="9" width="4" height="1" fill="#94a3b8"/><rect x="9" y="9" width="2" height="1" fill="#1c1917"/><rect x="11" y="9" width="4" height="1" fill="#94a3b8"/><rect x="15" y="9" width="1" height="1" fill="#1c1917"/><rect x="3" y="10" width="1" height="1" fill="#1c1917"/><rect x="4" y="10" width="1" height="1" fill="#94a3b8"/><rect x="5" y="10" width="4" height="1" fill="#1c1917"/><rect x="9" y="10" width="2" height="1" fill="#94a3b8"/><rect x="11" y="10" width="4" height="1" fill="#1c1917"/><rect x="15" y="10" width="1" height="1" fill="#94a3b8"/><rect x="16" y="10" width="1" height="1" fill="#1c1917"/><rect x="3" y="11" width="1" height="1" fill="#1c1917"/><rect x="4" y="11" width="1" height="1" fill="#94a3b8"/><rect x="5" y="11" width="4" height="1" fill="#1c1917"/><rect x="9" y="11" width="2" height="1" fill="#94a3b8"/><rect x="11" y="11" width="4" height="1" fill="#1c1917"/><rect x="15" y="11" width="1" height="1" fill="#94a3b8"/><rect x="16" y="11" width="1" height="1" fill="#1c1917"/><rect x="4" y="12" width="1" height="1" fill="#1c1917"/><rect x="5" y="12" width="4" height="1" fill="#94a3b8"/><rect x="9" y="12" width="2" height="1" fill="#1c1917"/><rect x="11" y="12" width="4" height="1" fill="#94a3b8"/><rect x="15" y="12" width="1" height="1" fill="#1c1917"/></symbol>
+<symbol id="px-map" viewBox="0 0 16 16"><rect x="3" y="0" width="12" height="1" fill="#451a03"/><rect x="2" y="1" width="1" height="1" fill="#451a03"/><rect x="3" y="1" width="12" height="1" fill="#fde68a"/><rect x="15" y="1" width="1" height="1" fill="#451a03"/><rect x="1" y="2" width="1" height="1" fill="#451a03"/><rect x="2" y="2" width="12" height="1" fill="#fde68a"/><rect x="14" y="2" width="1" height="1" fill="#451a03"/><rect x="15" y="2" width="1" height="1" fill="#fef3c7"/><rect x="0" y="3" width="1" height="1" fill="#451a03"/><rect x="1" y="3" width="12" height="1" fill="#fde68a"/><rect x="13" y="3" width="1" height="1" fill="#451a03"/><rect x="14" y="3" width="2" height="1" fill="#fef3c7"/><rect x="0" y="4" width="1" height="1" fill="#451a03"/><rect x="1" y="4" width="2" height="1" fill="#fde68a"/><rect x="3" y="4" width="1" height="1" fill="#451a03"/><rect x="4" y="4" width="1" height="1" fill="#dc2626"/><rect x="5" y="4" width="1" height="1" fill="#451a03"/><rect x="6" y="4" width="6" height="1" fill="#fde68a"/><rect x="12" y="4" width="1" height="1" fill="#451a03"/><rect x="13" y="4" width="3" height="1" fill="#fef3c7"/><rect x="0" y="5" width="1" height="1" fill="#451a03"/><rect x="1" y="5" width="1" height="1" fill="#fde68a"/><rect x="2" y="5" width="1" height="1" fill="#451a03"/><rect x="3" y="5" width="3" height="1" fill="#dc2626"/><rect x="6" y="5" width="1" height="1" fill="#451a03"/><rect x="7" y="5" width="2" height="1" fill="#fde68a"/><rect x="9" y="5" width="1" height="1" fill="#78350f"/><rect x="10" y="5" width="2" height="1" fill="#fde68a"/><rect x="12" y="5" width="1" height="1" fill="#451a03"/><rect x="13" y="5" width="3" height="1" fill="#fef3c7"/><rect x="0" y="6" width="1" height="1" fill="#451a03"/><rect x="1" y="6" width="2" height="1" fill="#fde68a"/><rect x="3" y="6" width="1" height="1" fill="#451a03"/><rect x="4" y="6" width="1" height="1" fill="#dc2626"/><rect x="5" y="6" width="1" height="1" fill="#451a03"/><rect x="6" y="6" width="2" height="1" fill="#fde68a"/><rect x="8" y="6" width="1" height="1" fill="#78350f"/><rect x="9" y="6" width="3" height="1" fill="#fde68a"/><rect x="12" y="6" width="1" height="1" fill="#451a03"/><rect x="13" y="6" width="3" height="1" fill="#fef3c7"/><rect x="0" y="7" width="1" height="1" fill="#451a03"/><rect x="1" y="7" width="6" height="1" fill="#fde68a"/><rect x="7" y="7" width="1" height="1" fill="#78350f"/><rect x="8" y="7" width="4" height="1" fill="#fde68a"/><rect x="12" y="7" width="1" height="1" fill="#451a03"/><rect x="13" y="7" width="3" height="1" fill="#fef3c7"/><rect x="0" y="8" width="1" height="1" fill="#451a03"/><rect x="1" y="8" width="4" height="1" fill="#fde68a"/><rect x="5" y="8" width="1" height="1" fill="#78350f"/><rect x="6" y="8" width="6" height="1" fill="#fde68a"/><rect x="12" y="8" width="1" height="1" fill="#451a03"/><rect x="13" y="8" width="3" height="1" fill="#fef3c7"/><rect x="0" y="9" width="1" height="1" fill="#451a03"/><rect x="1" y="9" width="4" height="1" fill="#fde68a"/><rect x="5" y="9" width="1" height="1" fill="#78350f"/><rect x="6" y="9" width="3" height="1" fill="#fde68a"/><rect x="9" y="9" width="1" height="1" fill="#451a03"/><rect x="10" y="9" width="1" height="1" fill="#dc2626"/><rect x="11" y="9" width="1" height="1" fill="#451a03"/><rect x="12" y="9" width="2" height="1" fill="#fde68a"/><rect x="14" y="9" width="2" height="1" fill="#fef3c7"/><rect x="0" y="10" width="1" height="1" fill="#451a03"/><rect x="1" y="10" width="5" height="1" fill="#fde68a"/><rect x="6" y="10" width="1" height="1" fill="#451a03"/><rect x="7" y="10" width="1" height="1" fill="#dc2626"/><rect x="8" y="10" width="1" height="1" fill="#451a03"/><rect x="9" y="10" width="3" height="1" fill="#dc2626"/><rect x="12" y="10" width="1" height="1" fill="#451a03"/><rect x="13" y="10" width="2" height="1" fill="#fde68a"/><rect x="15" y="10" width="1" height="1" fill="#fef3c7"/><rect x="0" y="11" width="1" height="1" fill="#451a03"/><rect x="1" y="11" width="4" height="1" fill="#fde68a"/><rect x="5" y="11" width="1" height="1" fill="#451a03"/><rect x="6" y="11" width="3" height="1" fill="#dc2626"/><rect x="9" y="11" width="2" height="1" fill="#451a03"/><rect x="11" y="11" width="1" height="1" fill="#dc2626"/><rect x="12" y="11" width="1" height="1" fill="#451a03"/><rect x="13" y="11" width="2" height="1" fill="#fde68a"/><rect x="15" y="11" width="1" height="1" fill="#451a03"/><rect x="0" y="12" width="1" height="1" fill="#451a03"/><rect x="1" y="12" width="5" height="1" fill="#fde68a"/><rect x="6" y="12" width="1" height="1" fill="#451a03"/><rect x="7" y="12" width="1" height="1" fill="#dc2626"/><rect x="8" y="12" width="1" height="1" fill="#451a03"/><rect x="9" y="12" width="5" height="1" fill="#fde68a"/><rect x="14" y="12" width="1" height="1" fill="#451a03"/><rect x="0" y="13" width="1" height="1" fill="#451a03"/><rect x="1" y="13" width="12" height="1" fill="#fde68a"/><rect x="13" y="13" width="1" height="1" fill="#451a03"/><rect x="1" y="14" width="12" height="1" fill="#451a03"/></symbol>
+<symbol id="px-swords" viewBox="0 0 16 16"><rect x="0" y="0" width="1" height="1" fill="#0f172a"/><rect x="1" y="0" width="1" height="1" fill="#f8fafc"/><rect x="2" y="0" width="1" height="1" fill="#0f172a"/><rect x="13" y="0" width="1" height="1" fill="#0f172a"/><rect x="14" y="0" width="1" height="1" fill="#f8fafc"/><rect x="15" y="0" width="1" height="1" fill="#0f172a"/><rect x="1" y="1" width="1" height="1" fill="#0f172a"/><rect x="2" y="1" width="1" height="1" fill="#f8fafc"/><rect x="3" y="1" width="1" height="1" fill="#94a3b8"/><rect x="4" y="1" width="1" height="1" fill="#0f172a"/><rect x="11" y="1" width="1" height="1" fill="#0f172a"/><rect x="12" y="1" width="1" height="1" fill="#94a3b8"/><rect x="13" y="1" width="1" height="1" fill="#f8fafc"/><rect x="14" y="1" width="1" height="1" fill="#0f172a"/><rect x="2" y="2" width="1" height="1" fill="#0f172a"/><rect x="3" y="2" width="1" height="1" fill="#f8fafc"/><rect x="4" y="2" width="1" height="1" fill="#94a3b8"/><rect x="5" y="2" width="1" height="1" fill="#0f172a"/><rect x="10" y="2" width="1" height="1" fill="#0f172a"/><rect x="11" y="2" width="1" height="1" fill="#94a3b8"/><rect x="12" y="2" width="1" height="1" fill="#f8fafc"/><rect x="13" y="2" width="1" height="1" fill="#0f172a"/><rect x="3" y="3" width="1" height="1" fill="#0f172a"/><rect x="4" y="3" width="1" height="1" fill="#f8fafc"/><rect x="5" y="3" width="1" height="1" fill="#94a3b8"/><rect x="6" y="3" width="1" height="1" fill="#0f172a"/><rect x="9" y="3" width="1" height="1" fill="#0f172a"/><rect x="10" y="3" width="1" height="1" fill="#94a3b8"/><rect x="11" y="3" width="1" height="1" fill="#f8fafc"/><rect x="12" y="3" width="1" height="1" fill="#0f172a"/><rect x="4" y="4" width="1" height="1" fill="#0f172a"/><rect x="5" y="4" width="1" height="1" fill="#f8fafc"/><rect x="6" y="4" width="1" height="1" fill="#94a3b8"/><rect x="7" y="4" width="2" height="1" fill="#0f172a"/><rect x="9" y="4" width="1" height="1" fill="#94a3b8"/><rect x="10" y="4" width="1" height="1" fill="#f8fafc"/><rect x="11" y="4" width="1" height="1" fill="#0f172a"/><rect x="5" y="5" width="1" height="1" fill="#0f172a"/><rect x="6" y="5" width="1" height="1" fill="#f8fafc"/><rect x="7" y="5" width="2" height="1" fill="#0f172a"/><rect x="9" y="5" width="1" height="1" fill="#f8fafc"/><rect x="10" y="5" width="1" height="1" fill="#0f172a"/><rect x="6" y="6" width="4" height="1" fill="#0f172a"/><rect x="5" y="7" width="1" height="1" fill="#0f172a"/><rect x="6" y="7" width="2" height="1" fill="#facc15"/><rect x="8" y="7" width="2" height="1" fill="#0f172a"/><rect x="10" y="7" width="2" height="1" fill="#facc15"/><rect x="12" y="7" width="1" height="1" fill="#0f172a"/><rect x="4" y="8" width="1" height="1" fill="#0f172a"/><rect x="5" y="8" width="1" height="1" fill="#78350f"/><rect x="6" y="8" width="1" height="1" fill="#0f172a"/><rect x="7" y="8" width="1" height="1" fill="#facc15"/><rect x="8" y="8" width="2" height="1" fill="#0f172a"/><rect x="10" y="8" width="1" height="1" fill="#facc15"/><rect x="11" y="8" width="1" height="1" fill="#0f172a"/><rect x="12" y="8" width="1" height="1" fill="#78350f"/><rect x="13" y="8" width="1" height="1" fill="#0f172a"/><rect x="3" y="9" width="1" height="1" fill="#0f172a"/><rect x="4" y="9" width="1" height="1" fill="#78350f"/><rect x="5" y="9" width="1" height="1" fill="#0f172a"/><rect x="12" y="9" width="1" height="1" fill="#0f172a"/><rect x="13" y="9" width="1" height="1" fill="#78350f"/><rect x="14" y="9" width="1" height="1" fill="#0f172a"/><rect x="2" y="10" width="1" height="1" fill="#0f172a"/><rect x="3" y="10" width="1" height="1" fill="#78350f"/><rect x="4" y="10" width="1" height="1" fill="#0f172a"/><rect x="13" y="10" width="1" height="1" fill="#0f172a"/><rect x="14" y="10" width="1" height="1" fill="#78350f"/><rect x="15" y="10" width="1" height="1" fill="#0f172a"/><rect x="2" y="11" width="2" height="1" fill="#0f172a"/><rect x="14" y="11" width="2" height="1" fill="#0f172a"/></symbol>
+<symbol id="px-plus" viewBox="0 0 12 12"><rect x="4" y="0" width="4" height="1" fill="#064e3b"/><rect x="2" y="1" width="2" height="1" fill="#064e3b"/><rect x="4" y="1" width="4" height="1" fill="#10b981"/><rect x="8" y="1" width="2" height="1" fill="#064e3b"/><rect x="1" y="2" width="1" height="1" fill="#064e3b"/><rect x="2" y="2" width="2" height="1" fill="#10b981"/><rect x="4" y="2" width="1" height="1" fill="#064e3b"/><rect x="5" y="2" width="2" height="1" fill="#ffffff"/><rect x="7" y="2" width="1" height="1" fill="#064e3b"/><rect x="8" y="2" width="2" height="1" fill="#10b981"/><rect x="10" y="2" width="1" height="1" fill="#064e3b"/><rect x="1" y="3" width="1" height="1" fill="#064e3b"/><rect x="2" y="3" width="2" height="1" fill="#10b981"/><rect x="4" y="3" width="1" height="1" fill="#064e3b"/><rect x="5" y="3" width="2" height="1" fill="#ffffff"/><rect x="7" y="3" width="1" height="1" fill="#064e3b"/><rect x="8" y="3" width="2" height="1" fill="#10b981"/><rect x="10" y="3" width="1" height="1" fill="#064e3b"/><rect x="0" y="4" width="1" height="1" fill="#064e3b"/><rect x="1" y="4" width="1" height="1" fill="#10b981"/><rect x="2" y="4" width="8" height="1" fill="#ffffff"/><rect x="10" y="4" width="1" height="1" fill="#10b981"/><rect x="11" y="4" width="1" height="1" fill="#064e3b"/><rect x="0" y="5" width="1" height="1" fill="#064e3b"/><rect x="1" y="5" width="1" height="1" fill="#10b981"/><rect x="2" y="5" width="8" height="1" fill="#ffffff"/><rect x="10" y="5" width="1" height="1" fill="#10b981"/><rect x="11" y="5" width="1" height="1" fill="#064e3b"/><rect x="0" y="6" width="1" height="1" fill="#064e3b"/><rect x="1" y="6" width="1" height="1" fill="#10b981"/><rect x="2" y="6" width="8" height="1" fill="#ffffff"/><rect x="10" y="6" width="1" height="1" fill="#10b981"/><rect x="11" y="6" width="1" height="1" fill="#064e3b"/><rect x="0" y="7" width="1" height="1" fill="#064e3b"/><rect x="1" y="7" width="1" height="1" fill="#10b981"/><rect x="2" y="7" width="8" height="1" fill="#ffffff"/><rect x="10" y="7" width="1" height="1" fill="#10b981"/><rect x="11" y="7" width="1" height="1" fill="#064e3b"/><rect x="1" y="8" width="1" height="1" fill="#064e3b"/><rect x="2" y="8" width="2" height="1" fill="#10b981"/><rect x="4" y="8" width="1" height="1" fill="#064e3b"/><rect x="5" y="8" width="2" height="1" fill="#ffffff"/><rect x="7" y="8" width="1" height="1" fill="#064e3b"/><rect x="8" y="8" width="2" height="1" fill="#10b981"/><rect x="10" y="8" width="1" height="1" fill="#064e3b"/><rect x="1" y="9" width="1" height="1" fill="#064e3b"/><rect x="2" y="9" width="2" height="1" fill="#10b981"/><rect x="4" y="9" width="1" height="1" fill="#064e3b"/><rect x="5" y="9" width="2" height="1" fill="#ffffff"/><rect x="7" y="9" width="1" height="1" fill="#064e3b"/><rect x="8" y="9" width="2" height="1" fill="#10b981"/><rect x="10" y="9" width="1" height="1" fill="#064e3b"/><rect x="2" y="10" width="2" height="1" fill="#064e3b"/><rect x="4" y="10" width="4" height="1" fill="#10b981"/><rect x="8" y="10" width="2" height="1" fill="#064e3b"/><rect x="4" y="11" width="4" height="1" fill="#064e3b"/></symbol>
 </defs>
 </svg>
   </div>
@@ -4208,6 +5248,236 @@
       <!-- Internal Retro LCD Screen -->
       <div class="retro-screen" id="retro-screen">
         <div class="scanlines-overlay"></div>
+        <!-- Backdrop Layer for CoC Floating Modals -->
+        <div class="coc-modal-backdrop-layer" id="coc-modal-backdrop" onclick="closeCocFacilityModal()"></div>
+
+        <!-- Activity & Catch Log Modal -->
+        <div id="coc-mail-modal">
+          <div class="coc-mail-header">
+            <div class="coc-mail-title">
+              <svg class="pixel-icon pixel-icon-md"><use href="#px-mail"></use></svg>
+              SILPH CO. DISPATCH & BATTLE LOGS
+            </div>
+            <button class="coc-modal-close-corner" onclick="closeCocMailModal()">&times;</button>
+          </div>
+          <div class="coc-mail-body" id="coc-mail-logs-list">
+            <div class="coc-log-entry">
+              <div class="coc-log-icon"><svg class="pixel-icon"><use href="#px-grass"></use></svg></div>
+              <div class="coc-log-content">
+                <div class="coc-log-time">JUST NOW • SYSTEM</div>
+                <div class="coc-log-msg">Welcome, Trainer! Silph Co. Mobile Radar is operational. Search the tall grass to discover wild Pokémon!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- CLASH OF CLANS HUD OVERLAY (PERIMETER DOCKED)               -->
+        <!-- ============================================================ -->
+        <div class="coc-hud-overlay" id="coc-hud-overlay">
+          
+          <!-- TOP ROW: Top-Left Crest, Top-Center Pills, Top-Right Resources -->
+          <div class="coc-hud-top-bar">
+
+            <!-- 1. TOP-LEFT: TRAINER IDENTITY CREST & XP -->
+            <div class="coc-corner coc-top-left">
+              <!-- Chunky Jagged Star Level Badge -->
+              <div class="coc-level-star" id="coc-level-star-btn" title="Trainer Level (Click for Passport) [P]">
+                <span class="coc-level-num" id="coc-trainer-level">1</span>
+              </div>
+
+              <!-- Profile Details -->
+              <div class="coc-profile-details">
+                <div class="coc-trainer-name-row">
+                  <span class="coc-trainer-name" id="coc-trainer-name">TRAINER</span>
+                  <span class="coc-trainer-tag">INDIGO</span>
+                </div>
+
+                <!-- 3D Liquid XP Bar -->
+                <div class="coc-xp-bar-wrap" title="Trainer Experience">
+                  <div class="coc-xp-bar-fill" id="coc-xp-fill" style="width: 25%;"></div>
+                  <div class="coc-bar-gloss"></div>
+                  <span class="coc-xp-bar-text" id="coc-xp-nums">0 / 100 XP</span>
+                </div>
+
+                <!-- Trophy League Badge -->
+                <div class="coc-trophy-badge" id="coc-trophy-trigger" title="Global Trophies & Ranks [T]">
+                  <svg class="pixel-icon"><use href="#px-trophy"></use></svg>
+                  <span class="coc-trophy-val" id="coc-trophy-val">1,405</span>
+                  <span class="coc-league-tag">GOLD III</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. TOP-CENTER: STATUS & VITAL PILLS (CAMP & ENVIRONMENT) -->
+            <div class="coc-top-center">
+              <!-- Party Health Status Pill -->
+              <div class="coc-status-pill" id="coc-party-pill" title="Team Health Status (Click to Heal) [H]">
+                <div class="coc-pill-icon"><svg class="pixel-icon"><use href="#px-heart"></use></svg></div>
+                <div class="coc-pill-content">
+                  <div class="coc-pill-label">PARTY HEALTH</div>
+                  <div class="coc-pill-val" id="coc-party-health-val">6/6 READY</div>
+                </div>
+                <button class="coc-pill-action-btn" id="coc-quick-heal-btn" title="Nurse Joy Instant Restore [H]">+</button>
+              </div>
+
+              <!-- Zone & Weather Radar Pill -->
+              <div class="coc-status-pill" id="coc-zone-pill" title="Battle Route / Scenery (Click to Cycle) [V]">
+                <div class="coc-pill-icon"><svg class="pixel-icon" id="coc-zone-icon"><use href="#px-grass"></use></svg></div>
+                <div class="coc-pill-content">
+                  <div class="coc-pill-label">ZONE & ROUTE</div>
+                  <div class="coc-pill-val" id="coc-zone-name-val">ROUTE 1 • SUNLIT MEADOW</div>
+                </div>
+                <button class="coc-pill-action-btn" id="coc-scenery-cycle-btn" title="Cycle Scenery [V]">↻</button>
+              </div>
+            </div>
+
+            <!-- 3. TOP-RIGHT: 3D LAYERED RESOURCE PILL STACK -->
+            <div class="coc-corner coc-top-right">
+              <!-- Resource 1: Poké Dollars (Gold P$) -->
+              <div class="coc-resource-row" title="Poké Dollars (Click to Open Mart)">
+                <div class="coc-res-cap-label">Max: 999,999</div>
+                <div class="coc-res-bar coc-res-gold" id="coc-bar-gold">
+                  <div class="coc-res-track">
+                    <div class="coc-res-fill" id="coc-gold-fill" style="width: 45%;"></div>
+                    <div class="coc-bar-gloss"></div>
+                  </div>
+                  <span class="coc-res-val">P$ <span id="coc-gold-val">12,450</span></span>
+                  <div class="coc-res-icon-cap"><svg class="pixel-icon"><use href="#px-coin"></use></svg></div>
+                  <button class="coc-res-plus-btn" id="coc-plus-gold" title="Open Poké Mart [2]">+</button>
+                </div>
+              </div>
+
+              <!-- Resource 2: Poké Balls Capacity -->
+              <div class="coc-resource-row" title="Poké Balls in Bag">
+                <div class="coc-res-cap-label">Bag Capacity: 99</div>
+                <div class="coc-res-bar coc-res-balls" id="coc-bar-balls">
+                  <div class="coc-res-track">
+                    <div class="coc-res-fill" id="coc-balls-fill" style="width: 30%;"></div>
+                    <div class="coc-bar-gloss"></div>
+                  </div>
+                  <span class="coc-res-val"><span id="coc-balls-val">24</span> / 99</span>
+                  <div class="coc-res-icon-cap">
+                    <img src="/pokeballs/01_pokeball_classic.png" class="coc-res-img-icon" alt="Balls" />
+                  </div>
+                  <button class="coc-res-plus-btn" id="coc-plus-balls" title="Buy Poké Balls">+</button>
+                </div>
+              </div>
+
+              <!-- Resource 3: Gym Badges / Gems -->
+              <div class="coc-resource-row" title="Gym Badges / Gems">
+                <div class="coc-res-bar coc-res-gems" id="coc-bar-gems">
+                  <div class="coc-res-track">
+                    <div class="coc-res-fill" id="coc-badges-fill" style="width: 30%;"></div>
+                    <div class="coc-bar-gloss"></div>
+                  </div>
+                  <span class="coc-res-val" id="coc-badges-val">0 / 10 BADGES</span>
+                  <div class="coc-res-icon-cap"><svg class="pixel-icon"><use href="#px-gem"></use></svg></div>
+                  <button class="coc-res-plus-btn" id="coc-plus-arena" title="Arena Battles [A]">+</button>
+                </div>
+              </div>
+
+              <!-- Mini Tool Tray: SFX, CRT, Fullscreen, Settings -->
+              <div class="coc-tools-tray">
+                <button class="coc-tool-btn" id="coc-btn-sfx" title="Toggle Sound [M]">
+                  <svg class="pixel-icon"><use href="#px-sound-on"></use></svg>
+                </button>
+                <button class="coc-tool-btn" id="coc-btn-crt" title="Toggle CRT Scanlines">
+                  <svg class="pixel-icon"><use href="#px-crt"></use></svg>
+                </button>
+                <button class="coc-tool-btn" id="coc-btn-fs" title="Toggle Fullscreen [F]">
+                  <svg class="pixel-icon"><use href="#px-expand"></use></svg>
+                </button>
+                <button class="coc-tool-btn" id="coc-btn-settings" title="Settings & Passport [S]">
+                  <svg class="pixel-icon"><use href="#px-settings"></use></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- LEFT-EDGE RAIL: QUICK FLOATING UTILITY DRAWERS -->
+          <div class="coc-left-rail">
+            <!-- Mail / Catch Logs Button -->
+            <button class="coc-rail-btn" id="coc-rail-mail" title="Silph Co. Dispatch & Logs">
+              <svg class="pixel-icon"><use href="#px-mail"></use></svg>
+              <span class="coc-rail-badge" id="coc-mail-badge">!</span>
+              <span class="coc-rail-label">LOGS</span>
+            </button>
+            <!-- Ranks / Leaderboard Button -->
+            <button class="coc-rail-btn nav-tab" data-tab="ranks" id="coc-rail-ranks" title="Global Leaderboard [T]">
+              <svg class="pixel-icon"><use href="#px-trophy"></use></svg>
+              <span class="coc-rail-label">RANKS</span>
+            </button>
+            <!-- Pokédex Quick Button -->
+            <button class="coc-rail-btn nav-tab" data-tab="dex" id="coc-rail-dex" title="National Pokédex [D]">
+              <svg class="pixel-icon"><use href="#px-dex"></use></svg>
+              <span class="coc-rail-label">POKÉDEX</span>
+            </button>
+            <!-- TCG Cards Catalog Button -->
+            <button class="coc-rail-btn nav-tab" data-tab="cards" id="coc-rail-cards" title="Pokémon TCG Cards [K]">
+              <svg class="pixel-icon"><use href="#px-card"></use></svg>
+              <span class="coc-rail-label">CARDS</span>
+            </button>
+            <!-- Trainer Passport Button -->
+            <button class="coc-rail-btn nav-tab" data-tab="trainer" id="coc-rail-trainer" title="Trainer Card & Passport [P]">
+              <svg class="pixel-icon"><use href="#px-trainer"></use></svg>
+              <span class="coc-rail-label">TRAINER</span>
+            </button>
+          </div>
+
+          <!-- BOTTOM ROW: Hero Attack/Hunt Button, Hero Shop Button & Facilities -->
+          <div class="coc-hud-bottom-bar">
+
+            <!-- BOTTOM-LEFT: THE CLASH "ATTACK!" HERO BUTTON -> HUNT! -->
+            <div class="coc-corner coc-bottom-left">
+              <!-- Massive CoC Hero Hunt Button -->
+              <button class="coc-hero-attack-btn" id="coc-hero-hunt-btn" title="Search Tall Grass [SPACE]">
+                <div class="coc-hero-icon-plate">
+                  <svg class="pixel-icon coc-hero-icon"><use href="#px-map"></use></svg>
+                </div>
+                <div class="coc-hero-text-block">
+                  <div class="coc-hero-action-title">HUNT!</div>
+                  <div class="coc-hero-action-sub">SEARCH GRASS <span class="coc-k-badge">[SPACE]</span></div>
+                </div>
+              </button>
+
+              <!-- Cry Audio Button -->
+              <button class="coc-sub-action-btn" id="coc-hero-cry-btn" title="Play Pokémon Cry [C]">
+                <svg class="pixel-icon"><use href="#px-cry"></use></svg> CRY [C]
+              </button>
+            </div>
+
+            <!-- BOTTOM-RIGHT: THE CLASH "SHOP" HERO BUTTON & FACILITIES -->
+            <div class="coc-corner coc-bottom-right">
+              <!-- Center Button -->
+              <button class="coc-facility-btn nav-tab" data-tab="center" id="coc-btn-center" title="Poké Center & Nurse Joy [H]">
+                <svg class="pixel-icon"><use href="#px-center"></use></svg>
+                <div class="coc-fac-label">CENTER [H]</div>
+              </button>
+              
+              <!-- Arena Button -->
+              <button class="coc-facility-btn nav-tab" data-tab="arena" id="coc-btn-arena" title="Champion Arena & Gyms [A]">
+                <svg class="pixel-icon"><use href="#px-arena"></use></svg>
+                <div class="coc-fac-label">ARENA</div>
+              </button>
+
+              <!-- Massive CoC Hero Shop Button -->
+              <button class="coc-hero-shop-btn nav-tab" data-tab="mart" id="coc-hero-shop-btn" title="Poké Mart Shop [2] / [M]">
+                <div class="coc-shop-icon-plate">
+                  <svg class="pixel-icon coc-shop-icon"><use href="#px-cart"></use></svg>
+                </div>
+                <div class="coc-shop-text-block">
+                  <div class="coc-shop-title">SHOP</div>
+                  <div class="coc-shop-sub">POKÉ MART <span class="coc-k-badge">[2]</span></div>
+                </div>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
 
         <!-- Top Status Bar -->
         <div class="screen-header">
@@ -6214,6 +7484,16 @@
         const pane = document.getElementById(`pane-${target}`);
         if (pane) pane.classList.add('active');
 
+        // Manage CoC modal backdrop
+        const cocBackdrop = document.getElementById('coc-modal-backdrop');
+        if (cocBackdrop) {
+          if (target !== 'hunt') {
+            cocBackdrop.classList.add('open');
+          } else {
+            cocBackdrop.classList.remove('open');
+          }
+        }
+
         if (target === 'hunt') {
           if (!isArenaMode) fetchWildBattle();
         }
@@ -6324,6 +7604,7 @@
         }
 
         updateExpBar();
+        updateCocHUDFromPlayer(data);
         return data;
       } catch (e) {
         return null;
@@ -8831,6 +10112,16 @@
       // 1. ESC / Back / Cancel / X
       if (key === 'Escape' || lower === 'x' || key === 'Backspace') {
         e.preventDefault();
+        const mailModal = document.getElementById('coc-mail-modal');
+        if (mailModal && mailModal.classList.contains('open')) {
+          closeCocMailModal();
+          return;
+        }
+        const nonHuntPane = document.querySelector('.location-pane:not(#pane-hunt).active');
+        if (nonHuntPane) {
+          closeCocFacilityModal();
+          return;
+        }
         if (isSceneryPickerOpen()) {
           closeSceneryPicker();
           if (typeof SFX !== 'undefined' && SFX.cancel) SFX.cancel();
@@ -9043,7 +10334,310 @@
     // ============================================================
     // INITIALIZATION
     // ============================================================
+        // ============================================================
+    // CLASH OF CLANS LAYOUT CONTROLLERS & EVENT BINDINGS
+    // ============================================================
+
+    function openCocMailModal() {
+      SFX.blip();
+      const modal = document.getElementById('coc-mail-modal');
+      const backdrop = document.getElementById('coc-modal-backdrop');
+      if (modal) modal.classList.add('open');
+      if (backdrop) backdrop.classList.add('open');
+    }
+
+    function closeCocMailModal() {
+      SFX.cancel();
+      const modal = document.getElementById('coc-mail-modal');
+      const backdrop = document.getElementById('coc-modal-backdrop');
+      if (modal) modal.classList.remove('open');
+      if (backdrop && !document.querySelector('.location-pane:not(#pane-hunt).active')) {
+        backdrop.classList.remove('open');
+      }
+    }
+
+    function closeCocFacilityModal() {
+      SFX.cancel();
+      closeCocMailModal();
+      // Remove .active from all non-hunt panes
+      document.querySelectorAll('.location-pane:not(#pane-hunt)').forEach(p => p.classList.remove('active'));
+      // Remove .open from backdrop
+      const backdrop = document.getElementById('coc-modal-backdrop');
+      if (backdrop) backdrop.classList.remove('open');
+      // Return to Tall Grass hunt pane
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      const huntTab = document.querySelector('.nav-tab[data-tab="hunt"]');
+      if (huntTab) huntTab.classList.add('active');
+      const huntPane = document.getElementById('pane-hunt');
+      if (huntPane) huntPane.classList.add('active');
+    }
+
+    function logCocActivity(msg, icon = 'px-grass') {
+      const list = document.getElementById('coc-mail-logs-list');
+      if (!list) return;
+      const entry = document.createElement('div');
+      entry.className = 'coc-log-entry';
+      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      entry.innerHTML = `
+        <div class="coc-log-icon">${pIcon(icon.replace('px-', ''))}</div>
+        <div class="coc-log-content">
+          <div class="coc-log-time">${timeStr} • BATTLE LOG</div>
+          <div class="coc-log-msg">${msg}</div>
+        </div>
+      `;
+      list.prepend(entry);
+      // Limit to 40 entries
+      while (list.children.length > 40) {
+        list.removeChild(list.lastChild);
+      }
+    }
+
+    function updatePartyHealthHUD(party) {
+      const valEl = document.getElementById('coc-party-health-val');
+      if (!valEl) return;
+      if (!party || !party.length) {
+        valEl.textContent = 'NO ROSTER';
+        valEl.classList.remove('party-wounded');
+        return;
+      }
+      const total = party.length;
+      const alive = party.filter(p => (Number(p.hp) || 0) > 0).length;
+      if (alive < total) {
+        valEl.textContent = `${alive}/${total} (HEAL!)`;
+        valEl.classList.add('party-wounded');
+      } else {
+        valEl.textContent = `${total}/${total} READY`;
+        valEl.classList.remove('party-wounded');
+      }
+    }
+
+    function updateCocHUDFromPlayer(data) {
+      if (!data || !data.player) return;
+
+      const p = data.player;
+      const lvl = data.level || 1;
+      const xp = Number(p.xp) || 0;
+      const prevXp = Number(data.prev_xp) || Math.pow(Math.max(1, lvl - 1), 3);
+      const nextXp = Number(data.next_xp) || Math.pow(lvl, 3);
+      const xpRange = Math.max(1, nextXp - prevXp);
+      const xpPct = Math.max(6, Math.min(100, Math.round(((xp - prevXp) / xpRange) * 100)));
+
+      // Level & Name
+      const lvlEl = document.getElementById('coc-trainer-level');
+      if (lvlEl) lvlEl.textContent = lvl;
+
+      const nameEl = document.getElementById('coc-trainer-name');
+      if (nameEl) nameEl.textContent = (p.username || 'TRAINER').toUpperCase();
+
+      // XP Bar
+      const xpFill = document.getElementById('coc-xp-fill');
+      if (xpFill) xpFill.style.width = `${xpPct}%`;
+
+      const xpNums = document.getElementById('coc-xp-nums');
+      if (xpNums) xpNums.textContent = `${(xp - prevXp).toLocaleString()} / ${(nextXp - prevXp).toLocaleString()} XP`;
+
+      // Gold P$
+      const currency = Number(p.currency) || 0;
+      const goldEl = document.getElementById('coc-gold-val');
+      if (goldEl) goldEl.textContent = currency.toLocaleString();
+
+      const goldFill = document.getElementById('coc-gold-fill');
+      if (goldFill) {
+        const goldPct = Math.max(6, Math.min(100, Math.round((currency / 50000) * 100)));
+        goldFill.style.width = `${goldPct}%`;
+      }
+
+      // Balls
+      const totalBalls = Object.values(p.balls || {}).reduce((sum, n) => sum + (Number(n) || 0), 0);
+      const ballsEl = document.getElementById('coc-balls-val');
+      if (ballsEl) ballsEl.textContent = totalBalls.toLocaleString();
+
+      const ballsFill = document.getElementById('coc-balls-fill');
+      if (ballsFill) {
+        const ballsPct = Math.max(6, Math.min(100, Math.round((totalBalls / 99) * 100)));
+        ballsFill.style.width = `${ballsPct}%`;
+      }
+
+      // Badges
+      const badges = p.arena_badges || p.badges || [];
+      const badgeCount = badges.length;
+      const badgesEl = document.getElementById('coc-badges-val');
+      if (badgesEl) badgesEl.textContent = `${badgeCount} / 10 BADGES`;
+
+      const badgesFill = document.getElementById('coc-badges-fill');
+      if (badgesFill) {
+        badgesFill.style.width = `${Math.max(10, (badgeCount / 10) * 100)}%`;
+      }
+
+      // Trophy Count
+      const trophyEl = document.getElementById('coc-trophy-val');
+      if (trophyEl) {
+        const trophies = 1000 + Math.floor(xp / 50) + (badgeCount * 120);
+        trophyEl.textContent = trophies.toLocaleString();
+      }
+
+      // Party health status
+      updatePartyHealthHUD(p.party);
+    }
+
+    function initCocHandlers() {
+      // 1. Hero Hunt Button
+      const heroHuntBtn = document.getElementById('coc-hero-hunt-btn');
+      if (heroHuntBtn) {
+        heroHuntBtn.addEventListener('click', () => {
+          const huntBtn = document.getElementById('btn-hunt-grass');
+          if (huntBtn) huntBtn.click();
+        });
+      }
+
+      // 2. Cry Button
+      const heroCryBtn = document.getElementById('coc-hero-cry-btn');
+      if (heroCryBtn) {
+        heroCryBtn.addEventListener('click', () => {
+          const cryBtn = document.getElementById('btn-play-cry');
+          if (cryBtn) cryBtn.click();
+        });
+      }
+
+      // 3. Level Star & Trophy Triggers
+      const lvlStar = document.getElementById('coc-level-star-btn');
+      if (lvlStar) {
+        lvlStar.addEventListener('click', () => {
+          openSettingsModal();
+        });
+      }
+      const trophyTrig = document.getElementById('coc-trophy-trigger');
+      if (trophyTrig) {
+        trophyTrig.addEventListener('click', () => {
+          const ranksTab = document.querySelector('.nav-tab[data-tab="ranks"]');
+          if (ranksTab) ranksTab.click();
+        });
+      }
+
+      // 4. Quick Heal & Party Pill
+      const partyPill = document.getElementById('coc-party-pill');
+      const quickHealBtn = document.getElementById('coc-quick-heal-btn');
+      const triggerHeal = () => {
+        const healBtn = document.getElementById('btn-nurse-heal');
+        if (healBtn && healBtn.offsetParent !== null) {
+          healBtn.click();
+        } else {
+          // Switch to center & heal
+          const centerTab = document.querySelector('.nav-tab[data-tab="center"]');
+          if (centerTab) {
+            centerTab.click();
+            setTimeout(() => {
+              const hb = document.getElementById('btn-nurse-heal');
+              if (hb) hb.click();
+            }, 150);
+          }
+        }
+      };
+      if (quickHealBtn) quickHealBtn.addEventListener('click', (e) => { e.stopPropagation(); triggerHeal(); });
+      if (partyPill) partyPill.addEventListener('click', triggerHeal);
+
+      // 5. Zone Pill & Scenery Cycle
+      const zonePill = document.getElementById('coc-zone-pill');
+      const sceneryBtn = document.getElementById('coc-scenery-cycle-btn');
+      const triggerScenery = () => {
+        const scBtn = document.getElementById('btn-scenery-cycle');
+        if (scBtn) {
+          scBtn.click();
+          const badgeLabel = document.getElementById('battle-env-label');
+          const cocZoneLabel = document.getElementById('coc-zone-name-val');
+          if (badgeLabel && cocZoneLabel) {
+            cocZoneLabel.textContent = badgeLabel.textContent;
+          }
+        }
+      };
+      if (sceneryBtn) sceneryBtn.addEventListener('click', (e) => { e.stopPropagation(); triggerScenery(); });
+      if (zonePill) zonePill.addEventListener('click', triggerScenery);
+
+      // 6. Plus Buttons on Resource Bars
+      const plusGold = document.getElementById('coc-plus-gold');
+      const barGold = document.getElementById('coc-bar-gold');
+      const openMart = () => {
+        const martTab = document.querySelector('.nav-tab[data-tab="mart"]');
+        if (martTab) martTab.click();
+      };
+      if (plusGold) plusGold.addEventListener('click', (e) => { e.stopPropagation(); openMart(); });
+      if (barGold) barGold.addEventListener('click', openMart);
+
+      const plusBalls = document.getElementById('coc-plus-balls');
+      const barBalls = document.getElementById('coc-bar-balls');
+      if (plusBalls) plusBalls.addEventListener('click', (e) => { e.stopPropagation(); openMart(); });
+      if (barBalls) barBalls.addEventListener('click', openMart);
+
+      const plusArena = document.getElementById('coc-plus-arena');
+      const barGems = document.getElementById('coc-bar-gems');
+      const openArena = () => {
+        const arenaTab = document.querySelector('.nav-tab[data-tab="arena"]');
+        if (arenaTab) arenaTab.click();
+      };
+      if (plusArena) plusArena.addEventListener('click', (e) => { e.stopPropagation(); openArena(); });
+      if (barGems) barGems.addEventListener('click', openArena);
+
+      // 7. Top Tools Tray
+      const sfxBtn = document.getElementById('coc-btn-sfx');
+      if (sfxBtn) {
+        sfxBtn.addEventListener('click', () => {
+          const toggleSound = document.getElementById('toggle-sound');
+          if (toggleSound) toggleSound.click();
+          sfxBtn.classList.toggle('active', soundEnabled);
+        });
+      }
+
+      const crtBtn = document.getElementById('coc-btn-crt');
+      if (crtBtn) {
+        crtBtn.addEventListener('click', () => {
+          const toggleCRT = document.getElementById('toggle-scanlines');
+          if (toggleCRT) toggleCRT.click();
+          const isCRTOn = !document.body.classList.contains('no-scanlines');
+          crtBtn.classList.toggle('active', isCRTOn);
+        });
+      }
+
+      const fsBtn = document.getElementById('coc-btn-fs');
+      if (fsBtn) {
+        fsBtn.addEventListener('click', () => {
+          toggleBrowserFullscreen();
+        });
+      }
+
+      const settingsBtn = document.getElementById('coc-btn-settings');
+      if (settingsBtn) {
+        settingsBtn.addEventListener('click', () => {
+          openSettingsModal();
+        });
+      }
+
+      // 8. Mail / Logs Button
+      const mailBtn = document.getElementById('coc-rail-mail');
+      if (mailBtn) {
+        mailBtn.addEventListener('click', () => {
+          openCocMailModal();
+        });
+      }
+
+      // Add close button to every non-hunt pane if not present
+      document.querySelectorAll('.location-pane:not(#pane-hunt)').forEach(pane => {
+        if (!pane.querySelector('.coc-modal-close-corner')) {
+          const closeBtn = document.createElement('button');
+          closeBtn.className = 'coc-modal-close-corner';
+          closeBtn.title = 'Close Window [ESC]';
+          closeBtn.innerHTML = '&times;';
+          closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeCocFacilityModal();
+          });
+          pane.prepend(closeBtn);
+        }
+      });
+    }
+
+
     window.addEventListener('DOMContentLoaded', async () => {
+      initCocHandlers();
       initBattleEnvBadge();
       loadSavedBattleArenaTheme();
       initAuthHandlers();
