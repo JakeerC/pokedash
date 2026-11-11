@@ -730,13 +730,12 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
     }
     .enemy-status-box {
-      top: clamp(14px, 2.5vh, 24px);
-      left: clamp(16px, 2.5vw, 28px);
+      position: relative;
       border-left: 2px solid rgba(45, 212, 191, 0.7);
     }
     .player-status-box {
-      bottom: clamp(16px, 2.5vh, 28px);
-      right: clamp(195px, 17vw, 225px);
+      bottom: clamp(16px, 2.5vh, 28px) !important;
+      right: clamp(400px, 36vw, 490px) !important;
       border-left: 2px solid rgba(45, 212, 191, 0.7);
     }
     .status-name-row {
@@ -856,15 +855,9 @@
       transition: width 0.4s ease;
     }
 
-    /* Battle Environment Pill Badge Container & Dropdown (Top-Right inside Arena) */
+    /* Battle Environment Pill Badge Container & Dropdown (Merged into Center Zone Pill) */
     .battle-env-container {
-      position: absolute;
-      top: clamp(14px, 2.5vh, 24px);
-      right: clamp(16px, 2.5vw, 28px);
-      z-index: 35;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
+      display: none !important;
     }
     .battle-env-badge {
       position: relative;
@@ -1833,7 +1826,32 @@
       box-sizing: border-box;
     }
 
-    /* Modern Vertical Action Ribbon Buttons Stack */
+    /* Modern Radial Quarter-Circle Action Buttons */
+    /* Radial Quarter-Circle Actions Arc */
+    .battle-actions-grid.modern-actions-radial {
+      position: relative !important;
+      width: 350px !important;
+      height: 340px !important;
+      display: block !important;
+      pointer-events: none !important;
+      box-sizing: border-box !important;
+    }
+    .battle-actions-grid.modern-actions-radial[style*="display: none"] {
+      display: none !important;
+    }
+
+    .radial-arc-track {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 340px;
+      height: 340px;
+      pointer-events: none;
+      filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.55));
+      z-index: 1;
+    }
+
+    /* Modern Vertical Action Ribbon Buttons Stack (Fallback / Drawer) */
     .battle-actions-grid, .modern-actions-vertical {
       display: grid !important;
       grid-template-columns: 1fr;
@@ -1949,6 +1967,188 @@
       font-weight: 700;
       margin-left: auto;
       margin-right: 28px;
+    }
+
+    /* Radial Quarter-Circle Actions Arc Overrides */
+    .radial-k-badge {
+      position: absolute !important;
+      top: -5px !important;
+      right: -5px !important;
+      width: 24px !important;
+      height: 24px !important;
+      border-radius: 50% !important;
+      background: #0f172a !important;
+      border: 2px solid #facc15 !important;
+      color: #facc15 !important;
+      font-size: 11.5px !important;
+      font-weight: 900 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.85) !important;
+      z-index: 10 !important;
+      pointer-events: none !important;
+      line-height: 1 !important;
+    }
+
+    .radial-btn-label {
+      font-size: 11px !important;
+      font-weight: 900 !important;
+      letter-spacing: 0.6px !important;
+      line-height: 1 !important;
+      color: #ffffff !important;
+      margin-top: 2px !important;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000 !important;
+      pointer-events: none !important;
+    }
+
+    .radial-btn {
+      position: absolute !important;
+      pointer-events: auto !important;
+      width: 80px !important;
+      height: 80px !important;
+      max-height: 80px !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+      z-index: 5 !important;
+      border-width: 3.5px !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.78), inset 0 3px 0 rgba(255, 255, 255, 0.55) !important;
+      transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.16s, filter 0.16s !important;
+      cursor: pointer !important;
+      transform: none !important;
+    }
+    .radial-btn .btn-action-lead-icon {
+      width: 40px !important;
+      height: 40px !important;
+      object-fit: contain !important;
+      margin: 0 !important;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8)) !important;
+      pointer-events: none !important;
+    }
+
+    /* 1. FIGHT (Attack) at ~90° Top of Arc directly above SHOP */
+    .modern-actions-radial #btn-menu-fight {
+      bottom: 236px !important;
+      right: 18px !important;
+      background: radial-gradient(circle at 35% 30%, #ef4444 0%, #dc2626 45%, #991b1b 85%, #7f1d1d 100%) !important;
+      border-color: #fca5a5 !important;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.75), 0 4px 0 #450a0a, inset 0 3px 0 rgba(255,255,255,0.55) !important;
+    }
+    /* 2. BAG at ~45° Upper-Middle Diagonal of Arc */
+    .modern-actions-radial #btn-menu-bag {
+      bottom: 172px !important;
+      right: 174px !important;
+      background: radial-gradient(circle at 35% 30%, #f59e0b 0%, #d97706 45%, #92400e 85%, #78350f 100%) !important;
+      border-color: #fde68a !important;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.75), 0 4px 0 #451a03, inset 0 3px 0 rgba(255,255,255,0.55) !important;
+    }
+    /* 4. RUN at ~0° Bottom-Left of Arc directly left of SHOP */
+    .modern-actions-radial #btn-menu-run {
+      bottom: 16px !important;
+      right: 238px !important;
+      background: radial-gradient(circle at 35% 30%, #0ea5e9 0%, #0284c7 45%, #0369a1 85%, #075985 100%) !important;
+      border-color: #bae6fd !important;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.75), 0 4px 0 #0c4a6e, inset 0 3px 0 rgba(255,255,255,0.55) !important;
+    }
+
+    .radial-btn:hover, .radial-btn.key-pressed {
+      transform: scale(1.14) !important;
+      filter: brightness(1.25) !important;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.88), inset 0 3px 0 rgba(255, 255, 255, 0.65) !important;
+      z-index: 15 !important;
+    }
+    .radial-btn:active {
+      transform: scale(0.95) !important;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.85) !important;
+    }
+
+    /* Modern Radial Moves Panel */
+    .moves-radial, .modern-moves-radial {
+      position: relative !important;
+      width: 350px !important;
+      height: 340px !important;
+      display: block !important;
+      pointer-events: none !important;
+      box-sizing: border-box !important;
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      padding: 0 !important;
+    }
+    .moves-radial[style*="display: none"] {
+      display: none !important;
+    }
+
+    .move-circle-btn {
+      position: absolute !important;
+      width: 78px !important;
+      height: 78px !important;
+      max-height: 78px !important;
+      border-radius: 50% !important;
+      pointer-events: auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 2px !important;
+      box-sizing: border-box !important;
+      border: 3.5px solid rgba(255, 255, 255, 0.85) !important;
+      cursor: pointer !important;
+      transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.16s, filter 0.16s !important;
+      z-index: 10 !important;
+      transform: none !important;
+    }
+    .move-circle-btn:hover, .move-circle-btn.key-pressed {
+      transform: scale(1.15) !important;
+      filter: brightness(1.28) !important;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.92), inset 0 3px 0 rgba(255, 255, 255, 0.65) !important;
+      z-index: 25 !important;
+    }
+    .move-circle-btn:active {
+      transform: scale(0.95) !important;
+    }
+    .move-circle-type {
+      font-size: 9px !important;
+      font-weight: 900 !important;
+      background: rgba(0, 0, 0, 0.6) !important;
+      padding: 2px 7px !important;
+      border-radius: 5px !important;
+      color: #ffffff !important;
+      letter-spacing: 0.4px !important;
+      text-transform: uppercase !important;
+      line-height: 1 !important;
+      margin-bottom: 3px !important;
+      pointer-events: none !important;
+    }
+    .move-circle-name {
+      font-size: 10px !important;
+      font-weight: 900 !important;
+      letter-spacing: 0.3px !important;
+      color: #ffffff !important;
+      text-shadow: 0 1px 2px #000 !important;
+      text-align: center !important;
+      max-width: 68px !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+      line-height: 1.1 !important;
+      pointer-events: none !important;
+    }
+    .move-circle-pwr {
+      font-size: 9px !important;
+      font-weight: 800 !important;
+      color: #fef08a !important;
+      text-shadow: 0 1px 2px #000 !important;
+      margin-top: 3px !important;
+      line-height: 1 !important;
+      pointer-events: none !important;
     }
 
     /* Modern Moves Selection Drawer */
@@ -4489,13 +4689,13 @@ body.layout-full .screen-nav {
 }
 
 .coc-pill-action-btn {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: linear-gradient(180deg, #4ade80 0%, #16a34a 100%);
   border: 1.5px solid #0f172a;
   color: #ffffff;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 900;
   display: flex;
   align-items: center;
@@ -4511,6 +4711,162 @@ body.layout-full .screen-nav {
 }
 .coc-pill-action-btn:active {
   transform: scale(0.9);
+}
+
+/* Zone & Route Scenery Merged Wrapper & Dropdown */
+.coc-zone-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+}
+.coc-status-pill.picker-open {
+  border-color: #facc15 !important;
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.45), inset 0 1.5px 0 rgba(255, 255, 255, 0.3) !important;
+}
+.coc-status-pill.picker-open .coc-zone-caret {
+  transform: rotate(180deg);
+}
+.coc-zone-caret {
+  transition: transform 0.2s ease;
+}
+.coc-zone-wrapper .scenery-picker-dropdown {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  width: 275px !important;
+  background: linear-gradient(135deg, rgba(14, 30, 20, 0.98) 0%, rgba(8, 20, 14, 0.96) 100%) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 2.5px solid #ca8a04 !important;
+  border-radius: 14px !important;
+  padding: 10px !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.85), 0 0 25px rgba(250, 204, 21, 0.3) !important;
+  z-index: 95 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.coc-zone-wrapper .scenery-picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 6px 8px;
+  border-bottom: 1.5px solid rgba(250, 204, 21, 0.25);
+  margin-bottom: 4px;
+}
+.coc-zone-wrapper .scenery-picker-title {
+  color: #facc15;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.coc-zone-wrapper .scenery-picker-k-hint {
+  font-size: 8.5px;
+  font-family: monospace;
+  color: #facc15;
+  background: rgba(250, 204, 21, 0.12);
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+.coc-zone-wrapper .scenery-picker-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: rgba(18, 42, 28, 0.6);
+  border: 1.5px solid rgba(250, 204, 21, 0.15);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: #cbd5e1;
+}
+.coc-zone-wrapper .scenery-picker-item:hover {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: #facc15;
+  color: #fff;
+  transform: translateX(2px);
+}
+.coc-zone-wrapper .scenery-picker-item.active {
+  background: linear-gradient(90deg, rgba(234, 179, 8, 0.25) 0%, rgba(34, 197, 94, 0.2) 100%);
+  border-color: #facc15;
+  box-shadow: 0 0 14px rgba(250, 204, 21, 0.35);
+}
+.coc-zone-wrapper .scenery-picker-item.active .scenery-item-name {
+  color: #facc15;
+}
+.coc-zone-wrapper .scenery-picker-footer {
+  display: flex;
+  gap: 6px;
+  padding-top: 6px;
+  border-top: 1.5px solid rgba(250, 204, 21, 0.25);
+  margin-top: 4px;
+}
+.coc-zone-wrapper .scenery-footer-btn {
+  flex: 1;
+  background: linear-gradient(180deg, #1e3a29 0%, #11261a 100%);
+  border: 1.5px solid #ca8a04;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 9px;
+  font-weight: 800;
+  color: #facc15;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+.coc-zone-wrapper .scenery-footer-btn:hover {
+  background: linear-gradient(180deg, #2a523a 0%, #193826 100%);
+  border-color: #fde047;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.4);
+}
+
+/* Center-docked Opponent Status Box (Matching User Pokémon Card Style 1:1) */
+.coc-top-center .enemy-status-box {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  width: clamp(230px, 20vw, 290px) !important;
+  z-index: 20 !important;
+  pointer-events: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* Zone & Route Scenery Pill Docked in Top-Right Column (Below Badges) */
+.coc-top-right .coc-zone-wrapper {
+  margin-top: 3px;
+  margin-bottom: 2px;
+  position: relative;
+}
+.coc-top-right .coc-zone-pill {
+  width: clamp(140px, 15vw, 180px);
+  box-sizing: border-box;
+  padding: 3px 8px;
+  justify-content: space-between;
+}
+.coc-top-right .coc-zone-pill .coc-pill-content {
+  overflow: hidden;
+  max-width: calc(100% - 46px);
+}
+.coc-top-right .coc-zone-pill .coc-pill-val {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.coc-top-right .coc-zone-wrapper .scenery-picker-dropdown {
+  left: auto !important;
+  right: 0 !important;
+  transform: none !important;
 }
 
 /* ============================================================ */
@@ -4650,9 +5006,9 @@ body.layout-full .screen-nav {
   margin-top: 2px;
 }
 .coc-tool-btn {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
   border: 1.5px solid #334155;
   color: #cbd5e1;
@@ -4679,8 +5035,15 @@ body.layout-full .screen-nav {
   border-color: #ca8a04;
 }
 .coc-tool-btn svg {
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
+}
+.coc-tool-img {
+  width: 19px;
+  height: 19px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
+  pointer-events: none;
 }
 
 /* ============================================================ */
@@ -4689,11 +5052,11 @@ body.layout-full .screen-nav {
 .coc-left-rail {
   position: absolute;
   left: clamp(6px, 1.4vw, 14px);
-  top: 50%;
+  top: 48%;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 6px;
   z-index: 36;
 }
 
@@ -4702,11 +5065,11 @@ body.layout-full .screen-nav {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: clamp(42px, 4.4vw, 48px);
-  height: clamp(40px, 4.2vw, 46px);
+  width: clamp(48px, 4.8vw, 54px);
+  height: clamp(44px, 4.4vw, 50px);
   background: linear-gradient(180deg, #334155 0%, #1e293b 50%, #0f172a 100%);
   border: 2px solid #0f172a;
-  border-radius: 10px;
+  border-radius: 11px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.6), inset 0 1.5px 0 rgba(255,255,255,0.3);
   cursor: pointer;
   transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -4732,17 +5095,17 @@ body.layout-full .screen-nav {
 }
 
 .coc-rail-btn svg {
-  width: 16px;
-  height: 16px;
+  width: 22px;
+  height: 22px;
   filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
 }
 
 .coc-rail-label {
-  font-size: 6px;
+  font-size: 7.5px;
   font-weight: 900;
   color: #f8fafc;
-  letter-spacing: 0.3px;
-  margin-top: 1px;
+  letter-spacing: 0.4px;
+  margin-top: 2px;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
@@ -4791,12 +5154,12 @@ body.layout-full .screen-nav {
 .coc-hero-attack-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  height: clamp(52px, 6.5vh, 64px);
-  padding: 0 clamp(12px, 1.8vw, 20px) 0 clamp(8px, 1.2vw, 12px);
+  gap: 10px;
+  height: clamp(56px, 7vh, 68px);
+  padding: 0 clamp(14px, 2vw, 24px) 0 clamp(10px, 1.4vw, 16px);
   background: linear-gradient(180deg, #fb923c 0%, #f97316 45%, #ea580c 75%, #c2410c 100%);
-  border: 3px solid #7c2d12;
-  border-radius: 14px;
+  border: 3.5px solid #7c2d12;
+  border-radius: 16px;
   box-shadow: 0 6px 0 #431407, 0 10px 20px rgba(0, 0, 0, 0.75), inset 0 2px 0 rgba(255, 255, 255, 0.45);
   cursor: pointer;
   transition: all 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -4814,9 +5177,9 @@ body.layout-full .screen-nav {
 }
 
 .coc-hero-icon-plate {
-  width: clamp(34px, 4vw, 40px);
-  height: clamp(34px, 4vw, 40px);
-  border-radius: 10px;
+  width: clamp(38px, 4.4vw, 44px);
+  height: clamp(38px, 4.4vw, 44px);
+  border-radius: 12px;
   background: linear-gradient(180deg, #fef08a 0%, #facc15 100%);
   border: 2px solid #78350f;
   display: flex;
@@ -4825,8 +5188,8 @@ body.layout-full .screen-nav {
   box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.7);
 }
 .coc-hero-icon {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
 }
 
@@ -4836,7 +5199,7 @@ body.layout-full .screen-nav {
   align-items: flex-start;
 }
 .coc-hero-action-title {
-  font-size: clamp(14px, 1.8vw, 18px);
+  font-size: clamp(16px, 2vw, 20px);
   font-weight: 900;
   color: #ffffff;
   letter-spacing: 1px;
@@ -4844,7 +5207,7 @@ body.layout-full .screen-nav {
   text-shadow: -1.5px -1.5px 0 #431407, 1.5px -1.5px 0 #431407, -1.5px 1.5px 0 #431407, 1.5px 1.5px 0 #431407, 0 3px 6px rgba(0,0,0,0.9);
 }
 .coc-hero-action-sub {
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 900;
   color: #fed7aa;
   letter-spacing: 0.5px;
@@ -4930,67 +5293,40 @@ body.layout-full .screen-nav {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
-/* Massive CoC Hero Shop Button */
-.coc-hero-shop-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: clamp(52px, 6.5vh, 64px);
-  padding: 0 clamp(12px, 1.8vw, 20px) 0 clamp(8px, 1.2vw, 12px);
-  background: linear-gradient(180deg, #475569 0%, #334155 45%, #1e293b 80%, #0f172a 100%);
-  border: 3px solid #0f172a;
-  border-radius: 14px;
-  box-shadow: 0 6px 0 #020617, 0 10px 20px rgba(0, 0, 0, 0.8), inset 0 2px 0 rgba(255, 255, 255, 0.35);
-  cursor: pointer;
-  transition: all 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
-  position: relative;
+/* Circular CoC Shop Button */
+.coc-hero-shop-btn, .coc-shop-circle-btn {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  background: radial-gradient(circle at 35% 30%, #3b82f6 0%, #1d4ed8 50%, #1e3a8a 85%, #0f172a 100%) !important;
+  border: 3.5px solid #facc15 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.78), 0 4px 0 #854d0e, inset 0 3px 0 rgba(255, 255, 255, 0.55) !important;
+  cursor: pointer !important;
+  transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.16s, filter 0.16s !important;
+  position: relative !important;
+  box-sizing: border-box !important;
 }
-.coc-hero-shop-btn:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(180deg, #64748b 0%, #475569 45%, #334155 80%, #1e293b 100%);
-  box-shadow: 0 8px 0 #020617, 0 14px 24px rgba(0, 0, 0, 0.9), inset 0 2px 0 rgba(255, 255, 255, 0.5);
+.coc-hero-shop-btn:hover, .coc-shop-circle-btn:hover {
+  transform: scale(1.14) !important;
+  filter: brightness(1.22) !important;
+  box-shadow: 0 12px 28px rgba(59, 130, 246, 0.75), 0 0 18px rgba(250, 204, 21, 0.6), inset 0 3px 0 rgba(255, 255, 255, 0.65) !important;
+  z-index: 15 !important;
 }
-.coc-hero-shop-btn:active {
-  transform: translateY(4px);
-  box-shadow: 0 2px 0 #020617, 0 4px 10px rgba(0, 0, 0, 0.8);
-}
-
-.coc-shop-icon-plate {
-  width: clamp(34px, 4vw, 40px);
-  height: clamp(34px, 4vw, 40px);
-  border-radius: 10px;
-  background: linear-gradient(180deg, #93c5fd 0%, #3b82f6 100%);
-  border: 2px solid #1e3a8a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.7);
+.coc-hero-shop-btn:active, .coc-shop-circle-btn:active {
+  transform: scale(0.95) !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.85) !important;
 }
 .coc-shop-icon {
-  width: 22px;
-  height: 22px;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
-}
-
-.coc-shop-text-block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.coc-shop-title {
-  font-size: clamp(14px, 1.8vw, 18px);
-  font-weight: 900;
-  color: #ffffff;
-  letter-spacing: 1px;
-  line-height: 1.1;
-  text-shadow: -1.5px -1.5px 0 #0f172a, 1.5px -1.5px 0 #0f172a, -1.5px 1.5px 0 #0f172a, 1.5px 1.5px 0 #0f172a, 0 3px 6px rgba(0,0,0,0.9);
-}
-.coc-shop-sub {
-  font-size: 7px;
-  font-weight: 900;
-  color: #93c5fd;
-  letter-spacing: 0.5px;
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  width: 40px !important;
+  height: 40px !important;
+  margin-bottom: 2px !important;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.7)) !important;
+  pointer-events: none !important;
 }
 
 /* ============================================================ */
@@ -5170,13 +5506,11 @@ body.layout-full .screen-nav {
   .coc-xp-bar-wrap {
     width: 110px !important;
   }
-  .coc-hero-attack-btn,
-  .coc-hero-shop-btn {
+  .coc-hero-attack-btn {
     height: 48px !important;
     padding: 0 10px !important;
   }
-  .coc-hero-action-title,
-  .coc-shop-title {
+  .coc-hero-action-title {
     font-size: 13px !important;
   }
 }
@@ -5311,24 +5645,28 @@ body.layout-full .screen-nav {
 
             <!-- 2. TOP-CENTER: STATUS & VITAL PILLS (CAMP & ENVIRONMENT) -->
             <div class="coc-top-center">
-              <!-- Party Health Status Pill -->
-              <div class="coc-status-pill" id="coc-party-pill" title="Team Health Status (Click to Heal) [H]">
-                <div class="coc-pill-icon"><svg class="pixel-icon"><use href="#px-heart"></use></svg></div>
-                <div class="coc-pill-content">
-                  <div class="coc-pill-label">PARTY HEALTH</div>
-                  <div class="coc-pill-val" id="coc-party-health-val">6/6 READY</div>
+              <!-- Opponent / Wild Pokémon Status Card (Matching User Pokémon Style 1:1) -->
+              <div class="pokemon-status-box enemy-status-box coc-enemy-status-box" id="enemy-status-box">
+                <div class="status-name-row">
+                  <span class="status-name-tag">
+                    <span id="enemy-name">TALL GRASS</span>
+                    <span id="enemy-gender-icon" class="gender-icon male" style="display:none;">♂</span>
+                  </span>
+                  <span class="status-level" id="enemy-level-tag">ZONE 1</span>
                 </div>
-                <button class="coc-pill-action-btn" id="coc-quick-heal-btn" title="Nurse Joy Instant Restore [H]">+</button>
-              </div>
-
-              <!-- Zone & Weather Radar Pill -->
-              <div class="coc-status-pill" id="coc-zone-pill" title="Battle Route / Scenery (Click to Cycle) [V]">
-                <div class="coc-pill-icon"><svg class="pixel-icon" id="coc-zone-icon"><use href="#px-grass"></use></svg></div>
-                <div class="coc-pill-content">
-                  <div class="coc-pill-label">ZONE & ROUTE</div>
-                  <div class="coc-pill-val" id="coc-zone-name-val">ROUTE 1 • SUNLIT MEADOW</div>
+                <div class="hp-bar-container">
+                  <span class="hp-label">HP</span>
+                  <div class="hp-track">
+                    <div id="enemy-hp-fill" class="hp-fill" style="width: 100%;"></div>
+                  </div>
+                  <span class="hp-text-nums" id="enemy-hp-nums">PEACEFUL</span>
                 </div>
-                <button class="coc-pill-action-btn" id="coc-scenery-cycle-btn" title="Cycle Scenery [V]">↻</button>
+                <div class="exp-bar-container" id="enemy-exp-container">
+                  <span class="exp-label">EXP</span>
+                  <div class="exp-track">
+                    <div id="enemy-exp-fill" class="exp-fill" style="width: 0%;"></div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -5377,10 +5715,45 @@ body.layout-full .screen-nav {
                 </div>
               </div>
 
+              <!-- Merged Zone & Route Status Pill with Scenery Selector Dropdown [V] (Moved Below Badges) -->
+              <div class="coc-zone-wrapper" id="coc-zone-wrapper">
+                <div class="coc-status-pill coc-zone-pill" id="coc-zone-pill" title="Battle Route & Scenery (Click to choose scenery [V])" role="button" tabindex="0">
+                  <div class="coc-pill-icon" style="position:relative; display:flex; align-items:center; gap:4px;">
+                    <span class="env-badge-pulse"></span>
+                    <svg class="pixel-icon" id="coc-zone-icon"><use href="#px-grass"></use></svg>
+                  </div>
+                  <div class="coc-pill-content">
+                    <div class="coc-pill-label">ZONE & ROUTE</div>
+                    <div class="coc-pill-val" id="coc-zone-name-val">ROUTE 1 • SUNLIT MEADOW</div>
+                  </div>
+                  <svg class="pixel-icon coc-zone-caret" style="width:8px; height:8px; opacity:0.8; margin: 0 3px 0 2px;"><use href="#px-arrow-down"></use></svg>
+                  <button class="coc-pill-action-btn" id="coc-scenery-cycle-btn" title="Cycle Scenery [V]">↻</button>
+                </div>
+
+                <!-- Interactive Scenery Selector Dropdown -->
+                <div class="scenery-picker-dropdown coc-scenery-picker" id="scenery-picker-dropdown" style="display:none;">
+                  <div class="scenery-picker-header">
+                    <span class="scenery-picker-title">
+                      <svg class="pixel-icon"><use href="#px-grass"></use></svg> CHOOSE SCENERY
+                    </span>
+                    <span class="scenery-picker-k-hint">[V]</span>
+                  </div>
+                  <div class="scenery-picker-list" id="scenery-picker-list"></div>
+                  <div class="scenery-picker-footer">
+                    <button class="scenery-footer-btn" id="btn-scenery-cycle" type="button" title="Cycle to next scenery [V]">
+                      <svg class="pixel-icon"><use href="#px-arrow-right"></use></svg> NEXT [V]
+                    </button>
+                    <button class="scenery-footer-btn" id="btn-scenery-random" type="button" title="Pick random scenery">
+                      <svg class="pixel-icon"><use href="#px-star"></use></svg> SHUFFLE
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               <!-- Mini Tool Tray: SFX, CRT, Fullscreen, Settings -->
               <div class="coc-tools-tray">
                 <button class="coc-tool-btn" id="coc-btn-sfx" title="Toggle Sound [M]">
-                  <svg class="pixel-icon"><use href="#px-sound-on"></use></svg>
+                  <img src="/ui/icon_audio_on.png" class="coc-tool-img" id="coc-sfx-img" alt="Sound" />
                 </button>
                 <button class="coc-tool-btn" id="coc-btn-crt" title="Toggle CRT Scanlines">
                   <svg class="pixel-icon"><use href="#px-crt"></use></svg>
@@ -5389,7 +5762,7 @@ body.layout-full .screen-nav {
                   <svg class="pixel-icon"><use href="#px-expand"></use></svg>
                 </button>
                 <button class="coc-tool-btn" id="coc-btn-settings" title="Settings & Passport [S]">
-                  <svg class="pixel-icon"><use href="#px-settings"></use></svg>
+                  <img src="/ui/icon_settings_gear.png" class="coc-tool-img" alt="Settings" />
                 </button>
               </div>
             </div>
@@ -5408,6 +5781,16 @@ body.layout-full .screen-nav {
             <button class="coc-rail-btn nav-tab" data-tab="ranks" id="coc-rail-ranks" title="Global Leaderboard [T]">
               <svg class="pixel-icon"><use href="#px-trophy"></use></svg>
               <span class="coc-rail-label">RANKS</span>
+            </button>
+            <!-- Arena Button (Moved from bottom-right) -->
+            <button class="coc-rail-btn nav-tab" data-tab="arena" id="coc-btn-arena" title="Champion Arena & Gyms [A]">
+              <svg class="pixel-icon"><use href="#px-arena"></use></svg>
+              <span class="coc-rail-label">ARENA</span>
+            </button>
+            <!-- Center Button (Moved from bottom-right) -->
+            <button class="coc-rail-btn nav-tab" data-tab="center" id="coc-btn-center" title="Poké Center & Nurse Joy [H]">
+              <svg class="pixel-icon"><use href="#px-center"></use></svg>
+              <span class="coc-rail-label">CENTER</span>
             </button>
             <!-- Pokédex Quick Button -->
             <button class="coc-rail-btn nav-tab" data-tab="dex" id="coc-rail-dex" title="National Pokédex [D]">
@@ -5448,29 +5831,13 @@ body.layout-full .screen-nav {
               </button>
             </div>
 
-            <!-- BOTTOM-RIGHT: THE CLASH "SHOP" HERO BUTTON & FACILITIES -->
+            <!-- BOTTOM-RIGHT: THE CLASH "SHOP" CIRCULAR BUTTON -->
             <div class="coc-corner coc-bottom-right">
-              <!-- Center Button -->
-              <button class="coc-facility-btn nav-tab" data-tab="center" id="coc-btn-center" title="Poké Center & Nurse Joy [H]">
-                <svg class="pixel-icon"><use href="#px-center"></use></svg>
-                <div class="coc-fac-label">CENTER [H]</div>
-              </button>
-              
-              <!-- Arena Button -->
-              <button class="coc-facility-btn nav-tab" data-tab="arena" id="coc-btn-arena" title="Champion Arena & Gyms [A]">
-                <svg class="pixel-icon"><use href="#px-arena"></use></svg>
-                <div class="coc-fac-label">ARENA</div>
-              </button>
-
-              <!-- Massive CoC Hero Shop Button -->
-              <button class="coc-hero-shop-btn nav-tab" data-tab="mart" id="coc-hero-shop-btn" title="Poké Mart Shop [2] / [M]">
-                <div class="coc-shop-icon-plate">
-                  <svg class="pixel-icon coc-shop-icon"><use href="#px-cart"></use></svg>
-                </div>
-                <div class="coc-shop-text-block">
-                  <div class="coc-shop-title">SHOP</div>
-                  <div class="coc-shop-sub">POKÉ MART <span class="coc-k-badge">[2]</span></div>
-                </div>
+              <!-- Circular CoC Shop Button -->
+              <button class="coc-hero-shop-btn coc-shop-circle-btn nav-tab" data-tab="mart" id="coc-hero-shop-btn" title="Poké Mart Shop [M]">
+                <span class="radial-k-badge">M</span>
+                <svg class="pixel-icon coc-shop-icon"><use href="#px-cart"></use></svg>
+                <span class="radial-btn-label">SHOP</span>
               </button>
             </div>
 
@@ -5553,52 +5920,8 @@ body.layout-full .screen-nav {
                 <!-- Elemental Attack FX Layer -->
                 <div id="battle-fx-layer" class="battle-fx-layer"></div>
 
-                <!-- Top-Left: Modern Opponent Status Box (Inside Arena) -->
-                <div class="pokemon-status-box enemy-status-box" id="enemy-status-box">
-                  <div class="status-name-row">
-                    <span class="status-name-tag">
-                      <span id="enemy-name">TALL GRASS</span>
-                      <span id="enemy-gender-icon" class="gender-icon male" style="display:none;">♂</span>
-                    </span>
-                    <span class="status-level" id="enemy-level-tag">ZONE 1</span>
-                  </div>
-                  <div class="hp-bar-container">
-                    <span class="hp-label">HP</span>
-                    <div class="hp-track">
-                      <div id="enemy-hp-fill" class="hp-fill" style="width: 100%;"></div>
-                    </div>
-                    <span class="hp-text-nums" id="enemy-hp-nums">PEACEFUL</span>
-                  </div>
-                </div>
 
-                <!-- Top-Right: Route / Battle Environment Pill Badge (Inside Arena) -->
-                <div class="battle-env-container" id="battle-env-container">
-                  <div class="battle-env-badge" id="battle-env-badge" title="Click to choose scenery [V]" role="button" tabindex="0">
-                    <span class="env-badge-pulse"></span>
-                    <svg class="pixel-icon" id="battle-env-icon"><use href="#px-grass"></use></svg>
-                    <span id="battle-env-label">ROUTE 1 • SUNLIT MEADOW</span>
-                    <svg class="pixel-icon pixel-icon-no-margin" style="width:8px; height:8px; opacity:0.8; margin-left:3px;"><use href="#px-arrow-down"></use></svg>
-                  </div>
-                  
-                  <!-- Interactive Scenery Selector Dropdown -->
-                  <div class="scenery-picker-dropdown" id="scenery-picker-dropdown" style="display:none;">
-                    <div class="scenery-picker-header">
-                      <span class="scenery-picker-title">
-                        <svg class="pixel-icon"><use href="#px-grass"></use></svg> CHOOSE SCENERY
-                      </span>
-                      <span class="scenery-picker-k-hint">[V]</span>
-                    </div>
-                    <div class="scenery-picker-list" id="scenery-picker-list"></div>
-                    <div class="scenery-picker-footer">
-                      <button class="scenery-footer-btn" id="btn-scenery-cycle" type="button" title="Cycle to next scenery [V]">
-                        <svg class="pixel-icon"><use href="#px-arrow-right"></use></svg> NEXT [V]
-                      </button>
-                      <button class="scenery-footer-btn" id="btn-scenery-random" type="button" title="Pick random scenery">
-                        <svg class="pixel-icon"><use href="#px-star"></use></svg> SHUFFLE
-                      </button>
-                    </div>
-                  </div>
-                </div>
+
 
                 <!-- Upper Field: Enemy Pokémon Platform & Sprite on Midground Trail -->
                 <div class="battle-upper-field">
@@ -5647,53 +5970,49 @@ body.layout-full .screen-nav {
                   </div>
                 </div>
 
-                <!-- Bottom-Right: Modern Vertical Action Controls Overlay -->
+                <!-- Bottom-Right: Modern Radial Circular Action Controls Overlay -->
                 <div class="battle-dock-right" id="battle-bottom-dock">
                   <div class="battle-action-controls-box">
                     
-                    <!-- 4 Vertically Stacked Modern Action Ribbon Buttons -->
-                    <div class="battle-actions-grid modern-actions-vertical" id="main-actions-grid">
-                      <button class="action-menu-btn modern-action-btn btn-action-fight" id="btn-menu-fight">
-                        <span class="btn-chevron-tag"></span>
+                    <!-- 3 Radial Circular Action Buttons (FIGHT, BAG, RUN) -->
+                    <div class="battle-actions-grid modern-actions-radial" id="main-actions-grid">
+                      <!-- Quarter-Circle Arc Guide Track -->
+                      <svg class="radial-arc-track" viewBox="0 0 340 340" aria-hidden="true">
+                        <path d="M 282 64 A 220 220 0 0 0 62 284" fill="none" stroke="rgba(250, 204, 21, 0.45)" stroke-width="3" stroke-dasharray="6 8" />
+                        <path d="M 298 48 A 236 236 0 0 0 48 298" fill="none" stroke="rgba(45, 212, 191, 0.3)" stroke-width="2" />
+                        <path d="M 266 80 A 204 204 0 0 0 80 266" fill="none" stroke="rgba(250, 204, 21, 0.2)" stroke-width="1.5" stroke-dasharray="2 4" />
+                      </svg>
+
+                      <!-- 1. FIGHT [1] -->
+                      <button class="action-menu-btn modern-action-btn radial-btn btn-action-fight" id="btn-menu-fight" title="Fight / Select Moves [1]">
+                        <span class="radial-k-badge">1</span>
                         <img src="/ui/icon_fight_sword.png" class="btn-action-lead-icon" alt="Fight" />
-                        <span>FIGHT</span>
-                        <span class="btn-k-hint">[1]</span>
+                        <span class="radial-btn-label">FIGHT</span>
                       </button>
-                      <button class="action-menu-btn modern-action-btn btn-action-bag" id="btn-menu-bag">
+
+                      <!-- 2. BAG [2] -->
+                      <button class="action-menu-btn modern-action-btn radial-btn btn-action-bag" id="btn-menu-bag" title="Open Bag / Items [2]">
+                        <span class="radial-k-badge">2</span>
                         <img src="/ui/icon_bag_pack.png" class="btn-action-lead-icon" alt="Bag" />
-                        <span>BAG</span>
-                        <span class="btn-k-hint">[2]</span>
+                        <span class="radial-btn-label">BAG</span>
                       </button>
-                      <button class="action-menu-btn modern-action-btn btn-action-pkmn" id="btn-menu-pkmn">
-                        <img src="/ui/icon_pkmn_ball.png" class="btn-action-lead-icon" alt="Pokémon" />
-                        <span>POKÉMON</span>
-                        <span class="btn-k-hint">[3]</span>
-                      </button>
-                      <button class="action-menu-btn modern-action-btn btn-action-run" id="btn-menu-run">
+
+                      <!-- 4. RUN [4] -->
+                      <button class="action-menu-btn modern-action-btn radial-btn btn-action-run" id="btn-menu-run" title="Flee from Battle [4]">
+                        <span class="radial-k-badge">4</span>
                         <img src="/ui/icon_run_shoe.png" class="btn-action-lead-icon" alt="Run" />
-                        <span>RUN</span>
-                        <span class="btn-k-hint">[4]</span>
+                        <span class="radial-btn-label">RUN</span>
                       </button>
                     </div>
 
-                    <!-- Submenu: Modern Moves Drawer -->
-                    <div class="moves-grid modern-moves-panel" id="moves-selection-grid" style="display: none;">
-                      <!-- Dynamic 4 moves -->
+                    <!-- Submenu: Modern Radial Circular Moves Panel -->
+                    <div class="moves-radial modern-moves-radial" id="moves-selection-grid" style="display: none;">
+                      <!-- Dynamic circular moves rendered via JS -->
                     </div>
 
                     <!-- Submenu: Modern Poké Balls Bag Drawer -->
                     <div class="bag-grid-scrollable modern-bag-panel" id="bag-selection-grid" style="display: none;">
                       <!-- Dynamic balls in bag -->
-                    </div>
-
-                    <!-- Out-of-Battle Modern Exploration Controls -->
-                    <div class="hunt-trigger-controls modern-hunt-panel" id="hunt-trigger-box">
-                      <button id="btn-hunt-grass" class="btn-hunt-active btn-modern-hunt">
-                        <span class="k-hint" style="color:#facc15;">[SPACE]</span> <svg class="pixel-icon"><use href="#px-grass"></use></svg> SEARCH TALL GRASS (+5 XP)
-                      </button>
-                      <button id="btn-play-cry" class="btn-cry-active btn-modern-cry" title="Play Cry [C]">
-                        <span class="k-hint" style="color:#facc15;">[C]</span> <svg class="pixel-icon"><use href="#px-cry"></use></svg> CRY
-                      </button>
                     </div>
 
                   </div>
@@ -7731,25 +8050,28 @@ body.layout-full .screen-nav {
       arenaCanvas.style.backgroundSize = 'cover';
       arenaCanvas.style.backgroundRepeat = 'no-repeat';
 
-      // Update environment badge label and icon
-      const envLabel = document.getElementById('battle-env-label');
-      if (envLabel) {
-        if (customLabel) {
-          envLabel.textContent = customLabel;
-        } else if (isArenaMode && currentArenaBattle) {
-          envLabel.textContent = `${currentArenaBattle.leader_name.toUpperCase()} • CHAMPION ARENA`;
-        } else if (currentWild && currentWild.encounter) {
-          envLabel.textContent = theme.wildLabel;
-        } else {
-          envLabel.textContent = theme.peacefulLabel;
-        }
+      // Update environment badge and CoC status pill label and icon
+      let text = '';
+      if (customLabel) {
+        text = customLabel;
+      } else if (isArenaMode && currentArenaBattle) {
+        text = `${currentArenaBattle.leader_name.toUpperCase()} • CHAMPION ARENA`;
+      } else if (currentWild && currentWild.encounter) {
+        text = theme.wildLabel;
+      } else {
+        text = theme.peacefulLabel;
       }
 
+      const envLabel = document.getElementById('battle-env-label');
+      if (envLabel) envLabel.textContent = text;
+      const cocZoneLabel = document.getElementById('coc-zone-name-val');
+      if (cocZoneLabel) cocZoneLabel.textContent = text;
+
+      const iconId = (isArenaMode || theme.id === 'stadium') ? 'px-arena' : theme.icon;
       const envIcon = document.getElementById('battle-env-icon');
-      if (envIcon) {
-        const iconId = (isArenaMode || theme.id === 'stadium') ? 'px-arena' : theme.icon;
-        envIcon.innerHTML = `<use href="#${iconId}"></use>`;
-      }
+      if (envIcon) envIcon.innerHTML = `<use href="#${iconId}"></use>`;
+      const cocZoneIcon = document.getElementById('coc-zone-icon');
+      if (cocZoneIcon) cocZoneIcon.innerHTML = `<use href="#${iconId}"></use>`;
     }
 
     function loadSavedBattleArenaTheme() {
@@ -7818,7 +8140,7 @@ body.layout-full .screen-nav {
 
     function openSceneryPicker() {
       const dropdown = document.getElementById('scenery-picker-dropdown');
-      const badge = document.getElementById('battle-env-badge');
+      const badge = document.getElementById('coc-zone-pill') || document.getElementById('battle-env-badge');
       if (!dropdown) return;
       renderSceneryPicker();
       dropdown.style.display = 'flex';
@@ -7827,7 +8149,7 @@ body.layout-full .screen-nav {
 
     function closeSceneryPicker() {
       const dropdown = document.getElementById('scenery-picker-dropdown');
-      const badge = document.getElementById('battle-env-badge');
+      const badge = document.getElementById('coc-zone-pill') || document.getElementById('battle-env-badge');
       if (dropdown) dropdown.style.display = 'none';
       if (badge) badge.classList.remove('picker-open');
     }
@@ -7886,15 +8208,24 @@ body.layout-full .screen-nav {
     }
 
     function initBattleEnvBadge() {
-      const badge = document.getElementById('battle-env-badge');
+      const zonePill = document.getElementById('coc-zone-pill') || document.getElementById('battle-env-badge');
+      const quickCycleBtn = document.getElementById('coc-scenery-cycle-btn');
       const cycleBtn = document.getElementById('btn-scenery-cycle');
       const randomBtn = document.getElementById('btn-scenery-random');
       const settingsSelect = document.getElementById('settings-scenery-select');
 
-      if (badge) {
-        badge.addEventListener('click', (e) => {
+      if (zonePill) {
+        zonePill.addEventListener('click', (e) => {
+          if (e.target.closest('#coc-scenery-cycle-btn')) return;
           e.stopPropagation();
           toggleSceneryPicker();
+        });
+      }
+
+      if (quickCycleBtn) {
+        quickCycleBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          cycleToNextScenery(true);
         });
       }
 
@@ -7920,8 +8251,8 @@ body.layout-full .screen-nav {
 
       // Close when clicking outside
       document.addEventListener('click', (e) => {
-        const container = document.getElementById('battle-env-container');
-        if (container && !container.contains(e.target)) {
+        const wrapper = document.getElementById('coc-zone-wrapper') || document.getElementById('battle-env-container');
+        if (wrapper && !wrapper.contains(e.target)) {
           closeSceneryPicker();
         }
       });
@@ -7968,6 +8299,8 @@ body.layout-full .screen-nav {
       document.getElementById('enemy-level-tag').textContent = 'ZONE 1';
       document.getElementById('enemy-hp-fill').style.width = '0%';
       document.getElementById('enemy-hp-nums').textContent = 'PEACEFUL';
+      const enemyExp = document.getElementById('enemy-exp-fill');
+      if (enemyExp) enemyExp.style.width = '0%';
       
       const genderEl = document.getElementById('enemy-gender-icon');
       if (genderEl) genderEl.style.display = 'none';
@@ -7987,17 +8320,18 @@ body.layout-full .screen-nav {
         document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
         updateHpBar('player', lead.current_hp, lead.max_hp);
         setPlayerBattleSprite(lead.id);
-        setDialogue(`Your ${lead.name.toUpperCase()} is standing ready! Press [SPACE] or [SEARCH TALL GRASS] to hunt wild Pokémon.`);
+        setDialogue(`Your ${lead.name.toUpperCase()} is standing ready! Choose FIGHT or HUNT to seek wild Pokémon.`);
       } else {
-        setDialogue("The tall grass rustles quietly. Press [SPACE] or [SEARCH TALL GRASS] to hunt wild Pokémon!");
+        setDialogue("The tall grass rustles quietly. Press [SPACE] or [HUNT] to find wild Pokémon!");
       }
 
       updateExpBar();
-      document.getElementById('moves-selection-grid').style.display = 'none';
-      document.getElementById('bag-selection-grid').style.display = 'none';
-      document.getElementById('main-actions-grid').style.display = 'none';
-      const huntBox = document.getElementById('hunt-trigger-box');
-      if (huntBox) huntBox.style.display = 'flex';
+      const movesGrid = document.getElementById('moves-selection-grid');
+      const bagGrid = document.getElementById('bag-selection-grid');
+      const mainGrid = document.getElementById('main-actions-grid');
+      if (movesGrid) movesGrid.style.display = 'none';
+      if (bagGrid) bagGrid.style.display = 'none';
+      if (mainGrid) mainGrid.style.display = 'block';
     }
 
     function renderWildBattle(data) {
@@ -8015,6 +8349,11 @@ body.layout-full .screen-nav {
       document.getElementById('enemy-name').textContent = wild.name.toUpperCase();
       document.getElementById('enemy-level-tag').textContent = `Lv. ${data.encounter.level}`;
       updateHpBar('enemy', data.encounter.current_hp, data.encounter.max_hp);
+      const enemyExp = document.getElementById('enemy-exp-fill');
+      if (enemyExp) {
+        const expPct = Math.min(95, Math.max(15, (((wild.id || 1) * 17 + (data.encounter.level || 5) * 13) % 70) + 20));
+        enemyExp.style.width = `${expPct}%`;
+      }
       
       const genderEl = document.getElementById('enemy-gender-icon');
       if (genderEl) {
@@ -8064,20 +8403,20 @@ body.layout-full .screen-nav {
 
       const numEl = document.getElementById(`${target}-hp-nums`);
       if (numEl) numEl.textContent = `${current} / ${max} HP`;
+
+      if (target === 'enemy' && current <= 0) {
+        const enemyExp = document.getElementById('enemy-exp-fill');
+        if (enemyExp) enemyExp.style.width = '0%';
+      }
     }
 
     function showMainActionsMenu() {
-      document.getElementById('moves-selection-grid').style.display = 'none';
-      document.getElementById('bag-selection-grid').style.display = 'none';
-      if (currentWild || currentArenaBattle) {
-        document.getElementById('main-actions-grid').style.display = 'grid';
-        const huntBox = document.getElementById('hunt-trigger-box');
-        if (huntBox) huntBox.style.display = 'none';
-      } else {
-        document.getElementById('main-actions-grid').style.display = 'none';
-        const huntBox = document.getElementById('hunt-trigger-box');
-        if (huntBox) huntBox.style.display = 'grid';
-      }
+      const movesGrid = document.getElementById('moves-selection-grid');
+      const bagGrid = document.getElementById('bag-selection-grid');
+      const mainGrid = document.getElementById('main-actions-grid');
+      if (movesGrid) movesGrid.style.display = 'none';
+      if (bagGrid) bagGrid.style.display = 'none';
+      if (mainGrid) mainGrid.style.display = 'block';
     }
 
     // FIGHT button clicked -> Show Moves
@@ -8085,8 +8424,7 @@ body.layout-full .screen-nav {
       SFX.blip();
       if (!currentWild && !currentArenaBattle) {
         setDialogue("Searching tall grass for wild Pokémon...");
-        const huntBtn = document.getElementById('btn-hunt-grass');
-        if (huntBtn) huntBtn.click();
+        triggerHuntSearch();
         return;
       }
       if (!playerData.party || playerData.party.length === 0) {
@@ -8118,36 +8456,60 @@ body.layout-full .screen-nav {
       }
 
       const grid = document.getElementById('moves-selection-grid');
-      grid.innerHTML = '';
+      grid.innerHTML = `
+        <svg class="radial-arc-track" viewBox="0 0 340 340" aria-hidden="true">
+          <path d="M 282 64 A 220 220 0 0 0 62 284" fill="none" stroke="rgba(250, 204, 21, 0.45)" stroke-width="3" stroke-dasharray="6 8" />
+          <path d="M 298 48 A 236 236 0 0 0 48 298" fill="none" stroke="rgba(45, 212, 191, 0.3)" stroke-width="2" />
+          <path d="M 266 80 A 204 204 0 0 0 80 266" fill="none" stroke="rgba(250, 204, 21, 0.2)" stroke-width="1.5" stroke-dasharray="2 4" />
+        </svg>
+      `;
+
+      // 4 circular moves fanning along the quarter circle arc
+      const movePositions = [
+        { bottom: '237px', right: '19px' },   // Move 1 (~90°)
+        { bottom: '208px', right: '129px' },  // Move 2 (~60°)
+        { bottom: '127px', right: '210px' },  // Move 3 (~30°)
+        { bottom: '17px', right: '239px' },   // Move 4 (~0°)
+      ];
+
       lead.moves.forEach((m, idx) => {
+        if (idx >= movePositions.length) return;
         const btn = document.createElement('button');
-        btn.className = 'move-btn';
-        const typeColor = TYPE_COLORS[m.type] || '#555';
+        btn.className = 'move-circle-btn action-menu-btn modern-action-btn';
+        btn.style.bottom = movePositions[idx].bottom;
+        btn.style.right = movePositions[idx].right;
+        
+        const typeColor = TYPE_COLORS[m.type] || '#64748b';
+        btn.style.background = `radial-gradient(circle at 35% 30%, ${typeColor}ee 0%, ${typeColor} 60%, rgba(15,23,42,0.95) 100%)`;
+        btn.style.borderColor = typeColor;
+        btn.style.boxShadow = `0 6px 14px rgba(0,0,0,0.75), 0 0 12px ${typeColor}88, inset 0 2px 0 rgba(255,255,255,0.45)`;
+        btn.title = `${m.name.toUpperCase()} (${m.type}) • Power: ${m.power || 0} [${idx + 1}]`;
+
         btn.innerHTML = `
-          <span><span class="k-hint">[${idx + 1}]</span> ${m.name.toUpperCase()}</span>
-          <span class="move-type-badge" style="background:${typeColor}">${m.type}</span>
-          <span style="font-size:8px; color:var(--text-dim);">PWR: ${m.power}</span>
+          <span class="radial-k-badge">${idx + 1}</span>
+          <span class="move-circle-type">${(m.type || 'NRM').substring(0, 4)}</span>
+          <span class="move-circle-name">${m.name.toUpperCase()}</span>
+          <span class="move-circle-pwr">${m.power ? 'PWR ' + m.power : 'STATUS'}</span>
         `;
-        btn.onclick = () => executeMove(idx);
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          executeMove(idx);
+        };
         grid.appendChild(btn);
       });
 
-      // Add Back button to moves grid
-      const backBtn = document.createElement('button');
-      backBtn.className = 'move-btn move-back-btn';
-      backBtn.style.gridColumn = '1 / -1';
-      backBtn.innerHTML = `
-        <span><span class="k-hint">[B]</span> <svg class="pixel-icon"><use href="#px-arrow-left"></use></svg> BACK TO ACTIONS</span>
-      `;
-      backBtn.onclick = () => {
-        SFX.cancel();
-        showMainActionsMenu();
+      // No Back Button appended: "remove back to actions [B] button"
+      // Clicking the arc/grid background returns to main actions
+      grid.onclick = (e) => {
+        if (e.target === grid || e.target.classList.contains('radial-arc-track')) {
+          SFX.cancel();
+          showMainActionsMenu();
+        }
       };
-      grid.appendChild(backBtn);
 
       document.getElementById('main-actions-grid').style.display = 'none';
-      document.getElementById('moves-selection-grid').style.display = 'grid';
-      setDialogue(`Choose a move for ${lead.name.toUpperCase()}:`);
+      grid.style.display = 'block';
+      setDialogue(`Choose a move for ${lead.name.toUpperCase()} [1-4] or press [B]/[ESC] to return:`);
     });
 
     // Execute Move (Attack)
@@ -8215,6 +8577,8 @@ body.layout-full .screen-nav {
                       document.getElementById('enemy-name').textContent = nextEnemy.name.toUpperCase();
                       document.getElementById('enemy-level-tag').textContent = `Lv. ${nextEnemy.level}`;
                       updateHpBar('enemy', nextEnemy.current_hp, nextEnemy.max_hp);
+                      const enemyExp = document.getElementById('enemy-exp-fill');
+                      if (enemyExp) enemyExp.style.width = '60%';
                       const enemySprite = document.getElementById('enemy-sprite');
                       enemySprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${nextEnemy.id}.gif`;
                       enemySprite.onerror = () => {
@@ -8722,29 +9086,37 @@ body.layout-full .screen-nav {
       }
     }
 
-    // PKMN button clicked -> Go to Party
-    document.getElementById('btn-menu-pkmn').addEventListener('click', () => {
-      SFX.blip();
-      document.querySelector('[data-tab="center"]').click();
-    });
+    // PKMN button clicked -> Go to Party (Guarded)
+    const pkmnBtn = document.getElementById('btn-menu-pkmn');
+    if (pkmnBtn) {
+      pkmnBtn.addEventListener('click', () => {
+        SFX.blip();
+        document.querySelector('[data-tab="center"]').click();
+      });
+    }
 
     // RUN button clicked -> Flee
-    document.getElementById('btn-menu-run').addEventListener('click', async () => {
-      SFX.cancel();
-      if (isArenaMode) {
-        setDialogue("You cannot flee from a Gym Leader battle!");
-        return;
-      }
-      if (!currentWild) {
-        setDialogue("Nothing to run from!");
-        return;
-      }
-      try {
-        const res = await api('/flee', 'POST');
-        setDialogue(res.message);
-        setTimeout(() => showSearchTallGrassState(), 1200);
-      } catch (e) {}
-    });
+    const runBtn = document.getElementById('btn-menu-run');
+    if (runBtn) {
+      runBtn.addEventListener('click', async () => {
+        SFX.cancel();
+        if (isArenaMode) {
+          setDialogue("You cannot flee from a Gym Leader battle!");
+          return;
+        }
+        if (!currentWild && !currentArenaBattle) {
+          setDialogue("You are already roaming peacefully in the wild! Choose FIGHT or HUNT to find wild Pokémon.");
+          return;
+        }
+        try {
+          const res = await api('/flee', 'POST');
+          setDialogue(res.message);
+          setTimeout(() => showSearchTallGrassState(), 1200);
+        } catch (e) {
+          showSearchTallGrassState();
+        }
+      });
+    }
 
     // Tall grass hunt trigger & cooldown manager
     let huntCooldownTimer = null;
@@ -8754,37 +9126,37 @@ body.layout-full .screen-nav {
     function startHuntCooldown(seconds) {
       if (huntCooldownTimer) clearInterval(huntCooldownTimer);
       huntCooldownSeconds = seconds;
+      const heroHuntBtn = document.getElementById('coc-hero-hunt-btn');
       const huntBtn = document.getElementById('btn-hunt-grass');
 
       const updateBtnText = () => {
-        if (!huntBtn) return;
-        if (huntCooldownSeconds > 0) {
-          huntBtn.disabled = true;
-          huntBtn.style.opacity = '0.65';
-          huntBtn.innerHTML = `<span class="k-hint">[SPACE]</span> <svg class="pixel-icon"><use href="#px-grass"></use></svg> RESTING (${huntCooldownSeconds}s)`;
-        } else {
-          huntBtn.disabled = false;
-          huntBtn.style.opacity = '1';
-          huntBtn.innerHTML = `<span class="k-hint">[SPACE]</span> <svg class="pixel-icon"><use href="#px-grass"></use></svg> SEARCH TALL GRASS`;
-          if (huntCooldownTimer) {
-            clearInterval(huntCooldownTimer);
-            huntCooldownTimer = null;
+        if (heroHuntBtn) {
+          const subEl = heroHuntBtn.querySelector('.coc-hero-action-sub');
+          if (subEl) {
+            subEl.innerHTML = huntCooldownSeconds > 0 
+              ? `RESTING (${huntCooldownSeconds}s)` 
+              : `SEARCH GRASS <span class="coc-k-badge">[SPACE]</span>`;
           }
+          heroHuntBtn.style.opacity = huntCooldownSeconds > 0 ? '0.75' : '1';
+        }
+        if (huntBtn) {
+          huntBtn.disabled = huntCooldownSeconds > 0;
+          huntBtn.style.opacity = huntCooldownSeconds > 0 ? '0.65' : '1';
+        }
+        if (huntCooldownSeconds <= 0 && huntCooldownTimer) {
+          clearInterval(huntCooldownTimer);
+          huntCooldownTimer = null;
         }
       };
 
       updateBtnText();
       huntCooldownTimer = setInterval(() => {
         huntCooldownSeconds--;
-        if (huntCooldownSeconds <= 0) {
-          updateBtnText();
-        } else {
-          updateBtnText();
-        }
+        updateBtnText();
       }, 1000);
     }
 
-    document.getElementById('btn-hunt-grass').addEventListener('click', async () => {
+    async function triggerHuntSearch() {
       if (huntCooldownSeconds > 0) {
         setDialogue(`You are resting from your last hunt. Please wait ${huntCooldownSeconds} more second${huntCooldownSeconds === 1 ? '' : 's'}.`);
         SFX.blip();
@@ -8822,16 +9194,25 @@ body.layout-full .screen-nav {
         huntBusy = false;
         document.body.classList.remove('hunting-active');
       }
-    });
+    }
 
-    // Cry sound
-    document.getElementById('btn-play-cry').addEventListener('click', () => {
+    // Cry sound function
+    function triggerPlayCry() {
       if (currentWild && currentWild.cry_url) {
         const audio = document.getElementById('audio-cry');
-        audio.src = currentWild.cry_url;
-        audio.play().catch(() => {});
+        if (audio) {
+          audio.src = currentWild.cry_url;
+          audio.play().catch(() => {});
+        }
+      } else if (playerData && playerData.party && playerData.party[0]) {
+        SFX.cry(playerData.party[0].id);
       }
-    });
+    }
+
+    const huntGrassBtn = document.getElementById('btn-hunt-grass');
+    if (huntGrassBtn) huntGrassBtn.addEventListener('click', triggerHuntSearch);
+    const playCryBtn = document.getElementById('btn-play-cry');
+    if (playCryBtn) playCryBtn.addEventListener('click', triggerPlayCry);
 
     // ============================================================
     // 2. ARENA / GYM LEAGUE SYSTEM
@@ -8892,6 +9273,8 @@ body.layout-full .screen-nav {
         document.getElementById('enemy-name').textContent = enemy.name.toUpperCase();
         document.getElementById('enemy-level-tag').textContent = `Lv. ${enemy.level}`;
         updateHpBar('enemy', enemy.current_hp, enemy.max_hp);
+        const enemyExp = document.getElementById('enemy-exp-fill');
+        if (enemyExp) enemyExp.style.width = '70%';
 
         const genderEl = document.getElementById('enemy-gender-icon');
         if (genderEl) {
@@ -9748,6 +10131,10 @@ body.layout-full .screen-nav {
       soundEnabled = !soundEnabled;
       e.target.classList.toggle('active', soundEnabled);
       e.target.innerHTML = soundEnabled ? `${pIcon('sound-on')} SFX ON` : `${pIcon('sound-off')} SFX OFF`;
+      const sfxImg = document.getElementById('coc-sfx-img');
+      if (sfxImg) sfxImg.src = soundEnabled ? '/ui/icon_audio_on.png' : '/ui/icon_audio_off.png';
+      const sfxBtn = document.getElementById('coc-btn-sfx');
+      if (sfxBtn) sfxBtn.classList.toggle('active', soundEnabled);
       if (soundEnabled) SFX.blip();
     });
 
@@ -9980,8 +10367,7 @@ body.layout-full .screen-nav {
           if (firstMove) { firstMove.click(); return; }
         }
         if (!currentWild && !currentArenaBattle) {
-          const huntBtn = document.getElementById('btn-hunt-grass');
-          if (huntBtn) huntBtn.click();
+          triggerHuntSearch();
         } else {
           const fightBtn = document.getElementById('btn-menu-fight');
           if (fightBtn && fightBtn.offsetParent !== null) fightBtn.click();
@@ -10046,40 +10432,40 @@ body.layout-full .screen-nav {
       // Action B
       if (lower === 'x' || key === 'Escape' || key === 'Backspace') elements.push(document.getElementById('key-b'));
 
-      // SELECT / START
+      // SELECT / START / HUNT
       if (key === ' ') {
         elements.push(document.getElementById('key-select'));
-        const huntBtn = document.getElementById('btn-hunt-grass');
-        if (huntBtn && huntBtn.offsetParent !== null) elements.push(huntBtn);
+        const heroHunt = document.getElementById('coc-hero-hunt-btn');
+        if (heroHunt && heroHunt.offsetParent !== null) elements.push(heroHunt);
       }
       if (key === 'Enter') elements.push(document.getElementById('key-start'));
 
       // Number keys 1, 2, 3, 4
       if (key === '1') {
-        const moves = document.querySelectorAll('#moves-selection-grid .move-btn');
+        const moves = document.querySelectorAll('#moves-selection-grid .move-circle-btn, #moves-selection-grid .move-btn');
         if (moves[0] && moves[0].offsetParent !== null) elements.push(moves[0]);
         else elements.push(document.getElementById('btn-menu-fight'));
       }
       if (key === '2') {
-        const moves = document.querySelectorAll('#moves-selection-grid .move-btn');
+        const moves = document.querySelectorAll('#moves-selection-grid .move-circle-btn, #moves-selection-grid .move-btn');
         if (moves[1] && moves[1].offsetParent !== null) elements.push(moves[1]);
         else elements.push(document.getElementById('btn-menu-bag'));
       }
       if (key === '3') {
-        const moves = document.querySelectorAll('#moves-selection-grid .move-btn');
+        const moves = document.querySelectorAll('#moves-selection-grid .move-circle-btn, #moves-selection-grid .move-btn');
         if (moves[2] && moves[2].offsetParent !== null) elements.push(moves[2]);
-        else elements.push(document.getElementById('btn-menu-pkmn'));
       }
       if (key === '4') {
-        const moves = document.querySelectorAll('#moves-selection-grid .move-btn');
+        const moves = document.querySelectorAll('#moves-selection-grid .move-circle-btn, #moves-selection-grid .move-btn');
         if (moves[3] && moves[3].offsetParent !== null) elements.push(moves[3]);
         else elements.push(document.getElementById('btn-menu-run'));
       }
 
       // Quick actions
-      if (lower === 'c') elements.push(document.getElementById('btn-play-cry'));
-      if (lower === 'h') elements.push(document.getElementById('btn-nurse-heal'));
-      if (lower === 'v') elements.push(document.getElementById('battle-env-badge'));
+      if (lower === 'c') elements.push(document.getElementById('coc-hero-cry-btn'));
+      if (lower === 'm') elements.push(document.getElementById('coc-hero-shop-btn'));
+      if (lower === 'h') elements.push(document.getElementById('btn-nurse-heal') || document.getElementById('coc-btn-center'));
+      if (lower === 'v') elements.push(document.getElementById('coc-zone-pill') || document.getElementById('battle-env-badge'));
 
       return elements.filter(Boolean);
     }
@@ -10178,7 +10564,7 @@ body.layout-full .screen-nav {
         // Moves selection active
         if (movesGrid && movesGrid.style.display !== 'none') {
           e.preventDefault();
-          const moveBtns = movesGrid.querySelectorAll('.move-btn');
+          const moveBtns = movesGrid.querySelectorAll('.move-circle-btn, .move-btn');
           if (moveBtns[num - 1]) {
             moveBtns[num - 1].click();
             return;
@@ -10199,15 +10585,14 @@ body.layout-full .screen-nav {
         const activeTab = document.querySelector('.location-pane.active');
         if (activeTab && activeTab.id === 'pane-hunt' && mainGrid && mainGrid.style.display !== 'none') {
           e.preventDefault();
-          if (num === 1) document.getElementById('btn-menu-fight').click();
-          if (num === 2) document.getElementById('btn-menu-bag').click();
-          if (num === 3) document.getElementById('btn-menu-pkmn').click();
-          if (num === 4) document.getElementById('btn-menu-run').click();
+          if (num === 1) { const b = document.getElementById('btn-menu-fight'); if (b) b.click(); }
+          if (num === 2) { const b = document.getElementById('btn-menu-bag'); if (b) b.click(); }
+          if (num === 4) { const b = document.getElementById('btn-menu-run'); if (b) b.click(); }
           return;
         }
       }
 
-      // 3. Letters F, B, P, R for Battle Actions / Hotkeys
+      // 3. Letters F, B, R, M for Battle Actions / Hotkeys
       if (lower === 'f') {
         const btn = document.getElementById('btn-menu-fight');
         if (btn && btn.offsetParent !== null) {
@@ -10221,15 +10606,23 @@ body.layout-full .screen-nav {
         }
       }
       if (lower === 'b') {
+        const movesGrid = document.getElementById('moves-selection-grid');
+        const bagGrid = document.getElementById('bag-selection-grid');
+        if ((movesGrid && movesGrid.style.display !== 'none') || (bagGrid && bagGrid.style.display !== 'none')) {
+          e.preventDefault();
+          SFX.cancel();
+          showMainActionsMenu();
+          return;
+        }
         const btn = document.getElementById('btn-menu-bag');
-        if (btn && btn.offsetParent !== null) { e.preventDefault(); btn.click(); return; }
-      }
-      if (lower === 'p') {
-        const btn = document.getElementById('btn-menu-pkmn');
         if (btn && btn.offsetParent !== null) { e.preventDefault(); btn.click(); return; }
       }
       if (lower === 'r') {
         const btn = document.getElementById('btn-menu-run');
+        if (btn && btn.offsetParent !== null) { e.preventDefault(); btn.click(); return; }
+      }
+      if (lower === 'm') {
+        const btn = document.getElementById('coc-hero-shop-btn');
         if (btn && btn.offsetParent !== null) { e.preventDefault(); btn.click(); return; }
       }
 
@@ -10238,20 +10631,24 @@ body.layout-full .screen-nav {
         e.preventDefault();
         const activeTab = document.querySelector('.location-pane.active');
         if (activeTab && activeTab.id === 'pane-hunt') {
-          const huntBtn = document.getElementById('btn-hunt-grass');
-          if (huntBtn && huntBtn.offsetParent !== null) {
-            huntBtn.click();
+          if (!currentWild && !currentArenaBattle) {
+            triggerHuntSearch();
             return;
+          } else {
+            const fightBtn = document.getElementById('btn-menu-fight');
+            if (fightBtn && fightBtn.offsetParent !== null) {
+              fightBtn.click();
+              return;
+            }
           }
         }
-        document.getElementById('key-select').click();
-        return;
       }
 
-      // 5. C key: Cry
+      // 5. C key: Play Cry
       if (lower === 'c') {
-        const cryBtn = document.getElementById('btn-play-cry');
-        if (cryBtn && cryBtn.offsetParent !== null) { e.preventDefault(); cryBtn.click(); return; }
+        e.preventDefault();
+        triggerPlayCry();
+        return;
       }
 
       // 6. H key: Heal
@@ -10484,19 +10881,13 @@ body.layout-full .screen-nav {
       // 1. Hero Hunt Button
       const heroHuntBtn = document.getElementById('coc-hero-hunt-btn');
       if (heroHuntBtn) {
-        heroHuntBtn.addEventListener('click', () => {
-          const huntBtn = document.getElementById('btn-hunt-grass');
-          if (huntBtn) huntBtn.click();
-        });
+        heroHuntBtn.addEventListener('click', triggerHuntSearch);
       }
 
       // 2. Cry Button
       const heroCryBtn = document.getElementById('coc-hero-cry-btn');
       if (heroCryBtn) {
-        heroCryBtn.addEventListener('click', () => {
-          const cryBtn = document.getElementById('btn-play-cry');
-          if (cryBtn) cryBtn.click();
-        });
+        heroCryBtn.addEventListener('click', triggerPlayCry);
       }
 
       // 3. Level Star & Trophy Triggers
@@ -10536,22 +10927,7 @@ body.layout-full .screen-nav {
       if (quickHealBtn) quickHealBtn.addEventListener('click', (e) => { e.stopPropagation(); triggerHeal(); });
       if (partyPill) partyPill.addEventListener('click', triggerHeal);
 
-      // 5. Zone Pill & Scenery Cycle
-      const zonePill = document.getElementById('coc-zone-pill');
-      const sceneryBtn = document.getElementById('coc-scenery-cycle-btn');
-      const triggerScenery = () => {
-        const scBtn = document.getElementById('btn-scenery-cycle');
-        if (scBtn) {
-          scBtn.click();
-          const badgeLabel = document.getElementById('battle-env-label');
-          const cocZoneLabel = document.getElementById('coc-zone-name-val');
-          if (badgeLabel && cocZoneLabel) {
-            cocZoneLabel.textContent = badgeLabel.textContent;
-          }
-        }
-      };
-      if (sceneryBtn) sceneryBtn.addEventListener('click', (e) => { e.stopPropagation(); triggerScenery(); });
-      if (zonePill) zonePill.addEventListener('click', triggerScenery);
+      // 5. Zone Pill & Scenery Picker [V] is initialized by initBattleEnvBadge()
 
       // 6. Plus Buttons on Resource Bars
       const plusGold = document.getElementById('coc-plus-gold');
