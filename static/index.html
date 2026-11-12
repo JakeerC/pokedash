@@ -520,15 +520,10 @@
 
     /* Screen Top Header Bar */
     .screen-header {
-      background: #142419;
-      border-bottom: 2px solid #2c4a35;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      z-index: 10;
-      flex-shrink: 0;
+      display: none !important;
+    }
+    .screen-nav {
+      display: none !important;
     }
     .header-player-info {
       display: flex;
@@ -734,9 +729,31 @@
       border-left: 2px solid rgba(45, 212, 191, 0.7);
     }
     .player-status-box {
-      bottom: clamp(16px, 2.5vh, 28px) !important;
-      right: clamp(400px, 36vw, 490px) !important;
-      border-left: 2px solid rgba(45, 212, 191, 0.7);
+      position: absolute !important;
+      bottom: clamp(16px, 2.2vh, 24px) !important;
+      left: clamp(18px, 2vw, 28px) !important;
+      right: auto !important;
+      top: auto !important;
+      transform: none !important;
+      width: clamp(260px, 22vw, 310px) !important;
+      background: linear-gradient(135deg, rgba(8, 38, 44, 0.90) 0%, rgba(12, 52, 60, 0.82) 100%) !important;
+      border: 1.5px solid rgba(45, 212, 191, 0.55) !important;
+      border-radius: 14px !important;
+      padding: 10px 14px !important;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.65), 0 0 18px rgba(20, 184, 166, 0.25) !important;
+      z-index: 25 !important;
+    }
+    .player-status-box::after {
+      content: '' !important;
+      position: absolute !important;
+      bottom: -2px !important;
+      right: -2px !important;
+      width: 18px !important;
+      height: 18px !important;
+      border-bottom: 2.5px solid #facc15 !important;
+      border-right: 2.5px solid #facc15 !important;
+      border-bottom-right-radius: 14px !important;
+      pointer-events: none !important;
     }
     .status-name-row {
       display: flex;
@@ -1818,23 +1835,25 @@
 
     /* Right Column: Action Controls Container (Bottom-Right inside Arena) */
     .battle-dock-right, .battle-action-controls-box {
-      position: absolute;
-      bottom: clamp(16px, 2.5vh, 28px);
-      right: clamp(16px, 2.5vw, 28px);
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      pointer-events: auto;
-      z-index: 30;
-      box-sizing: border-box;
+      position: absolute !important;
+      bottom: 0 !important;
+      right: 0 !important;
+      width: 380px !important;
+      height: 380px !important;
+      display: block !important;
+      pointer-events: none !important;
+      z-index: 30 !important;
+      box-sizing: border-box !important;
     }
 
     /* Modern Radial Quarter-Circle Action Buttons */
     /* Radial Quarter-Circle Actions Arc */
     .battle-actions-grid.modern-actions-radial {
-      position: relative !important;
-      width: 350px !important;
-      height: 340px !important;
+      position: absolute !important;
+      bottom: 0 !important;
+      right: 0 !important;
+      width: 380px !important;
+      height: 380px !important;
       display: block !important;
       pointer-events: none !important;
       box-sizing: border-box !important;
@@ -1844,14 +1863,14 @@
     }
 
     .radial-arc-track {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 340px;
-      height: 340px;
-      pointer-events: none;
-      filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.55));
-      z-index: 1;
+      position: absolute !important;
+      bottom: 0 !important;
+      right: 0 !important;
+      width: 380px !important;
+      height: 380px !important;
+      pointer-events: none !important;
+      filter: drop-shadow(0 0 12px rgba(45, 212, 191, 0.45)) !important;
+      z-index: 1 !important;
     }
 
     /* Modern Vertical Action Ribbon Buttons Stack (Fallback / Drawer) */
@@ -2034,26 +2053,26 @@
       pointer-events: none !important;
     }
 
-    /* 1. FIGHT (Attack) at ~90° Top of Arc directly above SHOP */
+    /* 1. FIGHT (Attack) at Top of Arc */
     .modern-actions-radial #btn-menu-fight {
-      bottom: 236px !important;
-      right: 18px !important;
+      bottom: 260px !important;
+      right: 65px !important;
       background: radial-gradient(circle at 35% 30%, #ef4444 0%, #dc2626 45%, #991b1b 85%, #7f1d1d 100%) !important;
       border-color: #fca5a5 !important;
       box-shadow: 0 8px 22px rgba(0,0,0,0.75), 0 4px 0 #450a0a, inset 0 3px 0 rgba(255,255,255,0.55) !important;
     }
-    /* 2. BAG at ~45° Upper-Middle Diagonal of Arc */
+    /* 2. BAG at Upper-Middle Diagonal of Arc */
     .modern-actions-radial #btn-menu-bag {
-      bottom: 172px !important;
-      right: 174px !important;
+      bottom: 185px !important;
+      right: 185px !important;
       background: radial-gradient(circle at 35% 30%, #f59e0b 0%, #d97706 45%, #92400e 85%, #78350f 100%) !important;
       border-color: #fde68a !important;
       box-shadow: 0 8px 22px rgba(0,0,0,0.75), 0 4px 0 #451a03, inset 0 3px 0 rgba(255,255,255,0.55) !important;
     }
-    /* 4. RUN at ~0° Bottom-Left of Arc directly left of SHOP */
+    /* 4. RUN at Bottom-Left of Arc */
     .modern-actions-radial #btn-menu-run {
-      bottom: 16px !important;
-      right: 238px !important;
+      bottom: 65px !important;
+      right: 260px !important;
       background: radial-gradient(circle at 35% 30%, #0ea5e9 0%, #0284c7 45%, #0369a1 85%, #075985 100%) !important;
       border-color: #bae6fd !important;
       box-shadow: 0 8px 22px rgba(0,0,0,0.75), 0 4px 0 #0c4a6e, inset 0 3px 0 rgba(255,255,255,0.55) !important;
@@ -2072,9 +2091,11 @@
 
     /* Modern Radial Moves Panel */
     .moves-radial, .modern-moves-radial {
-      position: relative !important;
-      width: 350px !important;
-      height: 340px !important;
+      position: absolute !important;
+      bottom: 0 !important;
+      right: 0 !important;
+      width: 380px !important;
+      height: 380px !important;
       display: block !important;
       pointer-events: none !important;
       box-sizing: border-box !important;
@@ -2091,9 +2112,9 @@
 
     .move-circle-btn {
       position: absolute !important;
-      width: 78px !important;
-      height: 78px !important;
-      max-height: 78px !important;
+      width: 74px !important;
+      height: 74px !important;
+      max-height: 74px !important;
       border-radius: 50% !important;
       pointer-events: auto !important;
       display: flex !important;
@@ -2102,15 +2123,15 @@
       justify-content: center !important;
       padding: 2px !important;
       box-sizing: border-box !important;
-      border: 3.5px solid rgba(255, 255, 255, 0.85) !important;
+      border: 3px solid rgba(255, 255, 255, 0.85) !important;
       cursor: pointer !important;
       transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.16s, filter 0.16s !important;
       z-index: 10 !important;
       transform: none !important;
     }
     .move-circle-btn:hover, .move-circle-btn.key-pressed {
-      transform: scale(1.15) !important;
-      filter: brightness(1.28) !important;
+      transform: scale(1.14) !important;
+      filter: brightness(1.25) !important;
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.92), inset 0 3px 0 rgba(255, 255, 255, 0.65) !important;
       z-index: 25 !important;
     }
@@ -2118,38 +2139,36 @@
       transform: scale(0.95) !important;
     }
     .move-circle-type {
-      font-size: 9px !important;
+      font-size: 8.5px !important;
       font-weight: 900 !important;
-      background: rgba(0, 0, 0, 0.6) !important;
-      padding: 2px 7px !important;
-      border-radius: 5px !important;
+      background: rgba(0, 0, 0, 0.65) !important;
+      padding: 2px 6px !important;
+      border-radius: 4px !important;
       color: #ffffff !important;
       letter-spacing: 0.4px !important;
       text-transform: uppercase !important;
       line-height: 1 !important;
-      margin-bottom: 3px !important;
+      margin-bottom: 2px !important;
       pointer-events: none !important;
     }
     .move-circle-name {
-      font-size: 10px !important;
+      font-size: 8.5px !important;
       font-weight: 900 !important;
-      letter-spacing: 0.3px !important;
+      letter-spacing: 0.2px !important;
       color: #ffffff !important;
-      text-shadow: 0 1px 2px #000 !important;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000 !important;
       text-align: center !important;
-      max-width: 68px !important;
-      overflow: hidden !important;
-      text-overflow: ellipsis !important;
-      white-space: nowrap !important;
-      line-height: 1.1 !important;
+      max-width: 66px !important;
+      word-break: break-word !important;
+      line-height: 1.05 !important;
       pointer-events: none !important;
     }
     .move-circle-pwr {
-      font-size: 9px !important;
-      font-weight: 800 !important;
-      color: #fef08a !important;
-      text-shadow: 0 1px 2px #000 !important;
-      margin-top: 3px !important;
+      font-size: 8.5px !important;
+      font-weight: 900 !important;
+      color: #fde047 !important;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000 !important;
+      margin-top: 2px !important;
       line-height: 1 !important;
       pointer-events: none !important;
     }
@@ -4415,6 +4434,145 @@ body.layout-full .screen-nav {
   height: 100% !important;
 }
 
+/* ============================================================ */
+/* POKÉDASH BATTLE HUD DESIGN SYSTEM & INTERACTIONS (SVG SYSTEM)*/
+/* ============================================================ */
+.hud-btn {
+  cursor: pointer;
+  transition: transform 140ms cubic-bezier(0.22, 1, 0.36, 1), filter 140ms ease;
+  transform-origin: center;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.hud-btn:hover {
+  transform: scale(1.06);
+  filter: brightness(1.12) drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
+}
+.hud-btn:active, .hud-btn.key-pressed {
+  transform: scale(0.96);
+  filter: brightness(0.95);
+}
+
+/* 1. Top-Left: Trainer Profile Crest */
+.hud-trainer-crest-wrapper {
+  position: absolute !important;
+  top: 14px !important;
+  left: 16px !important;
+  z-index: 35 !important;
+  pointer-events: auto !important;
+}
+.hud-crest-svg {
+  width: 310px;
+  height: 84px;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.75));
+  display: block;
+}
+
+/* 2. Top-Center: Enemy Combatant Status Plate */
+.hud-enemy-plate-wrapper {
+  position: absolute !important;
+  top: 14px !important;
+  left: 52% !important;
+  transform: translateX(-50%) !important;
+  z-index: 25 !important;
+  pointer-events: auto !important;
+}
+.hud-enemy-plate-svg {
+  width: 360px;
+  height: 116px;
+  filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.75));
+  display: block;
+}
+
+/* 3. Top-Right: Telemetry Stack */
+.hud-telemetry-stack-wrapper {
+  position: absolute !important;
+  top: 14px !important;
+  right: 16px !important;
+  z-index: 35 !important;
+  pointer-events: auto !important;
+}
+.hud-telemetry-svg {
+  width: 248px;
+  height: 236px;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.75));
+  display: block;
+}
+.hud-telemetry-stack-wrapper .scenery-picker-dropdown {
+  position: absolute;
+  top: 184px;
+  right: 0;
+  z-index: 50;
+}
+
+/* 4. Left Rail: Navigation Tiles */
+.hud-left-rail-wrapper {
+  position: absolute !important;
+  left: 12px !important;
+  top: 52% !important;
+  transform: translateY(-50%) !important;
+  z-index: 35 !important;
+  pointer-events: auto !important;
+}
+.hud-left-rail-svg {
+  width: 80px;
+  height: 540px;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.75));
+  display: block;
+}
+
+/* 5. Bottom-Left: Player Active Pokémon Status Plate */
+.hud-player-plate-wrapper {
+  position: absolute !important;
+  bottom: 18px !important;
+  left: 16px !important;
+  z-index: 28 !important;
+  pointer-events: auto !important;
+}
+.hud-player-plate-svg {
+  width: 360px;
+  height: 116px;
+  filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.75));
+  display: block;
+}
+
+/* 6. Bottom-Center: Battle Prompt Action Bar */
+.hud-prompt-action-bar-wrapper {
+  position: absolute !important;
+  bottom: 18px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 28 !important;
+  pointer-events: auto !important;
+}
+.hud-prompt-svg {
+  width: 540px;
+  height: 72px;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.75));
+  display: block;
+}
+
+/* 7. Bottom-Right: Radial Move Wheel Cluster */
+.hud-radial-wheel-wrapper {
+  position: absolute !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  width: 460px !important;
+  height: 440px !important;
+  z-index: 28 !important;
+  pointer-events: none !important;
+}
+.hud-radial-wheel-svg {
+  width: 460px;
+  height: 440px;
+  filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.85));
+  display: block;
+  pointer-events: none;
+}
+.hud-radial-wheel-svg .hud-btn {
+  pointer-events: auto;
+}
+
 /* 1. HUD Root Overlay */
 .coc-hud-overlay {
   position: absolute;
@@ -5136,164 +5294,102 @@ body.layout-full .screen-nav {
 }
 
 /* ============================================================ */
-/* BOTTOM-LEFT: THE CLASH "ATTACK!" HERO BUTTON -> HUNT!        */
+/* BOTTOM-CENTER: MODERN DIALOGUE BANNER                        */
 /* ============================================================ */
-.coc-bottom-left {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-  position: relative;
-}
-
-/* Reposition dialogue banner cleanly above the hero button */
 .modern-dialogue-banner {
-  bottom: clamp(78px, 11vh, 98px) !important;
-  left: clamp(6px, 1.4vw, 14px) !important;
-  max-width: clamp(260px, 32vw, 440px) !important;
+  position: absolute !important;
+  bottom: clamp(16px, 2.2vh, 24px) !important;
+  left: clamp(48%, 52vw, 55%) !important;
+  transform: translateX(-50%) !important;
+  max-width: clamp(280px, 34vw, 480px) !important;
+  min-width: 240px !important;
+  background: rgba(8, 38, 44, 0.90) !important;
+  border: 1px solid rgba(45, 212, 191, 0.35) !important;
+  border-radius: 8px !important;
+  padding: 10px 22px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65), 0 0 14px rgba(45, 212, 191, 0.2) !important;
   z-index: 34 !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
 }
-
-/* Massive CoC Hero Hunt Button */
-.coc-hero-attack-btn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: clamp(56px, 7vh, 68px);
-  padding: 0 clamp(14px, 2vw, 24px) 0 clamp(10px, 1.4vw, 16px);
-  background: linear-gradient(180deg, #fb923c 0%, #f97316 45%, #ea580c 75%, #c2410c 100%);
-  border: 3.5px solid #7c2d12;
-  border-radius: 16px;
-  box-shadow: 0 6px 0 #431407, 0 10px 20px rgba(0, 0, 0, 0.75), inset 0 2px 0 rgba(255, 255, 255, 0.45);
-  cursor: pointer;
-  transition: all 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
-  position: relative;
-  overflow: visible;
+.modern-dialogue-banner::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -3px !important;
+  left: -3px !important;
+  width: 14px !important;
+  height: 14px !important;
+  border-top: 2.5px solid #2dd4bf !important;
+  border-left: 2.5px solid #2dd4bf !important;
+  border-top-left-radius: 4px !important;
+  pointer-events: none !important;
 }
-.coc-hero-attack-btn:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(180deg, #fdba74 0%, #fb923c 45%, #ea580c 75%, #c2410c 100%);
-  box-shadow: 0 8px 0 #431407, 0 14px 24px rgba(0, 0, 0, 0.85), inset 0 2px 0 rgba(255, 255, 255, 0.6);
-}
-.coc-hero-attack-btn:active {
-  transform: translateY(4px);
-  box-shadow: 0 2px 0 #431407, 0 4px 10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.coc-hero-icon-plate {
-  width: clamp(38px, 4.4vw, 44px);
-  height: clamp(38px, 4.4vw, 44px);
-  border-radius: 12px;
-  background: linear-gradient(180deg, #fef08a 0%, #facc15 100%);
-  border: 2px solid #78350f;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.7);
-}
-.coc-hero-icon {
-  width: 26px;
-  height: 26px;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
-}
-
-.coc-hero-text-block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.coc-hero-action-title {
-  font-size: clamp(16px, 2vw, 20px);
-  font-weight: 900;
-  color: #ffffff;
-  letter-spacing: 1px;
-  line-height: 1.1;
-  text-shadow: -1.5px -1.5px 0 #431407, 1.5px -1.5px 0 #431407, -1.5px 1.5px 0 #431407, 1.5px 1.5px 0 #431407, 0 3px 6px rgba(0,0,0,0.9);
-}
-.coc-hero-action-sub {
-  font-size: 8px;
-  font-weight: 900;
-  color: #fed7aa;
-  letter-spacing: 0.5px;
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-}
-.coc-k-badge {
-  color: #fef08a;
-  background: rgba(0,0,0,0.4);
-  padding: 0 3px;
-  border-radius: 3px;
-}
-
-/* Secondary Action Button (e.g. Cry) */
-.coc-sub-action-btn {
-  height: clamp(36px, 4.4vh, 42px);
-  padding: 0 10px;
-  background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
-  border: 2px solid #0f172a;
-  border-radius: 10px;
-  color: #f8fafc;
-  font-size: 8px;
-  font-weight: 900;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  box-shadow: 0 4px 0 #020617, 0 6px 12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.3);
-  cursor: pointer;
-  transition: all 0.1s ease;
-}
-.coc-sub-action-btn:hover {
-  background: #475569;
-  transform: translateY(-1px);
-}
-.coc-sub-action-btn:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 #020617;
+.modern-dialogue-banner::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: -3px !important;
+  right: -3px !important;
+  width: 14px !important;
+  height: 14px !important;
+  border-bottom: 2.5px solid #2dd4bf !important;
+  border-right: 2.5px solid #2dd4bf !important;
+  border-bottom-right-radius: 4px !important;
+  pointer-events: none !important;
 }
 
 /* ============================================================ */
-/* BOTTOM-RIGHT: THE CLASH "SHOP" HERO BUTTON & FACILITIES     */
+/* BOTTOM-RIGHT: HUNT! PILL BUTTON & CIRCULAR SHOP ORB          */
 /* ============================================================ */
+.coc-hud-bottom-bar {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: flex-end !important;
+  width: 100% !important;
+  padding: 0 16px 14px 16px !important;
+  pointer-events: none !important;
+  box-sizing: border-box !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  z-index: 32 !important;
+}
+
 .coc-bottom-right {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  pointer-events: auto !important;
 }
 
-.coc-facility-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: clamp(44px, 4.8vw, 52px);
-  height: clamp(44px, 4.8vw, 52px);
-  background: linear-gradient(180deg, #334155 0%, #1e293b 60%, #0f172a 100%);
-  border: 2.5px solid #0f172a;
-  border-radius: 12px;
-  box-shadow: 0 5px 0 #020617, 0 8px 16px rgba(0,0,0,0.7), inset 0 1.5px 0 rgba(255,255,255,0.3);
-  cursor: pointer;
-  transition: all 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
-  padding: 0;
+/* Vibrant Orange Rounded Pill Button: HUNT! */
+.coc-hero-hunt-pill-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 46px !important;
+  padding: 0 28px !important;
+  background: linear-gradient(180deg, #fb923c 0%, #ea580c 45%, #c2410c 100%) !important;
+  border: 2.5px solid #ffedd5 !important;
+  border-radius: 9999px !important;
+  color: #ffffff !important;
+  font-family: inherit !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  letter-spacing: 1px !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6), 0 0 14px rgba(234, 88, 12, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.4) !important;
+  cursor: pointer !important;
+  transition: transform 0.14s ease, filter 0.14s ease, box-shadow 0.14s ease !important;
+  position: relative !important;
+  z-index: 20 !important;
 }
-.coc-facility-btn:hover {
-  transform: translateY(-2px);
-  border-color: #64748b;
-  box-shadow: 0 7px 0 #020617, 0 12px 20px rgba(0,0,0,0.8);
+.coc-hero-hunt-pill-btn:hover {
+  transform: scale(1.06) !important;
+  filter: brightness(1.15) !important;
+  box-shadow: 0 8px 24px rgba(234, 88, 12, 0.65), inset 0 2px 0 rgba(255, 255, 255, 0.6) !important;
 }
-.coc-facility-btn:active {
-  transform: translateY(3px);
-  box-shadow: 0 2px 0 #020617;
-}
-.coc-facility-btn svg {
-  width: 18px;
-  height: 18px;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
-}
-.coc-fac-label {
-  font-size: 6px;
-  font-weight: 900;
-  color: #f8fafc;
-  letter-spacing: 0.3px;
-  margin-top: 2px;
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+.coc-hero-hunt-pill-btn:active {
+  transform: scale(0.96) !important;
 }
 
 /* Circular CoC Shop Button */
@@ -5302,32 +5398,30 @@ body.layout-full .screen-nav {
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 80px !important;
-  height: 80px !important;
+  width: 72px !important;
+  height: 72px !important;
   border-radius: 50% !important;
   padding: 0 !important;
-  background: radial-gradient(circle at 35% 30%, #3b82f6 0%, #1d4ed8 50%, #1e3a8a 85%, #0f172a 100%) !important;
-  border: 3.5px solid #facc15 !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.78), 0 4px 0 #854d0e, inset 0 3px 0 rgba(255, 255, 255, 0.55) !important;
+  background: radial-gradient(circle at 35% 30%, #0284c7 0%, #0369a1 50%, #0c4a6e 85%, #082f49 100%) !important;
+  border: 3px solid #38bdf8 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), 0 0 16px rgba(56, 189, 248, 0.45), inset 0 3px 0 rgba(255, 255, 255, 0.55) !important;
   cursor: pointer !important;
   transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.16s, filter 0.16s !important;
   position: relative !important;
   box-sizing: border-box !important;
+  z-index: 20 !important;
 }
 .coc-hero-shop-btn:hover, .coc-shop-circle-btn:hover {
-  transform: scale(1.14) !important;
-  filter: brightness(1.22) !important;
-  box-shadow: 0 12px 28px rgba(59, 130, 246, 0.75), 0 0 18px rgba(250, 204, 21, 0.6), inset 0 3px 0 rgba(255, 255, 255, 0.65) !important;
-  z-index: 15 !important;
+  transform: scale(1.12) !important;
+  filter: brightness(1.2) !important;
+  box-shadow: 0 12px 28px rgba(56, 189, 248, 0.7), 0 0 22px rgba(56, 189, 248, 0.7), inset 0 3px 0 rgba(255, 255, 255, 0.65) !important;
 }
 .coc-hero-shop-btn:active, .coc-shop-circle-btn:active {
   transform: scale(0.95) !important;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.85) !important;
 }
 .coc-shop-icon {
-  width: 40px !important;
-  height: 40px !important;
-  margin-bottom: 2px !important;
+  width: 30px !important;
+  height: 30px !important;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.7)) !important;
   pointer-events: none !important;
 }
@@ -5613,237 +5707,282 @@ body.layout-full .screen-nav {
         <!-- ============================================================ -->
         <div class="coc-hud-overlay" id="coc-hud-overlay">
           
-          <!-- TOP ROW: Top-Left Crest, Top-Center Pills, Top-Right Resources -->
-          <div class="coc-hud-top-bar">
-
-            <!-- 1. TOP-LEFT: TRAINER IDENTITY CREST & XP -->
-            <div class="coc-corner coc-top-left">
-              <!-- Chunky Jagged Star Level Badge -->
-              <div class="coc-level-star" id="coc-level-star-btn" title="Trainer Level (Click for Passport) [P]">
-                <span class="coc-level-num" id="coc-trainer-level">1</span>
-              </div>
-
-              <!-- Profile Details -->
-              <div class="coc-profile-details">
-                <div class="coc-trainer-name-row">
-                  <span class="coc-trainer-name" id="coc-trainer-name">TRAINER</span>
-                  <span class="coc-trainer-tag">INDIGO</span>
-                </div>
-
-                <!-- 3D Liquid XP Bar -->
-                <div class="coc-xp-bar-wrap" title="Trainer Experience">
-                  <div class="coc-xp-bar-fill" id="coc-xp-fill" style="width: 25%;"></div>
-                  <div class="coc-bar-gloss"></div>
-                  <span class="coc-xp-bar-text" id="coc-xp-nums">0 / 100 XP</span>
-                </div>
-
-                <!-- Trophy League Badge -->
-                <div class="coc-trophy-badge" id="coc-trophy-trigger" title="Global Trophies & Ranks [T]">
-                  <svg class="pixel-icon"><use href="#px-trophy"></use></svg>
-                  <span class="coc-trophy-val" id="coc-trophy-val">1,405</span>
-                  <span class="coc-league-tag">GOLD III</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- 2. TOP-CENTER: STATUS & VITAL PILLS (CAMP & ENVIRONMENT) -->
-            <div class="coc-top-center">
-              <!-- Opponent / Wild Pokémon Status Card (Matching User Pokémon Style 1:1) -->
-              <div class="pokemon-status-box enemy-status-box coc-enemy-status-box" id="enemy-status-box">
-                <div class="status-name-row">
-                  <span class="status-name-tag">
-                    <span id="enemy-name">TALL GRASS</span>
-                    <span id="enemy-gender-icon" class="gender-icon male" style="display:none;">♂</span>
-                  </span>
-                  <span class="status-level" id="enemy-level-tag">ZONE 1</span>
-                </div>
-                <div class="hp-bar-container">
-                  <span class="hp-label">HP</span>
-                  <div class="hp-track">
-                    <div id="enemy-hp-fill" class="hp-fill" style="width: 100%;"></div>
-                  </div>
-                  <span class="hp-text-nums" id="enemy-hp-nums">PEACEFUL</span>
-                </div>
-                <div class="exp-bar-container" id="enemy-exp-container">
-                  <span class="exp-label">EXP</span>
-                  <div class="exp-track">
-                    <div id="enemy-exp-fill" class="exp-fill" style="width: 0%;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 3. TOP-RIGHT: 3D LAYERED RESOURCE PILL STACK -->
-            <div class="coc-corner coc-top-right">
-              <!-- Resource 1: Poké Dollars (Gold P$) -->
-              <div class="coc-resource-row" title="Poké Dollars (Click to Open Mart)">
-                <div class="coc-res-cap-label">Max: 999,999</div>
-                <div class="coc-res-bar coc-res-gold" id="coc-bar-gold">
-                  <div class="coc-res-track">
-                    <div class="coc-res-fill" id="coc-gold-fill" style="width: 45%;"></div>
-                    <div class="coc-bar-gloss"></div>
-                  </div>
-                  <span class="coc-res-val">P$ <span id="coc-gold-val">12,450</span></span>
-                  <div class="coc-res-icon-cap"><svg class="pixel-icon"><use href="#px-coin"></use></svg></div>
-                  <button class="coc-res-plus-btn" id="coc-plus-gold" title="Open Poké Mart [2]">+</button>
-                </div>
-              </div>
-
-              <!-- Resource 2: Poké Balls Capacity -->
-              <div class="coc-resource-row" title="Poké Balls in Bag">
-                <div class="coc-res-cap-label">Bag Capacity: 99</div>
-                <div class="coc-res-bar coc-res-balls" id="coc-bar-balls">
-                  <div class="coc-res-track">
-                    <div class="coc-res-fill" id="coc-balls-fill" style="width: 30%;"></div>
-                    <div class="coc-bar-gloss"></div>
-                  </div>
-                  <span class="coc-res-val"><span id="coc-balls-val">24</span> / 99</span>
-                  <div class="coc-res-icon-cap">
-                    <img src="/pokeballs/01_pokeball_classic.png" class="coc-res-img-icon" alt="Balls" />
-                  </div>
-                  <button class="coc-res-plus-btn" id="coc-plus-balls" title="Buy Poké Balls">+</button>
-                </div>
-              </div>
-
-              <!-- Resource 3: Gym Badges / Gems -->
-              <div class="coc-resource-row" title="Gym Badges / Gems">
-                <div class="coc-res-bar coc-res-gems" id="coc-bar-gems">
-                  <div class="coc-res-track">
-                    <div class="coc-res-fill" id="coc-badges-fill" style="width: 30%;"></div>
-                    <div class="coc-bar-gloss"></div>
-                  </div>
-                  <span class="coc-res-val" id="coc-badges-val">0 / 10 BADGES</span>
-                  <div class="coc-res-icon-cap"><svg class="pixel-icon"><use href="#px-gem"></use></svg></div>
-                  <button class="coc-res-plus-btn" id="coc-plus-arena" title="Arena Battles [A]">+</button>
-                </div>
-              </div>
-
-              <!-- Merged Zone & Route Status Pill with Scenery Selector Dropdown [V] (Moved Below Badges) -->
-              <div class="coc-zone-wrapper" id="coc-zone-wrapper">
-                <div class="coc-status-pill coc-zone-pill" id="coc-zone-pill" title="Battle Route & Scenery (Click to choose scenery [V])" role="button" tabindex="0">
-                  <div class="coc-pill-icon" style="position:relative; display:flex; align-items:center; gap:4px;">
-                    <span class="env-badge-pulse"></span>
-                    <svg class="pixel-icon" id="coc-zone-icon"><use href="#px-grass"></use></svg>
-                  </div>
-                  <div class="coc-pill-content">
-                    <div class="coc-pill-label">ZONE & ROUTE</div>
-                    <div class="coc-pill-val" id="coc-zone-name-val">ROUTE 1 • SUNLIT MEADOW</div>
-                  </div>
-                  <svg class="pixel-icon coc-zone-caret" style="width:8px; height:8px; opacity:0.8; margin: 0 3px 0 2px;"><use href="#px-arrow-down"></use></svg>
-                  <button class="coc-pill-action-btn" id="coc-scenery-cycle-btn" title="Cycle Scenery [V]">↻</button>
-                </div>
-
-                <!-- Interactive Scenery Selector Dropdown -->
-                <div class="scenery-picker-dropdown coc-scenery-picker" id="scenery-picker-dropdown" style="display:none;">
-                  <div class="scenery-picker-header">
-                    <span class="scenery-picker-title">
-                      <svg class="pixel-icon"><use href="#px-grass"></use></svg> CHOOSE SCENERY
-                    </span>
-                    <span class="scenery-picker-k-hint">[V]</span>
-                  </div>
-                  <div class="scenery-picker-list" id="scenery-picker-list"></div>
-                  <div class="scenery-picker-footer">
-                    <button class="scenery-footer-btn" id="btn-scenery-cycle" type="button" title="Cycle to next scenery [V]">
-                      <svg class="pixel-icon"><use href="#px-arrow-right"></use></svg> NEXT [V]
-                    </button>
-                    <button class="scenery-footer-btn" id="btn-scenery-random" type="button" title="Pick random scenery">
-                      <svg class="pixel-icon"><use href="#px-star"></use></svg> SHUFFLE
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Mini Tool Tray: SFX, CRT, Fullscreen, Settings -->
-              <div class="coc-tools-tray">
-                <button class="coc-tool-btn" id="coc-btn-sfx" title="Toggle Sound [M]">
-                  <img src="/ui/icon_audio_on.png" class="coc-tool-img" id="coc-sfx-img" alt="Sound" />
-                </button>
-                <button class="coc-tool-btn" id="coc-btn-crt" title="Toggle CRT Scanlines">
-                  <svg class="pixel-icon"><use href="#px-crt"></use></svg>
-                </button>
-                <button class="coc-tool-btn" id="coc-btn-fs" title="Toggle Fullscreen [F]">
-                  <svg class="pixel-icon"><use href="#px-expand"></use></svg>
-                </button>
-                <button class="coc-tool-btn" id="coc-btn-settings" title="Settings & Passport [S]">
-                  <img src="/ui/icon_settings_gear.png" class="coc-tool-img" alt="Settings" />
-                </button>
-              </div>
-            </div>
-
+          <!-- 1. TOP-LEFT: TRAINER PROFILE CREST (04-trainer-profile-crest.svg) -->
+          <div class="hud-trainer-crest-wrapper" id="hud-trainer-crest">
+            <svg class="hud-crest-svg" viewBox="0 0 310 84" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="goldCrest" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FFE680" />
+                  <stop offset="50%" stop-color="#D49B2A" />
+                  <stop offset="100%" stop-color="#784F0B" />
+                </linearGradient>
+                <radialGradient id="levelOrb" cx="40%" cy="30%" r="70%">
+                  <stop offset="0%" stop-color="#38BDF8" />
+                  <stop offset="65%" stop-color="#1D4ED8" />
+                  <stop offset="100%" stop-color="#1E1B4B" />
+                </radialGradient>
+                <linearGradient id="xpBar" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#2563EB" />
+                  <stop offset="100%" stop-color="#38BDF8" />
+                </linearGradient>
+                <linearGradient id="rankGold" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#92400E" />
+                  <stop offset="50%" stop-color="#D97706" />
+                  <stop offset="100%" stop-color="#78350F" />
+                </linearGradient>
+              </defs>
+              <!-- Trainer Name & League -->
+              <text id="hud-trainer-name" x="86" y="23" fill="#F8FAFC" font-family="system-ui, sans-serif" font-size="15" font-weight="900" letter-spacing="0.8">RED</text>
+              <rect x="236" y="10" width="56" height="16" rx="4" fill="#1E3A8A" stroke="#60A5FA" stroke-width="1" />
+              <text id="hud-trainer-tag" x="264" y="21" fill="#DBEAFE" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.8" text-anchor="middle">INDIGO</text>
+              
+              <!-- XP Bar -->
+              <rect x="74" y="30" width="218" height="16" rx="8" fill="#091517" stroke="#2B4C50" stroke-width="1.5" />
+              <rect id="hud-trainer-xp-fill" x="76" y="32" width="76" height="12" rx="6" fill="url(#xpBar)" />
+              <text id="hud-trainer-xp-nums" x="282" y="41.5" fill="#E2E8F0" font-family="ui-monospace, monospace" font-size="10" font-weight="700" text-anchor="end">73 / 257 XP</text>
+              
+              <!-- Trophies & Competitive Rank Pill -->
+              <g class="hud-btn" id="hud-rank-pill" role="button" tabindex="0" title="Global Trophies & Ranks [T]">
+                <rect x="78" y="52" width="142" height="22" rx="11" fill="url(#rankGold)" stroke="#FBBF24" stroke-width="1.2" />
+                <path d="M91 58H97V62C97 63.66 95.66 65 94 65C92.34 65 91 63.66 91 62V58ZM94 65V68M91.5 68H96.5" stroke="#FEF08A" stroke-width="1.4" stroke-linecap="round" />
+                <text id="hud-trophy-val" x="105" y="66.5" fill="#FFFFFF" font-family="ui-monospace, monospace" font-size="11" font-weight="800">1,007</text>
+                <rect x="148" y="55.5" width="64" height="15" rx="7.5" fill="#451A03" />
+                <text id="hud-league-tag" x="180" y="66" fill="#FDE047" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.6" text-anchor="middle">GOLD III</text>
+              </g>
+              
+              <!-- Circular Level Crest (Overlapping left) -->
+              <g class="hud-btn" id="hud-level-crest-btn" role="button" tabindex="0" title="Trainer Passport [P]">
+                <circle cx="42" cy="42" r="34" fill="#091517" stroke="url(#goldCrest)" stroke-width="4" />
+                <circle cx="42" cy="42" r="28" fill="url(#levelOrb)" stroke="#93C5FD" stroke-width="1" stroke-opacity="0.5" />
+                <text id="hud-trainer-level" x="42" y="50" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="24" font-weight="900" text-anchor="middle">3</text>
+              </g>
+            </svg>
           </div>
 
-          <!-- LEFT-EDGE RAIL: QUICK FLOATING UTILITY DRAWERS -->
-          <div class="coc-left-rail">
-            <!-- Mail / Catch Logs Button -->
-            <button class="coc-rail-btn" id="coc-rail-mail" title="Silph Co. Dispatch & Logs">
-              <svg class="pixel-icon"><use href="#px-mail"></use></svg>
-              <span class="coc-rail-badge" id="coc-mail-badge">!</span>
-              <span class="coc-rail-label">LOGS</span>
-            </button>
-            <!-- Ranks / Leaderboard Button -->
-            <button class="coc-rail-btn nav-tab" data-tab="ranks" id="coc-rail-ranks" title="Global Leaderboard [T]">
-              <svg class="pixel-icon"><use href="#px-trophy"></use></svg>
-              <span class="coc-rail-label">RANKS</span>
-            </button>
-            <!-- Arena Button (Moved from bottom-right) -->
-            <button class="coc-rail-btn nav-tab" data-tab="arena" id="coc-btn-arena" title="Champion Arena & Gyms [A]">
-              <svg class="pixel-icon"><use href="#px-arena"></use></svg>
-              <span class="coc-rail-label">ARENA</span>
-            </button>
-            <!-- Center Button (Moved from bottom-right) -->
-            <button class="coc-rail-btn nav-tab" data-tab="center" id="coc-btn-center" title="Poké Center & Nurse Joy [H]">
-              <svg class="pixel-icon"><use href="#px-center"></use></svg>
-              <span class="coc-rail-label">CENTER</span>
-            </button>
-            <!-- Pokédex Quick Button -->
-            <button class="coc-rail-btn nav-tab" data-tab="dex" id="coc-rail-dex" title="National Pokédex [D]">
-              <svg class="pixel-icon"><use href="#px-dex"></use></svg>
-              <span class="coc-rail-label">POKÉDEX</span>
-            </button>
-            <!-- TCG Cards Catalog Button -->
-            <button class="coc-rail-btn nav-tab" data-tab="cards" id="coc-rail-cards" title="Pokémon TCG Cards [K]">
-              <svg class="pixel-icon"><use href="#px-card"></use></svg>
-              <span class="coc-rail-label">CARDS</span>
-            </button>
-            <!-- Trainer Passport Button -->
-            <button class="coc-rail-btn nav-tab" data-tab="trainer" id="coc-rail-trainer" title="Trainer Card & Passport [P]">
-              <svg class="pixel-icon"><use href="#px-trainer"></use></svg>
-              <span class="coc-rail-label">TRAINER</span>
-            </button>
+          <!-- 2. TOP-CENTER: ENEMY COMBATANT STATUS PLATE (03-combatant-status-plate.svg) -->
+          <div class="hud-enemy-plate-wrapper" id="hud-enemy-plate">
+            <svg class="hud-enemy-plate-svg" viewBox="0 0 360 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="hudGlass-enemy" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#13292C" stop-opacity="0.92" />
+                  <stop offset="100%" stop-color="#091517" stop-opacity="0.95" />
+                </linearGradient>
+                <linearGradient id="hpGradient-enemy" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#22C55E" id="hpStop1-enemy" />
+                  <stop offset="100%" stop-color="#4ADE80" id="hpStop2-enemy" />
+                </linearGradient>
+                <linearGradient id="expGradient-enemy" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#D97706" />
+                  <stop offset="100%" stop-color="#FBBF24" />
+                </linearGradient>
+              </defs>
+              <!-- Background Frame with Corner Brackets -->
+              <rect x="4" y="4" width="352" height="108" rx="12" fill="url(#hudGlass-enemy)" stroke="#2B4C50" stroke-width="1.5" />
+              <path d="M4 18V12C4 7.58 7.58 4 12 4H18" stroke="#E5B94C" stroke-width="2.5" stroke-linecap="round" />
+              <path d="M342 4H348C352.42 4 356 7.58 356 12V18" stroke="#E5B94C" stroke-width="2.5" stroke-linecap="round" />
+              <path d="M4 98V104C4 108.42 7.58 112 12 112H18" stroke="#E5B94C" stroke-width="2.5" stroke-linecap="round" />
+              <path d="M342 112H348C352.42 112 356 108.42 356 104V98" stroke="#E5B94C" stroke-width="2.5" stroke-linecap="round" />
+              
+              <!-- Combatant Name & Gender -->
+              <text id="hud-enemy-name" x="20" y="34" fill="#F8FAFC" font-family="system-ui, -apple-system, sans-serif" font-size="17" font-weight="800" letter-spacing="0.8">TALL GRASS</text>
+              <text id="hud-enemy-gender" x="145" y="34" fill="#38BDF8" font-family="system-ui, sans-serif" font-size="16" font-weight="700" style="display:none;">♂</text>
+              
+              <!-- Level Badge Pill -->
+              <rect x="276" y="16" width="64" height="24" rx="6" fill="#0D1D20" stroke="#E5B94C" stroke-width="1.2" />
+              <text id="hud-enemy-level" x="308" y="32" fill="#FDE047" font-family="ui-monospace, monospace" font-size="12" font-weight="800" text-anchor="middle">ZONE 1</text>
+              
+              <!-- HP Readout & Bar -->
+              <text x="20" y="62" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="11" font-weight="800" letter-spacing="1">HP</text>
+              <rect x="52" y="52" width="212" height="12" rx="6" fill="#060D0E" stroke="#1E383B" stroke-width="1" />
+              <rect id="hud-enemy-hp-fill" x="54" y="54" width="0" height="8" rx="4" fill="url(#hpGradient-enemy)" />
+              <text id="hud-enemy-hp-nums" x="340" y="62" fill="#E2E8F0" font-family="ui-monospace, monospace" font-size="12" font-weight="700" text-anchor="end">PEACEFUL</text>
+              
+              <!-- EXP Readout & Bar -->
+              <text x="20" y="89" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="11" font-weight="800" letter-spacing="1">EXP</text>
+              <rect x="52" y="81" width="288" height="8" rx="4" fill="#060D0E" stroke="#1E383B" stroke-width="1" />
+              <rect id="hud-enemy-exp-fill" x="53" y="82" width="0" height="6" rx="3" fill="url(#expGradient-enemy)" />
+            </svg>
           </div>
 
-          <!-- BOTTOM ROW: Hero Attack/Hunt Button, Hero Shop Button & Facilities -->
-          <div class="coc-hud-bottom-bar">
-
-            <!-- BOTTOM-LEFT: THE CLASH "ATTACK!" HERO BUTTON -> HUNT! -->
-            <div class="coc-corner coc-bottom-left">
-              <!-- Massive CoC Hero Hunt Button -->
-              <button class="coc-hero-attack-btn" id="coc-hero-hunt-btn" title="Search Tall Grass [SPACE]">
-                <div class="coc-hero-icon-plate">
-                  <svg class="pixel-icon coc-hero-icon"><use href="#px-map"></use></svg>
-                </div>
-                <div class="coc-hero-text-block">
-                  <div class="coc-hero-action-title">HUNT!</div>
-                  <div class="coc-hero-action-sub">SEARCH GRASS <span class="coc-k-badge">[SPACE]</span></div>
-                </div>
-              </button>
-
-              <!-- Cry Audio Button -->
-              <button class="coc-sub-action-btn" id="coc-hero-cry-btn" title="Play Pokémon Cry [C]">
-                <svg class="pixel-icon"><use href="#px-cry"></use></svg> CRY [C]
-              </button>
+          <!-- 3. TOP-RIGHT: TELEMETRY STACK (06-top-right-telemetry-stack.svg) -->
+          <div class="hud-telemetry-stack-wrapper" id="hud-telemetry-stack">
+            <svg class="hud-telemetry-svg" viewBox="0 0 248 236" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="pillDark-telemetry" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#13292C" stop-opacity="0.95" />
+                  <stop offset="100%" stop-color="#091517" stop-opacity="0.96" />
+                </linearGradient>
+                <linearGradient id="bagRed-telemetry" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#DC2626" />
+                  <stop offset="100%" stop-color="#F87171" />
+                </linearGradient>
+              </defs>
+              <!-- 1. Poké Dollars Pill -->
+              <g class="hud-btn" id="hud-pill-gold" title="Poké Dollars (Click for Mart) [2]" transform="translate(8, 8)">
+                <rect width="232" height="34" rx="17" fill="url(#pillDark-telemetry)" stroke="#2B4C50" stroke-width="1.5" />
+                <circle cx="18" cy="17" r="11" fill="#F59E0B" stroke="#FDE047" stroke-width="1.4" />
+                <text x="18" y="21" fill="#78350F" font-family="system-ui, sans-serif" font-size="12" font-weight="900" text-anchor="middle">P</text>
+                <text id="hud-telemetry-gold" x="192" y="21.5" fill="#F8FAFC" font-family="ui-monospace, monospace" font-size="13.5" font-weight="800" text-anchor="end">P$ 1,375</text>
+                <circle cx="214" cy="17" r="11" fill="#10B981" stroke="#6EE7B7" stroke-width="1.2" />
+                <path d="M214 12.5V21.5M209.5 17H218.5" stroke="#064E3B" stroke-width="2.2" stroke-linecap="round" />
+              </g>
+              <!-- 2. Bag Capacity Pill -->
+              <g class="hud-btn" id="hud-pill-bag" title="Poké Balls in Bag" transform="translate(8, 50)">
+                <rect width="232" height="34" rx="17" fill="url(#pillDark-telemetry)" stroke="#2B4C50" stroke-width="1.5" />
+                <rect x="4" y="4" width="68" height="26" rx="13" fill="url(#bagRed-telemetry)" />
+                <text x="38" y="20.5" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="9.5" font-weight="800" text-anchor="middle">BAG</text>
+                <text id="hud-telemetry-balls" x="162" y="21.5" fill="#F8FAFC" font-family="ui-monospace, monospace" font-size="13" font-weight="800" text-anchor="end">25 / 99</text>
+                <circle cx="184" cy="17" r="9" fill="#EF4444" stroke="#F8FAFC" stroke-width="1.4" />
+                <path d="M175 17H193" stroke="#091517" stroke-width="2" />
+                <circle cx="184" cy="17" r="2.8" fill="#FFFFFF" stroke="#091517" stroke-width="1.2" />
+                <circle cx="214" cy="17" r="11" fill="#10B981" stroke="#6EE7B7" stroke-width="1.2" />
+                <path d="M214 12.5V21.5M209.5 17H218.5" stroke="#064E3B" stroke-width="2.2" stroke-linecap="round" />
+              </g>
+              <!-- 3. Gym Badges Pill -->
+              <g class="hud-btn" id="hud-pill-badges" title="Gym Badges & Arena [A]" transform="translate(8, 92)">
+                <rect width="232" height="34" rx="17" fill="url(#pillDark-telemetry)" stroke="#2B4C50" stroke-width="1.5" />
+                <circle cx="18" cy="17" r="10" fill="#0D9488" stroke="#5EEAD4" stroke-width="1.4" />
+                <text id="hud-telemetry-badges" x="162" y="21.5" fill="#E2E8F0" font-family="ui-monospace, monospace" font-size="12" font-weight="800" text-anchor="end">0 / 10 BADGES</text>
+                <polygon points="184,9 191,17 184,25 177,17" fill="#34D399" stroke="#A7F3D0" stroke-width="1.2" />
+                <circle cx="214" cy="17" r="11" fill="#10B981" stroke="#6EE7B7" stroke-width="1.2" />
+                <path d="M214 12.5V21.5M209.5 17H218.5" stroke="#064E3B" stroke-width="2.2" stroke-linecap="round" />
+              </g>
+              <!-- 4. Zone & Route Dropdown Selector Card -->
+              <g class="hud-btn" id="hud-route-card" role="button" tabindex="0" title="Battle Route & Scenery (Click to choose scenery [V])" transform="translate(8, 136)">
+                <rect width="232" height="42" rx="12" fill="url(#pillDark-telemetry)" stroke="#2B4C50" stroke-width="1.5" />
+                <circle cx="22" cy="21" r="11" fill="#0284C7" stroke="#7DD3FC" stroke-width="1.2" />
+                <path d="M22 15C22 15 26 20 26 22.5C26 24.7 24.2 26.5 22 26.5C19.8 26.5 18 24.7 18 22.5C18 20 22 15 22 15Z" fill="#E0F2FE" />
+                <text x="42" y="16" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="8.5" font-weight="800" letter-spacing="0.8">ZONE &amp; ROUTE</text>
+                <text id="hud-telemetry-route" x="42" y="31" fill="#F8FAFC" font-family="system-ui, sans-serif" font-size="12" font-weight="800" letter-spacing="0.5">AZURE COAST</text>
+                <path d="M182 19L186 23L190 19" stroke="#94A3B8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx="214" cy="21" r="11" fill="#10B981" stroke="#6EE7B7" stroke-width="1.2" />
+                <path d="M214 16.5V25.5M209.5 21H218.5" stroke="#064E3B" stroke-width="2.2" stroke-linecap="round" />
+              </g>
+              <!-- 5. 4 Square Utility Buttons Tray -->
+              <g transform="translate(28, 188)">
+                <!-- Audio toggle -->
+                <g class="hud-btn" id="hud-util-audio" title="Toggle Sound [M]">
+                  <rect x="0" y="0" width="42" height="38" rx="10" fill="url(#pillDark-telemetry)" stroke="#2B4C50" stroke-width="1.5" />
+                  <path id="hud-audio-icon-path" d="M14 16H17L22 12V26L17 22H14V16Z" fill="#94A3B8" />
+                  <path id="hud-audio-waves" d="M25 15.5C26.5 17 26.5 21 25 22.5" stroke="#5EEAD4" stroke-width="1.8" stroke-linecap="round" />
+                </g>
+                <!-- Battle Log modal -->
+                <g class="hud-btn" id="hud-util-logs" title="Battle & Catch Logs">
+                  <rect x="52" y="0" width="42" height="38" rx="10" fill="url(#pillDark-telemetry)" stroke="#2B4C50" stroke-width="1.5" />
+                  <rect x="63" y="12" width="20" height="14" rx="2.5" stroke="#94A3B8" stroke-width="1.6" fill="none" />
+                  <line x1="67" y1="17" x2="79" y2="17" stroke="#5EEAD4" stroke-width="1.6" stroke-linecap="round" />
+                  <line x1="67" y1="21" x2="75" y2="21" stroke="#94A3B8" stroke-width="1.6" stroke-linecap="round" />
+                </g>
+                <!-- Fullscreen toggle -->
+                <g class="hud-btn" id="hud-util-fullscreen" title="Toggle Fullscreen [F]">
+                  <rect x="104" y="0" width="42" height="38" rx="10" fill="url(#pillDark-telemetry)" stroke="#2B4C50" stroke-width="1.5" />
+                  <path d="M117 16V12H121M133 16V12H129M117 22V26H121M133 22V26H129" stroke="#94A3B8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </g>
+                <!-- Settings modal -->
+                <g class="hud-btn" id="hud-util-settings" title="Settings & Passport [S]">
+                  <rect x="156" y="0" width="42" height="38" rx="10" fill="url(#pillDark-telemetry)" stroke="#2B4C50" stroke-width="1.5" />
+                  <circle cx="177" cy="19" r="4" stroke="#FBBF24" stroke-width="1.8" fill="none" />
+                  <path d="M177 11V13M177 25V27M169 19H171M183 19H185M171.5 13.5L173 15M181 23L182.5 24.5M182.5 13.5L181 15M173 23L171.5 24.5" stroke="#FBBF24" stroke-width="1.8" stroke-linecap="round" />
+                </g>
+              </g>
+            </svg>
+            
+            <!-- Interactive Scenery Selector Dropdown -->
+            <div class="scenery-picker-dropdown coc-scenery-picker" id="scenery-picker-dropdown" style="display:none;">
+              <div class="scenery-picker-header">
+                <span class="scenery-picker-title">
+                  <svg class="pixel-icon"><use href="#px-grass"></use></svg> CHOOSE SCENERY
+                </span>
+                <span class="scenery-picker-k-hint">[V]</span>
+              </div>
+              <div class="scenery-picker-list" id="scenery-picker-list"></div>
+              <div class="scenery-picker-footer">
+                <button class="scenery-footer-btn" id="btn-scenery-cycle" type="button" title="Cycle to next scenery [V]">
+                  <svg class="pixel-icon"><use href="#px-arrow-right"></use></svg> NEXT [V]
+                </button>
+                <button class="scenery-footer-btn" id="btn-scenery-random" type="button" title="Pick random scenery">
+                  <svg class="pixel-icon"><use href="#px-star"></use></svg> SHUFFLE
+                </button>
+              </div>
             </div>
+          </div>
 
-            <!-- BOTTOM-RIGHT: THE CLASH "SHOP" CIRCULAR BUTTON -->
-            <div class="coc-corner coc-bottom-right">
-              <!-- Circular CoC Shop Button -->
-              <button class="coc-hero-shop-btn coc-shop-circle-btn nav-tab" data-tab="mart" id="coc-hero-shop-btn" title="Poké Mart Shop [M]">
-                <span class="radial-k-badge">M</span>
-                <svg class="pixel-icon coc-shop-icon"><use href="#px-cart"></use></svg>
-                <span class="radial-btn-label">SHOP</span>
-              </button>
-            </div>
-
+          <!-- 4. LEFT RAIL: NAVIGATION TILES (05-left-navigation-rail.svg) -->
+          <div class="hud-left-rail-wrapper" id="hud-left-rail">
+            <svg class="hud-left-rail-svg" viewBox="0 0 80 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="railTile-left" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#173033" />
+                  <stop offset="100%" stop-color="#0B1618" />
+                </linearGradient>
+                <linearGradient id="goldTrim-left" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FFE680" />
+                  <stop offset="100%" stop-color="#B7791F" />
+                </linearGradient>
+              </defs>
+              <!-- 1. LOGS -->
+              <g class="hud-btn" id="hud-rail-logs" role="button" tabindex="0" title="Catch & Dispatch Logs" transform="translate(8, 8)">
+                <rect id="hud-tile-rect-logs" width="64" height="68" rx="12" fill="url(#railTile-left)" stroke="#2B4C50" stroke-width="1.5" />
+                <path d="M10 2H54" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round" />
+                <rect x="20" y="16" width="24" height="18" rx="3" fill="#1E293B" stroke="#94A3B8" stroke-width="1.5" />
+                <path d="M21 18L32 26L43 18" stroke="#38BDF8" stroke-width="1.8" stroke-linecap="round" />
+                <text x="32" y="56" fill="#CBD5E1" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.8" text-anchor="middle">LOGS</text>
+                <circle cx="58" cy="6" r="8" fill="#EF4444" stroke="#091517" stroke-width="2" />
+                <text x="58" y="9.5" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="9.5" font-weight="900" text-anchor="middle">!</text>
+              </g>
+              <!-- 2. RANKS -->
+              <g class="hud-btn nav-tab" data-tab="ranks" id="hud-rail-ranks" role="button" tabindex="0" title="Global Leaderboard [T]" transform="translate(8, 84)">
+                <rect id="hud-tile-rect-ranks" width="64" height="68" rx="12" fill="url(#railTile-left)" stroke="#2B4C50" stroke-width="1.5" />
+                <path d="M10 2H54" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M25 15H39V22C39 25.87 35.87 29 32 29C28.13 29 25 25.87 25 22V15Z" fill="#F59E0B" stroke="#FDE047" stroke-width="1.4" />
+                <path d="M25 18H21C21 21 23 23 25 23M39 18H43C43 21 41 23 39 23M32 29V34M27 34H37" stroke="#FDE047" stroke-width="1.5" stroke-linecap="round" />
+                <text x="32" y="56" fill="#CBD5E1" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.8" text-anchor="middle">RANKS</text>
+              </g>
+              <!-- 3. ARENA -->
+              <g class="hud-btn nav-tab" data-tab="arena" id="hud-rail-arena" role="button" tabindex="0" title="Champion Arena & Gyms [A]" transform="translate(8, 160)">
+                <rect id="hud-tile-rect-arena" width="64" height="68" rx="12" fill="url(#railTile-left)" stroke="#2B4C50" stroke-width="1.5" />
+                <path d="M10 2H54" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round" />
+                <rect x="19" y="17" width="26" height="16" rx="3" fill="#0F172A" stroke="#5EEAD4" stroke-width="1.5" />
+                <line x1="32" y1="17" x2="32" y2="33" stroke="#5EEAD4" stroke-width="1.2" />
+                <circle cx="32" cy="25" r="3.5" fill="#0F172A" stroke="#5EEAD4" stroke-width="1.2" />
+                <text x="32" y="56" fill="#CBD5E1" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.8" text-anchor="middle">ARENA</text>
+              </g>
+              <!-- 4. CENTER -->
+              <g class="hud-btn nav-tab" data-tab="center" id="hud-rail-center" role="button" tabindex="0" title="Poké Center & Nurse Joy [H]" transform="translate(8, 236)">
+                <rect id="hud-tile-rect-center" width="64" height="68" rx="12" fill="url(#railTile-left)" stroke="#2B4C50" stroke-width="1.5" />
+                <path d="M10 2H54" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round" />
+                <rect x="20" y="15" width="24" height="20" rx="4" fill="#1E293B" stroke="#F87171" stroke-width="1.5" />
+                <path d="M32 19V31M26 25H38" stroke="#EF4444" stroke-width="3" stroke-linecap="round" />
+                <text x="32" y="56" fill="#CBD5E1" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.8" text-anchor="middle">CENTER</text>
+              </g>
+              <!-- 5. POKÉDEX -->
+              <g class="hud-btn nav-tab" data-tab="dex" id="hud-rail-dex" role="button" tabindex="0" title="National Pokédex [D]" transform="translate(8, 312)">
+                <rect id="hud-tile-rect-dex" width="64" height="68" rx="12" fill="url(#railTile-left)" stroke="#2B4C50" stroke-width="1.5" />
+                <path d="M10 2H54" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round" />
+                <rect x="22" y="14" width="20" height="24" rx="3" fill="#DC2626" stroke="#FCA5A5" stroke-width="1.2" />
+                <circle cx="27" cy="19" r="2" fill="#38BDF8" stroke="#FFFFFF" stroke-width="0.8" />
+                <rect x="25" y="24" width="14" height="9" rx="1.5" fill="#0F172A" />
+                <text x="32" y="56" fill="#CBD5E1" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.6" text-anchor="middle">POKÉDEX</text>
+              </g>
+              <!-- 6. CARDS -->
+              <g class="hud-btn nav-tab" data-tab="cards" id="hud-rail-cards" role="button" tabindex="0" title="Pokémon TCG Cards [K]" transform="translate(8, 388)">
+                <rect id="hud-tile-rect-cards" width="64" height="68" rx="12" fill="url(#railTile-left)" stroke="#2B4C50" stroke-width="1.5" />
+                <path d="M10 2H54" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round" />
+                <rect x="21" y="16" width="16" height="20" rx="2.5" transform="rotate(-8 21 16)" fill="#1E293B" stroke="#94A3B8" stroke-width="1.3" />
+                <rect x="26" y="15" width="16" height="20" rx="2.5" transform="rotate(6 26 15)" fill="#0F172A" stroke="#FBBF24" stroke-width="1.4" />
+                <text x="32" y="56" fill="#CBD5E1" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.8" text-anchor="middle">CARDS</text>
+              </g>
+              <!-- 7. TRAINER -->
+              <g class="hud-btn nav-tab" data-tab="trainer" id="hud-rail-trainer" role="button" tabindex="0" title="Trainer Card & Passport [P]" transform="translate(8, 464)">
+                <rect id="hud-tile-rect-trainer" width="64" height="68" rx="12" fill="url(#railTile-left)" stroke="#2B4C50" stroke-width="1.5" />
+                <path d="M10 2H54" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round" />
+                <circle cx="32" cy="24" r="7" fill="#FDE68A" />
+                <path d="M24 22C24 17.5 27.5 14 32 14C36.5 14 40 17.5 40 22H24Z" fill="#EF4444" />
+                <path d="M24 22H43" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+                <path d="M22 36C23.5 32 27.5 30 32 30C36.5 30 40.5 32 42 36" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round" />
+                <text x="32" y="56" fill="#CBD5E1" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.8" text-anchor="middle">TRAINER</text>
+              </g>
+            </svg>
           </div>
 
         </div>
@@ -5923,6 +6062,21 @@ body.layout-full .screen-nav {
                 <!-- Elemental Attack FX Layer -->
                 <div id="battle-fx-layer" class="battle-fx-layer"></div>
 
+                <!-- Legacy DOM Element IDs for battle engine state synchronization -->
+                <div id="legacy-combatant-bridge" style="display:none;" aria-hidden="true">
+                  <span id="enemy-name"></span>
+                  <span id="enemy-level-tag"></span>
+                  <span id="enemy-hp-nums"></span>
+                  <div id="enemy-hp-fill"></div>
+                  <div id="enemy-exp-fill"></div>
+                  <span id="enemy-gender-icon"></span>
+                  <span id="player-name"></span>
+                  <span id="player-level-tag"></span>
+                  <span id="player-hp-nums"></span>
+                  <div id="player-hp-fill"></div>
+                  <div id="player-exp-fill"></div>
+                </div>
+
 
 
 
@@ -5942,83 +6096,206 @@ body.layout-full .screen-nav {
                   </div>
                 </div>
 
-                <!-- Floating Modern Dialogue Banner (Bottom-Left) -->
-                <div class="modern-dialogue-banner" id="dialogue-banner">
-                  <div class="dialogue-text-area" id="dialogue-text">
-                    The tall grass rustles quietly. Press [SEARCH TALL GRASS] to hunt wild Pokémon!
-                    <span class="dialogue-arrow"><span style="font-size:7.5px; opacity:0.85; letter-spacing:0.5px; margin-right:3px;">next page</span><svg class="pixel-icon pixel-icon-no-margin" style="width:7px; height:7px;"><use href="#px-arrow-right"></use></svg></span>
-                  </div>
-                </div>
-
-                <!-- Bottom-Right: Modern Player Status Box -->
-                <div class="pokemon-status-box player-status-box" id="player-status-box">
-                  <div class="status-name-row">
-                    <span class="status-name-tag">
-                      <span id="player-name">PIKACHU</span>
-                    </span>
-                    <span class="status-level" id="player-level-tag">Lv. 5</span>
-                  </div>
-                  <div class="hp-bar-container">
-                    <span class="hp-label">HP</span>
-                    <div class="hp-track">
-                      <div id="player-hp-fill" class="hp-fill" style="width: 100%;"></div>
-                    </div>
-                    <span class="hp-text-nums" id="player-hp-nums">25 / 25 HP</span>
-                  </div>
-                  <div class="exp-bar-container">
-                    <span class="exp-label">EXP</span>
-                    <div class="exp-track">
-                      <div id="player-exp-fill" class="exp-fill" style="width: 50%;"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Bottom-Right: Modern Radial Circular Action Controls Overlay -->
-                <div class="battle-dock-right" id="battle-bottom-dock">
-                  <div class="battle-action-controls-box">
+                <!-- 5. BOTTOM-LEFT: PLAYER COMBATANT STATUS PLATE (03-combatant-status-plate.svg) -->
+                <div class="hud-player-plate-wrapper" id="hud-player-plate">
+                  <svg class="hud-player-plate-svg" viewBox="0 0 360 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="hudGlass-player" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#13292C" stop-opacity="0.92" />
+                        <stop offset="100%" stop-color="#091517" stop-opacity="0.95" />
+                      </linearGradient>
+                      <linearGradient id="hpGradient-player" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#22C55E" id="hpStop1-player" />
+                        <stop offset="100%" stop-color="#4ADE80" id="hpStop2-player" />
+                      </linearGradient>
+                      <linearGradient id="expGradient-player" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#D97706" />
+                        <stop offset="100%" stop-color="#FBBF24" />
+                      </linearGradient>
+                    </defs>
+                    <!-- Background Frame with Corner Brackets -->
+                    <rect x="4" y="4" width="352" height="108" rx="12" fill="url(#hudGlass-player)" stroke="#2B4C50" stroke-width="1.5" />
+                    <path d="M4 18V12C4 7.58 7.58 4 12 4H18" stroke="#E5B94C" stroke-width="2.5" stroke-linecap="round" />
+                    <path d="M342 4H348C352.42 4 356 7.58 356 12V18" stroke="#E5B94C" stroke-width="2.5" stroke-linecap="round" />
+                    <path d="M4 98V104C4 108.42 7.58 112 12 112H18" stroke="#E5B94C" stroke-width="2.5" stroke-linecap="round" />
+                    <path d="M342 112H348C352.42 112 356 108.42 356 104V98" stroke="#E5B94C" stroke-width="2.5" stroke-linecap="round" />
                     
-                    <!-- 3 Radial Circular Action Buttons (FIGHT, BAG, RUN) -->
-                    <div class="battle-actions-grid modern-actions-radial" id="main-actions-grid">
-                      <!-- Quarter-Circle Arc Guide Track -->
-                      <svg class="radial-arc-track" viewBox="0 0 340 340" aria-hidden="true">
-                        <path d="M 282 64 A 220 220 0 0 0 62 284" fill="none" stroke="rgba(250, 204, 21, 0.45)" stroke-width="3" stroke-dasharray="6 8" />
-                        <path d="M 298 48 A 236 236 0 0 0 48 298" fill="none" stroke="rgba(45, 212, 191, 0.3)" stroke-width="2" />
-                        <path d="M 266 80 A 204 204 0 0 0 80 266" fill="none" stroke="rgba(250, 204, 21, 0.2)" stroke-width="1.5" stroke-dasharray="2 4" />
-                      </svg>
+                    <!-- Combatant Name & Gender -->
+                    <text id="hud-player-name" x="20" y="34" fill="#F8FAFC" font-family="system-ui, -apple-system, sans-serif" font-size="17" font-weight="800" letter-spacing="0.8">PIKACHU</text>
+                    <text id="hud-player-gender" x="135" y="34" fill="#38BDF8" font-family="system-ui, sans-serif" font-size="16" font-weight="700" style="display:none;">♂</text>
+                    
+                    <!-- Level Badge Pill -->
+                    <rect x="276" y="16" width="64" height="24" rx="6" fill="#0D1D20" stroke="#E5B94C" stroke-width="1.2" />
+                    <text id="hud-player-level" x="308" y="32" fill="#FDE047" font-family="ui-monospace, monospace" font-size="12" font-weight="800" text-anchor="middle">LV. 5</text>
+                    
+                    <!-- HP Readout & Bar -->
+                    <text x="20" y="62" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="11" font-weight="800" letter-spacing="1">HP</text>
+                    <rect x="52" y="52" width="212" height="12" rx="6" fill="#060D0E" stroke="#1E383B" stroke-width="1" />
+                    <rect id="hud-player-hp-fill" x="54" y="54" width="208" height="8" rx="4" fill="url(#hpGradient-player)" />
+                    <text id="hud-player-hp-nums" x="340" y="62" fill="#E2E8F0" font-family="ui-monospace, monospace" font-size="12" font-weight="700" text-anchor="end">25 / 25</text>
+                    
+                    <!-- EXP Readout & Bar -->
+                    <text x="20" y="89" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="11" font-weight="800" letter-spacing="1">EXP</text>
+                    <rect x="52" y="81" width="288" height="8" rx="4" fill="#060D0E" stroke="#1E383B" stroke-width="1" />
+                    <rect id="hud-player-exp-fill" x="53" y="82" width="144" height="6" rx="3" fill="url(#expGradient-player)" />
+                  </svg>
+                </div>
 
-                      <!-- 1. FIGHT [1] -->
-                      <button class="action-menu-btn modern-action-btn radial-btn btn-action-fight" id="btn-menu-fight" title="Fight / Select Moves [1]">
-                        <span class="radial-k-badge">1</span>
-                        <img src="/ui/icon_fight_sword.png" class="btn-action-lead-icon" alt="Fight" />
-                        <span class="radial-btn-label">FIGHT</span>
-                      </button>
+                <!-- 6. BOTTOM-CENTER: BATTLE PROMPT ACTION BAR (07-battle-prompt-action-bar.svg) -->
+                <div class="hud-prompt-action-bar-wrapper" id="hud-prompt-action-bar">
+                  <svg class="hud-prompt-svg" viewBox="0 0 540 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="promptGlass-hud" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#13292C" stop-opacity="0.94" />
+                        <stop offset="100%" stop-color="#091517" stop-opacity="0.97" />
+                      </linearGradient>
+                      <clipPath id="promptClip-hud">
+                        <rect x="16" y="8" width="310" height="54" />
+                      </clipPath>
+                    </defs>
+                    <!-- Gold Bracketed Prompt Message Box -->
+                    <rect x="4" y="6" width="330" height="58" rx="12" fill="url(#promptGlass-hud)" stroke="#2B4C50" stroke-width="1.5" />
+                    <path d="M4 18V12C4 8.69 6.69 6 10 6H16" stroke="#E5B94C" stroke-width="2.2" stroke-linecap="round" />
+                    <path d="M322 6H328C331.31 6 334 8.69 334 12V18" stroke="#E5B94C" stroke-width="2.2" stroke-linecap="round" />
+                    <path d="M4 52V58C4 61.31 6.69 64 10 64H16" stroke="#E5B94C" stroke-width="2.2" stroke-linecap="round" />
+                    <path d="M322 64H328C331.31 64 334 61.31 334 58V52" stroke="#E5B94C" stroke-width="2.2" stroke-linecap="round" />
+                    
+                    <g clip-path="url(#promptClip-hud)">
+                      <text id="hud-prompt-main-text" x="22" y="32" fill="#F8FAFC" font-family="system-ui, sans-serif" font-size="12.5" font-weight="700">Choose a move for <tspan id="hud-prompt-mon-name" fill="#5EEAD4" font-weight="800">Pokemon</tspan></text>
+                      <text id="hud-prompt-sub-text" x="22" y="50" fill="#94A3B8" font-family="ui-monospace, monospace" font-size="9.5" font-weight="600">HOTKEYS: [1-4] MOVE  •  [C] CRY  •  [ESC] BACK</text>
+                    </g>
+                    
+                    <!-- Tactical Pill 1: CRY [C] -->
+                    <g class="hud-btn" id="hud-action-cry" role="button" tabindex="0" title="Play Pokémon Cry [C]" transform="translate(346, 6)">
+                      <rect width="90" height="58" rx="12" fill="url(#promptGlass-hud)" stroke="#2B4C50" stroke-width="1.5" />
+                      <path d="M36 22V32M41 19V35M46 23V31M51 20V34" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round" />
+                      <text x="45" y="49" fill="#CBD5E1" font-family="ui-monospace, monospace" font-size="10" font-weight="800" text-anchor="middle">CRY [C]</text>
+                    </g>
+                    
+                    <!-- Tactical Pill 2: RUN [ESC] -->
+                    <g class="hud-btn" id="hud-action-run" role="button" tabindex="0" title="Run / Back [ESC]" transform="translate(446, 6)">
+                      <rect width="90" height="58" rx="12" fill="url(#promptGlass-hud)" stroke="#7F1D1D" stroke-width="1.5" />
+                      <path d="M40 21L34 27L40 33M34 27H54" stroke="#F87171" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                      <text x="45" y="49" fill="#FCA5A5" font-family="ui-monospace, monospace" font-size="10" font-weight="800" text-anchor="middle">RUN [ESC]</text>
+                    </g>
+                  </svg>
+                </div>
 
-                      <!-- 2. BAG [2] -->
-                      <button class="action-menu-btn modern-action-btn radial-btn btn-action-bag" id="btn-menu-bag" title="Open Bag / Items [2]">
-                        <span class="radial-k-badge">2</span>
-                        <img src="/ui/icon_bag_pack.png" class="btn-action-lead-icon" alt="Bag" />
-                        <span class="radial-btn-label">BAG</span>
-                      </button>
+                <!-- 7. BOTTOM-RIGHT: RADIAL MOVE WHEEL CLUSTER (08-radial-move-wheel-cluster.svg) -->
+                <div class="hud-radial-wheel-wrapper" id="hud-radial-wheel">
+                  <svg class="hud-radial-wheel-svg" viewBox="0 0 460 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <radialGradient id="nodeGlass-radial" cx="50%" cy="30%" r="70%">
+                        <stop offset="0%" stop-color="#1E3538" />
+                        <stop offset="100%" stop-color="#0B1618" />
+                      </radialGradient>
+                      <linearGradient id="typeGrad-0" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#CBD5E1" id="typeStop1-0" />
+                        <stop offset="100%" stop-color="#64748B" id="typeStop2-0" />
+                      </linearGradient>
+                      <linearGradient id="typeGrad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#E879F9" id="typeStop1-1" />
+                        <stop offset="100%" stop-color="#9333EA" id="typeStop2-1" />
+                      </linearGradient>
+                      <linearGradient id="typeGrad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#CBD5E1" id="typeStop1-2" />
+                        <stop offset="100%" stop-color="#64748B" id="typeStop2-2" />
+                      </linearGradient>
+                      <linearGradient id="typeGrad-3" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#CBD5E1" id="typeStop1-3" />
+                        <stop offset="100%" stop-color="#64748B" id="typeStop2-3" />
+                      </linearGradient>
+                      <linearGradient id="huntOrange-radial" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#F97316" />
+                        <stop offset="100%" stop-color="#B45309" />
+                      </linearGradient>
+                      <linearGradient id="shopTeal-radial" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#2DD4BF" />
+                        <stop offset="100%" stop-color="#0F766E" />
+                      </linearGradient>
+                      <linearGradient id="goldBorder-radial" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#FFE680" />
+                        <stop offset="100%" stop-color="#B7791F" />
+                      </linearGradient>
+                    </defs>
+                    
+                    <!-- Quarter-Circle Radial Guide Arcs -->
+                    <path d="M 135 375 A 260 260 0 0 1 395 115" stroke="#5EEAD4" stroke-opacity="0.35" stroke-width="3" stroke-dasharray="6 6" />
+                    <path d="M 145 375 A 250 250 0 0 1 395 125" stroke="#FFE680" stroke-opacity="0.25" stroke-width="1.5" />
+                    
+                    <!-- Move 1 Node [1] -->
+                    <g class="hud-btn" id="hud-move-node-0" role="button" tabindex="0" title="Move 1 [1]" transform="translate(385, 115)">
+                      <circle r="54" fill="url(#nodeGlass-radial)" stroke="url(#typeGrad-0)" stroke-width="3.5" />
+                      <circle r="48" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1" />
+                      <rect id="hud-move-type-pill-0" x="-26" y="-34" width="52" height="16" rx="8" fill="#475569" />
+                      <text id="hud-move-type-0" y="-23" fill="#F8FAFC" font-family="system-ui, sans-serif" font-size="8.5" font-weight="800" letter-spacing="1" text-anchor="middle">NORM</text>
+                      <text id="hud-move-name-0" y="3" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="11.5" font-weight="800" text-anchor="middle">TACKLE</text>
+                      <text id="hud-move-pwr-0" y="21" fill="#FDE047" font-family="ui-monospace, monospace" font-size="10" font-weight="700" text-anchor="middle">PWR 40</text>
+                      <circle cx="-38" cy="-38" r="11" fill="#091517" stroke="#94A3B8" stroke-width="1.5" />
+                      <text x="-38" y="-34.5" fill="#F8FAFC" font-family="ui-monospace, monospace" font-size="10" font-weight="800" text-anchor="middle">1</text>
+                    </g>
+                    
+                    <!-- Move 2 Node [2] -->
+                    <g class="hud-btn" id="hud-move-node-1" role="button" tabindex="0" title="Move 2 [2]" transform="translate(265, 165)">
+                      <circle r="56" fill="url(#nodeGlass-radial)" stroke="url(#typeGrad-1)" stroke-width="4" />
+                      <circle r="50" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1" />
+                      <rect id="hud-move-type-pill-1" x="-28" y="-35" width="56" height="16" rx="8" fill="#9333EA" />
+                      <text id="hud-move-type-1" y="-24" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="8.5" font-weight="800" letter-spacing="1" text-anchor="middle">POISON</text>
+                      <text id="hud-move-name-1" y="3" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="11" font-weight="800" text-anchor="middle">SLUDGE BOMB</text>
+                      <text id="hud-move-pwr-1" y="21" fill="#FDE047" font-family="ui-monospace, monospace" font-size="10" font-weight="700" text-anchor="middle">PWR 80</text>
+                      <circle cx="-40" cy="-40" r="11" fill="#091517" stroke="#E879F9" stroke-width="1.5" />
+                      <text x="-40" y="-36.5" fill="#F8FAFC" font-family="ui-monospace, monospace" font-size="10" font-weight="800" text-anchor="middle">2</text>
+                    </g>
+                    
+                    <!-- Move 3 Node [3] -->
+                    <g class="hud-btn" id="hud-move-node-2" role="button" tabindex="0" title="Move 3 [3]" transform="translate(175, 255)">
+                      <circle r="54" fill="url(#nodeGlass-radial)" stroke="url(#typeGrad-2)" stroke-width="3.5" />
+                      <circle r="48" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1" />
+                      <rect id="hud-move-type-pill-2" x="-26" y="-34" width="52" height="16" rx="8" fill="#475569" />
+                      <text id="hud-move-type-2" y="-23" fill="#F8FAFC" font-family="system-ui, sans-serif" font-size="8.5" font-weight="800" letter-spacing="1" text-anchor="middle">NORM</text>
+                      <text id="hud-move-name-2" y="3" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="11.5" font-weight="800" text-anchor="middle">SLASH</text>
+                      <text id="hud-move-pwr-2" y="21" fill="#FDE047" font-family="ui-monospace, monospace" font-size="10" font-weight="700" text-anchor="middle">PWR 70</text>
+                      <circle cx="-38" cy="-38" r="11" fill="#091517" stroke="#94A3B8" stroke-width="1.5" />
+                      <text x="-38" y="-34.5" fill="#F8FAFC" font-family="ui-monospace, monospace" font-size="10" font-weight="800" text-anchor="middle">3</text>
+                    </g>
+                    
+                    <!-- Move 4 Node [4] -->
+                    <g class="hud-btn" id="hud-move-node-3" role="button" tabindex="0" title="Move 4 [4]" transform="translate(135, 375)">
+                      <circle r="54" fill="url(#nodeGlass-radial)" stroke="url(#typeGrad-3)" stroke-width="3.5" />
+                      <circle r="48" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1" />
+                      <rect id="hud-move-type-pill-3" x="-26" y="-34" width="52" height="16" rx="8" fill="#475569" />
+                      <text id="hud-move-type-3" y="-23" fill="#F8FAFC" font-family="system-ui, sans-serif" font-size="8.5" font-weight="800" letter-spacing="1" text-anchor="middle">NORM</text>
+                      <text id="hud-move-name-3" y="3" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="10.5" font-weight="800" text-anchor="middle">GIGA IMPACT</text>
+                      <text id="hud-move-pwr-3" y="21" fill="#FDE047" font-family="ui-monospace, monospace" font-size="10" font-weight="700" text-anchor="middle">PWR 110</text>
+                      <circle cx="-38" cy="-38" r="11" fill="#091517" stroke="#94A3B8" stroke-width="1.5" />
+                      <text x="-38" y="-34.5" fill="#F8FAFC" font-family="ui-monospace, monospace" font-size="10" font-weight="800" text-anchor="middle">4</text>
+                    </g>
+                    
+                    <!-- HUNT! [SPACE] CTA Button -->
+                    <g class="hud-btn" id="hud-wheel-hunt" role="button" tabindex="0" title="Hunt Wild Pokémon [SPACE]" transform="translate(205, 355)">
+                      <rect width="128" height="58" rx="14" fill="url(#huntOrange-radial)" stroke="url(#goldBorder-radial)" stroke-width="2.5" />
+                      <rect x="4" y="3" width="120" height="22" rx="10" fill="#FFFFFF" fill-opacity="0.16" />
+                      <text id="hud-hunt-label" x="64" y="31" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="19" font-weight="900" letter-spacing="1.2" text-anchor="middle">HUNT!</text>
+                      <text id="hud-hunt-key-hint" x="64" y="46" fill="#FEF08A" font-family="ui-monospace, monospace" font-size="8.5" font-weight="800" letter-spacing="0.8" text-anchor="middle">[SPACE]</text>
+                    </g>
+                    
+                    <!-- SHOP [M] Orb in Bottom-Right Corner -->
+                    <g class="hud-btn" id="hud-wheel-shop" role="button" tabindex="0" title="Poké Mart Shop [M]" transform="translate(395, 375)">
+                      <circle r="54" fill="#091517" stroke="url(#shopTeal-radial)" stroke-width="4" />
+                      <circle r="47" fill="url(#nodeGlass-radial)" stroke="url(#goldBorder-radial)" stroke-width="1.8" />
+                      <rect x="-18" y="-14" width="36" height="22" rx="3" fill="#1E293B" stroke="#FBBF24" stroke-width="1.5" />
+                      <path d="M-21 -14L-16 -24H16L21 -14H-21Z" fill="#EF4444" stroke="#FFFFFF" stroke-width="1.2" />
+                      <path d="M-11 -24L-13 -14M0 -24V-14M11 -24L13 -14" stroke="#FFFFFF" stroke-width="2" />
+                      <text y="26" fill="#5EEAD4" font-family="system-ui, sans-serif" font-size="11" font-weight="900" letter-spacing="1.2" text-anchor="middle">SHOP</text>
+                      <circle cx="38" cy="-36" r="12" fill="#091517" stroke="url(#goldBorder-radial)" stroke-width="1.8" />
+                      <text x="38" y="-32.5" fill="#FDE047" font-family="ui-monospace, monospace" font-size="10" font-weight="900" text-anchor="middle">M</text>
+                    </g>
+                  </svg>
+                </div>
 
-                      <!-- 4. RUN [4] -->
-                      <button class="action-menu-btn modern-action-btn radial-btn btn-action-run" id="btn-menu-run" title="Flee from Battle [4]">
-                        <span class="radial-k-badge">4</span>
-                        <img src="/ui/icon_run_shoe.png" class="btn-action-lead-icon" alt="Run" />
-                        <span class="radial-btn-label">RUN</span>
-                      </button>
-                    </div>
-
-                    <!-- Submenu: Modern Radial Circular Moves Panel -->
-                    <div class="moves-radial modern-moves-radial" id="moves-selection-grid" style="display: none;">
-                      <!-- Dynamic circular moves rendered via JS -->
-                    </div>
-
-                    <!-- Submenu: Modern Poké Balls Bag Drawer -->
-                    <div class="bag-grid-scrollable modern-bag-panel" id="bag-selection-grid" style="display: none;">
-                      <!-- Dynamic balls in bag -->
-                    </div>
-
-                  </div>
+                <!-- Submenu: Modern Poké Balls Bag Drawer (Hidden until Bag clicked) -->
+                <div class="bag-grid-scrollable modern-bag-panel" id="bag-selection-grid" style="display: none; position: absolute; bottom: 80px; right: 80px; z-index: 45;">
+                  <!-- Dynamic balls in bag -->
                 </div>
 
               </div>
@@ -7773,20 +8050,33 @@ body.layout-full .screen-nav {
     // ============================================================
     let dialogueTimeout = null;
     function setDialogue(text) {
-      const el = document.getElementById('dialogue-text');
-      if (dialogueTimeout) clearTimeout(dialogueTimeout);
-      el.innerHTML = '';
-      let i = 0;
-      function type() {
-        if (i < text.length) {
-          el.innerHTML += text.charAt(i);
-          i++;
-          dialogueTimeout = setTimeout(type, 18);
+      const hudPrompt = document.getElementById('hud-prompt-main-text');
+      if (hudPrompt) {
+        if (text.length > 46) {
+          hudPrompt.setAttribute('font-size', '11');
+        } else if (text.length > 34) {
+          hudPrompt.setAttribute('font-size', '12');
         } else {
-          el.innerHTML += '<span class="dialogue-arrow"><span style="font-size:7.5px; opacity:0.85; letter-spacing:0.5px; margin-right:3px;">next page</span><svg class="pixel-icon pixel-icon-no-margin" style="width:7px; height:7px;"><use href="#px-arrow-right"></use></svg></span>';
+          hudPrompt.setAttribute('font-size', '13.5');
         }
+        hudPrompt.textContent = text;
       }
-      type();
+      const el = document.getElementById('dialogue-text');
+      if (el) {
+        if (dialogueTimeout) clearTimeout(dialogueTimeout);
+        el.innerHTML = '';
+        let i = 0;
+        function type() {
+          if (i < text.length) {
+            el.innerHTML += text.charAt(i);
+            i++;
+            dialogueTimeout = setTimeout(type, 18);
+          } else {
+            el.innerHTML += '<span class="dialogue-arrow"><span style="font-size:7.5px; opacity:0.85; letter-spacing:0.5px; margin-right:3px;">next page</span><svg class="pixel-icon pixel-icon-no-margin" style="width:7px; height:7px;"><use href="#px-arrow-right"></use></svg></span>';
+          }
+        }
+        type();
+      }
     }
 
     // ============================================================
@@ -8469,6 +8759,16 @@ body.layout-full .screen-nav {
       const genderEl = document.getElementById('enemy-gender-icon');
       if (genderEl) genderEl.style.display = 'none';
 
+      // Update SVG Combatant Plate (Enemy)
+      updateHUDCombatantPlate('enemy', {
+        name: 'TALL GRASS',
+        level: 'ZONE 1',
+        currentHp: 0,
+        maxHp: 0,
+        expPct: 0,
+        gender: ''
+      });
+
       setBattleArenaTheme(currentBattleTheme);
 
       const enemySprite = document.getElementById('enemy-sprite');
@@ -8486,7 +8786,16 @@ body.layout-full .screen-nav {
         document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
         updateHpBar('player', lead.current_hp, lead.max_hp);
         setPlayerBattleSprite(lead.id, lead.height);
-        setDialogue(`Your ${lead.name.toUpperCase()} is standing ready! Choose FIGHT or HUNT to seek wild Pokémon.`);
+        updateHUDCombatantPlate('player', {
+          name: lead.name,
+          level: lead.level,
+          currentHp: lead.current_hp,
+          maxHp: lead.max_hp,
+          expPct: 50,
+          gender: (lead.id % 2 === 0) ? '♂' : '♀'
+        });
+        updateHUDRadialWheelMoves(lead);
+        setDialogue(`Your ${lead.name.toUpperCase()} is standing ready! Choose a move or HUNT to seek wild Pokémon.`);
       } else {
         setDialogue("The tall grass rustles quietly. Press [SPACE] or [HUNT] to find wild Pokémon!");
       }
@@ -8516,18 +8825,28 @@ body.layout-full .screen-nav {
       document.getElementById('enemy-level-tag').textContent = `Lv. ${data.encounter.level}`;
       updateHpBar('enemy', data.encounter.current_hp, data.encounter.max_hp);
       const enemyExp = document.getElementById('enemy-exp-fill');
+      const expPct = Math.min(95, Math.max(15, (((wild.id || 1) * 17 + (data.encounter.level || 5) * 13) % 70) + 20));
       if (enemyExp) {
-        const expPct = Math.min(95, Math.max(15, (((wild.id || 1) * 17 + (data.encounter.level || 5) * 13) % 70) + 20));
         enemyExp.style.width = `${expPct}%`;
       }
       
+      const isMale = (wild.id + (data.encounter.level || 1)) % 2 === 0;
       const genderEl = document.getElementById('enemy-gender-icon');
       if (genderEl) {
-        const isMale = (wild.id + (data.encounter.level || 1)) % 2 === 0;
         genderEl.textContent = isMale ? '♂' : '♀';
         genderEl.className = 'gender-icon ' + (isMale ? 'male' : 'female');
         genderEl.style.display = 'inline-block';
       }
+
+      // Update SVG Combatant Plate (Enemy)
+      updateHUDCombatantPlate('enemy', {
+        name: wild.name,
+        level: data.encounter.level,
+        currentHp: data.encounter.current_hp,
+        maxHp: data.encounter.max_hp,
+        expPct: expPct,
+        gender: isMale ? '♂' : '♀'
+      });
 
       setEnemyBattleSprite(wild, data.showdown_url, wild.height);
 
@@ -8537,36 +8856,50 @@ body.layout-full .screen-nav {
         document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
         updateHpBar('player', lead.current_hp, lead.max_hp);
         setPlayerBattleSprite(lead.id, lead.height);
+        updateHUDCombatantPlate('player', {
+          name: lead.name,
+          level: lead.level,
+          currentHp: lead.current_hp,
+          maxHp: lead.max_hp,
+          expPct: 50,
+          gender: (lead.id % 2 === 0) ? '♂' : '♀'
+        });
+        updateHUDRadialWheelMoves(lead);
       }
 
       updateExpBar();
-      setDialogue(`A wild ${wild.name.toUpperCase()} appeared! What will ${lead ? lead.name.toUpperCase() : 'you'} do?`);
+      setDialogue(`A wild ${wild.name.toUpperCase()} appeared! Choose a move for ${lead ? lead.name : 'your Pokémon'}.`);
       showMainActionsMenu();
     }
 
     function updateHpBar(target, current, max) {
-      const pct = Math.max(0, Math.min(100, Math.round((current / max) * 100)));
+      const pct = max > 0 ? Math.max(0, Math.min(100, Math.round((current / max) * 100))) : 0;
       const fill = document.getElementById(`${target}-hp-fill`);
-      if (!fill) return;
-      fill.style.width = `${pct}%`;
-      
-      if (pct > 50) {
-        fill.style.background = 'linear-gradient(90deg, #10b981 0%, #34d399 50%, #4ade80 100%)';
-        fill.style.boxShadow = '0 0 10px rgba(52, 211, 153, 0.8)';
-      } else if (pct > 20) {
-        fill.style.background = 'linear-gradient(90deg, #d97706 0%, #f59e0b 50%, #facc15 100%)';
-        fill.style.boxShadow = '0 0 10px rgba(245, 158, 11, 0.8)';
-      } else {
-        fill.style.background = 'linear-gradient(90deg, #dc2626 0%, #ef4444 50%, #f87171 100%)';
-        fill.style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.8)';
+      if (fill) {
+        fill.style.width = `${pct}%`;
+        if (pct > 50) {
+          fill.style.background = 'linear-gradient(90deg, #10b981 0%, #34d399 50%, #4ade80 100%)';
+          fill.style.boxShadow = '0 0 10px rgba(52, 211, 153, 0.8)';
+        } else if (pct > 20) {
+          fill.style.background = 'linear-gradient(90deg, #d97706 0%, #f59e0b 50%, #facc15 100%)';
+          fill.style.boxShadow = '0 0 10px rgba(245, 158, 11, 0.8)';
+        } else {
+          fill.style.background = 'linear-gradient(90deg, #dc2626 0%, #ef4444 50%, #f87171 100%)';
+          fill.style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.8)';
+        }
       }
 
       const numEl = document.getElementById(`${target}-hp-nums`);
       if (numEl) numEl.textContent = `${current} / ${max} HP`;
 
+      // Update SVG Combatant Plate HP
+      updateHUDCombatantPlate(target, { currentHp: current, maxHp: max });
+
       if (target === 'enemy' && current <= 0) {
         const enemyExp = document.getElementById('enemy-exp-fill');
         if (enemyExp) enemyExp.style.width = '0%';
+        const hudEnemyExp = document.getElementById('hud-enemy-exp-fill');
+        if (hudEnemyExp) hudEnemyExp.setAttribute('width', '0');
       }
     }
 
@@ -8577,104 +8910,136 @@ body.layout-full .screen-nav {
       if (movesGrid) movesGrid.style.display = 'none';
       if (bagGrid) bagGrid.style.display = 'none';
       if (mainGrid) mainGrid.style.display = 'block';
+      if (currentWild && currentWild.pokemon) {
+        setDialogue(`Wild ${currentWild.pokemon.name.toUpperCase()} appeared! What will you do?`);
+      } else if (playerData && playerData.party && playerData.party[0]) {
+        setDialogue(`Your ${playerData.party[0].name.toUpperCase()} is standing ready! Choose FIGHT or HUNT.`);
+      }
     }
 
-    // FIGHT button clicked -> Show Moves
-    document.getElementById('btn-menu-fight').addEventListener('click', async () => {
-      SFX.blip();
-      if (!currentWild && !currentArenaBattle) {
-        setDialogue("Searching tall grass for wild Pokémon...");
-        triggerHuntSearch();
-        return;
-      }
-      if (!playerData.party || playerData.party.length === 0) {
-        setDialogue("You have no Pokémon in your party to fight with!");
-        return;
-      }
-      let lead = playerData.party[0];
-      if (lead.current_hp === 0) {
-        const healthyIdx = playerData.party.findIndex(p => p.current_hp > 0);
-        if (healthyIdx !== -1) {
-          const healthy = playerData.party[healthyIdx];
-          setDialogue(`${lead.name.toUpperCase()} is fainted! Sending out ${healthy.name.toUpperCase()}!`);
-          try {
-            await api('/party/select', 'POST', { pokemon_id: healthy.id });
-            await updateHeaderPlayer();
-            lead = playerData.party[0];
-            setPlayerBattleSprite(lead.id);
-            document.getElementById('player-name').textContent = lead.name.toUpperCase();
-            document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
-            updateHpBar('player', lead.current_hp, lead.max_hp);
-          } catch (e) {
-            setDialogue(`Cannot switch: ${e.message}`);
-            return;
-          }
-        } else {
-          setDialogue("ALL YOUR POKÉMON HAVE FAINTED! VISIT THE POKÉMON CENTER [H] TO HEAL.");
-          return;
-        }
-      }
-
-      const grid = document.getElementById('moves-selection-grid');
-      grid.innerHTML = `
-        <svg class="radial-arc-track" viewBox="0 0 340 340" aria-hidden="true">
-          <path d="M 282 64 A 220 220 0 0 0 62 284" fill="none" stroke="rgba(250, 204, 21, 0.45)" stroke-width="3" stroke-dasharray="6 8" />
-          <path d="M 298 48 A 236 236 0 0 0 48 298" fill="none" stroke="rgba(45, 212, 191, 0.3)" stroke-width="2" />
-          <path d="M 266 80 A 204 204 0 0 0 80 266" fill="none" stroke="rgba(250, 204, 21, 0.2)" stroke-width="1.5" stroke-dasharray="2 4" />
-        </svg>
-      `;
-
-      // 4 circular moves fanning along the quarter circle arc
-      const movePositions = [
-        { bottom: '237px', right: '19px' },   // Move 1 (~90°)
-        { bottom: '208px', right: '129px' },  // Move 2 (~60°)
-        { bottom: '127px', right: '210px' },  // Move 3 (~30°)
-        { bottom: '17px', right: '239px' },   // Move 4 (~0°)
-      ];
-
-      lead.moves.forEach((m, idx) => {
-        if (idx >= movePositions.length) return;
-        const btn = document.createElement('button');
-        btn.className = 'move-circle-btn action-menu-btn modern-action-btn';
-        btn.style.bottom = movePositions[idx].bottom;
-        btn.style.right = movePositions[idx].right;
-        
-        const typeColor = TYPE_COLORS[m.type] || '#64748b';
-        btn.style.background = `radial-gradient(circle at 35% 30%, ${typeColor}ee 0%, ${typeColor} 60%, rgba(15,23,42,0.95) 100%)`;
-        btn.style.borderColor = typeColor;
-        btn.style.boxShadow = `0 6px 14px rgba(0,0,0,0.75), 0 0 12px ${typeColor}88, inset 0 2px 0 rgba(255,255,255,0.45)`;
-        btn.title = `${m.name.toUpperCase()} (${m.type}) • Power: ${m.power || 0} [${idx + 1}]`;
-
-        btn.innerHTML = `
-          <span class="radial-k-badge">${idx + 1}</span>
-          <span class="move-circle-type">${(m.type || 'NRM').substring(0, 4)}</span>
-          <span class="move-circle-name">${m.name.toUpperCase()}</span>
-          <span class="move-circle-pwr">${m.power ? 'PWR ' + m.power : 'STATUS'}</span>
-        `;
-        btn.onclick = (e) => {
-          e.stopPropagation();
-          executeMove(idx);
-        };
-        grid.appendChild(btn);
-      });
-
-      // No Back Button appended: "remove back to actions [B] button"
-      // Clicking the arc/grid background returns to main actions
-      grid.onclick = (e) => {
-        if (e.target === grid || e.target.classList.contains('radial-arc-track')) {
+    // Clicking anywhere on battlefield closes submenus and returns to main actions
+    const battleActiveView = document.getElementById('battle-active-view');
+    if (battleActiveView) {
+      battleActiveView.addEventListener('click', (e) => {
+        const movesGrid = document.getElementById('moves-selection-grid');
+        const bagGrid = document.getElementById('bag-selection-grid');
+        const isSubmenuOpen = (movesGrid && movesGrid.style.display !== 'none') || (bagGrid && bagGrid.style.display !== 'none');
+        if (isSubmenuOpen && !e.target.closest('#battle-bottom-dock') && !e.target.closest('.coc-hud-bottom-bar')) {
           SFX.cancel();
           showMainActionsMenu();
         }
-      };
+      });
+    }
 
-      document.getElementById('main-actions-grid').style.display = 'none';
-      grid.style.display = 'block';
-      setDialogue(`Choose a move for ${lead.name.toUpperCase()} [1-4] or press [B]/[ESC] to return:`);
-    });
+    // FIGHT button clicked -> Show Moves
+    const btnMenuFight = document.getElementById('btn-menu-fight');
+    if (btnMenuFight) {
+      btnMenuFight.addEventListener('click', async () => {
+        SFX.blip();
+        if (!currentWild && !currentArenaBattle) {
+          setDialogue("Searching tall grass for wild Pokémon...");
+          triggerHuntSearch();
+          return;
+        }
+        if (!playerData.party || playerData.party.length === 0) {
+          setDialogue("You have no Pokémon in your party to fight with!");
+          return;
+        }
+        let lead = playerData.party[0];
+        if (lead.current_hp === 0) {
+          const healthyIdx = playerData.party.findIndex(p => p.current_hp > 0);
+          if (healthyIdx !== -1) {
+            const healthy = playerData.party[healthyIdx];
+            setDialogue(`${lead.name.toUpperCase()} is fainted! Sending out ${healthy.name.toUpperCase()}!`);
+            try {
+              await api('/party/select', 'POST', { pokemon_id: healthy.id });
+              await updateHeaderPlayer();
+              lead = playerData.party[0];
+              setPlayerBattleSprite(lead.id);
+              document.getElementById('player-name').textContent = lead.name.toUpperCase();
+              document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
+              updateHpBar('player', lead.current_hp, lead.max_hp);
+            } catch (e) {
+              setDialogue(`Cannot switch: ${e.message}`);
+              return;
+            }
+          } else {
+            setDialogue("ALL YOUR POKÉMON HAVE FAINTED! VISIT THE POKÉMON CENTER [H] TO HEAL.");
+            return;
+          }
+        }
+
+        const grid = document.getElementById('moves-selection-grid');
+        if (!grid) return;
+        grid.innerHTML = `
+          <svg class="radial-arc-track" viewBox="0 0 380 380" aria-hidden="true">
+            <!-- Dark glass translucent curved track band -->
+            <path d="M 335 45 A 280 280 0 0 0 45 335 L 75 345 A 210 210 0 0 1 345 75 Z" fill="rgba(8, 38, 44, 0.45)" stroke="rgba(45, 212, 191, 0.35)" stroke-width="2" />
+            <!-- Center glowing dashed guide rail -->
+            <path d="M 340 60 A 245 245 0 0 0 60 340" fill="none" stroke="rgba(45, 212, 191, 0.65)" stroke-width="2.5" stroke-dasharray="6 8" />
+            <!-- Outer accent line -->
+            <path d="M 350 40 A 270 270 0 0 0 40 350" fill="none" stroke="rgba(250, 204, 21, 0.3)" stroke-width="1.5" />
+          </svg>
+        `;
+
+        // 4 circular moves fanning along the quarter circle arc matching design
+        const movePositions = [
+          { bottom: '260px', right: '65px' },   // Move 1 (~78°)
+          { bottom: '215px', right: '155px' },  // Move 2 (~55°)
+          { bottom: '155px', right: '220px' },  // Move 3 (~35°)
+          { bottom: '75px', right: '260px' },   // Move 4 (~14°)
+        ];
+
+        lead.moves.forEach((m, idx) => {
+          if (idx >= movePositions.length) return;
+          const btn = document.createElement('button');
+          btn.className = 'move-circle-btn action-menu-btn modern-action-btn';
+          btn.style.bottom = movePositions[idx].bottom;
+          btn.style.right = movePositions[idx].right;
+          
+          const typeColor = TYPE_COLORS[m.type] || '#64748b';
+          btn.style.background = `radial-gradient(circle at 35% 30%, ${typeColor}dd 0%, rgba(15,23,42,0.92) 85%)`;
+          btn.style.borderColor = typeColor;
+          btn.style.boxShadow = `0 8px 20px rgba(0,0,0,0.8), 0 0 14px ${typeColor}aa, inset 0 2px 0 rgba(255,255,255,0.5)`;
+          btn.title = `${m.name.toUpperCase()} (${m.type}) • Power: ${m.power || 0} [${idx + 1}]`;
+
+          btn.innerHTML = `
+            <span class="radial-k-badge">${idx + 1}</span>
+            <span class="move-circle-type">${(m.type || 'NRM').substring(0, 4)}</span>
+            <span class="move-circle-name">${m.name.toUpperCase()}</span>
+            <span class="move-circle-pwr">${m.power ? 'PWR ' + m.power : 'STATUS'}</span>
+          `;
+          btn.onclick = (e) => {
+            e.stopPropagation();
+            executeMove(idx);
+          };
+          grid.appendChild(btn);
+        });
+
+        // Clicking the arc/grid background returns to main actions
+        grid.onclick = (e) => {
+          if (e.target === grid || e.target.classList.contains('radial-arc-track')) {
+            SFX.cancel();
+            showMainActionsMenu();
+          }
+        };
+
+        const mainActionsGrid = document.getElementById('main-actions-grid');
+        if (mainActionsGrid) mainActionsGrid.style.display = 'none';
+        grid.style.display = 'block';
+        const properName = lead.name.charAt(0).toUpperCase() + lead.name.slice(1);
+        setDialogue(`Choose a move for ${properName}`);
+      });
+    }
 
     // Execute Move (Attack)
     async function executeMove(moveIdx) {
       if (battleTurnBusy) return;
+      if (!currentWild && !currentArenaBattle) {
+        setDialogue("No wild Pokémon nearby! Press [SPACE] or click HUNT! to search the tall grass.");
+        SFX.blip();
+        return;
+      }
       battleTurnBusy = true;
       SFX.confirm();
 
@@ -8682,8 +9047,10 @@ body.layout-full .screen-nav {
       
       // Animate player lunge
       const playerSprite = document.getElementById('player-sprite');
-      playerSprite.classList.add('attack-lunge-right');
-      setTimeout(() => playerSprite.classList.remove('attack-lunge-right'), 300);
+      if (playerSprite) {
+        playerSprite.classList.add('attack-lunge-right');
+        setTimeout(() => playerSprite.classList.remove('attack-lunge-right'), 300);
+      }
 
       try {
         const res = await api(endpoint, 'POST', { move_index: moveIdx });
@@ -9089,14 +9456,17 @@ body.layout-full .screen-nav {
     }
 
     // BAG button clicked -> Show Poké Balls & Items (In battle or inventory view)
-    document.getElementById('btn-menu-bag').addEventListener('click', async () => {
-      SFX.blip();
-      try {
-        await loadBagSelection('all');
-      } catch (e) {
-        setDialogue("Could not open bag: " + (e.message || "Unknown error"));
-      }
-    });
+    const btnMenuBag = document.getElementById('btn-menu-bag');
+    if (btnMenuBag) {
+      btnMenuBag.addEventListener('click', async () => {
+        SFX.blip();
+        try {
+          await loadBagSelection('all');
+        } catch (e) {
+          setDialogue("Could not open bag: " + (e.message || "Unknown error"));
+        }
+      });
+    }
 
     // Throw Poké Ball Animation & Logic
     async function throwBall(ballId) {
@@ -9285,12 +9655,27 @@ body.layout-full .screen-nav {
       const huntBtn = document.getElementById('btn-hunt-grass');
 
       const updateBtnText = () => {
+        const hudHuntLabel = document.getElementById('hud-hunt-label');
+        const hudHuntKey = document.getElementById('hud-hunt-key-hint');
+        const hudWheelHunt = document.getElementById('hud-wheel-hunt');
+        if (hudHuntLabel) {
+          hudHuntLabel.textContent = huntCooldownSeconds > 0 ? `RESTING` : 'HUNT!';
+        }
+        if (hudHuntKey) {
+          hudHuntKey.textContent = huntCooldownSeconds > 0 ? `(${huntCooldownSeconds}s)` : '[SPACE]';
+        }
+        if (hudWheelHunt) {
+          hudWheelHunt.style.opacity = huntCooldownSeconds > 0 ? '0.7' : '1';
+        }
+
         if (heroHuntBtn) {
           const subEl = heroHuntBtn.querySelector('.coc-hero-action-sub');
           if (subEl) {
             subEl.innerHTML = huntCooldownSeconds > 0 
               ? `RESTING (${huntCooldownSeconds}s)` 
               : `SEARCH GRASS <span class="coc-k-badge">[SPACE]</span>`;
+          } else {
+            heroHuntBtn.textContent = huntCooldownSeconds > 0 ? `RESTING (${huntCooldownSeconds}s)` : 'HUNT!';
           }
           heroHuntBtn.style.opacity = huntCooldownSeconds > 0 ? '0.75' : '1';
         }
@@ -10600,30 +10985,29 @@ body.layout-full .screen-nav {
 
       // Number keys 1, 2, 3, 4
       if (key === '1') {
-        const moves = document.querySelectorAll('#moves-selection-grid .move-circle-btn, #moves-selection-grid .move-btn');
-        if (moves[0] && moves[0].offsetParent !== null) elements.push(moves[0]);
-        else elements.push(document.getElementById('btn-menu-fight'));
+        const node = document.getElementById('hud-move-node-0');
+        if (node) elements.push(node);
       }
       if (key === '2') {
-        const moves = document.querySelectorAll('#moves-selection-grid .move-circle-btn, #moves-selection-grid .move-btn');
-        if (moves[1] && moves[1].offsetParent !== null) elements.push(moves[1]);
-        else elements.push(document.getElementById('btn-menu-bag'));
+        const node = document.getElementById('hud-move-node-1');
+        if (node) elements.push(node);
       }
       if (key === '3') {
-        const moves = document.querySelectorAll('#moves-selection-grid .move-circle-btn, #moves-selection-grid .move-btn');
-        if (moves[2] && moves[2].offsetParent !== null) elements.push(moves[2]);
+        const node = document.getElementById('hud-move-node-2');
+        if (node) elements.push(node);
       }
       if (key === '4') {
-        const moves = document.querySelectorAll('#moves-selection-grid .move-circle-btn, #moves-selection-grid .move-btn');
-        if (moves[3] && moves[3].offsetParent !== null) elements.push(moves[3]);
-        else elements.push(document.getElementById('btn-menu-run'));
+        const node = document.getElementById('hud-move-node-3');
+        if (node) elements.push(node);
       }
 
       // Quick actions
-      if (lower === 'c') elements.push(document.getElementById('coc-hero-cry-btn'));
-      if (lower === 'm') elements.push(document.getElementById('coc-hero-shop-btn'));
-      if (lower === 'h') elements.push(document.getElementById('btn-nurse-heal') || document.getElementById('coc-btn-center'));
-      if (lower === 'v') elements.push(document.getElementById('coc-zone-pill') || document.getElementById('battle-env-badge'));
+      if (lower === 'c') elements.push(document.getElementById('hud-action-cry') || document.getElementById('coc-hero-cry-btn'));
+      if (lower === 'm') elements.push(document.getElementById('hud-wheel-shop') || document.getElementById('coc-hero-shop-btn'));
+      if (key === 'Escape' || lower === 'b') elements.push(document.getElementById('hud-action-run'));
+      if (key === ' ') elements.push(document.getElementById('hud-wheel-hunt') || document.getElementById('coc-hero-hunt-btn'));
+      if (lower === 'h') elements.push(document.getElementById('btn-nurse-heal') || document.getElementById('hud-rail-center'));
+      if (lower === 'v') elements.push(document.getElementById('hud-route-card') || document.getElementById('coc-zone-pill'));
 
       return elements.filter(Boolean);
     }
@@ -10653,8 +11037,8 @@ body.layout-full .screen-nav {
       matched.forEach(el => el.classList.add('key-pressed'));
       flashKeyHUD(key === ' ' ? 'SPACE' : key.toUpperCase());
 
-      // 1. ESC / Back / Cancel / X
-      if (key === 'Escape' || lower === 'x' || key === 'Backspace') {
+      // 1. ESC / Back / Cancel / X / B / R
+      if (key === 'Escape' || lower === 'x' || key === 'Backspace' || lower === 'b' || lower === 'r') {
         e.preventDefault();
         const mailModal = document.getElementById('coc-mail-modal');
         if (mailModal && mailModal.classList.contains('open')) {
@@ -10682,8 +11066,7 @@ body.layout-full .screen-nav {
           SFX.cancel();
           return;
         }
-        showMainActionsMenu();
-        SFX.cancel();
+        executeRunOrBack();
         return;
       }
 
@@ -10712,24 +11095,10 @@ body.layout-full .screen-nav {
         return;
       }
 
-      // 2. Number Keys 1, 2, 3, 4 (Moves, Bag, or Main Battle Actions)
+      // 2. Number Keys 1, 2, 3, 4 (Moves 1-4)
       if (key === '1' || key === '2' || key === '3' || key === '4') {
         const num = parseInt(key, 10);
-        const movesGrid = document.getElementById('moves-selection-grid');
         const bagGrid = document.getElementById('bag-selection-grid');
-        const mainGrid = document.getElementById('main-actions-grid');
-
-        // Moves selection active
-        if (movesGrid && movesGrid.style.display !== 'none') {
-          e.preventDefault();
-          const moveBtns = movesGrid.querySelectorAll('.move-circle-btn, .move-btn');
-          if (moveBtns[num - 1]) {
-            moveBtns[num - 1].click();
-            return;
-          }
-        }
-
-        // Bag selection active
         if (bagGrid && bagGrid.style.display !== 'none') {
           e.preventDefault();
           const ballBtns = bagGrid.querySelectorAll('.move-btn');
@@ -10738,68 +11107,29 @@ body.layout-full .screen-nav {
             return;
           }
         }
-
-        // Main Battle Actions
-        const activeTab = document.querySelector('.location-pane.active');
-        if (activeTab && activeTab.id === 'pane-hunt' && mainGrid && mainGrid.style.display !== 'none') {
-          e.preventDefault();
-          if (num === 1) { const b = document.getElementById('btn-menu-fight'); if (b) b.click(); }
-          if (num === 2) { const b = document.getElementById('btn-menu-bag'); if (b) b.click(); }
-          if (num === 4) { const b = document.getElementById('btn-menu-run'); if (b) b.click(); }
-          return;
-        }
+        e.preventDefault();
+        executeMove(num - 1);
+        return;
       }
 
-      // 3. Letters F, B, R, M for Battle Actions / Hotkeys
+      // 3. Letters F, M for Battle Actions / Hotkeys
       if (lower === 'f') {
-        const btn = document.getElementById('btn-menu-fight');
-        if (btn && btn.offsetParent !== null) {
-          e.preventDefault();
-          btn.click();
-          return;
-        } else {
-          e.preventDefault();
-          toggleBrowserFullscreen();
-          return;
-        }
-      }
-      if (lower === 'b') {
-        const movesGrid = document.getElementById('moves-selection-grid');
-        const bagGrid = document.getElementById('bag-selection-grid');
-        if ((movesGrid && movesGrid.style.display !== 'none') || (bagGrid && bagGrid.style.display !== 'none')) {
-          e.preventDefault();
-          SFX.cancel();
-          showMainActionsMenu();
-          return;
-        }
-        const btn = document.getElementById('btn-menu-bag');
-        if (btn && btn.offsetParent !== null) { e.preventDefault(); btn.click(); return; }
-      }
-      if (lower === 'r') {
-        const btn = document.getElementById('btn-menu-run');
-        if (btn && btn.offsetParent !== null) { e.preventDefault(); btn.click(); return; }
+        e.preventDefault();
+        toggleBrowserFullscreen();
+        return;
       }
       if (lower === 'm') {
-        const btn = document.getElementById('coc-hero-shop-btn');
-        if (btn && btn.offsetParent !== null) { e.preventDefault(); btn.click(); return; }
+        e.preventDefault();
+        const martTab = document.querySelector('.nav-tab[data-tab="mart"]');
+        if (martTab) martTab.click();
+        return;
       }
 
-      // 4. Spacebar: Search Tall Grass (or select)
+      // 4. Spacebar: Hunt Wild Pokémon
       if (key === ' ' || key === 'Spacebar') {
         e.preventDefault();
-        const activeTab = document.querySelector('.location-pane.active');
-        if (activeTab && activeTab.id === 'pane-hunt') {
-          if (!currentWild && !currentArenaBattle) {
-            triggerHuntSearch();
-            return;
-          } else {
-            const fightBtn = document.getElementById('btn-menu-fight');
-            if (fightBtn && fightBtn.offsetParent !== null) {
-              fightBtn.click();
-              return;
-            }
-          }
-        }
+        triggerHuntSearch();
+        return;
       }
 
       // 5. C key: Play Cry
@@ -10947,6 +11277,313 @@ body.layout-full .screen-nav {
       }
     }
 
+    // ============================================================
+    // POKÉDASH SVG HUD BINDINGS & LIVE STATE UPDATERS
+    // ============================================================
+    function updateHUDTrainerCrest(p, data) {
+      if (!p) return;
+      const lvl = data?.level || 1;
+      const xp = Number(p.xp) || 0;
+      const prevXp = Number(data?.prev_xp) || Math.pow(Math.max(1, lvl - 1), 3);
+      const nextXp = Number(data?.next_xp) || Math.pow(lvl, 3);
+      const xpRange = Math.max(1, nextXp - prevXp);
+      const xpPct = Math.max(0, Math.min(100, (xp - prevXp) / xpRange));
+
+      const nameEl = document.getElementById('hud-trainer-name');
+      if (nameEl) nameEl.textContent = (p.username || 'TRAINER').toUpperCase();
+
+      const lvlEl = document.getElementById('hud-trainer-level');
+      if (lvlEl) lvlEl.textContent = lvl;
+
+      const xpFill = document.getElementById('hud-trainer-xp-fill');
+      if (xpFill) xpFill.setAttribute('width', Math.max(6, Math.round(xpPct * 2.14)));
+
+      const xpNums = document.getElementById('hud-trainer-xp-nums');
+      if (xpNums) xpNums.textContent = `${(xp - prevXp).toLocaleString()} / ${(nextXp - prevXp).toLocaleString()} XP`;
+
+      const badgeCount = (p.arena_badges || p.badges || []).length;
+      const trophies = 1000 + Math.floor(xp / 50) + (badgeCount * 120);
+      const trophyEl = document.getElementById('hud-trophy-val');
+      if (trophyEl) trophyEl.textContent = trophies.toLocaleString();
+    }
+
+    function updateHUDTelemetry(p, data) {
+      if (!p) return;
+      const currency = Number(p.currency) || 0;
+      const goldEl = document.getElementById('hud-telemetry-gold');
+      if (goldEl) goldEl.textContent = `P$ ${currency.toLocaleString()}`;
+
+      const totalBalls = Object.values(p.balls || {}).reduce((sum, n) => sum + (Number(n) || 0), 0);
+      const ballsEl = document.getElementById('hud-telemetry-balls');
+      if (ballsEl) ballsEl.textContent = `${totalBalls} / 99`;
+
+      const badges = p.arena_badges || p.badges || [];
+      const badgeCount = badges.length;
+      const badgesEl = document.getElementById('hud-telemetry-badges');
+      if (badgesEl) badgesEl.textContent = `${badgeCount} / 10 BADGES`;
+
+      const routeEl = document.getElementById('hud-telemetry-route');
+      if (routeEl && currentBattleTheme) {
+        routeEl.textContent = (currentBattleTheme.name || 'SUNLIT MEADOW').toUpperCase();
+      }
+    }
+
+    function updateHUDCombatantPlate(target, { name, level, currentHp, maxHp, expPct, gender }) {
+      if (name !== undefined) {
+        const nameEl = document.getElementById(`hud-${target}-name`);
+        if (nameEl) nameEl.textContent = name.toUpperCase();
+      }
+
+      if (level !== undefined) {
+        const lvlEl = document.getElementById(`hud-${target}-level`);
+        if (lvlEl) {
+          lvlEl.textContent = String(level).toUpperCase().startsWith('LV.') || String(level).toUpperCase().startsWith('ZONE') 
+            ? String(level).toUpperCase() 
+            : `LV. ${level}`;
+        }
+      }
+
+      if (gender !== undefined) {
+        const genderEl = document.getElementById(`hud-${target}-gender`);
+        if (genderEl) {
+          if (gender) {
+            genderEl.textContent = gender;
+            genderEl.setAttribute('fill', gender === '♂' ? '#38BDF8' : '#F472B6');
+            genderEl.style.display = 'inline';
+          } else {
+            genderEl.style.display = 'none';
+          }
+        }
+      }
+
+      if (currentHp !== undefined && maxHp !== undefined) {
+        const hpPct = maxHp > 0 ? Math.max(0, Math.min(100, Math.round((currentHp / maxHp) * 100))) : 0;
+        const hpFill = document.getElementById(`hud-${target}-hp-fill`);
+        if (hpFill) hpFill.setAttribute('width', Math.round((hpPct / 100) * 208));
+
+        const s1 = document.getElementById(`hpStop1-${target}`);
+        const s2 = document.getElementById(`hpStop2-${target}`);
+        if (s1 && s2) {
+          if (hpPct > 50) {
+            s1.setAttribute('stop-color', '#22C55E');
+            s2.setAttribute('stop-color', '#4ADE80');
+          } else if (hpPct > 20) {
+            s1.setAttribute('stop-color', '#D97706');
+            s2.setAttribute('stop-color', '#FBBF24');
+          } else {
+            s1.setAttribute('stop-color', '#DC2626');
+            s2.setAttribute('stop-color', '#EF4444');
+          }
+        }
+
+        const hpNums = document.getElementById(`hud-${target}-hp-nums`);
+        if (hpNums) {
+          if (target === 'enemy' && (currentHp === 0 || maxHp === 0) && (!currentWild || !currentArenaBattle)) {
+            hpNums.textContent = 'PEACEFUL';
+          } else {
+            hpNums.textContent = `${currentHp} / ${maxHp}`;
+          }
+        }
+      }
+
+      if (expPct !== undefined) {
+        const expFill = document.getElementById(`hud-${target}-exp-fill`);
+        if (expFill) {
+          const w = Math.round((Math.max(0, Math.min(100, expPct)) / 100) * 286);
+          expFill.setAttribute('width', w);
+        }
+      }
+    }
+
+    function updateHUDRadialWheelMoves(lead) {
+      const defaultMoves = [
+        { name: "TACKLE", type: "Normal", power: 40 },
+        { name: "SCRATCH", type: "Normal", power: 40 },
+        { name: "QUICK ATTACK", type: "Normal", power: 40 },
+        { name: "SLAM", type: "Normal", power: 80 }
+      ];
+
+      for (let i = 0; i < 4; i++) {
+        const m = (lead && lead.moves && lead.moves[i]) ? lead.moves[i] : (defaultMoves[i] || null);
+        const node = document.getElementById(`hud-move-node-${i}`);
+        const typeEl = document.getElementById(`hud-move-type-${i}`);
+        const nameEl = document.getElementById(`hud-move-name-${i}`);
+        const pwrEl = document.getElementById(`hud-move-pwr-${i}`);
+        const pillEl = document.getElementById(`hud-move-type-pill-${i}`);
+        const s1 = document.getElementById(`typeStop1-${i}`);
+        const s2 = document.getElementById(`typeStop2-${i}`);
+
+        if (m) {
+          if (nameEl) nameEl.textContent = m.name.toUpperCase();
+          if (typeEl) typeEl.textContent = (m.type || 'NORM').substring(0, 5).toUpperCase();
+          if (pwrEl) pwrEl.textContent = m.power ? `PWR ${m.power}` : 'STATUS';
+
+          const color = TYPE_COLORS[m.type] || '#64748b';
+          if (pillEl) pillEl.setAttribute('fill', color);
+          if (s1) s1.setAttribute('stop-color', color);
+          if (s2) s2.setAttribute('stop-color', '#1E293B');
+
+          if (node) {
+            node.style.opacity = '1';
+            node.style.cursor = 'pointer';
+            node.onclick = (e) => {
+              e.stopPropagation();
+              executeMove(i);
+            };
+          }
+        }
+      }
+
+      if (lead) {
+        const proper = lead.name.charAt(0).toUpperCase() + lead.name.slice(1).toLowerCase();
+        const monHighlight = document.getElementById('hud-prompt-mon-name');
+        if (monHighlight) monHighlight.textContent = proper;
+      }
+    }
+
+    async function executeRunOrBack() {
+      SFX.cancel();
+      const activeNonHunt = document.querySelector('.location-pane:not(#pane-hunt).active');
+      if (activeNonHunt) {
+        closeCocFacilityModal();
+        return;
+      }
+      if (isArenaMode) {
+        setDialogue("You cannot flee from a Gym Leader battle!");
+        return;
+      }
+      if (!currentWild && !currentArenaBattle) {
+        setDialogue("You are roaming peacefully. Choose a move or HUNT to find wild Pokémon.");
+        return;
+      }
+      try {
+        const res = await api('/flee', 'POST');
+        setDialogue(res.message);
+        setTimeout(() => showSearchTallGrassState(), 1200);
+      } catch (e) {
+        showSearchTallGrassState();
+      }
+    }
+
+    function initHUDSVGBindings() {
+      // 1. Radial Wheel HUNT! [SPACE] CTA
+      const wheelHunt = document.getElementById('hud-wheel-hunt');
+      if (wheelHunt) {
+        wheelHunt.addEventListener('click', triggerHuntSearch);
+      }
+
+      // 2. Radial Wheel SHOP [M] Orb
+      const wheelShop = document.getElementById('hud-wheel-shop');
+      if (wheelShop) {
+        wheelShop.addEventListener('click', () => {
+          const martTab = document.querySelector('.nav-tab[data-tab="mart"]');
+          if (martTab) martTab.click();
+        });
+      }
+
+      // 3. Battle Prompt Tactical Pills: CRY [C] and RUN [ESC]
+      const actionCry = document.getElementById('hud-action-cry');
+      if (actionCry) {
+        actionCry.addEventListener('click', triggerPlayCry);
+      }
+
+      const actionRun = document.getElementById('hud-action-run');
+      if (actionRun) {
+        actionRun.addEventListener('click', executeRunOrBack);
+      }
+
+      // 4. Left Rail Navigation Tiles
+      const railLogs = document.getElementById('hud-rail-logs');
+      if (railLogs) railLogs.addEventListener('click', openCocMailModal);
+
+      const railTabs = ['ranks', 'arena', 'center', 'dex', 'cards', 'trainer'];
+      railTabs.forEach(t => {
+        const el = document.getElementById(`hud-rail-${t}`);
+        if (el) {
+          el.addEventListener('click', () => {
+            const targetTab = document.querySelector(`.screen-nav .nav-tab[data-tab="${t}"]`) || document.querySelector(`.nav-tab[data-tab="${t}"]`);
+            if (targetTab) targetTab.click();
+            railTabs.forEach(ot => {
+              const rect = document.getElementById(`hud-tile-rect-${ot}`);
+              if (rect) rect.setAttribute('stroke', ot === t ? 'url(#goldTrim-left)' : '#2B4C50');
+            });
+          });
+        }
+      });
+
+      // 5. Top-Right Telemetry Pills
+      const pillGold = document.getElementById('hud-pill-gold');
+      if (pillGold) {
+        pillGold.addEventListener('click', () => {
+          const martTab = document.querySelector('.nav-tab[data-tab="mart"]');
+          if (martTab) martTab.click();
+        });
+      }
+
+      const pillBag = document.getElementById('hud-pill-bag');
+      if (pillBag) {
+        pillBag.addEventListener('click', () => {
+          const bagGrid = document.getElementById('bag-selection-grid');
+          if (bagGrid) {
+            bagGrid.style.display = bagGrid.style.display === 'none' ? 'block' : 'none';
+          }
+        });
+      }
+
+      const pillBadges = document.getElementById('hud-pill-badges');
+      if (pillBadges) {
+        pillBadges.addEventListener('click', () => {
+          const arenaTab = document.querySelector('.nav-tab[data-tab="arena"]');
+          if (arenaTab) arenaTab.click();
+        });
+      }
+
+      // 6. Route selector card
+      const routeCard = document.getElementById('hud-route-card');
+      if (routeCard) {
+        routeCard.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const dd = document.getElementById('scenery-picker-dropdown');
+          if (dd) {
+            dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
+          }
+        });
+      }
+
+      // 7. Utility Tray Buttons
+      const utilAudio = document.getElementById('hud-util-audio');
+      if (utilAudio) {
+        utilAudio.addEventListener('click', () => {
+          const toggleSound = document.getElementById('toggle-sound');
+          if (toggleSound) toggleSound.click();
+          const isMuted = !soundEnabled;
+          const waves = document.getElementById('hud-audio-waves');
+          if (waves) waves.style.display = isMuted ? 'none' : 'block';
+        });
+      }
+
+      const utilLogs = document.getElementById('hud-util-logs');
+      if (utilLogs) utilLogs.addEventListener('click', openCocMailModal);
+
+      const utilFs = document.getElementById('hud-util-fullscreen');
+      if (utilFs) utilFs.addEventListener('click', toggleBrowserFullscreen);
+
+      const utilSettings = document.getElementById('hud-util-settings');
+      if (utilSettings) utilSettings.addEventListener('click', openSettingsModal);
+
+      // 8. Top-Left Level Crest and Rank Pill
+      const levelCrest = document.getElementById('hud-level-crest-btn');
+      if (levelCrest) levelCrest.addEventListener('click', openSettingsModal);
+
+      const rankPill = document.getElementById('hud-rank-pill');
+      if (rankPill) {
+        rankPill.addEventListener('click', () => {
+          const ranksTab = document.querySelector('.nav-tab[data-tab="ranks"]');
+          if (ranksTab) ranksTab.click();
+        });
+      }
+    }
+
     function updatePartyHealthHUD(party) {
       const valEl = document.getElementById('coc-party-health-val');
       if (!valEl) return;
@@ -10976,6 +11613,13 @@ body.layout-full .screen-nav {
       const nextXp = Number(data.next_xp) || Math.pow(lvl, 3);
       const xpRange = Math.max(1, nextXp - prevXp);
       const xpPct = Math.max(6, Math.min(100, Math.round(((xp - prevXp) / xpRange) * 100)));
+
+      // Update SVG HUD Crest & Telemetry
+      updateHUDTrainerCrest(p, data);
+      updateHUDTelemetry(p, data);
+      if (p.party && p.party.length > 0) {
+        updateHUDRadialWheelMoves(p.party[0]);
+      }
 
       // Level & Name
       const lvlEl = document.getElementById('coc-trainer-level');
@@ -11173,6 +11817,7 @@ body.layout-full .screen-nav {
     window.addEventListener('DOMContentLoaded', async () => {
       initPokemonHeights();
       initCocHandlers();
+      initHUDSVGBindings();
       initBattleEnvBadge();
       loadSavedBattleArenaTheme();
       initAuthHandlers();
