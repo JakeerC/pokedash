@@ -1055,23 +1055,23 @@
     /* Upper Field: Enemy Pokémon Platform on Midground Trail */
     .battle-upper-field {
       position: absolute;
-      top: clamp(40%, 46vh, 52%);
+      top: clamp(42%, 48vh, 54%);
       left: clamp(54%, 58vw, 62%);
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -85%);
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-end;
       z-index: 8;
     }
     /* Lower Field: Player Pokémon Platform on Foreground Trail */
     .battle-lower-field {
       position: absolute;
-      bottom: clamp(14%, 20vh, 26%);
+      bottom: clamp(12%, 18vh, 24%);
       left: clamp(30%, 35vw, 40%);
       transform: translate(-50%, 0);
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-end;
       z-index: 12;
     }
 
@@ -1079,7 +1079,7 @@
     .battle-platform {
       position: relative;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
     }
     .pokemon-ground-shadow {
@@ -1087,16 +1087,17 @@
       bottom: -6px;
       left: 50%;
       transform: translateX(-50%);
-      width: 140px;
-      height: 32px;
+      width: var(--ground-shadow-w, 125px);
+      height: var(--ground-shadow-h, 27px);
       background: radial-gradient(ellipse at center, rgba(12, 24, 18, 0.72) 0%, rgba(12, 24, 18, 0.28) 55%, transparent 75%);
       border-radius: 50%;
       pointer-events: none;
       z-index: 1;
+      transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
     }
     .enemy-platform .pokemon-ground-shadow {
-      width: 105px;
-      height: 24px;
+      width: var(--enemy-shadow-w, 92px);
+      height: var(--enemy-shadow-h, 20px);
     }
     /* Ambient Sparkle Aura around wild enemy */
     .enemy-platform::after {
@@ -1104,12 +1105,14 @@
       position: absolute;
       top: -15px; left: 50%;
       transform: translateX(-50%);
-      width: 130px; height: 130px;
+      width: var(--enemy-aura-size, 115px);
+      height: var(--enemy-aura-size, 115px);
       background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(94, 234, 212, 0.15) 35%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
       animation: pulse-sparkle 3s infinite ease-in-out;
       z-index: 1;
+      transition: width 0.3s ease, height 0.3s ease;
     }
     @keyframes pulse-sparkle {
       0%, 100% { opacity: 0.35; transform: translateX(-50%) scale(0.95); }
@@ -1122,24 +1125,24 @@
       width: auto;
       height: auto;
       object-fit: contain;
-      image-rendering: auto !important;
+      image-rendering: pixelated !important;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
       transform: translateZ(0);
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,0.55));
-      transition: transform 0.2s, max-width 0.25s, max-height 0.25s;
+      filter: drop-shadow(0 12px 22px rgba(0,0,0,0.55));
+      transition: transform 0.2s, max-width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), max-height 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.3s ease, height 0.3s ease;
     }
     .player-platform .pokemon-battle-sprite {
-      max-width: clamp(160px, 20vw, 240px);
-      max-height: clamp(160px, 24vh, 240px);
-      min-width: 120px;
-      min-height: 120px;
+      max-width: var(--player-sprite-max-w, clamp(135px, 17vw, 270px));
+      max-height: var(--player-sprite-max-h, clamp(135px, 21vh, 270px));
+      min-width: 36px;
+      min-height: 36px;
     }
     .enemy-platform .pokemon-battle-sprite {
-      max-width: clamp(110px, 15vw, 170px);
-      max-height: clamp(110px, 18vh, 170px);
-      min-width: 80px;
-      min-height: 80px;
+      max-width: var(--enemy-sprite-max-w, clamp(95px, 12vw, 200px));
+      max-height: var(--enemy-sprite-max-h, clamp(95px, 16vh, 200px));
+      min-width: 28px;
+      min-height: 28px;
     }
     .pokemon-battle-sprite.shake {
       animation: sprite-hit 0.35s ease-in-out;
@@ -5926,7 +5929,7 @@ body.layout-full .screen-nav {
                 <!-- Upper Field: Enemy Pokémon Platform & Sprite on Midground Trail -->
                 <div class="battle-upper-field">
                   <div class="battle-platform enemy-platform">
-                    <div class="pokemon-ground-shadow"></div>
+                    <div class="pokemon-ground-shadow" id="enemy-ground-shadow"></div>
                     <img id="enemy-sprite" class="pokemon-battle-sprite" src="" alt="Wild Enemy" />
                   </div>
                 </div>
@@ -5934,7 +5937,7 @@ body.layout-full .screen-nav {
                 <!-- Lower Field: Player Pokémon Platform & Sprite on Foreground Trail -->
                 <div class="battle-lower-field">
                   <div class="battle-platform player-platform">
-                    <div class="pokemon-ground-shadow"></div>
+                    <div class="pokemon-ground-shadow" id="player-ground-shadow"></div>
                     <img id="player-sprite" class="pokemon-battle-sprite" src="" alt="Player Pokemon" />
                   </div>
                 </div>
@@ -8278,11 +8281,145 @@ body.layout-full .screen-nav {
       }
     }
 
-    function setPlayerBattleSprite(id) {
+    // ============================================================
+    // POKÉAPI CANONICAL HEIGHT & PROPORTIONAL SPRITE SCALING
+    // ============================================================
+    window.POKEMON_HEIGHTS = {};
+    let pokemonHeightsLoaded = false;
+    const pendingPokeApiFetches = new Set();
+
+    async function initPokemonHeights() {
+      if (pokemonHeightsLoaded) return;
+      try {
+        const res = await fetch('/pokemon_heights.json');
+        if (res.ok) {
+          window.POKEMON_HEIGHTS = await res.json();
+          pokemonHeightsLoaded = true;
+          // Re-apply scale to active sprites if present
+          if (playerData && playerData.party && playerData.party[0]) {
+            const lead = playerData.party[0];
+            applyPokemonProportionalScale(document.getElementById('player-sprite'), document.getElementById('player-ground-shadow'), lead.id, true, lead.height);
+          }
+          if (currentWild && currentWild.encounter && currentWild.encounter.pokemon) {
+            const wild = currentWild.encounter.pokemon;
+            applyPokemonProportionalScale(document.getElementById('enemy-sprite'), document.getElementById('enemy-ground-shadow'), wild.id, false, wild.height);
+          }
+        }
+      } catch (e) {
+        console.warn('Could not load pokemon_heights.json', e);
+      }
+    }
+
+    function getPokemonHeightDm(id) {
+      if (!id) return 14;
+      const numId = Number(id);
+      if (window.POKEMON_HEIGHTS && window.POKEMON_HEIGHTS[numId] && window.POKEMON_HEIGHTS[numId].height) {
+        return window.POKEMON_HEIGHTS[numId].height;
+      }
+      if (playerData && playerData.party) {
+        const found = playerData.party.find(p => p.id === numId);
+        if (found && found.height) return found.height;
+      }
+      if (currentWild && currentWild.encounter && currentWild.encounter.pokemon && currentWild.encounter.pokemon.id === numId && currentWild.encounter.pokemon.height) {
+        return currentWild.encounter.pokemon.height;
+      }
+      fetchPokeApiHeight(numId);
+      return 14;
+    }
+
+    async function fetchPokeApiHeight(id) {
+      if (!id || (window.POKEMON_HEIGHTS && window.POKEMON_HEIGHTS[id]) || pendingPokeApiFetches.has(id)) return;
+      pendingPokeApiFetches.add(id);
+      try {
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (!window.POKEMON_HEIGHTS) window.POKEMON_HEIGHTS = {};
+          window.POKEMON_HEIGHTS[id] = {
+            height: data.height || 14,
+            weight: data.weight || 100
+          };
+          if (playerData && playerData.party && playerData.party[0] && playerData.party[0].id === id) {
+            applyPokemonProportionalScale(document.getElementById('player-sprite'), document.getElementById('player-ground-shadow'), id, true, data.height);
+          }
+          if (currentWild && currentWild.encounter && currentWild.encounter.pokemon && currentWild.encounter.pokemon.id === id) {
+            applyPokemonProportionalScale(document.getElementById('enemy-sprite'), document.getElementById('enemy-ground-shadow'), id, false, data.height);
+          }
+        }
+      } catch (e) {} finally {
+        pendingPokeApiFetches.delete(id);
+      }
+    }
+
+    function applyPokemonProportionalScale(spriteEl, shadowEl, pokemonId, isPlayer, explicitHeightDm) {
+      if (!spriteEl) return;
+      const hDm = explicitHeightDm || getPokemonHeightDm(pokemonId);
+      // Power curve scale relative to standard 1.6m (16 dm) reference Pokémon (e.g. Charizard/Blastoise)
+      // Clamped to range [0.44, 1.78] so tiny mons remain visible and colossal mons fit comfortably
+      const rawScale = Math.pow(Math.max(1, hDm) / 16, 0.38);
+      const scale = Math.max(0.44, Math.min(1.78, rawScale));
+
+      if (isPlayer) {
+        // Player platform (foreground trail): calibrated proportions (30% reduction), base reference at 1.6m is ~165px height, ~200px width
+        const maxH = Math.round(165 * scale);
+        const maxW = Math.round(200 * scale);
+        const shadowW = Math.round(125 * Math.max(0.45, Math.min(1.75, Math.pow(hDm / 16, 0.32))));
+        const shadowH = Math.round(27 * Math.max(0.50, Math.min(1.50, Math.pow(hDm / 16, 0.25))));
+
+        spriteEl.style.height = `${maxH}px`;
+        spriteEl.style.width = 'auto';
+        spriteEl.style.setProperty('--player-sprite-max-h', `${maxH}px`);
+        spriteEl.style.setProperty('--player-sprite-max-w', `${maxW}px`);
+        spriteEl.style.maxHeight = `${maxH}px`;
+        spriteEl.style.maxWidth = `${maxW}px`;
+
+        if (shadowEl) {
+          shadowEl.style.setProperty('--ground-shadow-w', `${shadowW}px`);
+          shadowEl.style.setProperty('--ground-shadow-h', `${shadowH}px`);
+          shadowEl.style.width = `${shadowW}px`;
+          shadowEl.style.height = `${shadowH}px`;
+          shadowEl.style.opacity = '1';
+        }
+      } else {
+        // Enemy platform (midground trail with perspective depth, 30% reduction): base reference at 1.6m is ~122px height, ~148px width
+        const maxH = Math.round(122 * scale);
+        const maxW = Math.round(148 * scale);
+        const shadowW = Math.round(92 * Math.max(0.45, Math.min(1.70, Math.pow(hDm / 16, 0.32))));
+        const shadowH = Math.round(20 * Math.max(0.50, Math.min(1.50, Math.pow(hDm / 16, 0.25))));
+        const auraSize = Math.round(115 * Math.max(0.60, Math.min(1.60, scale)));
+
+        spriteEl.style.height = `${maxH}px`;
+        spriteEl.style.width = 'auto';
+        spriteEl.style.setProperty('--enemy-sprite-max-h', `${maxH}px`);
+        spriteEl.style.setProperty('--enemy-sprite-max-w', `${maxW}px`);
+        spriteEl.style.maxHeight = `${maxH}px`;
+        spriteEl.style.maxWidth = `${maxW}px`;
+
+        const enemyPlatform = spriteEl.closest('.enemy-platform');
+        if (enemyPlatform) {
+          enemyPlatform.style.setProperty('--enemy-aura-size', `${auraSize}px`);
+        }
+
+        if (shadowEl) {
+          shadowEl.style.setProperty('--enemy-shadow-w', `${shadowW}px`);
+          shadowEl.style.setProperty('--enemy-shadow-h', `${shadowH}px`);
+          shadowEl.style.width = `${shadowW}px`;
+          shadowEl.style.height = `${shadowH}px`;
+          shadowEl.style.opacity = '1';
+        }
+      }
+    }
+
+    function setPlayerBattleSprite(id, explicitHeight) {
       const playerSprite = document.getElementById('player-sprite');
+      const playerShadow = document.getElementById('player-ground-shadow');
       if (!playerSprite) return;
       playerSprite.style.display = 'block';
       playerSprite.style.opacity = '1';
+      if (playerShadow) {
+        playerShadow.style.display = 'block';
+        playerShadow.style.opacity = '1';
+      }
       playerSprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/back/${id}.gif`;
       playerSprite.onerror = () => {
         playerSprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`;
@@ -8291,6 +8428,33 @@ body.layout-full .screen-nav {
         };
       };
       playerSprite.classList.remove('faint');
+      applyPokemonProportionalScale(playerSprite, playerShadow, id, true, explicitHeight);
+    }
+
+    function setEnemyBattleSprite(pokemonOrId, showdownUrl, explicitHeight) {
+      const enemySprite = document.getElementById('enemy-sprite');
+      const enemyShadow = document.getElementById('enemy-ground-shadow');
+      if (!enemySprite) return;
+      const id = (typeof pokemonOrId === 'object' && pokemonOrId !== null) ? pokemonOrId.id : pokemonOrId;
+      const height = (typeof pokemonOrId === 'object' && pokemonOrId !== null && pokemonOrId.height) ? pokemonOrId.height : explicitHeight;
+
+      enemySprite.style.display = 'block';
+      enemySprite.style.opacity = '1';
+      if (enemyShadow) {
+        enemyShadow.style.display = 'block';
+        enemyShadow.style.opacity = '1';
+      }
+
+      if (showdownUrl) {
+        enemySprite.src = showdownUrl;
+      } else {
+        enemySprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${id}.gif`;
+      }
+      enemySprite.onerror = () => {
+        enemySprite.src = `/sprites/${id}.png`;
+      };
+      enemySprite.classList.remove('faint');
+      applyPokemonProportionalScale(enemySprite, enemyShadow, id, false, height);
     }
 
     function showSearchTallGrassState() {
@@ -8312,6 +8476,8 @@ body.layout-full .screen-nav {
         enemySprite.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"></svg>';
         enemySprite.style.opacity = '0';
       }
+      const enemyShadow = document.getElementById('enemy-ground-shadow');
+      if (enemyShadow) enemyShadow.style.opacity = '0';
 
       // Render Player Lead on Platform
       if (playerData && playerData.party && playerData.party.length > 0) {
@@ -8319,7 +8485,7 @@ body.layout-full .screen-nav {
         document.getElementById('player-name').textContent = lead.name.toUpperCase();
         document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
         updateHpBar('player', lead.current_hp, lead.max_hp);
-        setPlayerBattleSprite(lead.id);
+        setPlayerBattleSprite(lead.id, lead.height);
         setDialogue(`Your ${lead.name.toUpperCase()} is standing ready! Choose FIGHT or HUNT to seek wild Pokémon.`);
       } else {
         setDialogue("The tall grass rustles quietly. Press [SPACE] or [HUNT] to find wild Pokémon!");
@@ -8363,20 +8529,14 @@ body.layout-full .screen-nav {
         genderEl.style.display = 'inline-block';
       }
 
-      const enemySprite = document.getElementById('enemy-sprite');
-      enemySprite.style.opacity = '1';
-      enemySprite.src = data.showdown_url;
-      enemySprite.onerror = () => {
-        enemySprite.src = `/sprites/${wild.id}.png`;
-      };
-      enemySprite.classList.remove('faint');
+      setEnemyBattleSprite(wild, data.showdown_url, wild.height);
 
       // Player Lead
       if (lead) {
         document.getElementById('player-name').textContent = lead.name.toUpperCase();
         document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
         updateHpBar('player', lead.current_hp, lead.max_hp);
-        setPlayerBattleSprite(lead.id);
+        setPlayerBattleSprite(lead.id, lead.height);
       }
 
       updateExpBar();
@@ -8579,12 +8739,7 @@ body.layout-full .screen-nav {
                       updateHpBar('enemy', nextEnemy.current_hp, nextEnemy.max_hp);
                       const enemyExp = document.getElementById('enemy-exp-fill');
                       if (enemyExp) enemyExp.style.width = '60%';
-                      const enemySprite = document.getElementById('enemy-sprite');
-                      enemySprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${nextEnemy.id}.gif`;
-                      enemySprite.onerror = () => {
-                        enemySprite.src = `/sprites/${nextEnemy.id}.png`;
-                      };
-                      enemySprite.classList.remove('faint');
+                      setEnemyBattleSprite(nextEnemy, null, nextEnemy.height);
                       const genderEl = document.getElementById('enemy-gender-icon');
                       if (genderEl) {
                         const isMale = (nextEnemy.id + (nextEnemy.level || 1)) % 2 === 0;
@@ -9284,18 +9439,13 @@ body.layout-full .screen-nav {
           genderEl.style.display = 'inline-block';
         }
 
-        const enemySprite = document.getElementById('enemy-sprite');
-        enemySprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${enemy.id}.gif`;
-        enemySprite.onerror = () => {
-          enemySprite.src = `/sprites/${enemy.id}.png`;
-        };
-        enemySprite.classList.remove('faint');
+        setEnemyBattleSprite(enemy, null, enemy.height);
 
         // Player Lead
         document.getElementById('player-name').textContent = lead.name.toUpperCase();
         document.getElementById('player-level-tag').textContent = `Lv. ${lead.level}`;
         updateHpBar('player', lead.current_hp, lead.max_hp);
-        setPlayerBattleSprite(lead.id);
+        setPlayerBattleSprite(lead.id, lead.height);
 
         updateExpBar();
         setDialogue((battle.log && battle.log[0]) ? battle.log[0] : `${battle.leader_name.toUpperCase()} challenged you to a battle!`);
@@ -9624,6 +9774,10 @@ body.layout-full .screen-nav {
 
         const primaryType = (p.types && p.types[0]) ? p.types[0] : 'Normal';
         const typeColor = TYPE_COLORS[primaryType] || '#a8b2c1';
+        const hDm = p.height || getPokemonHeightDm(p.id);
+        const wHg = p.weight || (window.POKEMON_HEIGHTS && window.POKEMON_HEIGHTS[p.id]?.weight) || 100;
+        const htStr = (hDm / 10).toFixed(1) + 'm';
+        const wtStr = (wHg / 10).toFixed(1) + 'kg';
 
         body.innerHTML = `
           <div class="modal-split-layout">
@@ -9655,6 +9809,8 @@ body.layout-full .screen-nav {
                   <div class="stadium-stage-badges">
                     ${p.types.map(t => renderTypeChip(t, 'font-size:8px; padding:3px 8px;')).join(' ')}
                     <span class="stadium-rarity-badge">${p.rarity.toUpperCase()}</span>
+                    <span class="stadium-rarity-badge" style="background:#0f172a; border-color:#38bdf8; color:#38bdf8;">HT: ${htStr}</span>
+                    <span class="stadium-rarity-badge" style="background:#0f172a; border-color:#fbbf24; color:#fbbf24;">WT: ${wtStr}</span>
                     <span class="stadium-gen-badge">GEN ${data.generation}</span>
                     <span class="stadium-owned-badge ${data.owned_count > 0 ? 'owned' : ''}">
                       ${data.owned_count > 0 ? `★ OWNED (${data.owned_count})` : 'NOT CAUGHT'}
@@ -9791,6 +9947,8 @@ body.layout-full .screen-nav {
       const bst = stats.Total || stats.total || (hpVal + atkVal + defVal + spaVal + spdVal + speVal);
 
       const typesHtml = (p.types || []).map(t => renderTypeChip(t)).join(' ');
+      const heightDm = p.height || (window.POKEMON_HEIGHTS && window.POKEMON_HEIGHTS[p.id]?.height);
+      const htTag = heightDm ? ` • ${(heightDm / 10).toFixed(1)}m` : '';
 
       const abilitiesTxt = (p.abilities && p.abilities.length > 0) ? p.abilities.join(', ') : 'None';
 
@@ -9863,7 +10021,7 @@ body.layout-full .screen-nav {
             ` : ''}
 
             <div class="card-meta-ribbon">
-              <span>GEN ${gen} • ${rarity.toUpperCase()}</span>
+              <span>GEN ${gen} • ${rarity.toUpperCase()}${htTag}</span>
               <div class="card-types-row">${typesHtml}</div>
             </div>
           </div>
@@ -11013,6 +11171,7 @@ body.layout-full .screen-nav {
 
 
     window.addEventListener('DOMContentLoaded', async () => {
+      initPokemonHeights();
       initCocHandlers();
       initBattleEnvBadge();
       loadSavedBattleArenaTheme();
