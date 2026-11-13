@@ -225,6 +225,7 @@ pub fn create_router(state: AppState) -> Router {
         .route_service("/favicon.png", ServeFile::new("static/favicon.png"))
         .route_service("/apple-touch-icon.png", ServeFile::new("static/apple-touch-icon.png"))
         .route_service("/logo.png", ServeFile::new("static/logo.png"))
+        .route_service("/pokemon_heights.json", ServeFile::new("static/pokemon_heights.json"))
         .nest_service("/sprites", ServeDir::new("static/sprites"))
         .nest_service("/fonts", ServeDir::new("static/fonts"))
         .nest_service("/backgrounds", ServeDir::new("static/backgrounds"))

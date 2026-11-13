@@ -1,0 +1,67 @@
+<svg width="80" height="540" viewBox="0 0 80 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="railTile" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#173033" />
+      <stop offset="100%" stop-color="#0B1618" />
+    </linearGradient>
+    <linearGradient id="goldTrim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE680" />
+      <stop offset="100%" stop-color="#B7791F" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(8, 8)">
+    <rect width="64" height="68" rx="12" fill="url(#railTile)" stroke="#2B4C50" stroke-width="1.5" />
+    <path d="M10 2H54" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round" />
+    <rect x="20" y="16" width="24" height="18" rx="3" fill="#1E293B" stroke="#94A3B8" stroke-width="1.5" />
+    <path d="M21 18L32 26L43 18" stroke="#38BDF8" stroke-width="1.8" stroke-linecap="round" />
+    <text x="32" y="56" fill="#CBD5E1" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.8" text-anchor="middle">LOGS</text>
+    <circle cx="58" cy="6" r="8" fill="#EF4444" stroke="#091517" stroke-width="2" />
+    <text x="58" y="9.5" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="9.5" font-weight="900" text-anchor="middle">1</text>
+  </g>
+  <g transform="translate(8, 84)">
+    <rect width="64" height="68" rx="12" fill="url(#railTile)" stroke="#2B4C50" stroke-width="1.5" />
+    <path d="M10 2H54" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round" />
+    <path d="M25 15H39V22C39 25.87 35.87 29 32 29C28.13 29 25 25.87 25 22V15Z" fill="#F59E0B" stroke="#FDE047" stroke-width="1.4" />
+    <path d="M25 18H21C21 21 23 23 25 23M39 18H43C43 21 41 23 39 23M32 29V34M27 34H37" stroke="#FDE047" stroke-width="1.5" stroke-linecap="round" />
+    <text x="32" y="56" fill="#CBD5E1" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.8" text-anchor="middle">RANKS</text>
+  </g>
+  <g transform="translate(8, 160)">
+    <rect width="64" height="68" rx="12" fill="url(#railTile)" stroke="#2B4C50" stroke-width="1.5" />
+    <path d="M10 2H54" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round" />
+    <rect x="19" y="17" width="26" height="16" rx="3" fill="#0F172A" stroke="#5EEAD4" stroke-width="1.5" />
+    <line x1="32" y1="17" x2="32" y2="33" stroke="#5EEAD4" stroke-width="1.2" />
+    <circle cx="32" cy="25" r="3.5" fill="#0F172A" stroke="#5EEAD4" stroke-width="1.2" />
+    <text x="32" y="56" fill="#CBD5E1" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.8" text-anchor="middle">ARENA</text>
+  </g>
+  <g transform="translate(8, 236)">
+    <rect width="64" height="68" rx="12" fill="url(#railTile)" stroke="#2B4C50" stroke-width="1.5" />
+    <path d="M10 2H54" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round" />
+    <rect x="20" y="15" width="24" height="20" rx="4" fill="#1E293B" stroke="#F87171" stroke-width="1.5" />
+    <path d="M32 19V31M26 25H38" stroke="#EF4444" stroke-width="3" stroke-linecap="round" />
+    <text x="32" y="56" fill="#CBD5E1" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.8" text-anchor="middle">CENTER</text>
+  </g>
+  <g transform="translate(8, 312)">
+    <rect width="64" height="68" rx="12" fill="url(#railTile)" stroke="url(#goldTrim)" stroke-width="2" />
+    <path d="M10 2H54" stroke="#FFE680" stroke-opacity="0.4" stroke-width="1.5" stroke-linecap="round" />
+    <rect x="22" y="14" width="20" height="24" rx="3" fill="#DC2626" stroke="#FCA5A5" stroke-width="1.2" />
+    <circle cx="27" cy="19" r="2" fill="#38BDF8" stroke="#FFFFFF" stroke-width="0.8" />
+    <rect x="25" y="24" width="14" height="9" rx="1.5" fill="#0F172A" />
+    <text x="32" y="56" fill="#FDE047" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.6" text-anchor="middle">POKÉDEX</text>
+  </g>
+  <g transform="translate(8, 388)">
+    <rect width="64" height="68" rx="12" fill="url(#railTile)" stroke="#2B4C50" stroke-width="1.5" />
+    <path d="M10 2H54" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round" />
+    <rect x="21" y="16" width="16" height="20" rx="2.5" transform="rotate(-8 21 16)" fill="#1E293B" stroke="#94A3B8" stroke-width="1.3" />
+    <rect x="26" y="15" width="16" height="20" rx="2.5" transform="rotate(6 26 15)" fill="#0F172A" stroke="#FBBF24" stroke-width="1.4" />
+    <text x="32" y="56" fill="#CBD5E1" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.8" text-anchor="middle">CARDS</text>
+  </g>
+  <g transform="translate(8, 464)">
+    <rect width="64" height="68" rx="12" fill="url(#railTile)" stroke="#2B4C50" stroke-width="1.5" />
+    <path d="M10 2H54" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round" />
+    <circle cx="32" cy="24" r="7" fill="#FDE68A" />
+    <path d="M24 22C24 17.5 27.5 14 32 14C36.5 14 40 17.5 40 22H24Z" fill="#EF4444" />
+    <path d="M24 22H43" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+    <path d="M22 36C23.5 32 27.5 30 32 30C36.5 30 40.5 32 42 36" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round" />
+    <text x="32" y="56" fill="#CBD5E1" font-family="system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="0.8" text-anchor="middle">TRAINER</text>
+  </g>
+</svg>

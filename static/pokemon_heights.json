@@ -1,0 +1,4102 @@
+{
+  "1": {
+    "height": 7,
+    "weight": 69
+  },
+  "2": {
+    "height": 10,
+    "weight": 130
+  },
+  "3": {
+    "height": 20,
+    "weight": 1000
+  },
+  "4": {
+    "height": 6,
+    "weight": 85
+  },
+  "5": {
+    "height": 11,
+    "weight": 190
+  },
+  "6": {
+    "height": 17,
+    "weight": 905
+  },
+  "7": {
+    "height": 5,
+    "weight": 90
+  },
+  "8": {
+    "height": 10,
+    "weight": 225
+  },
+  "9": {
+    "height": 16,
+    "weight": 855
+  },
+  "10": {
+    "height": 3,
+    "weight": 29
+  },
+  "11": {
+    "height": 7,
+    "weight": 99
+  },
+  "12": {
+    "height": 11,
+    "weight": 320
+  },
+  "13": {
+    "height": 3,
+    "weight": 32
+  },
+  "14": {
+    "height": 6,
+    "weight": 100
+  },
+  "15": {
+    "height": 10,
+    "weight": 295
+  },
+  "16": {
+    "height": 3,
+    "weight": 18
+  },
+  "17": {
+    "height": 11,
+    "weight": 300
+  },
+  "18": {
+    "height": 15,
+    "weight": 395
+  },
+  "19": {
+    "height": 3,
+    "weight": 35
+  },
+  "20": {
+    "height": 7,
+    "weight": 185
+  },
+  "21": {
+    "height": 3,
+    "weight": 20
+  },
+  "22": {
+    "height": 12,
+    "weight": 380
+  },
+  "23": {
+    "height": 20,
+    "weight": 69
+  },
+  "24": {
+    "height": 35,
+    "weight": 650
+  },
+  "25": {
+    "height": 4,
+    "weight": 60
+  },
+  "26": {
+    "height": 8,
+    "weight": 300
+  },
+  "27": {
+    "height": 6,
+    "weight": 120
+  },
+  "28": {
+    "height": 10,
+    "weight": 295
+  },
+  "29": {
+    "height": 4,
+    "weight": 70
+  },
+  "30": {
+    "height": 8,
+    "weight": 200
+  },
+  "31": {
+    "height": 13,
+    "weight": 600
+  },
+  "32": {
+    "height": 5,
+    "weight": 90
+  },
+  "33": {
+    "height": 9,
+    "weight": 195
+  },
+  "34": {
+    "height": 14,
+    "weight": 620
+  },
+  "35": {
+    "height": 6,
+    "weight": 75
+  },
+  "36": {
+    "height": 13,
+    "weight": 400
+  },
+  "37": {
+    "height": 6,
+    "weight": 99
+  },
+  "38": {
+    "height": 11,
+    "weight": 199
+  },
+  "39": {
+    "height": 5,
+    "weight": 55
+  },
+  "40": {
+    "height": 10,
+    "weight": 120
+  },
+  "41": {
+    "height": 8,
+    "weight": 75
+  },
+  "42": {
+    "height": 16,
+    "weight": 550
+  },
+  "43": {
+    "height": 5,
+    "weight": 54
+  },
+  "44": {
+    "height": 8,
+    "weight": 86
+  },
+  "45": {
+    "height": 12,
+    "weight": 186
+  },
+  "46": {
+    "height": 3,
+    "weight": 54
+  },
+  "47": {
+    "height": 10,
+    "weight": 295
+  },
+  "48": {
+    "height": 10,
+    "weight": 300
+  },
+  "49": {
+    "height": 15,
+    "weight": 125
+  },
+  "50": {
+    "height": 2,
+    "weight": 8
+  },
+  "51": {
+    "height": 7,
+    "weight": 333
+  },
+  "52": {
+    "height": 4,
+    "weight": 42
+  },
+  "53": {
+    "height": 10,
+    "weight": 320
+  },
+  "54": {
+    "height": 8,
+    "weight": 196
+  },
+  "55": {
+    "height": 17,
+    "weight": 766
+  },
+  "56": {
+    "height": 5,
+    "weight": 280
+  },
+  "57": {
+    "height": 10,
+    "weight": 320
+  },
+  "58": {
+    "height": 7,
+    "weight": 190
+  },
+  "59": {
+    "height": 19,
+    "weight": 1550
+  },
+  "60": {
+    "height": 6,
+    "weight": 124
+  },
+  "61": {
+    "height": 10,
+    "weight": 200
+  },
+  "62": {
+    "height": 13,
+    "weight": 540
+  },
+  "63": {
+    "height": 9,
+    "weight": 195
+  },
+  "64": {
+    "height": 13,
+    "weight": 565
+  },
+  "65": {
+    "height": 15,
+    "weight": 480
+  },
+  "66": {
+    "height": 8,
+    "weight": 195
+  },
+  "67": {
+    "height": 15,
+    "weight": 705
+  },
+  "68": {
+    "height": 16,
+    "weight": 1300
+  },
+  "69": {
+    "height": 7,
+    "weight": 40
+  },
+  "70": {
+    "height": 10,
+    "weight": 64
+  },
+  "71": {
+    "height": 17,
+    "weight": 155
+  },
+  "72": {
+    "height": 9,
+    "weight": 455
+  },
+  "73": {
+    "height": 16,
+    "weight": 550
+  },
+  "74": {
+    "height": 4,
+    "weight": 200
+  },
+  "75": {
+    "height": 10,
+    "weight": 1050
+  },
+  "76": {
+    "height": 14,
+    "weight": 3000
+  },
+  "77": {
+    "height": 10,
+    "weight": 300
+  },
+  "78": {
+    "height": 17,
+    "weight": 950
+  },
+  "79": {
+    "height": 12,
+    "weight": 360
+  },
+  "80": {
+    "height": 16,
+    "weight": 785
+  },
+  "81": {
+    "height": 3,
+    "weight": 60
+  },
+  "82": {
+    "height": 10,
+    "weight": 600
+  },
+  "83": {
+    "height": 8,
+    "weight": 150
+  },
+  "84": {
+    "height": 14,
+    "weight": 392
+  },
+  "85": {
+    "height": 18,
+    "weight": 852
+  },
+  "86": {
+    "height": 11,
+    "weight": 900
+  },
+  "87": {
+    "height": 17,
+    "weight": 1200
+  },
+  "88": {
+    "height": 9,
+    "weight": 300
+  },
+  "89": {
+    "height": 12,
+    "weight": 300
+  },
+  "90": {
+    "height": 3,
+    "weight": 40
+  },
+  "91": {
+    "height": 15,
+    "weight": 1325
+  },
+  "92": {
+    "height": 13,
+    "weight": 1
+  },
+  "93": {
+    "height": 16,
+    "weight": 1
+  },
+  "94": {
+    "height": 15,
+    "weight": 405
+  },
+  "95": {
+    "height": 88,
+    "weight": 2100
+  },
+  "96": {
+    "height": 10,
+    "weight": 324
+  },
+  "97": {
+    "height": 16,
+    "weight": 756
+  },
+  "98": {
+    "height": 4,
+    "weight": 65
+  },
+  "99": {
+    "height": 13,
+    "weight": 600
+  },
+  "100": {
+    "height": 5,
+    "weight": 104
+  },
+  "101": {
+    "height": 12,
+    "weight": 666
+  },
+  "102": {
+    "height": 4,
+    "weight": 25
+  },
+  "103": {
+    "height": 20,
+    "weight": 1200
+  },
+  "104": {
+    "height": 4,
+    "weight": 65
+  },
+  "105": {
+    "height": 10,
+    "weight": 450
+  },
+  "106": {
+    "height": 15,
+    "weight": 498
+  },
+  "107": {
+    "height": 14,
+    "weight": 502
+  },
+  "108": {
+    "height": 12,
+    "weight": 655
+  },
+  "109": {
+    "height": 6,
+    "weight": 10
+  },
+  "110": {
+    "height": 12,
+    "weight": 95
+  },
+  "111": {
+    "height": 10,
+    "weight": 1150
+  },
+  "112": {
+    "height": 19,
+    "weight": 1200
+  },
+  "113": {
+    "height": 11,
+    "weight": 346
+  },
+  "114": {
+    "height": 10,
+    "weight": 350
+  },
+  "115": {
+    "height": 22,
+    "weight": 800
+  },
+  "116": {
+    "height": 4,
+    "weight": 80
+  },
+  "117": {
+    "height": 12,
+    "weight": 250
+  },
+  "118": {
+    "height": 6,
+    "weight": 150
+  },
+  "119": {
+    "height": 13,
+    "weight": 390
+  },
+  "120": {
+    "height": 8,
+    "weight": 345
+  },
+  "121": {
+    "height": 11,
+    "weight": 800
+  },
+  "122": {
+    "height": 13,
+    "weight": 545
+  },
+  "123": {
+    "height": 15,
+    "weight": 560
+  },
+  "124": {
+    "height": 14,
+    "weight": 406
+  },
+  "125": {
+    "height": 11,
+    "weight": 300
+  },
+  "126": {
+    "height": 13,
+    "weight": 445
+  },
+  "127": {
+    "height": 15,
+    "weight": 550
+  },
+  "128": {
+    "height": 14,
+    "weight": 884
+  },
+  "129": {
+    "height": 9,
+    "weight": 100
+  },
+  "130": {
+    "height": 65,
+    "weight": 2350
+  },
+  "131": {
+    "height": 25,
+    "weight": 2200
+  },
+  "132": {
+    "height": 3,
+    "weight": 40
+  },
+  "133": {
+    "height": 3,
+    "weight": 65
+  },
+  "134": {
+    "height": 10,
+    "weight": 290
+  },
+  "135": {
+    "height": 8,
+    "weight": 245
+  },
+  "136": {
+    "height": 9,
+    "weight": 250
+  },
+  "137": {
+    "height": 8,
+    "weight": 365
+  },
+  "138": {
+    "height": 4,
+    "weight": 75
+  },
+  "139": {
+    "height": 10,
+    "weight": 350
+  },
+  "140": {
+    "height": 5,
+    "weight": 115
+  },
+  "141": {
+    "height": 13,
+    "weight": 405
+  },
+  "142": {
+    "height": 18,
+    "weight": 590
+  },
+  "143": {
+    "height": 21,
+    "weight": 4600
+  },
+  "144": {
+    "height": 17,
+    "weight": 554
+  },
+  "145": {
+    "height": 16,
+    "weight": 526
+  },
+  "146": {
+    "height": 20,
+    "weight": 600
+  },
+  "147": {
+    "height": 18,
+    "weight": 33
+  },
+  "148": {
+    "height": 40,
+    "weight": 165
+  },
+  "149": {
+    "height": 22,
+    "weight": 2100
+  },
+  "150": {
+    "height": 20,
+    "weight": 1220
+  },
+  "151": {
+    "height": 4,
+    "weight": 40
+  },
+  "152": {
+    "height": 9,
+    "weight": 64
+  },
+  "153": {
+    "height": 12,
+    "weight": 158
+  },
+  "154": {
+    "height": 18,
+    "weight": 1005
+  },
+  "155": {
+    "height": 5,
+    "weight": 79
+  },
+  "156": {
+    "height": 9,
+    "weight": 190
+  },
+  "157": {
+    "height": 17,
+    "weight": 795
+  },
+  "158": {
+    "height": 6,
+    "weight": 95
+  },
+  "159": {
+    "height": 11,
+    "weight": 250
+  },
+  "160": {
+    "height": 23,
+    "weight": 888
+  },
+  "161": {
+    "height": 8,
+    "weight": 60
+  },
+  "162": {
+    "height": 18,
+    "weight": 325
+  },
+  "163": {
+    "height": 7,
+    "weight": 212
+  },
+  "164": {
+    "height": 16,
+    "weight": 408
+  },
+  "165": {
+    "height": 10,
+    "weight": 108
+  },
+  "166": {
+    "height": 14,
+    "weight": 356
+  },
+  "167": {
+    "height": 5,
+    "weight": 85
+  },
+  "168": {
+    "height": 11,
+    "weight": 335
+  },
+  "169": {
+    "height": 18,
+    "weight": 750
+  },
+  "170": {
+    "height": 5,
+    "weight": 120
+  },
+  "171": {
+    "height": 12,
+    "weight": 225
+  },
+  "172": {
+    "height": 3,
+    "weight": 20
+  },
+  "173": {
+    "height": 3,
+    "weight": 30
+  },
+  "174": {
+    "height": 3,
+    "weight": 10
+  },
+  "175": {
+    "height": 3,
+    "weight": 15
+  },
+  "176": {
+    "height": 6,
+    "weight": 32
+  },
+  "177": {
+    "height": 2,
+    "weight": 20
+  },
+  "178": {
+    "height": 15,
+    "weight": 150
+  },
+  "179": {
+    "height": 6,
+    "weight": 78
+  },
+  "180": {
+    "height": 8,
+    "weight": 133
+  },
+  "181": {
+    "height": 14,
+    "weight": 615
+  },
+  "182": {
+    "height": 4,
+    "weight": 58
+  },
+  "183": {
+    "height": 4,
+    "weight": 85
+  },
+  "184": {
+    "height": 8,
+    "weight": 285
+  },
+  "185": {
+    "height": 12,
+    "weight": 380
+  },
+  "186": {
+    "height": 11,
+    "weight": 339
+  },
+  "187": {
+    "height": 4,
+    "weight": 5
+  },
+  "188": {
+    "height": 6,
+    "weight": 10
+  },
+  "189": {
+    "height": 8,
+    "weight": 30
+  },
+  "190": {
+    "height": 8,
+    "weight": 115
+  },
+  "191": {
+    "height": 3,
+    "weight": 18
+  },
+  "192": {
+    "height": 8,
+    "weight": 85
+  },
+  "193": {
+    "height": 12,
+    "weight": 380
+  },
+  "194": {
+    "height": 4,
+    "weight": 85
+  },
+  "195": {
+    "height": 14,
+    "weight": 750
+  },
+  "196": {
+    "height": 9,
+    "weight": 265
+  },
+  "197": {
+    "height": 10,
+    "weight": 270
+  },
+  "198": {
+    "height": 5,
+    "weight": 21
+  },
+  "199": {
+    "height": 20,
+    "weight": 795
+  },
+  "200": {
+    "height": 7,
+    "weight": 10
+  },
+  "201": {
+    "height": 5,
+    "weight": 50
+  },
+  "202": {
+    "height": 13,
+    "weight": 285
+  },
+  "203": {
+    "height": 15,
+    "weight": 415
+  },
+  "204": {
+    "height": 6,
+    "weight": 72
+  },
+  "205": {
+    "height": 12,
+    "weight": 1258
+  },
+  "206": {
+    "height": 15,
+    "weight": 140
+  },
+  "207": {
+    "height": 11,
+    "weight": 648
+  },
+  "208": {
+    "height": 92,
+    "weight": 4000
+  },
+  "209": {
+    "height": 6,
+    "weight": 78
+  },
+  "210": {
+    "height": 14,
+    "weight": 487
+  },
+  "211": {
+    "height": 5,
+    "weight": 39
+  },
+  "212": {
+    "height": 18,
+    "weight": 1180
+  },
+  "213": {
+    "height": 6,
+    "weight": 205
+  },
+  "214": {
+    "height": 15,
+    "weight": 540
+  },
+  "215": {
+    "height": 9,
+    "weight": 280
+  },
+  "216": {
+    "height": 6,
+    "weight": 88
+  },
+  "217": {
+    "height": 18,
+    "weight": 1258
+  },
+  "218": {
+    "height": 7,
+    "weight": 350
+  },
+  "219": {
+    "height": 8,
+    "weight": 550
+  },
+  "220": {
+    "height": 4,
+    "weight": 65
+  },
+  "221": {
+    "height": 11,
+    "weight": 558
+  },
+  "222": {
+    "height": 6,
+    "weight": 50
+  },
+  "223": {
+    "height": 6,
+    "weight": 120
+  },
+  "224": {
+    "height": 9,
+    "weight": 285
+  },
+  "225": {
+    "height": 9,
+    "weight": 160
+  },
+  "226": {
+    "height": 21,
+    "weight": 2200
+  },
+  "227": {
+    "height": 17,
+    "weight": 505
+  },
+  "228": {
+    "height": 6,
+    "weight": 108
+  },
+  "229": {
+    "height": 14,
+    "weight": 350
+  },
+  "230": {
+    "height": 18,
+    "weight": 1520
+  },
+  "231": {
+    "height": 5,
+    "weight": 335
+  },
+  "232": {
+    "height": 11,
+    "weight": 1200
+  },
+  "233": {
+    "height": 6,
+    "weight": 325
+  },
+  "234": {
+    "height": 14,
+    "weight": 712
+  },
+  "235": {
+    "height": 12,
+    "weight": 580
+  },
+  "236": {
+    "height": 7,
+    "weight": 210
+  },
+  "237": {
+    "height": 14,
+    "weight": 480
+  },
+  "238": {
+    "height": 4,
+    "weight": 60
+  },
+  "239": {
+    "height": 6,
+    "weight": 235
+  },
+  "240": {
+    "height": 7,
+    "weight": 214
+  },
+  "241": {
+    "height": 12,
+    "weight": 755
+  },
+  "242": {
+    "height": 15,
+    "weight": 468
+  },
+  "243": {
+    "height": 19,
+    "weight": 1780
+  },
+  "244": {
+    "height": 21,
+    "weight": 1980
+  },
+  "245": {
+    "height": 20,
+    "weight": 1870
+  },
+  "246": {
+    "height": 6,
+    "weight": 720
+  },
+  "247": {
+    "height": 12,
+    "weight": 1520
+  },
+  "248": {
+    "height": 20,
+    "weight": 2020
+  },
+  "249": {
+    "height": 52,
+    "weight": 2160
+  },
+  "250": {
+    "height": 38,
+    "weight": 1990
+  },
+  "251": {
+    "height": 6,
+    "weight": 50
+  },
+  "252": {
+    "height": 5,
+    "weight": 50
+  },
+  "253": {
+    "height": 9,
+    "weight": 216
+  },
+  "254": {
+    "height": 17,
+    "weight": 522
+  },
+  "255": {
+    "height": 4,
+    "weight": 25
+  },
+  "256": {
+    "height": 9,
+    "weight": 195
+  },
+  "257": {
+    "height": 19,
+    "weight": 520
+  },
+  "258": {
+    "height": 4,
+    "weight": 76
+  },
+  "259": {
+    "height": 7,
+    "weight": 280
+  },
+  "260": {
+    "height": 15,
+    "weight": 819
+  },
+  "261": {
+    "height": 5,
+    "weight": 136
+  },
+  "262": {
+    "height": 10,
+    "weight": 370
+  },
+  "263": {
+    "height": 4,
+    "weight": 175
+  },
+  "264": {
+    "height": 5,
+    "weight": 325
+  },
+  "265": {
+    "height": 3,
+    "weight": 36
+  },
+  "266": {
+    "height": 6,
+    "weight": 100
+  },
+  "267": {
+    "height": 10,
+    "weight": 284
+  },
+  "268": {
+    "height": 7,
+    "weight": 115
+  },
+  "269": {
+    "height": 12,
+    "weight": 316
+  },
+  "270": {
+    "height": 5,
+    "weight": 26
+  },
+  "271": {
+    "height": 12,
+    "weight": 325
+  },
+  "272": {
+    "height": 15,
+    "weight": 550
+  },
+  "273": {
+    "height": 5,
+    "weight": 40
+  },
+  "274": {
+    "height": 10,
+    "weight": 280
+  },
+  "275": {
+    "height": 13,
+    "weight": 596
+  },
+  "276": {
+    "height": 3,
+    "weight": 23
+  },
+  "277": {
+    "height": 7,
+    "weight": 198
+  },
+  "278": {
+    "height": 6,
+    "weight": 95
+  },
+  "279": {
+    "height": 12,
+    "weight": 280
+  },
+  "280": {
+    "height": 4,
+    "weight": 66
+  },
+  "281": {
+    "height": 8,
+    "weight": 202
+  },
+  "282": {
+    "height": 16,
+    "weight": 484
+  },
+  "283": {
+    "height": 5,
+    "weight": 17
+  },
+  "284": {
+    "height": 8,
+    "weight": 36
+  },
+  "285": {
+    "height": 4,
+    "weight": 45
+  },
+  "286": {
+    "height": 12,
+    "weight": 392
+  },
+  "287": {
+    "height": 8,
+    "weight": 240
+  },
+  "288": {
+    "height": 14,
+    "weight": 465
+  },
+  "289": {
+    "height": 20,
+    "weight": 1305
+  },
+  "290": {
+    "height": 5,
+    "weight": 55
+  },
+  "291": {
+    "height": 8,
+    "weight": 120
+  },
+  "292": {
+    "height": 8,
+    "weight": 12
+  },
+  "293": {
+    "height": 6,
+    "weight": 163
+  },
+  "294": {
+    "height": 10,
+    "weight": 405
+  },
+  "295": {
+    "height": 15,
+    "weight": 840
+  },
+  "296": {
+    "height": 10,
+    "weight": 864
+  },
+  "297": {
+    "height": 23,
+    "weight": 2538
+  },
+  "298": {
+    "height": 2,
+    "weight": 20
+  },
+  "299": {
+    "height": 10,
+    "weight": 970
+  },
+  "300": {
+    "height": 6,
+    "weight": 110
+  },
+  "301": {
+    "height": 11,
+    "weight": 326
+  },
+  "302": {
+    "height": 5,
+    "weight": 110
+  },
+  "303": {
+    "height": 6,
+    "weight": 115
+  },
+  "304": {
+    "height": 4,
+    "weight": 600
+  },
+  "305": {
+    "height": 9,
+    "weight": 1200
+  },
+  "306": {
+    "height": 21,
+    "weight": 3600
+  },
+  "307": {
+    "height": 6,
+    "weight": 112
+  },
+  "308": {
+    "height": 13,
+    "weight": 315
+  },
+  "309": {
+    "height": 6,
+    "weight": 152
+  },
+  "310": {
+    "height": 15,
+    "weight": 402
+  },
+  "311": {
+    "height": 4,
+    "weight": 42
+  },
+  "312": {
+    "height": 4,
+    "weight": 42
+  },
+  "313": {
+    "height": 7,
+    "weight": 177
+  },
+  "314": {
+    "height": 6,
+    "weight": 177
+  },
+  "315": {
+    "height": 3,
+    "weight": 20
+  },
+  "316": {
+    "height": 4,
+    "weight": 103
+  },
+  "317": {
+    "height": 17,
+    "weight": 800
+  },
+  "318": {
+    "height": 8,
+    "weight": 208
+  },
+  "319": {
+    "height": 18,
+    "weight": 888
+  },
+  "320": {
+    "height": 20,
+    "weight": 1300
+  },
+  "321": {
+    "height": 145,
+    "weight": 3980
+  },
+  "322": {
+    "height": 7,
+    "weight": 240
+  },
+  "323": {
+    "height": 19,
+    "weight": 2200
+  },
+  "324": {
+    "height": 5,
+    "weight": 804
+  },
+  "325": {
+    "height": 7,
+    "weight": 306
+  },
+  "326": {
+    "height": 9,
+    "weight": 715
+  },
+  "327": {
+    "height": 11,
+    "weight": 50
+  },
+  "328": {
+    "height": 7,
+    "weight": 150
+  },
+  "329": {
+    "height": 11,
+    "weight": 153
+  },
+  "330": {
+    "height": 20,
+    "weight": 820
+  },
+  "331": {
+    "height": 4,
+    "weight": 513
+  },
+  "332": {
+    "height": 13,
+    "weight": 774
+  },
+  "333": {
+    "height": 4,
+    "weight": 12
+  },
+  "334": {
+    "height": 11,
+    "weight": 206
+  },
+  "335": {
+    "height": 13,
+    "weight": 403
+  },
+  "336": {
+    "height": 27,
+    "weight": 525
+  },
+  "337": {
+    "height": 10,
+    "weight": 1680
+  },
+  "338": {
+    "height": 12,
+    "weight": 1540
+  },
+  "339": {
+    "height": 4,
+    "weight": 19
+  },
+  "340": {
+    "height": 9,
+    "weight": 236
+  },
+  "341": {
+    "height": 6,
+    "weight": 115
+  },
+  "342": {
+    "height": 11,
+    "weight": 328
+  },
+  "343": {
+    "height": 5,
+    "weight": 215
+  },
+  "344": {
+    "height": 15,
+    "weight": 1080
+  },
+  "345": {
+    "height": 10,
+    "weight": 238
+  },
+  "346": {
+    "height": 15,
+    "weight": 604
+  },
+  "347": {
+    "height": 7,
+    "weight": 125
+  },
+  "348": {
+    "height": 15,
+    "weight": 682
+  },
+  "349": {
+    "height": 6,
+    "weight": 74
+  },
+  "350": {
+    "height": 62,
+    "weight": 1620
+  },
+  "351": {
+    "height": 3,
+    "weight": 8
+  },
+  "352": {
+    "height": 10,
+    "weight": 220
+  },
+  "353": {
+    "height": 6,
+    "weight": 23
+  },
+  "354": {
+    "height": 11,
+    "weight": 125
+  },
+  "355": {
+    "height": 8,
+    "weight": 150
+  },
+  "356": {
+    "height": 16,
+    "weight": 306
+  },
+  "357": {
+    "height": 20,
+    "weight": 1000
+  },
+  "358": {
+    "height": 6,
+    "weight": 10
+  },
+  "359": {
+    "height": 12,
+    "weight": 470
+  },
+  "360": {
+    "height": 6,
+    "weight": 140
+  },
+  "361": {
+    "height": 7,
+    "weight": 168
+  },
+  "362": {
+    "height": 15,
+    "weight": 2565
+  },
+  "363": {
+    "height": 8,
+    "weight": 395
+  },
+  "364": {
+    "height": 11,
+    "weight": 876
+  },
+  "365": {
+    "height": 14,
+    "weight": 1506
+  },
+  "366": {
+    "height": 4,
+    "weight": 525
+  },
+  "367": {
+    "height": 17,
+    "weight": 270
+  },
+  "368": {
+    "height": 18,
+    "weight": 226
+  },
+  "369": {
+    "height": 10,
+    "weight": 234
+  },
+  "370": {
+    "height": 6,
+    "weight": 87
+  },
+  "371": {
+    "height": 6,
+    "weight": 421
+  },
+  "372": {
+    "height": 11,
+    "weight": 1105
+  },
+  "373": {
+    "height": 15,
+    "weight": 1026
+  },
+  "374": {
+    "height": 6,
+    "weight": 952
+  },
+  "375": {
+    "height": 12,
+    "weight": 2025
+  },
+  "376": {
+    "height": 16,
+    "weight": 5500
+  },
+  "377": {
+    "height": 17,
+    "weight": 2300
+  },
+  "378": {
+    "height": 18,
+    "weight": 1750
+  },
+  "379": {
+    "height": 19,
+    "weight": 2050
+  },
+  "380": {
+    "height": 14,
+    "weight": 400
+  },
+  "381": {
+    "height": 20,
+    "weight": 600
+  },
+  "382": {
+    "height": 45,
+    "weight": 3520
+  },
+  "383": {
+    "height": 35,
+    "weight": 9500
+  },
+  "384": {
+    "height": 70,
+    "weight": 2065
+  },
+  "385": {
+    "height": 3,
+    "weight": 11
+  },
+  "386": {
+    "height": 17,
+    "weight": 608
+  },
+  "387": {
+    "height": 4,
+    "weight": 102
+  },
+  "388": {
+    "height": 11,
+    "weight": 970
+  },
+  "389": {
+    "height": 22,
+    "weight": 3100
+  },
+  "390": {
+    "height": 5,
+    "weight": 62
+  },
+  "391": {
+    "height": 9,
+    "weight": 220
+  },
+  "392": {
+    "height": 12,
+    "weight": 550
+  },
+  "393": {
+    "height": 4,
+    "weight": 52
+  },
+  "394": {
+    "height": 8,
+    "weight": 230
+  },
+  "395": {
+    "height": 17,
+    "weight": 845
+  },
+  "396": {
+    "height": 3,
+    "weight": 20
+  },
+  "397": {
+    "height": 6,
+    "weight": 155
+  },
+  "398": {
+    "height": 12,
+    "weight": 249
+  },
+  "399": {
+    "height": 5,
+    "weight": 200
+  },
+  "400": {
+    "height": 10,
+    "weight": 315
+  },
+  "401": {
+    "height": 3,
+    "weight": 22
+  },
+  "402": {
+    "height": 10,
+    "weight": 255
+  },
+  "403": {
+    "height": 5,
+    "weight": 95
+  },
+  "404": {
+    "height": 9,
+    "weight": 305
+  },
+  "405": {
+    "height": 14,
+    "weight": 420
+  },
+  "406": {
+    "height": 2,
+    "weight": 12
+  },
+  "407": {
+    "height": 9,
+    "weight": 145
+  },
+  "408": {
+    "height": 9,
+    "weight": 315
+  },
+  "409": {
+    "height": 16,
+    "weight": 1025
+  },
+  "410": {
+    "height": 5,
+    "weight": 570
+  },
+  "411": {
+    "height": 13,
+    "weight": 1495
+  },
+  "412": {
+    "height": 2,
+    "weight": 34
+  },
+  "413": {
+    "height": 5,
+    "weight": 65
+  },
+  "414": {
+    "height": 9,
+    "weight": 233
+  },
+  "415": {
+    "height": 3,
+    "weight": 55
+  },
+  "416": {
+    "height": 12,
+    "weight": 385
+  },
+  "417": {
+    "height": 4,
+    "weight": 39
+  },
+  "418": {
+    "height": 7,
+    "weight": 295
+  },
+  "419": {
+    "height": 11,
+    "weight": 335
+  },
+  "420": {
+    "height": 4,
+    "weight": 33
+  },
+  "421": {
+    "height": 5,
+    "weight": 93
+  },
+  "422": {
+    "height": 3,
+    "weight": 63
+  },
+  "423": {
+    "height": 9,
+    "weight": 299
+  },
+  "424": {
+    "height": 12,
+    "weight": 203
+  },
+  "425": {
+    "height": 4,
+    "weight": 12
+  },
+  "426": {
+    "height": 12,
+    "weight": 150
+  },
+  "427": {
+    "height": 4,
+    "weight": 55
+  },
+  "428": {
+    "height": 12,
+    "weight": 333
+  },
+  "429": {
+    "height": 9,
+    "weight": 44
+  },
+  "430": {
+    "height": 9,
+    "weight": 273
+  },
+  "431": {
+    "height": 5,
+    "weight": 39
+  },
+  "432": {
+    "height": 10,
+    "weight": 438
+  },
+  "433": {
+    "height": 2,
+    "weight": 6
+  },
+  "434": {
+    "height": 4,
+    "weight": 192
+  },
+  "435": {
+    "height": 10,
+    "weight": 380
+  },
+  "436": {
+    "height": 5,
+    "weight": 605
+  },
+  "437": {
+    "height": 13,
+    "weight": 1870
+  },
+  "438": {
+    "height": 5,
+    "weight": 150
+  },
+  "439": {
+    "height": 6,
+    "weight": 130
+  },
+  "440": {
+    "height": 6,
+    "weight": 244
+  },
+  "441": {
+    "height": 5,
+    "weight": 19
+  },
+  "442": {
+    "height": 10,
+    "weight": 1080
+  },
+  "443": {
+    "height": 7,
+    "weight": 205
+  },
+  "444": {
+    "height": 14,
+    "weight": 560
+  },
+  "445": {
+    "height": 19,
+    "weight": 950
+  },
+  "446": {
+    "height": 6,
+    "weight": 1050
+  },
+  "447": {
+    "height": 7,
+    "weight": 202
+  },
+  "448": {
+    "height": 12,
+    "weight": 540
+  },
+  "449": {
+    "height": 8,
+    "weight": 495
+  },
+  "450": {
+    "height": 20,
+    "weight": 3000
+  },
+  "451": {
+    "height": 8,
+    "weight": 120
+  },
+  "452": {
+    "height": 13,
+    "weight": 615
+  },
+  "453": {
+    "height": 7,
+    "weight": 230
+  },
+  "454": {
+    "height": 13,
+    "weight": 444
+  },
+  "455": {
+    "height": 14,
+    "weight": 270
+  },
+  "456": {
+    "height": 4,
+    "weight": 70
+  },
+  "457": {
+    "height": 12,
+    "weight": 240
+  },
+  "458": {
+    "height": 10,
+    "weight": 650
+  },
+  "459": {
+    "height": 10,
+    "weight": 505
+  },
+  "460": {
+    "height": 22,
+    "weight": 1355
+  },
+  "461": {
+    "height": 11,
+    "weight": 340
+  },
+  "462": {
+    "height": 12,
+    "weight": 1800
+  },
+  "463": {
+    "height": 17,
+    "weight": 1400
+  },
+  "464": {
+    "height": 24,
+    "weight": 2828
+  },
+  "465": {
+    "height": 20,
+    "weight": 1286
+  },
+  "466": {
+    "height": 18,
+    "weight": 1386
+  },
+  "467": {
+    "height": 16,
+    "weight": 680
+  },
+  "468": {
+    "height": 15,
+    "weight": 380
+  },
+  "469": {
+    "height": 19,
+    "weight": 515
+  },
+  "470": {
+    "height": 10,
+    "weight": 255
+  },
+  "471": {
+    "height": 8,
+    "weight": 259
+  },
+  "472": {
+    "height": 20,
+    "weight": 425
+  },
+  "473": {
+    "height": 25,
+    "weight": 2910
+  },
+  "474": {
+    "height": 9,
+    "weight": 340
+  },
+  "475": {
+    "height": 16,
+    "weight": 520
+  },
+  "476": {
+    "height": 14,
+    "weight": 3400
+  },
+  "477": {
+    "height": 22,
+    "weight": 1066
+  },
+  "478": {
+    "height": 13,
+    "weight": 266
+  },
+  "479": {
+    "height": 3,
+    "weight": 3
+  },
+  "480": {
+    "height": 3,
+    "weight": 3
+  },
+  "481": {
+    "height": 3,
+    "weight": 3
+  },
+  "482": {
+    "height": 3,
+    "weight": 3
+  },
+  "483": {
+    "height": 54,
+    "weight": 6830
+  },
+  "484": {
+    "height": 42,
+    "weight": 3360
+  },
+  "485": {
+    "height": 17,
+    "weight": 4300
+  },
+  "486": {
+    "height": 37,
+    "weight": 4200
+  },
+  "487": {
+    "height": 45,
+    "weight": 7500
+  },
+  "488": {
+    "height": 15,
+    "weight": 856
+  },
+  "489": {
+    "height": 4,
+    "weight": 31
+  },
+  "490": {
+    "height": 3,
+    "weight": 14
+  },
+  "491": {
+    "height": 15,
+    "weight": 505
+  },
+  "492": {
+    "height": 2,
+    "weight": 21
+  },
+  "493": {
+    "height": 32,
+    "weight": 3200
+  },
+  "494": {
+    "height": 4,
+    "weight": 40
+  },
+  "495": {
+    "height": 6,
+    "weight": 81
+  },
+  "496": {
+    "height": 8,
+    "weight": 160
+  },
+  "497": {
+    "height": 33,
+    "weight": 630
+  },
+  "498": {
+    "height": 5,
+    "weight": 99
+  },
+  "499": {
+    "height": 10,
+    "weight": 555
+  },
+  "500": {
+    "height": 16,
+    "weight": 1500
+  },
+  "501": {
+    "height": 5,
+    "weight": 59
+  },
+  "502": {
+    "height": 8,
+    "weight": 245
+  },
+  "503": {
+    "height": 15,
+    "weight": 946
+  },
+  "504": {
+    "height": 5,
+    "weight": 116
+  },
+  "505": {
+    "height": 11,
+    "weight": 270
+  },
+  "506": {
+    "height": 4,
+    "weight": 41
+  },
+  "507": {
+    "height": 9,
+    "weight": 147
+  },
+  "508": {
+    "height": 12,
+    "weight": 610
+  },
+  "509": {
+    "height": 4,
+    "weight": 101
+  },
+  "510": {
+    "height": 11,
+    "weight": 375
+  },
+  "511": {
+    "height": 6,
+    "weight": 105
+  },
+  "512": {
+    "height": 11,
+    "weight": 305
+  },
+  "513": {
+    "height": 6,
+    "weight": 110
+  },
+  "514": {
+    "height": 10,
+    "weight": 280
+  },
+  "515": {
+    "height": 6,
+    "weight": 135
+  },
+  "516": {
+    "height": 10,
+    "weight": 290
+  },
+  "517": {
+    "height": 6,
+    "weight": 233
+  },
+  "518": {
+    "height": 11,
+    "weight": 605
+  },
+  "519": {
+    "height": 3,
+    "weight": 21
+  },
+  "520": {
+    "height": 6,
+    "weight": 150
+  },
+  "521": {
+    "height": 12,
+    "weight": 290
+  },
+  "522": {
+    "height": 8,
+    "weight": 298
+  },
+  "523": {
+    "height": 16,
+    "weight": 795
+  },
+  "524": {
+    "height": 4,
+    "weight": 180
+  },
+  "525": {
+    "height": 9,
+    "weight": 1020
+  },
+  "526": {
+    "height": 17,
+    "weight": 2600
+  },
+  "527": {
+    "height": 4,
+    "weight": 21
+  },
+  "528": {
+    "height": 9,
+    "weight": 105
+  },
+  "529": {
+    "height": 3,
+    "weight": 85
+  },
+  "530": {
+    "height": 7,
+    "weight": 404
+  },
+  "531": {
+    "height": 11,
+    "weight": 310
+  },
+  "532": {
+    "height": 6,
+    "weight": 125
+  },
+  "533": {
+    "height": 12,
+    "weight": 400
+  },
+  "534": {
+    "height": 14,
+    "weight": 870
+  },
+  "535": {
+    "height": 5,
+    "weight": 45
+  },
+  "536": {
+    "height": 8,
+    "weight": 170
+  },
+  "537": {
+    "height": 15,
+    "weight": 620
+  },
+  "538": {
+    "height": 13,
+    "weight": 555
+  },
+  "539": {
+    "height": 14,
+    "weight": 510
+  },
+  "540": {
+    "height": 3,
+    "weight": 25
+  },
+  "541": {
+    "height": 5,
+    "weight": 73
+  },
+  "542": {
+    "height": 12,
+    "weight": 205
+  },
+  "543": {
+    "height": 4,
+    "weight": 53
+  },
+  "544": {
+    "height": 12,
+    "weight": 585
+  },
+  "545": {
+    "height": 25,
+    "weight": 2005
+  },
+  "546": {
+    "height": 3,
+    "weight": 6
+  },
+  "547": {
+    "height": 7,
+    "weight": 66
+  },
+  "548": {
+    "height": 5,
+    "weight": 66
+  },
+  "549": {
+    "height": 11,
+    "weight": 163
+  },
+  "550": {
+    "height": 10,
+    "weight": 180
+  },
+  "551": {
+    "height": 7,
+    "weight": 152
+  },
+  "552": {
+    "height": 10,
+    "weight": 334
+  },
+  "553": {
+    "height": 15,
+    "weight": 963
+  },
+  "554": {
+    "height": 6,
+    "weight": 375
+  },
+  "555": {
+    "height": 13,
+    "weight": 929
+  },
+  "556": {
+    "height": 10,
+    "weight": 280
+  },
+  "557": {
+    "height": 3,
+    "weight": 145
+  },
+  "558": {
+    "height": 14,
+    "weight": 2000
+  },
+  "559": {
+    "height": 6,
+    "weight": 118
+  },
+  "560": {
+    "height": 11,
+    "weight": 300
+  },
+  "561": {
+    "height": 14,
+    "weight": 140
+  },
+  "562": {
+    "height": 5,
+    "weight": 15
+  },
+  "563": {
+    "height": 17,
+    "weight": 765
+  },
+  "564": {
+    "height": 7,
+    "weight": 165
+  },
+  "565": {
+    "height": 12,
+    "weight": 810
+  },
+  "566": {
+    "height": 5,
+    "weight": 95
+  },
+  "567": {
+    "height": 14,
+    "weight": 320
+  },
+  "568": {
+    "height": 6,
+    "weight": 310
+  },
+  "569": {
+    "height": 19,
+    "weight": 1073
+  },
+  "570": {
+    "height": 7,
+    "weight": 125
+  },
+  "571": {
+    "height": 16,
+    "weight": 811
+  },
+  "572": {
+    "height": 4,
+    "weight": 58
+  },
+  "573": {
+    "height": 5,
+    "weight": 75
+  },
+  "574": {
+    "height": 4,
+    "weight": 58
+  },
+  "575": {
+    "height": 7,
+    "weight": 180
+  },
+  "576": {
+    "height": 15,
+    "weight": 440
+  },
+  "577": {
+    "height": 3,
+    "weight": 10
+  },
+  "578": {
+    "height": 6,
+    "weight": 80
+  },
+  "579": {
+    "height": 10,
+    "weight": 201
+  },
+  "580": {
+    "height": 5,
+    "weight": 55
+  },
+  "581": {
+    "height": 13,
+    "weight": 242
+  },
+  "582": {
+    "height": 4,
+    "weight": 57
+  },
+  "583": {
+    "height": 11,
+    "weight": 410
+  },
+  "584": {
+    "height": 13,
+    "weight": 575
+  },
+  "585": {
+    "height": 6,
+    "weight": 195
+  },
+  "586": {
+    "height": 19,
+    "weight": 925
+  },
+  "587": {
+    "height": 4,
+    "weight": 50
+  },
+  "588": {
+    "height": 5,
+    "weight": 59
+  },
+  "589": {
+    "height": 10,
+    "weight": 330
+  },
+  "590": {
+    "height": 2,
+    "weight": 10
+  },
+  "591": {
+    "height": 6,
+    "weight": 105
+  },
+  "592": {
+    "height": 12,
+    "weight": 330
+  },
+  "593": {
+    "height": 22,
+    "weight": 1350
+  },
+  "594": {
+    "height": 12,
+    "weight": 316
+  },
+  "595": {
+    "height": 1,
+    "weight": 6
+  },
+  "596": {
+    "height": 8,
+    "weight": 143
+  },
+  "597": {
+    "height": 6,
+    "weight": 188
+  },
+  "598": {
+    "height": 10,
+    "weight": 1100
+  },
+  "599": {
+    "height": 3,
+    "weight": 210
+  },
+  "600": {
+    "height": 6,
+    "weight": 510
+  },
+  "601": {
+    "height": 6,
+    "weight": 810
+  },
+  "602": {
+    "height": 2,
+    "weight": 3
+  },
+  "603": {
+    "height": 12,
+    "weight": 220
+  },
+  "604": {
+    "height": 21,
+    "weight": 805
+  },
+  "605": {
+    "height": 5,
+    "weight": 90
+  },
+  "606": {
+    "height": 10,
+    "weight": 345
+  },
+  "607": {
+    "height": 3,
+    "weight": 31
+  },
+  "608": {
+    "height": 6,
+    "weight": 130
+  },
+  "609": {
+    "height": 10,
+    "weight": 343
+  },
+  "610": {
+    "height": 6,
+    "weight": 180
+  },
+  "611": {
+    "height": 10,
+    "weight": 360
+  },
+  "612": {
+    "height": 18,
+    "weight": 1055
+  },
+  "613": {
+    "height": 5,
+    "weight": 85
+  },
+  "614": {
+    "height": 26,
+    "weight": 2600
+  },
+  "615": {
+    "height": 11,
+    "weight": 1480
+  },
+  "616": {
+    "height": 4,
+    "weight": 77
+  },
+  "617": {
+    "height": 8,
+    "weight": 253
+  },
+  "618": {
+    "height": 7,
+    "weight": 110
+  },
+  "619": {
+    "height": 9,
+    "weight": 200
+  },
+  "620": {
+    "height": 14,
+    "weight": 355
+  },
+  "621": {
+    "height": 16,
+    "weight": 1390
+  },
+  "622": {
+    "height": 10,
+    "weight": 920
+  },
+  "623": {
+    "height": 28,
+    "weight": 3300
+  },
+  "624": {
+    "height": 5,
+    "weight": 102
+  },
+  "625": {
+    "height": 16,
+    "weight": 700
+  },
+  "626": {
+    "height": 16,
+    "weight": 946
+  },
+  "627": {
+    "height": 5,
+    "weight": 105
+  },
+  "628": {
+    "height": 15,
+    "weight": 410
+  },
+  "629": {
+    "height": 5,
+    "weight": 90
+  },
+  "630": {
+    "height": 12,
+    "weight": 395
+  },
+  "631": {
+    "height": 14,
+    "weight": 580
+  },
+  "632": {
+    "height": 3,
+    "weight": 330
+  },
+  "633": {
+    "height": 8,
+    "weight": 173
+  },
+  "634": {
+    "height": 14,
+    "weight": 500
+  },
+  "635": {
+    "height": 18,
+    "weight": 1600
+  },
+  "636": {
+    "height": 11,
+    "weight": 288
+  },
+  "637": {
+    "height": 16,
+    "weight": 460
+  },
+  "638": {
+    "height": 21,
+    "weight": 2500
+  },
+  "639": {
+    "height": 19,
+    "weight": 2600
+  },
+  "640": {
+    "height": 20,
+    "weight": 2000
+  },
+  "641": {
+    "height": 15,
+    "weight": 630
+  },
+  "642": {
+    "height": 15,
+    "weight": 610
+  },
+  "643": {
+    "height": 32,
+    "weight": 3300
+  },
+  "644": {
+    "height": 29,
+    "weight": 3450
+  },
+  "645": {
+    "height": 15,
+    "weight": 680
+  },
+  "646": {
+    "height": 30,
+    "weight": 3250
+  },
+  "647": {
+    "height": 14,
+    "weight": 485
+  },
+  "648": {
+    "height": 6,
+    "weight": 65
+  },
+  "649": {
+    "height": 15,
+    "weight": 825
+  },
+  "650": {
+    "height": 4,
+    "weight": 90
+  },
+  "651": {
+    "height": 7,
+    "weight": 290
+  },
+  "652": {
+    "height": 16,
+    "weight": 900
+  },
+  "653": {
+    "height": 4,
+    "weight": 94
+  },
+  "654": {
+    "height": 10,
+    "weight": 145
+  },
+  "655": {
+    "height": 15,
+    "weight": 390
+  },
+  "656": {
+    "height": 3,
+    "weight": 70
+  },
+  "657": {
+    "height": 6,
+    "weight": 109
+  },
+  "658": {
+    "height": 15,
+    "weight": 400
+  },
+  "659": {
+    "height": 4,
+    "weight": 50
+  },
+  "660": {
+    "height": 10,
+    "weight": 424
+  },
+  "661": {
+    "height": 3,
+    "weight": 17
+  },
+  "662": {
+    "height": 7,
+    "weight": 160
+  },
+  "663": {
+    "height": 12,
+    "weight": 245
+  },
+  "664": {
+    "height": 3,
+    "weight": 25
+  },
+  "665": {
+    "height": 3,
+    "weight": 84
+  },
+  "666": {
+    "height": 12,
+    "weight": 170
+  },
+  "667": {
+    "height": 6,
+    "weight": 135
+  },
+  "668": {
+    "height": 15,
+    "weight": 815
+  },
+  "669": {
+    "height": 1,
+    "weight": 1
+  },
+  "670": {
+    "height": 2,
+    "weight": 9
+  },
+  "671": {
+    "height": 11,
+    "weight": 100
+  },
+  "672": {
+    "height": 9,
+    "weight": 310
+  },
+  "673": {
+    "height": 17,
+    "weight": 910
+  },
+  "674": {
+    "height": 6,
+    "weight": 80
+  },
+  "675": {
+    "height": 21,
+    "weight": 1360
+  },
+  "676": {
+    "height": 12,
+    "weight": 280
+  },
+  "677": {
+    "height": 3,
+    "weight": 35
+  },
+  "678": {
+    "height": 6,
+    "weight": 85
+  },
+  "679": {
+    "height": 8,
+    "weight": 20
+  },
+  "680": {
+    "height": 8,
+    "weight": 45
+  },
+  "681": {
+    "height": 17,
+    "weight": 530
+  },
+  "682": {
+    "height": 2,
+    "weight": 5
+  },
+  "683": {
+    "height": 8,
+    "weight": 155
+  },
+  "684": {
+    "height": 4,
+    "weight": 35
+  },
+  "685": {
+    "height": 8,
+    "weight": 50
+  },
+  "686": {
+    "height": 4,
+    "weight": 35
+  },
+  "687": {
+    "height": 15,
+    "weight": 470
+  },
+  "688": {
+    "height": 5,
+    "weight": 310
+  },
+  "689": {
+    "height": 13,
+    "weight": 960
+  },
+  "690": {
+    "height": 5,
+    "weight": 73
+  },
+  "691": {
+    "height": 18,
+    "weight": 815
+  },
+  "692": {
+    "height": 5,
+    "weight": 83
+  },
+  "693": {
+    "height": 13,
+    "weight": 353
+  },
+  "694": {
+    "height": 5,
+    "weight": 60
+  },
+  "695": {
+    "height": 10,
+    "weight": 210
+  },
+  "696": {
+    "height": 8,
+    "weight": 260
+  },
+  "697": {
+    "height": 25,
+    "weight": 2700
+  },
+  "698": {
+    "height": 13,
+    "weight": 252
+  },
+  "699": {
+    "height": 27,
+    "weight": 2250
+  },
+  "700": {
+    "height": 10,
+    "weight": 235
+  },
+  "701": {
+    "height": 8,
+    "weight": 215
+  },
+  "702": {
+    "height": 2,
+    "weight": 22
+  },
+  "703": {
+    "height": 3,
+    "weight": 57
+  },
+  "704": {
+    "height": 3,
+    "weight": 28
+  },
+  "705": {
+    "height": 8,
+    "weight": 175
+  },
+  "706": {
+    "height": 20,
+    "weight": 1505
+  },
+  "707": {
+    "height": 2,
+    "weight": 30
+  },
+  "708": {
+    "height": 4,
+    "weight": 70
+  },
+  "709": {
+    "height": 15,
+    "weight": 710
+  },
+  "710": {
+    "height": 4,
+    "weight": 50
+  },
+  "711": {
+    "height": 9,
+    "weight": 125
+  },
+  "712": {
+    "height": 10,
+    "weight": 995
+  },
+  "713": {
+    "height": 20,
+    "weight": 5050
+  },
+  "714": {
+    "height": 5,
+    "weight": 80
+  },
+  "715": {
+    "height": 15,
+    "weight": 850
+  },
+  "716": {
+    "height": 30,
+    "weight": 2150
+  },
+  "717": {
+    "height": 58,
+    "weight": 2030
+  },
+  "718": {
+    "height": 50,
+    "weight": 3050
+  },
+  "719": {
+    "height": 7,
+    "weight": 88
+  },
+  "720": {
+    "height": 5,
+    "weight": 90
+  },
+  "721": {
+    "height": 17,
+    "weight": 1950
+  },
+  "722": {
+    "height": 3,
+    "weight": 15
+  },
+  "723": {
+    "height": 7,
+    "weight": 160
+  },
+  "724": {
+    "height": 16,
+    "weight": 366
+  },
+  "725": {
+    "height": 4,
+    "weight": 43
+  },
+  "726": {
+    "height": 7,
+    "weight": 250
+  },
+  "727": {
+    "height": 18,
+    "weight": 830
+  },
+  "728": {
+    "height": 4,
+    "weight": 75
+  },
+  "729": {
+    "height": 6,
+    "weight": 175
+  },
+  "730": {
+    "height": 18,
+    "weight": 440
+  },
+  "731": {
+    "height": 3,
+    "weight": 12
+  },
+  "732": {
+    "height": 6,
+    "weight": 148
+  },
+  "733": {
+    "height": 11,
+    "weight": 260
+  },
+  "734": {
+    "height": 4,
+    "weight": 60
+  },
+  "735": {
+    "height": 7,
+    "weight": 142
+  },
+  "736": {
+    "height": 4,
+    "weight": 44
+  },
+  "737": {
+    "height": 5,
+    "weight": 105
+  },
+  "738": {
+    "height": 15,
+    "weight": 450
+  },
+  "739": {
+    "height": 6,
+    "weight": 70
+  },
+  "740": {
+    "height": 17,
+    "weight": 1800
+  },
+  "741": {
+    "height": 6,
+    "weight": 34
+  },
+  "742": {
+    "height": 1,
+    "weight": 2
+  },
+  "743": {
+    "height": 2,
+    "weight": 5
+  },
+  "744": {
+    "height": 5,
+    "weight": 92
+  },
+  "745": {
+    "height": 8,
+    "weight": 250
+  },
+  "746": {
+    "height": 2,
+    "weight": 3
+  },
+  "747": {
+    "height": 4,
+    "weight": 80
+  },
+  "748": {
+    "height": 7,
+    "weight": 145
+  },
+  "749": {
+    "height": 10,
+    "weight": 1100
+  },
+  "750": {
+    "height": 25,
+    "weight": 9200
+  },
+  "751": {
+    "height": 3,
+    "weight": 40
+  },
+  "752": {
+    "height": 18,
+    "weight": 820
+  },
+  "753": {
+    "height": 3,
+    "weight": 15
+  },
+  "754": {
+    "height": 9,
+    "weight": 185
+  },
+  "755": {
+    "height": 2,
+    "weight": 15
+  },
+  "756": {
+    "height": 10,
+    "weight": 115
+  },
+  "757": {
+    "height": 6,
+    "weight": 48
+  },
+  "758": {
+    "height": 12,
+    "weight": 222
+  },
+  "759": {
+    "height": 5,
+    "weight": 68
+  },
+  "760": {
+    "height": 21,
+    "weight": 1350
+  },
+  "761": {
+    "height": 3,
+    "weight": 32
+  },
+  "762": {
+    "height": 7,
+    "weight": 82
+  },
+  "763": {
+    "height": 12,
+    "weight": 214
+  },
+  "764": {
+    "height": 1,
+    "weight": 3
+  },
+  "765": {
+    "height": 15,
+    "weight": 760
+  },
+  "766": {
+    "height": 20,
+    "weight": 828
+  },
+  "767": {
+    "height": 5,
+    "weight": 120
+  },
+  "768": {
+    "height": 20,
+    "weight": 1080
+  },
+  "769": {
+    "height": 5,
+    "weight": 700
+  },
+  "770": {
+    "height": 13,
+    "weight": 2500
+  },
+  "771": {
+    "height": 3,
+    "weight": 12
+  },
+  "772": {
+    "height": 19,
+    "weight": 1205
+  },
+  "773": {
+    "height": 23,
+    "weight": 1005
+  },
+  "774": {
+    "height": 3,
+    "weight": 400
+  },
+  "775": {
+    "height": 4,
+    "weight": 199
+  },
+  "776": {
+    "height": 20,
+    "weight": 2120
+  },
+  "777": {
+    "height": 3,
+    "weight": 33
+  },
+  "778": {
+    "height": 2,
+    "weight": 7
+  },
+  "779": {
+    "height": 9,
+    "weight": 190
+  },
+  "780": {
+    "height": 30,
+    "weight": 1850
+  },
+  "781": {
+    "height": 39,
+    "weight": 2100
+  },
+  "782": {
+    "height": 6,
+    "weight": 297
+  },
+  "783": {
+    "height": 12,
+    "weight": 470
+  },
+  "784": {
+    "height": 16,
+    "weight": 782
+  },
+  "785": {
+    "height": 18,
+    "weight": 205
+  },
+  "786": {
+    "height": 12,
+    "weight": 186
+  },
+  "787": {
+    "height": 19,
+    "weight": 455
+  },
+  "788": {
+    "height": 13,
+    "weight": 212
+  },
+  "789": {
+    "height": 2,
+    "weight": 1
+  },
+  "790": {
+    "height": 1,
+    "weight": 9999
+  },
+  "791": {
+    "height": 34,
+    "weight": 2300
+  },
+  "792": {
+    "height": 40,
+    "weight": 1200
+  },
+  "793": {
+    "height": 12,
+    "weight": 555
+  },
+  "794": {
+    "height": 24,
+    "weight": 3336
+  },
+  "795": {
+    "height": 18,
+    "weight": 250
+  },
+  "796": {
+    "height": 38,
+    "weight": 1000
+  },
+  "797": {
+    "height": 92,
+    "weight": 9999
+  },
+  "798": {
+    "height": 3,
+    "weight": 1
+  },
+  "799": {
+    "height": 55,
+    "weight": 8880
+  },
+  "800": {
+    "height": 24,
+    "weight": 2300
+  },
+  "801": {
+    "height": 10,
+    "weight": 805
+  },
+  "802": {
+    "height": 7,
+    "weight": 222
+  },
+  "803": {
+    "height": 6,
+    "weight": 18
+  },
+  "804": {
+    "height": 36,
+    "weight": 1500
+  },
+  "805": {
+    "height": 55,
+    "weight": 8200
+  },
+  "806": {
+    "height": 18,
+    "weight": 130
+  },
+  "807": {
+    "height": 15,
+    "weight": 445
+  },
+  "808": {
+    "height": 2,
+    "weight": 80
+  },
+  "809": {
+    "height": 25,
+    "weight": 8000
+  },
+  "810": {
+    "height": 3,
+    "weight": 50
+  },
+  "811": {
+    "height": 7,
+    "weight": 140
+  },
+  "812": {
+    "height": 21,
+    "weight": 900
+  },
+  "813": {
+    "height": 3,
+    "weight": 45
+  },
+  "814": {
+    "height": 6,
+    "weight": 90
+  },
+  "815": {
+    "height": 14,
+    "weight": 330
+  },
+  "816": {
+    "height": 3,
+    "weight": 40
+  },
+  "817": {
+    "height": 7,
+    "weight": 115
+  },
+  "818": {
+    "height": 19,
+    "weight": 452
+  },
+  "819": {
+    "height": 3,
+    "weight": 25
+  },
+  "820": {
+    "height": 6,
+    "weight": 60
+  },
+  "821": {
+    "height": 2,
+    "weight": 18
+  },
+  "822": {
+    "height": 8,
+    "weight": 160
+  },
+  "823": {
+    "height": 22,
+    "weight": 750
+  },
+  "824": {
+    "height": 4,
+    "weight": 80
+  },
+  "825": {
+    "height": 4,
+    "weight": 195
+  },
+  "826": {
+    "height": 4,
+    "weight": 408
+  },
+  "827": {
+    "height": 6,
+    "weight": 89
+  },
+  "828": {
+    "height": 12,
+    "weight": 199
+  },
+  "829": {
+    "height": 4,
+    "weight": 22
+  },
+  "830": {
+    "height": 5,
+    "weight": 25
+  },
+  "831": {
+    "height": 6,
+    "weight": 60
+  },
+  "832": {
+    "height": 13,
+    "weight": 430
+  },
+  "833": {
+    "height": 3,
+    "weight": 85
+  },
+  "834": {
+    "height": 10,
+    "weight": 1155
+  },
+  "835": {
+    "height": 3,
+    "weight": 135
+  },
+  "836": {
+    "height": 10,
+    "weight": 340
+  },
+  "837": {
+    "height": 3,
+    "weight": 120
+  },
+  "838": {
+    "height": 11,
+    "weight": 780
+  },
+  "839": {
+    "height": 28,
+    "weight": 3105
+  },
+  "840": {
+    "height": 2,
+    "weight": 5
+  },
+  "841": {
+    "height": 3,
+    "weight": 10
+  },
+  "842": {
+    "height": 4,
+    "weight": 130
+  },
+  "843": {
+    "height": 22,
+    "weight": 76
+  },
+  "844": {
+    "height": 38,
+    "weight": 655
+  },
+  "845": {
+    "height": 8,
+    "weight": 180
+  },
+  "846": {
+    "height": 5,
+    "weight": 10
+  },
+  "847": {
+    "height": 13,
+    "weight": 300
+  },
+  "848": {
+    "height": 4,
+    "weight": 110
+  },
+  "849": {
+    "height": 16,
+    "weight": 400
+  },
+  "850": {
+    "height": 7,
+    "weight": 10
+  },
+  "851": {
+    "height": 30,
+    "weight": 1200
+  },
+  "852": {
+    "height": 6,
+    "weight": 40
+  },
+  "853": {
+    "height": 16,
+    "weight": 390
+  },
+  "854": {
+    "height": 1,
+    "weight": 2
+  },
+  "855": {
+    "height": 2,
+    "weight": 4
+  },
+  "856": {
+    "height": 4,
+    "weight": 34
+  },
+  "857": {
+    "height": 6,
+    "weight": 48
+  },
+  "858": {
+    "height": 21,
+    "weight": 51
+  },
+  "859": {
+    "height": 4,
+    "weight": 55
+  },
+  "860": {
+    "height": 8,
+    "weight": 125
+  },
+  "861": {
+    "height": 15,
+    "weight": 610
+  },
+  "862": {
+    "height": 16,
+    "weight": 460
+  },
+  "863": {
+    "height": 8,
+    "weight": 280
+  },
+  "864": {
+    "height": 10,
+    "weight": 4
+  },
+  "865": {
+    "height": 8,
+    "weight": 1170
+  },
+  "866": {
+    "height": 15,
+    "weight": 582
+  },
+  "867": {
+    "height": 16,
+    "weight": 666
+  },
+  "868": {
+    "height": 2,
+    "weight": 3
+  },
+  "869": {
+    "height": 3,
+    "weight": 5
+  },
+  "870": {
+    "height": 30,
+    "weight": 620
+  },
+  "871": {
+    "height": 3,
+    "weight": 10
+  },
+  "872": {
+    "height": 3,
+    "weight": 38
+  },
+  "873": {
+    "height": 13,
+    "weight": 420
+  },
+  "874": {
+    "height": 25,
+    "weight": 5200
+  },
+  "875": {
+    "height": 14,
+    "weight": 890
+  },
+  "876": {
+    "height": 9,
+    "weight": 280
+  },
+  "877": {
+    "height": 3,
+    "weight": 30
+  },
+  "878": {
+    "height": 12,
+    "weight": 1000
+  },
+  "879": {
+    "height": 30,
+    "weight": 6500
+  },
+  "880": {
+    "height": 18,
+    "weight": 1900
+  },
+  "881": {
+    "height": 23,
+    "weight": 1500
+  },
+  "882": {
+    "height": 23,
+    "weight": 2150
+  },
+  "883": {
+    "height": 20,
+    "weight": 1750
+  },
+  "884": {
+    "height": 18,
+    "weight": 400
+  },
+  "885": {
+    "height": 5,
+    "weight": 20
+  },
+  "886": {
+    "height": 14,
+    "weight": 110
+  },
+  "887": {
+    "height": 30,
+    "weight": 500
+  },
+  "888": {
+    "height": 28,
+    "weight": 1100
+  },
+  "889": {
+    "height": 29,
+    "weight": 2100
+  },
+  "890": {
+    "height": 200,
+    "weight": 9500
+  },
+  "891": {
+    "height": 6,
+    "weight": 120
+  },
+  "892": {
+    "height": 19,
+    "weight": 1050
+  },
+  "893": {
+    "height": 18,
+    "weight": 700
+  },
+  "894": {
+    "height": 12,
+    "weight": 1450
+  },
+  "895": {
+    "height": 21,
+    "weight": 2000
+  },
+  "896": {
+    "height": 22,
+    "weight": 8000
+  },
+  "897": {
+    "height": 20,
+    "weight": 445
+  },
+  "898": {
+    "height": 11,
+    "weight": 77
+  },
+  "899": {
+    "height": 18,
+    "weight": 951
+  },
+  "900": {
+    "height": 18,
+    "weight": 890
+  },
+  "901": {
+    "height": 24,
+    "weight": 2900
+  },
+  "902": {
+    "height": 30,
+    "weight": 1100
+  },
+  "903": {
+    "height": 13,
+    "weight": 430
+  },
+  "904": {
+    "height": 25,
+    "weight": 605
+  },
+  "905": {
+    "height": 16,
+    "weight": 480
+  },
+  "906": {
+    "height": 4,
+    "weight": 41
+  },
+  "907": {
+    "height": 9,
+    "weight": 122
+  },
+  "908": {
+    "height": 15,
+    "weight": 312
+  },
+  "909": {
+    "height": 4,
+    "weight": 98
+  },
+  "910": {
+    "height": 10,
+    "weight": 307
+  },
+  "911": {
+    "height": 16,
+    "weight": 3265
+  },
+  "912": {
+    "height": 5,
+    "weight": 61
+  },
+  "913": {
+    "height": 12,
+    "weight": 215
+  },
+  "914": {
+    "height": 18,
+    "weight": 619
+  },
+  "915": {
+    "height": 5,
+    "weight": 102
+  },
+  "916": {
+    "height": 10,
+    "weight": 1200
+  },
+  "917": {
+    "height": 3,
+    "weight": 40
+  },
+  "918": {
+    "height": 10,
+    "weight": 165
+  },
+  "919": {
+    "height": 2,
+    "weight": 10
+  },
+  "920": {
+    "height": 10,
+    "weight": 175
+  },
+  "921": {
+    "height": 3,
+    "weight": 25
+  },
+  "922": {
+    "height": 4,
+    "weight": 65
+  },
+  "923": {
+    "height": 9,
+    "weight": 410
+  },
+  "924": {
+    "height": 3,
+    "weight": 18
+  },
+  "925": {
+    "height": 3,
+    "weight": 28
+  },
+  "926": {
+    "height": 3,
+    "weight": 109
+  },
+  "927": {
+    "height": 5,
+    "weight": 149
+  },
+  "928": {
+    "height": 3,
+    "weight": 65
+  },
+  "929": {
+    "height": 6,
+    "weight": 119
+  },
+  "930": {
+    "height": 14,
+    "weight": 482
+  },
+  "931": {
+    "height": 6,
+    "weight": 24
+  },
+  "932": {
+    "height": 4,
+    "weight": 160
+  },
+  "933": {
+    "height": 6,
+    "weight": 1050
+  },
+  "934": {
+    "height": 23,
+    "weight": 2400
+  },
+  "935": {
+    "height": 6,
+    "weight": 105
+  },
+  "936": {
+    "height": 15,
+    "weight": 850
+  },
+  "937": {
+    "height": 16,
+    "weight": 620
+  },
+  "938": {
+    "height": 3,
+    "weight": 4
+  },
+  "939": {
+    "height": 12,
+    "weight": 1130
+  },
+  "940": {
+    "height": 4,
+    "weight": 36
+  },
+  "941": {
+    "height": 14,
+    "weight": 386
+  },
+  "942": {
+    "height": 5,
+    "weight": 160
+  },
+  "943": {
+    "height": 11,
+    "weight": 610
+  },
+  "944": {
+    "height": 2,
+    "weight": 7
+  },
+  "945": {
+    "height": 7,
+    "weight": 272
+  },
+  "946": {
+    "height": 6,
+    "weight": 6
+  },
+  "947": {
+    "height": 12,
+    "weight": 60
+  },
+  "948": {
+    "height": 9,
+    "weight": 330
+  },
+  "949": {
+    "height": 19,
+    "weight": 580
+  },
+  "950": {
+    "height": 13,
+    "weight": 790
+  },
+  "951": {
+    "height": 3,
+    "weight": 30
+  },
+  "952": {
+    "height": 9,
+    "weight": 150
+  },
+  "953": {
+    "height": 2,
+    "weight": 10
+  },
+  "954": {
+    "height": 3,
+    "weight": 35
+  },
+  "955": {
+    "height": 2,
+    "weight": 15
+  },
+  "956": {
+    "height": 19,
+    "weight": 900
+  },
+  "957": {
+    "height": 4,
+    "weight": 89
+  },
+  "958": {
+    "height": 7,
+    "weight": 591
+  },
+  "959": {
+    "height": 7,
+    "weight": 1128
+  },
+  "960": {
+    "height": 12,
+    "weight": 18
+  },
+  "961": {
+    "height": 12,
+    "weight": 54
+  },
+  "962": {
+    "height": 15,
+    "weight": 429
+  },
+  "963": {
+    "height": 13,
+    "weight": 602
+  },
+  "964": {
+    "height": 13,
+    "weight": 602
+  },
+  "965": {
+    "height": 10,
+    "weight": 350
+  },
+  "966": {
+    "height": 18,
+    "weight": 1200
+  },
+  "967": {
+    "height": 16,
+    "weight": 630
+  },
+  "968": {
+    "height": 25,
+    "weight": 3100
+  },
+  "969": {
+    "height": 7,
+    "weight": 80
+  },
+  "970": {
+    "height": 15,
+    "weight": 450
+  },
+  "971": {
+    "height": 6,
+    "weight": 350
+  },
+  "972": {
+    "height": 20,
+    "weight": 150
+  },
+  "973": {
+    "height": 16,
+    "weight": 370
+  },
+  "974": {
+    "height": 12,
+    "weight": 450
+  },
+  "975": {
+    "height": 45,
+    "weight": 7000
+  },
+  "976": {
+    "height": 25,
+    "weight": 900
+  },
+  "977": {
+    "height": 120,
+    "weight": 2200
+  },
+  "978": {
+    "height": 3,
+    "weight": 80
+  },
+  "979": {
+    "height": 12,
+    "weight": 560
+  },
+  "980": {
+    "height": 18,
+    "weight": 2230
+  },
+  "981": {
+    "height": 32,
+    "weight": 1600
+  },
+  "982": {
+    "height": 36,
+    "weight": 392
+  },
+  "983": {
+    "height": 20,
+    "weight": 1200
+  },
+  "984": {
+    "height": 22,
+    "weight": 3200
+  },
+  "985": {
+    "height": 12,
+    "weight": 80
+  },
+  "986": {
+    "height": 12,
+    "weight": 210
+  },
+  "987": {
+    "height": 14,
+    "weight": 40
+  },
+  "988": {
+    "height": 32,
+    "weight": 920
+  },
+  "989": {
+    "height": 23,
+    "weight": 600
+  },
+  "990": {
+    "height": 9,
+    "weight": 2400
+  },
+  "991": {
+    "height": 6,
+    "weight": 110
+  },
+  "992": {
+    "height": 18,
+    "weight": 3807
+  },
+  "993": {
+    "height": 13,
+    "weight": 1110
+  },
+  "994": {
+    "height": 12,
+    "weight": 360
+  },
+  "995": {
+    "height": 16,
+    "weight": 3030
+  },
+  "996": {
+    "height": 5,
+    "weight": 170
+  },
+  "997": {
+    "height": 8,
+    "weight": 300
+  },
+  "998": {
+    "height": 21,
+    "weight": 2100
+  },
+  "999": {
+    "height": 3,
+    "weight": 50
+  },
+  "1000": {
+    "height": 12,
+    "weight": 300
+  },
+  "1001": {
+    "height": 15,
+    "weight": 742
+  },
+  "1002": {
+    "height": 19,
+    "weight": 1522
+  },
+  "1003": {
+    "height": 27,
+    "weight": 6997
+  },
+  "1004": {
+    "height": 4,
+    "weight": 49
+  },
+  "1005": {
+    "height": 20,
+    "weight": 3800
+  },
+  "1006": {
+    "height": 14,
+    "weight": 350
+  },
+  "1007": {
+    "height": 25,
+    "weight": 3030
+  },
+  "1008": {
+    "height": 35,
+    "weight": 2400
+  },
+  "1009": {
+    "height": 35,
+    "weight": 2800
+  },
+  "1010": {
+    "height": 15,
+    "weight": 1250
+  },
+  "1011": {
+    "height": 4,
+    "weight": 97
+  },
+  "1012": {
+    "height": 1,
+    "weight": 11
+  },
+  "1013": {
+    "height": 2,
+    "weight": 22
+  },
+  "1014": {
+    "height": 18,
+    "weight": 922
+  },
+  "1015": {
+    "height": 10,
+    "weight": 122
+  },
+  "1016": {
+    "height": 14,
+    "weight": 301
+  },
+  "1017": {
+    "height": 12,
+    "weight": 398
+  },
+  "1018": {
+    "height": 20,
+    "weight": 600
+  },
+  "1019": {
+    "height": 18,
+    "weight": 930
+  },
+  "1020": {
+    "height": 35,
+    "weight": 5900
+  },
+  "1021": {
+    "height": 52,
+    "weight": 4800
+  },
+  "1022": {
+    "height": 15,
+    "weight": 1625
+  },
+  "1023": {
+    "height": 16,
+    "weight": 1560
+  },
+  "1024": {
+    "height": 2,
+    "weight": 65
+  },
+  "1025": {
+    "height": 3,
+    "weight": 3
+  }
+}

@@ -1,0 +1,23 @@
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="moveBg" cx="50%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#1E3538" />
+      <stop offset="100%" stop-color="#0D181A" />
+    </radialGradient>
+    <linearGradient id="typeAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D966FF" />
+      <stop offset="100%" stop-color="#7A1FA2" />
+    </linearGradient>
+    <filter id="btnShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.55" />
+    </filter>
+  </defs>
+  <circle cx="80" cy="80" r="70" fill="url(#moveBg)" stroke="url(#typeAccent)" stroke-width="4" filter="url(#btnShadow)" />
+  <circle cx="80" cy="80" r="63" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1.5" />
+  <path d="M 35 45 A 60 60 0 0 1 125 45" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="2" stroke-linecap="round" />
+  <rect x="48" y="34" width="64" height="20" rx="10" fill="url(#typeAccent)" />
+  <text x="80" y="47.5" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="800" letter-spacing="1.2" text-anchor="middle">POISON</text>
+  <text x="80" y="82" fill="#F4F7F6" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="800" letter-spacing="0.5" text-anchor="middle">SLUDGE BOMB</text>
+  <rect x="52" y="96" width="56" height="18" rx="4" fill="#081012" stroke="#2D4A4E" stroke-width="1" />
+  <text x="80" y="108.5" fill="#F2C94C" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11" font-weight="700" text-anchor="middle">PWR 80</text>
+</svg>

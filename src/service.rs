@@ -308,6 +308,8 @@ impl GameService {
             moves: encounter.moves.clone(),
             rarity: encounter.pokemon.rarity.clone(),
             sprite_url: format!("/sprites/{}.png", encounter.pokemon.id),
+            height: encounter.pokemon.height,
+            weight: encounter.pokemon.weight,
         };
 
         let mut logs = Vec::new();
@@ -1130,6 +1132,8 @@ mod tests {
             }],
             rarity: "Common".to_string(),
             sprite_url: "/sprites/1.png".to_string(),
+            height: Some(7),
+            weight: Some(69),
         });
 
         // Test switch: when party[0].current_hp == 0, find first healthy and promote

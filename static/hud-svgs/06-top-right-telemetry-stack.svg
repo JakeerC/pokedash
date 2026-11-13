@@ -1,0 +1,62 @@
+<svg width="248" height="236" viewBox="0 0 248 236" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pillDark" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#13292C" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#091517" stop-opacity="0.96" />
+    </linearGradient>
+    <linearGradient id="bagRed" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#DC2626" />
+      <stop offset="100%" stop-color="#F87171" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(8, 8)">
+    <rect width="232" height="34" rx="17" fill="url(#pillDark)" stroke="#2B4C50" stroke-width="1.5" />
+    <circle cx="18" cy="17" r="11" fill="#F59E0B" stroke="#FDE047" stroke-width="1.4" />
+    <text x="18" y="21" fill="#78350F" font-family="system-ui, sans-serif" font-size="12" font-weight="900" text-anchor="middle">P</text>
+    <text x="192" y="21.5" fill="#F8FAFC" font-family="ui-monospace, monospace" font-size="13.5" font-weight="800" text-anchor="end">P$ 1,375</text>
+    <circle cx="214" cy="17" r="11" fill="#10B981" stroke="#6EE7B7" stroke-width="1.2" />
+    <path d="M214 12.5V21.5M209.5 17H218.5" stroke="#064E3B" stroke-width="2.2" stroke-linecap="round" />
+  </g>
+  <g transform="translate(8, 50)">
+    <rect width="232" height="34" rx="17" fill="url(#pillDark)" stroke="#2B4C50" stroke-width="1.5" />
+    <rect x="4" y="4" width="68" height="26" rx="13" fill="url(#bagRed)" />
+    <text x="162" y="21.5" fill="#F8FAFC" font-family="ui-monospace, monospace" font-size="13" font-weight="800" text-anchor="end">25 / 99</text>
+    <circle cx="184" cy="17" r="9" fill="#EF4444" stroke="#F8FAFC" stroke-width="1.4" />
+    <path d="M175 17H193" stroke="#091517" stroke-width="2" />
+    <circle cx="184" cy="17" r="2.8" fill="#FFFFFF" stroke="#091517" stroke-width="1.2" />
+    <circle cx="214" cy="17" r="11" fill="#10B981" stroke="#6EE7B7" stroke-width="1.2" />
+    <path d="M214 12.5V21.5M209.5 17H218.5" stroke="#064E3B" stroke-width="2.2" stroke-linecap="round" />
+  </g>
+  <g transform="translate(8, 92)">
+    <rect width="232" height="34" rx="17" fill="url(#pillDark)" stroke="#2B4C50" stroke-width="1.5" />
+    <circle cx="18" cy="17" r="10" fill="#0D9488" stroke="#5EEAD4" stroke-width="1.4" />
+    <text x="162" y="21.5" fill="#E2E8F0" font-family="ui-monospace, monospace" font-size="12" font-weight="800" text-anchor="end">0 / 10 BADGES</text>
+    <polygon points="184,9 191,17 184,25 177,17" fill="#34D399" stroke="#A7F3D0" stroke-width="1.2" />
+    <circle cx="214" cy="17" r="11" fill="#10B981" stroke="#6EE7B7" stroke-width="1.2" />
+    <path d="M214 12.5V21.5M209.5 17H218.5" stroke="#064E3B" stroke-width="2.2" stroke-linecap="round" />
+  </g>
+  <g transform="translate(8, 136)">
+    <rect width="232" height="42" rx="12" fill="url(#pillDark)" stroke="#2B4C50" stroke-width="1.5" />
+    <circle cx="22" cy="21" r="11" fill="#0284C7" stroke="#7DD3FC" stroke-width="1.2" />
+    <path d="M22 15C22 15 26 20 26 22.5C26 24.7 24.2 26.5 22 26.5C19.8 26.5 18 24.7 18 22.5C18 20 22 15 22 15Z" fill="#E0F2FE" />
+    <text x="42" y="16" fill="#94A3B8" font-family="system-ui, sans-serif" font-size="8.5" font-weight="800" letter-spacing="0.8">ZONE &amp; ROUTE</text>
+    <text x="42" y="31" fill="#F8FAFC" font-family="system-ui, sans-serif" font-size="12" font-weight="800" letter-spacing="0.5">AZURE COAST</text>
+    <path d="M182 19L186 23L190 19" stroke="#94A3B8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="214" cy="21" r="11" fill="#10B981" stroke="#6EE7B7" stroke-width="1.2" />
+    <path d="M214 16.5V25.5M209.5 21H218.5" stroke="#064E3B" stroke-width="2.2" stroke-linecap="round" />
+  </g>
+  <g transform="translate(28, 188)">
+    <rect x="0" y="0" width="42" height="38" rx="10" fill="url(#pillDark)" stroke="#2B4C50" stroke-width="1.5" />
+    <path d="M14 16H17L22 12V26L17 22H14V16Z" fill="#94A3B8" />
+    <path d="M25 15.5C26.5 17 26.5 21 25 22.5" stroke="#5EEAD4" stroke-width="1.8" stroke-linecap="round" />
+    <rect x="52" y="0" width="42" height="38" rx="10" fill="url(#pillDark)" stroke="#2B4C50" stroke-width="1.5" />
+    <rect x="63" y="12" width="20" height="14" rx="2.5" stroke="#94A3B8" stroke-width="1.6" />
+    <line x1="67" y1="17" x2="79" y2="17" stroke="#5EEAD4" stroke-width="1.6" stroke-linecap="round" />
+    <line x1="67" y1="21" x2="75" y2="21" stroke="#94A3B8" stroke-width="1.6" stroke-linecap="round" />
+    <rect x="104" y="0" width="42" height="38" rx="10" fill="url(#pillDark)" stroke="#2B4C50" stroke-width="1.5" />
+    <path d="M117 16V12H121M133 16V12H129M117 22V26H121M133 22V26H129" stroke="#94A3B8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    <rect x="156" y="0" width="42" height="38" rx="10" fill="url(#pillDark)" stroke="#2B4C50" stroke-width="1.5" />
+    <circle cx="177" cy="19" r="4" stroke="#FBBF24" stroke-width="1.8" />
+    <path d="M177 11V13M177 25V27M169 19H171M183 19H185M171.5 13.5L173 15M181 23L182.5 24.5M182.5 13.5L181 15M173 23L171.5 24.5" stroke="#FBBF24" stroke-width="1.8" stroke-linecap="round" />
+  </g>
+</svg>

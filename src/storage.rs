@@ -20,6 +20,10 @@ struct PokemonJsonEntry {
     pub rarity: String,
     #[serde(default)]
     pub rarity_score: f64,
+    #[serde(default)]
+    pub height: Option<u32>,
+    #[serde(default)]
+    pub weight: Option<u32>,
 }
 
 pub struct Storage {
@@ -73,6 +77,8 @@ impl Storage {
                     rarity: raw.rarity,
                     rarity_score: raw.rarity_score,
                     sprite_url: Some(format!("/sprites/{}.png", id)),
+                    height: raw.height,
+                    weight: raw.weight,
                 };
                 rarity_pools
                     .entry(p.rarity.to_lowercase())

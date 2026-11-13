@@ -1,0 +1,86 @@
+<svg width="460" height="440" viewBox="0 0 460 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="nodeGlass" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#1E3538" />
+      <stop offset="100%" stop-color="#0B1618" />
+    </radialGradient>
+    <linearGradient id="normGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#CBD5E1" />
+      <stop offset="100%" stop-color="#64748B" />
+    </linearGradient>
+    <linearGradient id="poisonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E879F9" />
+      <stop offset="100%" stop-color="#9333EA" />
+    </linearGradient>
+    <linearGradient id="huntOrange" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F97316" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+    <linearGradient id="shopTeal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2DD4BF" />
+      <stop offset="100%" stop-color="#0F766E" />
+    </linearGradient>
+    <linearGradient id="goldBorder" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE680" />
+      <stop offset="100%" stop-color="#B7791F" />
+    </linearGradient>
+  </defs>
+  <path d="M 135 375 A 260 260 0 0 1 395 115" stroke="#5EEAD4" stroke-opacity="0.35" stroke-width="3" stroke-dasharray="6 6" />
+  <path d="M 145 375 A 250 250 0 0 1 395 125" stroke="#FFE680" stroke-opacity="0.25" stroke-width="1.5" />
+  <g transform="translate(385, 115)">
+    <circle r="54" fill="url(#nodeGlass)" stroke="url(#normGrad)" stroke-width="3.5" />
+    <circle r="48" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1" />
+    <rect x="-26" y="-34" width="52" height="16" rx="8" fill="#475569" />
+    <text y="-23" fill="#F8FAFC" font-family="system-ui, sans-serif" font-size="8.5" font-weight="800" letter-spacing="1" text-anchor="middle">NORM</text>
+    <text y="3" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle">TACKLE</text>
+    <text y="21" fill="#FDE047" font-family="ui-monospace, monospace" font-size="10" font-weight="700" text-anchor="middle">PWR 40</text>
+    <circle cx="-38" cy="-38" r="11" fill="#091517" stroke="#94A3B8" stroke-width="1.5" />
+    <text x="-38" y="-34.5" fill="#F8FAFC" font-family="ui-monospace, monospace" font-size="10" font-weight="800" text-anchor="middle">1</text>
+  </g>
+  <g transform="translate(265, 165)">
+    <circle r="56" fill="url(#nodeGlass)" stroke="url(#poisonGrad)" stroke-width="4" />
+    <circle r="50" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1" />
+    <rect x="-28" y="-35" width="56" height="16" rx="8" fill="#9333EA" />
+    <text y="-24" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="8.5" font-weight="800" letter-spacing="1" text-anchor="middle">POISON</text>
+    <text y="3" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="11" font-weight="800" text-anchor="middle">SLUDGE BOMB</text>
+    <text y="21" fill="#FDE047" font-family="ui-monospace, monospace" font-size="10" font-weight="700" text-anchor="middle">PWR 80</text>
+    <circle cx="-40" cy="-40" r="11" fill="#091517" stroke="#E879F9" stroke-width="1.5" />
+    <text x="-40" y="-36.5" fill="#F8FAFC" font-family="ui-monospace, monospace" font-size="10" font-weight="800" text-anchor="middle">2</text>
+  </g>
+  <g transform="translate(175, 255)">
+    <circle r="54" fill="url(#nodeGlass)" stroke="url(#normGrad)" stroke-width="3.5" />
+    <circle r="48" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1" />
+    <rect x="-26" y="-34" width="52" height="16" rx="8" fill="#475569" />
+    <text y="-23" fill="#F8FAFC" font-family="system-ui, sans-serif" font-size="8.5" font-weight="800" letter-spacing="1" text-anchor="middle">NORM</text>
+    <text y="3" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle">SLASH</text>
+    <text y="21" fill="#FDE047" font-family="ui-monospace, monospace" font-size="10" font-weight="700" text-anchor="middle">PWR 70</text>
+    <circle cx="-38" cy="-38" r="11" fill="#091517" stroke="#94A3B8" stroke-width="1.5" />
+    <text x="-38" y="-34.5" fill="#F8FAFC" font-family="ui-monospace, monospace" font-size="10" font-weight="800" text-anchor="middle">3</text>
+  </g>
+  <g transform="translate(135, 375)">
+    <circle r="54" fill="url(#nodeGlass)" stroke="url(#normGrad)" stroke-width="3.5" />
+    <circle r="48" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1" />
+    <rect x="-26" y="-34" width="52" height="16" rx="8" fill="#475569" />
+    <text y="-23" fill="#F8FAFC" font-family="system-ui, sans-serif" font-size="8.5" font-weight="800" letter-spacing="1" text-anchor="middle">NORM</text>
+    <text y="3" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="11" font-weight="800" text-anchor="middle">GIGA IMPACT</text>
+    <text y="21" fill="#FDE047" font-family="ui-monospace, monospace" font-size="10" font-weight="700" text-anchor="middle">PWR 110</text>
+    <circle cx="-38" cy="-38" r="11" fill="#091517" stroke="#94A3B8" stroke-width="1.5" />
+    <text x="-38" y="-34.5" fill="#F8FAFC" font-family="ui-monospace, monospace" font-size="10" font-weight="800" text-anchor="middle">4</text>
+  </g>
+  <g transform="translate(205, 355)">
+    <rect width="128" height="58" rx="14" fill="url(#huntOrange)" stroke="url(#goldBorder)" stroke-width="2.5" />
+    <rect x="4" y="3" width="120" height="22" rx="10" fill="#FFFFFF" fill-opacity="0.16" />
+    <text x="64" y="31" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="19" font-weight="900" letter-spacing="1.2" text-anchor="middle">HUNT!</text>
+    <text x="64" y="46" fill="#FEF08A" font-family="ui-monospace, monospace" font-size="8.5" font-weight="800" letter-spacing="0.8" text-anchor="middle">[SPACE]</text>
+  </g>
+  <g transform="translate(395, 375)">
+    <circle r="54" fill="#091517" stroke="url(#shopTeal)" stroke-width="4" />
+    <circle r="47" fill="url(#nodeGlass)" stroke="url(#goldBorder)" stroke-width="1.8" />
+    <rect x="-18" y="-14" width="36" height="22" rx="3" fill="#1E293B" stroke="#FBBF24" stroke-width="1.5" />
+    <path d="M-21 -14L-16 -24H16L21 -14H-21Z" fill="#EF4444" stroke="#FFFFFF" stroke-width="1.2" />
+    <path d="M-11 -24L-13 -14M0 -24V-14M11 -24L13 -14" stroke="#FFFFFF" stroke-width="2" />
+    <text y="26" fill="#5EEAD4" font-family="system-ui, sans-serif" font-size="11" font-weight="900" letter-spacing="1.2" text-anchor="middle">SHOP</text>
+    <circle cx="38" cy="-36" r="12" fill="#091517" stroke="url(#goldBorder)" stroke-width="1.8" />
+    <text x="38" y="-32.5" fill="#FDE047" font-family="ui-monospace, monospace" font-size="10" font-weight="900" text-anchor="middle">M</text>
+  </g>
+</svg>

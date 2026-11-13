@@ -32,6 +32,10 @@ pub struct Pokemon {
     pub rarity_score: f64,
     #[serde(default)]
     pub sprite_url: Option<String>,
+    #[serde(default)]
+    pub height: Option<u32>,
+    #[serde(default)]
+    pub weight: Option<u32>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -71,6 +75,8 @@ impl From<PokemonDbRow> for Pokemon {
             rarity: row.rarity,
             rarity_score: row.rarity_score,
             sprite_url: Some(row.sprite_url),
+            height: None,
+            weight: None,
         }
     }
 }
@@ -98,6 +104,10 @@ pub struct BattlePokemon {
     pub rarity: String,
     #[serde(default)]
     pub sprite_url: String,
+    #[serde(default)]
+    pub height: Option<u32>,
+    #[serde(default)]
+    pub weight: Option<u32>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -229,6 +239,8 @@ impl Default for PlayerData {
                     ],
                     rarity: "Common".to_string(),
                     sprite_url: "/sprites/25.png".to_string(),
+                    height: Some(4),
+                    weight: Some(60),
                 }
             ],
             arena_badges: Vec::new(),
